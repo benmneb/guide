@@ -1,0 +1,9 @@
+#results-list {
+  /* padding-top: var(--header-height); */
+  /* background-color: red; */
+  margin: 30px 5% 30px 5%;
+  display: grid;
+	grid-gap: 20px;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	justify-items: center;
+}
