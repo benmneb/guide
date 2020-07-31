@@ -11,8 +11,8 @@ import {
 } from '@material-ui/core';
 
 const Terms = ({ open, onClose }) => {
-	const guideTheme = useTheme();
-	const fullScreen = useMediaQuery(guideTheme.breakpoints.down('xs'));
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
 	return (
 		<Dialog

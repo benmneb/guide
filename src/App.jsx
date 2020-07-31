@@ -4,14 +4,11 @@ import Hero from './components/hero/Hero';
 import ControlResults from './components/controlResults/ControlResults';
 import ResultsList from './components/resultsList/ResultsList';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { orange, deepOrange } from '@material-ui/core/colors';
+import { orange } from '@material-ui/core/colors';
 
-const guideTheme = createMuiTheme({
+const theme = createMuiTheme({
 	palette: {
 		primary: orange
-	},
-	status: {
-		danger: deepOrange
 	},
 	typography: {
 		button: {
@@ -29,7 +26,7 @@ const guideTheme = createMuiTheme({
 
 const App = () => {
 	return (
-		<ThemeProvider theme={guideTheme}>
+		<ThemeProvider theme={theme}>
 			<>
 				<NavBar />
 				<Hero />

@@ -23,16 +23,16 @@
 }
 
 .shadowDark {
-	box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 4px 0 rgba(0, 0, 0, 0.19);
+	box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14);
 }
 
 .shadowLight {
-	box-shadow: 0 3px 4px 0 rgba(255, 255, 255, 0.8), 0 6px 4px 0 rgba(255, 255, 255, 0.81);
+	box-shadow: 0px 2px 4px -1px rgba(255, 255, 255, 0.8),
+		0px 4px 5px 0px rgba(255, 255, 255, 0.86);
 }
 
 .hide {
 	top: calc(var(--header-height) - var(--header-height));
-	transition: top 0.3s;
 }
 
 /* .container:nth-child(1) {
