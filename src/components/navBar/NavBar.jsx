@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import NavLinks from './NavLinks';
 import Nav from '../../containers/Nav/Nav';
 
 const NavBar = () => {
+	const [shadow, setShadow] = useState(false);
+
+	window.addEventListener('scroll', () => {
+		if (document.body.scrollTop > 265 || document.documentElement.scrollTop > 265) {
+			setShadow(false);
+		} else {
+			setShadow(true);
+		}
+	});
+
 	return (
-		<Nav position="fixed">
+		<Nav position="fixed" shadowLight={shadow}>
 			<Logo />
 			<SearchBar currentScope="products" />
 			<NavLinks />

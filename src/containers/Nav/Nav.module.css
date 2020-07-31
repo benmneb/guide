@@ -4,12 +4,13 @@
 	margin: 0;
 	padding: 0;
 	z-index: 1;
+	opacity: 1;
 	background-color: #fff;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	transition: box-shadow 0.3s;
+	transition: all 0.3s;
 }
 
 .fixed {
@@ -21,8 +22,17 @@
 	top: var(--header-height);
 }
 
-.shadow {
+.shadowDark {
 	box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 4px 0 rgba(0, 0, 0, 0.19);
+}
+
+.shadowLight {
+	box-shadow: 0 3px 4px 0 rgba(255, 255, 255, 0.8), 0 6px 4px 0 rgba(255, 255, 255, 0.81);
+}
+
+.hide {
+	top: calc(var(--header-height) - var(--header-height));
+	transition: top 0.3s;
 }
 
 /* .container:nth-child(1) {

@@ -10,17 +10,26 @@ const customStyle = {
 
 const ControlResults = () => {
 	const [shadow, setShadow] = useState(false);
+	const [hide, setHide] = useState(false);
 
+	let prevScrollpos = window.pageYOffset;
 	window.addEventListener('scroll', () => {
-		if (document.body.scrollTop > 230 || document.documentElement.scrollTop > 230) {
+		let currentScrollPos = window.pageYOffset;
+		if (document.body.scrollTop > 265 || document.documentElement.scrollTop > 265) {
 			setShadow(true);
+			if (prevScrollpos > currentScrollPos) {
+				setHide(false);
+			} else {
+				setHide(true);
+			}
+			prevScrollpos = currentScrollPos;
 		} else {
 			setShadow(false);
 		}
 	});
 
 	return (
-		<Nav position="sticky" shadow={shadow}>
+		<Nav position="sticky" shadowDark={shadow} hide={hide}>
 			<BackToCategories customStyle={customStyle} />
 			<ResultsInfo />
 			<SortBy customStyle={customStyle} />
