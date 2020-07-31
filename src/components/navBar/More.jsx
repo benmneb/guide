@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import Terms from '../dialogs/Terms';
 import Privacy from '../dialogs/Privacy';
 
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material-ui/core/IconButton';
+import { Menu, MenuItem, IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const More = () => {
@@ -34,7 +32,7 @@ const More = () => {
 	};
 
 	return (
-		<div>
+		<>
 			<IconButton
 				aria-label="more"
 				aria-controls="simple-menu"
@@ -56,7 +54,7 @@ const More = () => {
 			</Menu>
 			<Terms open={openDialog === 'TERMS'} onClose={closeDialog} />
 			<Privacy open={openDialog === 'PRIVACY'} onClose={closeDialog} />
-		</div>
+		</>
 	);
 };
 

@@ -1,19 +1,19 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-// import DialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
 import SendIcon from '@material-ui/icons/Send';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme, withStyles } from '@material-ui/core/styles';
+import {
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	Button,
+	TextField,
+	Typography,
+	IconButton,
+	useMediaQuery
+} from '@material-ui/core';
 
 const styles = (theme) => ({
 	root: {
@@ -34,11 +34,7 @@ const DialogTitle = withStyles(styles)((props) => {
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
 			<Typography variant="h6">{children}</Typography>
 			{onClose ? (
-				<IconButton
-					aria-label="close"
-					className={classes.closeButton}
-					onClick={onClose}
-				>
+				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
 					<CloseIcon />
 				</IconButton>
 			) : null}
@@ -63,7 +59,7 @@ const AddProducts = ({ open, onClose }) => {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						Please let us know of any missing vegan products!{' '}
+						Let us know of any missing vegan products!{' '}
 						<span role="img" aria-label="thanks">
 							🙏
 						</span>
@@ -83,7 +79,7 @@ const AddProducts = ({ open, onClose }) => {
 					<TextField
 						margin="dense"
 						id="email"
-						label="Product link(s)"
+						label="Link(s) to the products"
 						type="url"
 						variant="outlined"
 						fullWidth
@@ -92,7 +88,7 @@ const AddProducts = ({ open, onClose }) => {
 					<TextField
 						margin="dense"
 						id="email"
-						label="Your Email"
+						label="Your Email (optional)"
 						type="email"
 						variant="outlined"
 						fullWidth
@@ -102,12 +98,7 @@ const AddProducts = ({ open, onClose }) => {
 					{/* <Button onClick={onClose} color="default">
 						Cancel
 					</Button> */}
-					<Button
-						onClick={onClose}
-						color="default"
-						size="large"
-						endIcon={<SendIcon />}
-					>
+					<Button onClick={onClose} color="default" size="large" endIcon={<SendIcon />}>
 						Submit
 					</Button>
 				</DialogActions>

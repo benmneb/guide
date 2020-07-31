@@ -1,10 +1,16 @@
 import React from 'react';
 import classes from './SortBy.module.css';
-import { Select, FormControl, InputLabel, MenuItem } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
+
 import SwapVertIcon from '@material-ui/icons/SwapVert';
-import Tooltip from '@material-ui/core/Tooltip';
-import Zoom from '@material-ui/core/Zoom';
+import {
+	Select,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	IconButton,
+	Tooltip,
+	Zoom
+} from '@material-ui/core';
 
 const SortBy = ({ customStyle }) => {
 	return (

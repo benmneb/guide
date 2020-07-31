@@ -15,7 +15,7 @@ const ControlResults = () => {
 	let prevScrollpos = window.pageYOffset;
 	window.addEventListener('scroll', () => {
 		let currentScrollPos = window.pageYOffset;
-		if (document.body.scrollTop > 265 || document.documentElement.scrollTop > 265) {
+		if (document.body.scrollTop > 250 || document.documentElement.scrollTop > 250) {
 			setShadow(true);
 			if (prevScrollpos > currentScrollPos) {
 				setHide(false);

@@ -4,11 +4,8 @@ import Advertise from '../dialogs/Advertise';
 import AddProducts from '../dialogs/AddProducts';
 import classes from './NavLinks.module.css';
 
-import { Button } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
+import { Button, IconButton, Tooltip, Zoom } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import Tooltip from '@material-ui/core/Tooltip';
-import Zoom from '@material-ui/core/Zoom';
 
 const NavLinks = () => {
 	const [openDialog, setOpenDialog] = useState(null);

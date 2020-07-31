@@ -2,10 +2,7 @@ import React from 'react';
 import classes from './ResultsInfo.module.css';
 
 import { makeStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import ListSubheader from '@material-ui/core/ListSubheader';
+import { MenuItem, FormControl, Select, ListSubheader } from '@material-ui/core';
 
 const totalProducts = '11,587';
 const currentCountry = 'Australia';

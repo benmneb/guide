@@ -8,7 +8,7 @@ const NavBar = () => {
 	const [shadow, setShadow] = useState(false);
 
 	window.addEventListener('scroll', () => {
-		if (document.body.scrollTop > 265 || document.documentElement.scrollTop > 265) {
+		if (document.body.scrollTop > 250 || document.documentElement.scrollTop > 250) {
 			setShadow(false);
 		} else {
 			setShadow(true);
