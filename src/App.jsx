@@ -11,6 +11,9 @@ const theme = createMuiTheme({
 		primary: orange
 	},
 	typography: {
+		h1: {
+			fontSize: '3rem'
+		},
 		button: {
 			textTransform: 'capitalize'
 		}

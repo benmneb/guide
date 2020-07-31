@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './ResultsInfo.module.css';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -82,15 +82,15 @@ const categories = [
 	// 'Pest Control'
 ];
 
-const ResultsInfo = () => {
-	const useStyles = makeStyles((theme) => ({
-		formControl: {
-			margin: '0 4px'
-		}
-	}));
+const useStyles = makeStyles((theme) => ({
+	formControl: {
+		margin: '0 4px'
+	}
+}));
 
+const ResultsInfo = () => {
 	const styles = useStyles();
-	const [category, setCategory] = React.useState('');
+	const [category, setCategory] = useState('');
 
 	const handleChange = (event) => {
 		setCategory(event.target.value);
