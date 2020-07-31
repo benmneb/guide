@@ -1,0 +1,33 @@
+.container {
+	position: relative;
+	padding: 0;
+	margin: 0;
+	width: 100vw;
+	height: 300px;
+	/* overflow: hidden; */
+}
+
+.textBox {
+	position: relative;
+	padding: 10px;
+	height: auto;
+	text-align: center;
+	/*  CENTER HORIZONTALLY  */
+	margin: auto;
+	width: 55vw;
+	/*  CENTER VERTICALLY  */
+	top: calc(50% + calc(var(--header-height) / 2));
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+}
+
+.textBox h1,
+.textBox h4 {
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	line-height: 2;
+	font-weight: 300;
+	/* font-size: 3vw; */
+}

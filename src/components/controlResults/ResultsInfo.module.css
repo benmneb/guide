@@ -1,0 +1,8 @@
+.container {
+	flex: 0 1 auto;
+}
+
+.content {
+	vertical-align: middle;
+	vertical-align: -moz-middle-with-baseline;
+}
