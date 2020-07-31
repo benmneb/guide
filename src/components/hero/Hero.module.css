@@ -4,14 +4,12 @@
 	margin: 0;
 	width: 100vw;
 	height: 300px;
-	/* overflow: hidden; */
 }
 
 .textBox {
 	position: relative;
 	padding: 0 10px;
 	height: auto;
-	text-align: center;
 	/*  CENTER HORIZONTALLY  */
 	margin: auto;
 	width: 55vw;

@@ -29,14 +29,32 @@ const Hero = () => {
 	return (
 		<div className={classes.container}>
 			<div className={classes.textBox}>
-				<Typography variant="h1" paragraph gutterBottom className={styles.h1}>
+				<Typography
+					variant="h1"
+					align="center"
+					paragraph
+					gutterBottom
+					className={styles.h1}
+				>
 					Find Vegan Products Near You.
 				</Typography>
-				<Typography variant="body1" component="h2" paragraph className={styles.h2}>
+				<Typography
+					variant="body1"
+					align="center"
+					component="h2"
+					paragraph
+					className={styles.h2}
+				>
 					The Vomad Guide is a free community-sourced database of 100% plant-based
 					products.
 				</Typography>
-				<Typography variant="button" component="h3" className={styles.h3}>
+				<Typography
+					variant="button"
+					align="center"
+					component="h3"
+					className={styles.h3}
+					color="textSecondary"
+				>
 					<em>Filter. Search. Browse. Review. Contribute.</em>
 				</Typography>
 			</div>
