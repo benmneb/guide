@@ -9,7 +9,7 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	transition: all 0.3s;
+	transition: box-shadow 0.3s;
 }
 
 .fixed {
