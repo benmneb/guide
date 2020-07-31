@@ -25,31 +25,13 @@ const SortBy = ({ customStyle }) => {
 						<MenuItem value={3}>Alphabetical</MenuItem>
 					</Select>
 				</FormControl>
-				<Tooltip title="Switch sort order" TransitionComponent={Zoom} arrow>
+				<Tooltip title="Swap sort order" TransitionComponent={Zoom} arrow>
 					<IconButton aria-label="Order by ascending or descending">
 						<SwapVertIcon />
 					</IconButton>
 				</Tooltip>
 			</div>
 		</div>
-		// <div id='sort-by' name='sort-by'>
-		//   <label for='sort-by'>Sort by:</label>
-		//   <select>
-		//     <option value='popularity' selected>
-		//       Popularity
-		//     </option>
-		//     <option value='rating'>
-		//       Rating
-		//     </option>
-		//     <option value='alphabetical'>
-		//       Alphabetical
-		//     </option>
-		//   </select>
-		//   <div id='order-by'>
-		//   <span className='helper'></span>
-		//     <img src={downArrow} width='25px' alt='Sort results ascending/descending' />
-		//   </div>
-		// </div>}
 	);
 };
 

@@ -1,0 +1,38 @@
+.container {
+	width: 100vw;
+	height: var(--header-height);
+	margin: 0;
+	padding: 0;
+	z-index: 1;
+	background-color: #fff;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s;
+}
+
+.fixed {
+	position: fixed;
+}
+
+.sticky {
+	position: sticky;
+	top: var(--header-height);
+}
+
+.shadow {
+	box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 4px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* .container:nth-child(1) {
+	flex: 1 9999 0%;
+}
+
+.container:nth-child(2) {
+	flex: 0 1 auto;
+}
+
+.container:nth-child(3) {
+	flex: 1 1 0%;
+} */

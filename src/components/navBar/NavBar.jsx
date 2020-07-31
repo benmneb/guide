@@ -1,16 +1,16 @@
 import React from 'react';
-import classes from './NavBar.module.css';
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import NavLinks from './NavLinks';
+import Nav from '../../containers/Nav/Nav';
 
 const NavBar = () => {
 	return (
-		<div className={classes.container}>
+		<Nav position="fixed">
 			<Logo />
 			<SearchBar currentScope="products" />
 			<NavLinks />
-		</div>
+		</Nav>
 	);
 };
 

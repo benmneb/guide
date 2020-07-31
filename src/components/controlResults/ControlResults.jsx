@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import classes from './ControlResults.module.css';
 import BackToCategories from './BackToCategories';
 import ResultsInfo from './ResultsInfo';
 import SortBy from './SortBy';
+import Nav from '../../containers/Nav/Nav';
 
 const customStyle = {
 	height: '40px'
@@ -20,11 +20,11 @@ const ControlResults = () => {
 	});
 
 	return (
-		<div className={`${classes.container} ${shadow && classes.shadow}`}>
+		<Nav position="sticky" shadow={shadow}>
 			<BackToCategories customStyle={customStyle} />
 			<ResultsInfo />
 			<SortBy customStyle={customStyle} />
-		</div>
+		</Nav>
 	);
 };
 

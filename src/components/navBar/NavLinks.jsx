@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import More from './More';
 import Advertise from '../dialogs/Advertise';
 import AddProducts from '../dialogs/AddProducts';
@@ -11,7 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
 const NavLinks = () => {
-	const [openDialog, setOpenDialog] = React.useState(null);
+	const [openDialog, setOpenDialog] = useState(null);
 
 	const openAdvertise = () => {
 		setOpenDialog('Advertise');
