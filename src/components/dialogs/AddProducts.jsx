@@ -17,7 +17,7 @@ import {
 
 const styles = (theme) => ({
 	root: {
-		margin: 0
+		// margin: theme.spacing,
 		// padding: theme.spacing(2)
 	},
 	closeButton: {
@@ -55,6 +55,9 @@ const AddProducts = ({ open, onClose }) => {
 				fullScreen={fullScreen}
 			>
 				<DialogTitle id="form-dialog-title" onClose={onClose}>
+					<span role="img" aria-label="">
+						🌱
+					</span>{' '}
 					Contribute to the Guide
 				</DialogTitle>
 				<DialogContent>
@@ -95,9 +98,6 @@ const AddProducts = ({ open, onClose }) => {
 					/>
 				</DialogContent>
 				<DialogActions>
-					{/* <Button onClick={onClose} color="default">
-						Cancel
-					</Button> */}
 					<Button onClick={onClose} color="default" size="large" endIcon={<SendIcon />}>
 						Submit
 					</Button>
