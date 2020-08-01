@@ -4,11 +4,14 @@ import Hero from './components/hero/Hero';
 import ControlResults from './components/controlResults/ControlResults';
 import ResultsList from './components/resultsList/ResultsList';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { orange } from '@material-ui/core/colors';
+import { orange, grey } from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
 	palette: {
-		primary: orange
+		primary: orange,
+		secondary: {
+			main: grey[500]
+		}
 	},
 	typography: {
 		h1: {
