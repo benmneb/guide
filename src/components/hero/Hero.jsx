@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Hero = () => {
 	const styles = useStyles();
+
 	return (
 		<div className={classes.container}>
 			<div className={classes.textBox}>
@@ -36,7 +37,7 @@ const Hero = () => {
 					gutterBottom
 					className={styles.h1}
 				>
-					Find Vegan Products Near You.
+					Find Vegan Products Near You
 				</Typography>
 				<Typography
 					variant="body1"
@@ -48,14 +49,8 @@ const Hero = () => {
 					The Vomad Guide is a free community-sourced database of 100% plant-based
 					products.
 				</Typography>
-				<Typography
-					variant="button"
-					align="center"
-					component="h3"
-					className={styles.h3}
-					color="textSecondary"
-				>
-					<em>Filter. Search. Browse. Review. Contribute.</em>
+				<Typography variant="button" align="center" component="div" className={styles.h3}>
+					Filter. Search. Browse. Review. Contribute.
 				</Typography>
 			</div>
 		</div>
