@@ -47,64 +47,61 @@ const Advertise = ({ open, onClose }) => {
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
 	return (
-		<div>
-			<Dialog
-				open={open}
-				onClose={onClose}
-				aria-labelledby="form-dialog-title"
-				fullScreen={fullScreen}
-			>
-				<DialogTitle id="form-dialog-title" onClose={onClose}>
+		<Dialog
+			open={open}
+			onClose={onClose}
+			aria-labelledby="form-dialog-title"
+			fullScreen={fullScreen}
+		>
+			<DialogTitle id="form-dialog-title" onClose={onClose}>
+				<span role="img" aria-label="">
+					👀
+				</span>{' '}
+				Advertise on The Guide
+			</DialogTitle>
+			<DialogContent>
+				<DialogContentText>
+					Put your brand in front of a very specific audience.{' '}
 					<span role="img" aria-label="">
-						👀
-					</span>{' '}
-					Advertise on The Guide
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText>
-						Help keep the Guide going and put your brand in front of a very specific
-						audience.{' '}
-						<span role="img" aria-label="">
-							👌
-						</span>
-					</DialogContentText>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="name"
-						label="Your Name"
-						type="text"
-						variant="outlined"
-						fullWidth
-						required
-					/>
-					<TextField
-						margin="dense"
-						id="email"
-						label="Your Email"
-						type="email"
-						variant="outlined"
-						fullWidth
-						required
-					/>
-					<TextField
-						margin="dense"
-						id="message"
-						label="Your Message"
-						type="text"
-						variant="outlined"
-						multiline
-						rows={4}
-						fullWidth
-					/>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={onClose} color="default" size="large" endIcon={<SendIcon />}>
-						Submit
-					</Button>
-				</DialogActions>
-			</Dialog>
-		</div>
+						👌
+					</span>
+				</DialogContentText>
+				<TextField
+					autoFocus
+					margin="dense"
+					id="name"
+					label="Your Name"
+					type="text"
+					variant="outlined"
+					fullWidth
+					required
+				/>
+				<TextField
+					margin="dense"
+					id="email"
+					label="Your Email"
+					type="email"
+					variant="outlined"
+					fullWidth
+					required
+				/>
+				<TextField
+					margin="dense"
+					id="message"
+					label="Your Message"
+					type="text"
+					variant="outlined"
+					multiline
+					rows={4}
+					fullWidth
+				/>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={onClose} color="default" size="large" endIcon={<SendIcon />}>
+					Submit
+				</Button>
+			</DialogActions>
+		</Dialog>
 	);
 };
 

@@ -16,10 +16,6 @@ import {
 } from '@material-ui/core';
 
 const styles = (theme) => ({
-	root: {
-		// margin: theme.spacing,
-		// padding: theme.spacing(2)
-	},
 	closeButton: {
 		position: 'absolute',
 		right: theme.spacing(1),
@@ -47,63 +43,61 @@ const AddProducts = ({ open, onClose }) => {
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
 	return (
-		<div>
-			<Dialog
-				open={open}
-				onClose={onClose}
-				aria-labelledby="form-dialog-title"
-				fullScreen={fullScreen}
-			>
-				<DialogTitle id="form-dialog-title" onClose={onClose}>
-					<span role="img" aria-label="">
-						🌱
-					</span>{' '}
-					Contribute to the Guide
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText>
-						Let us know of any missing vegan products!{' '}
-						<span role="img" aria-label="thanks">
-							🙏
-						</span>
-					</DialogContentText>
-					<TextField
-						autoFocus
-						margin="dense"
-						id="message"
-						label="Which products are missing?"
-						type="text"
-						variant="outlined"
-						multiline
-						rows={4}
-						fullWidth
-						required
-					/>
-					<TextField
-						margin="dense"
-						id="email"
-						label="Link(s) to the products"
-						type="url"
-						variant="outlined"
-						fullWidth
-						required
-					/>
-					<TextField
-						margin="dense"
-						id="email"
-						label="Your Email (optional)"
-						type="email"
-						variant="outlined"
-						fullWidth
-					/>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={onClose} color="default" size="large" endIcon={<SendIcon />}>
-						Submit
-					</Button>
-				</DialogActions>
-			</Dialog>
-		</div>
+		<Dialog
+			open={open}
+			onClose={onClose}
+			aria-labelledby="form-dialog-title"
+			fullScreen={fullScreen}
+		>
+			<DialogTitle id="form-dialog-title" onClose={onClose}>
+				<span role="img" aria-label="">
+					🌱
+				</span>{' '}
+				Contribute to the Guide
+			</DialogTitle>
+			<DialogContent>
+				<DialogContentText>
+					Let us know of any missing vegan products!{' '}
+					<span role="img" aria-label="thanks">
+						🙏
+					</span>
+				</DialogContentText>
+				<TextField
+					autoFocus
+					margin="dense"
+					id="message"
+					label="Which products are missing?"
+					type="text"
+					variant="outlined"
+					multiline
+					rows={4}
+					fullWidth
+					required
+				/>
+				<TextField
+					margin="dense"
+					id="email"
+					label="Link(s) to the products"
+					type="url"
+					variant="outlined"
+					fullWidth
+					required
+				/>
+				<TextField
+					margin="dense"
+					id="email"
+					label="Your Email (optional)"
+					type="email"
+					variant="outlined"
+					fullWidth
+				/>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={onClose} color="default" size="large" endIcon={<SendIcon />}>
+					Submit
+				</Button>
+			</DialogActions>
+		</Dialog>
 	);
 };
 
