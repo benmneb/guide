@@ -4,17 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Drawer, Typography } from '@material-ui/core';
 
 import FilterButton from './FilterButton';
-
-const tags = ['🌱 Vegan Brands', '🇦🇺 Local Brands', '🔥 Popular', '🏅 Highly Rated'];
-const ingredients = ['🛢 No Oil', '🦷 No Added Sugar', '🌴 No Palm Oil', '🧂 No Salt'];
-const allergens = [
-	'🌾 Wheat Free',
-	'🍮 Soy Free',
-	'🍞 Gluten Free',
-	'🥜 Nut Free',
-	'🤮 SLS Free',
-	'🤒 Phythalte Free'
-];
+import { ingredients, allergens, tags } from '../../assets/filters';
 
 const drawerWidth = 430;
 
@@ -46,6 +36,7 @@ const useStyles = makeStyles(() => ({
 		fontWeight: 'bold'
 	},
 	filtersSectionTitle: {
+		paddingTop: 10,
 		fontWeight: 'bold'
 	}
 }));
@@ -68,7 +59,7 @@ const FiltersPanel = (props) => {
 			</Typography>
 			<div className={styles.filtersSection}>
 				{tags.map((tag) => (
-					<FilterButton name={tag} key={tag} />
+					<FilterButton name={tag.name} tooltip={tag.tooltip} key={tag.name} />
 				))}
 			</div>
 			<Typography align="center" className={styles.filtersSectionTitle}>
@@ -76,7 +67,7 @@ const FiltersPanel = (props) => {
 			</Typography>
 			<div className={styles.filtersSection}>
 				{ingredients.map((ing) => (
-					<FilterButton name={ing} key={ing} />
+					<FilterButton name={ing.name} tooltip={ing.tooltip} key={ing.name} />
 				))}
 			</div>
 			<Typography align="center" className={styles.filtersSectionTitle}>
@@ -84,38 +75,11 @@ const FiltersPanel = (props) => {
 			</Typography>
 			<div className={styles.filtersSection}>
 				{allergens.map((allergen) => (
-					<FilterButton name={allergen} key={allergen} />
-				))}
-				<Typography variant="subtitle2" align="center">
-					<p>
-						Allergens are a guide only.
-						<br />
-						Always check the label before use.
-					</p>
-				</Typography>
-			</div>
-			<Typography align="center" className={styles.filtersSectionFirstTitle}>
-				Tags
-			</Typography>
-			<div className={styles.filtersSection}>
-				{tags.map((tag) => (
-					<FilterButton name={tag} key={tag} />
-				))}
-			</div>
-			<Typography align="center" className={styles.filtersSectionTitle}>
-				Ingredients
-			</Typography>
-			<div className={styles.filtersSection}>
-				{ingredients.map((ing) => (
-					<FilterButton name={ing} key={ing} />
-				))}
-			</div>
-			<Typography align="center" className={styles.filtersSectionTitle}>
-				Allergens
-			</Typography>
-			<div className={styles.filtersSection}>
-				{allergens.map((allergen) => (
-					<FilterButton name={allergen} key={allergen} />
+					<FilterButton
+						name={allergen.name}
+						tooltip={allergen.tooltip}
+						key={allergen.name}
+					/>
 				))}
 				<Typography variant="subtitle2" align="center">
 					<p>

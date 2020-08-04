@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import { Button, Tooltip, Zoom } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	filtersBtn: {
@@ -23,15 +23,17 @@ export default function FilterButton(props) {
 	}
 
 	return (
-		<Button
-			className={classes.filtersBtn}
-			variant={variant}
-			color={color}
-			onClick={() => setSelected(!selected)}
-			disableElevation
-			disableRipple
-		>
-			{props.name}
-		</Button>
+		<Tooltip title={props.tooltip} TransitionComponent={Zoom} arrow>
+			<Button
+				className={classes.filtersBtn}
+				variant={variant}
+				color={color}
+				onClick={() => setSelected(!selected)}
+				disableElevation
+				disableRipple
+			>
+				{props.name}
+			</Button>
+		</Tooltip>
 	);
 }

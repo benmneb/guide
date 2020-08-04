@@ -14,7 +14,9 @@ const ControlResults = (props) => {
 	const [hide, setHide] = useState(false);
 
 	const { showFiltersPanel } = props;
+
 	let shadowPoint = useRef(230);
+
 	useEffect(() => {
 		if (showFiltersPanel) {
 			shadowPoint.current = 5;
@@ -24,6 +26,7 @@ const ControlResults = (props) => {
 	}, [showFiltersPanel]);
 
 	let prevScrollpos = window.pageYOffset;
+
 	window.addEventListener('scroll', () => {
 		let currentScrollPos = window.pageYOffset;
 		if (

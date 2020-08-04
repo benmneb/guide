@@ -20,11 +20,11 @@
 .sticky {
 	position: sticky;
 	top: var(--header-height);
-	transition: top 0.3s;
 }
 
 .shadowDark {
 	box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14);
+	transition: top 0.3s;
 }
 
 .shadowLight {
@@ -43,7 +43,7 @@
 
 .top0 {
 	top: 0;
-	transition: top 0ms;
+	transition: top 0ms, box-shadow 0.3s;
 }
 
 /* .container:nth-child(1) {
