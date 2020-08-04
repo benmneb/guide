@@ -85,6 +85,9 @@ const categories = [
 const useStyles = makeStyles((theme) => ({
 	formControl: {
 		margin: '0 4px'
+	},
+	pointer: {
+		cursor: 'pointer'
 	}
 }));
 
@@ -108,7 +111,7 @@ const ResultsInfo = () => {
 				<MenuItem value="">All categories</MenuItem>
 				{categories.map((cat) =>
 					cat.disabled ? (
-						<ListSubheader value={cat} key={cat.name}>
+						<ListSubheader value={cat} key={cat.name} className={styles.pointer}>
 							{cat.name}
 						</ListSubheader>
 					) : (

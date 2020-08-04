@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-	Card,
-	CardMedia,
-	CardContent,
-	CardActions,
-	Typography
-} from '@material-ui/core';
+import { Card, CardMedia, CardContent, CardActions, Typography } from '@material-ui/core';
 import StarRating from './StarRating';
 
 const Result = ({ image, brand, name }) => (
@@ -14,11 +8,7 @@ const Result = ({ image, brand, name }) => (
 			<Typography className={'MuiTypography--category'} />
 		</CardMedia>
 		<CardContent className={'MuiCardContent-root'}>
-			<Typography
-				className={'MuiTypography--overline'}
-				variant={'overline'}
-				gutterBottom
-			>
+			<Typography className={'MuiTypography--overline'} variant={'overline'} gutterBottom>
 				{brand}
 			</Typography>
 			<Typography className={'MuiTypography--heading'} variant={'h6'}>
@@ -54,7 +44,8 @@ Result.getTheme = (muiBaseTheme) => ({
 					boxShadow: '0 4px 20px 0 rgba(0,0,0,0.12)'
 				},
 				'& .MuiCardMedia-root': {
-					paddingTop: '65%',
+					paddingTop: '100%',
+					maxHeight: '200px',
 					position: 'relative',
 					'& .MuiTypography--category': {
 						color: 'rgba(255, 255, 255, 0.87)',
@@ -83,9 +74,7 @@ Result.getTheme = (muiBaseTheme) => ({
 					}
 				},
 				'& .MuiCardActions-root': {
-					padding: `0 ${muiBaseTheme.spacing(3)}px ${muiBaseTheme.spacing(
-						3
-					)}px`,
+					padding: `0 ${muiBaseTheme.spacing(3)}px ${muiBaseTheme.spacing(3)}px`,
 					display: 'flex',
 					justifyContent: 'center',
 					alignItems: 'center',

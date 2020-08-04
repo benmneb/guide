@@ -3,6 +3,7 @@ import NavBar from './components/navBar/NavBar';
 import Hero from './components/hero/Hero';
 import ControlResults from './components/controlResults/ControlResults';
 import ResultsList from './components/resultsList/ResultsList';
+import FiltersPanel from './components/UI/FiltersPanel';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { orange, grey } from '@material-ui/core/colors';
 
@@ -30,17 +31,16 @@ const theme = createMuiTheme({
 	}
 });
 
-const App = () => {
+export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<>
 				<NavBar />
 				<Hero />
 				<ControlResults />
+				<FiltersPanel />
 				<ResultsList />
 			</>
 		</ThemeProvider>
 	);
-};
-
-export default App;
+}

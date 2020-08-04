@@ -4,6 +4,9 @@
 	margin: 0;
 	width: 100vw;
 	height: 300px;
+	display: block;
+	background-color: white;
+	z-index: 1;
 }
 
 .textBox {
@@ -18,4 +21,8 @@
 	transform: translateY(-50%);
 	-webkit-transform: translateY(-50%);
 	-ms-transform: translateY(-50%);
+}
+
+.displayNone {
+	display: none;
 }

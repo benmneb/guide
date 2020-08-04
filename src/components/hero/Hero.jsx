@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import classes from './Hero.module.css';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,11 +25,15 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const Hero = () => {
+const Hero = (props) => {
 	const styles = useStyles();
 
+	const classList = `${classes.container} ${
+		props.showFiltersPanel ? classes.displayNone : ''
+	}`;
+
 	return (
-		<div className={classes.container}>
+		<div className={classList}>
 			<div className={classes.textBox}>
 				<Typography
 					variant="h1"
@@ -57,4 +62,10 @@ const Hero = () => {
 	);
 };
 
-export default Hero;
+const mapStateToProps = (state) => {
+	return {
+		showFiltersPanel: state.showFiltersPanel
+	};
+};
+
+export default connect(mapStateToProps)(Hero);

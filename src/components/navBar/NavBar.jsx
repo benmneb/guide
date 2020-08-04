@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import NavLinks from './NavLinks';
 import Nav from '../../containers/Nav/Nav';
 
-const NavBar = () => {
+const NavBar = (props) => {
 	const [shadow, setShadow] = useState(false);
 
 	window.addEventListener('scroll', () => {
@@ -16,7 +17,7 @@ const NavBar = () => {
 	});
 
 	return (
-		<Nav position="fixed" shadowLight={shadow}>
+		<Nav position="fixed" displayNone={props.showFiltersPanel} shadowLight={shadow}>
 			<Logo />
 			<SearchBar currentScope="products" />
 			<NavLinks />
@@ -24,4 +25,10 @@ const NavBar = () => {
 	);
 };
 
-export default NavBar;
+const mapStateToProps = (state) => {
+	return {
+		showFiltersPanel: state.showFiltersPanel
+	};
+};
+
+export default connect(mapStateToProps)(NavBar);

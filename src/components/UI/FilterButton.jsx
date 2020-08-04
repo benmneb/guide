@@ -28,6 +28,8 @@ export default function FilterButton(props) {
 			variant={variant}
 			color={color}
 			onClick={() => setSelected(!selected)}
+			disableElevation
+			disableRipple
 		>
 			{props.name}
 		</Button>
