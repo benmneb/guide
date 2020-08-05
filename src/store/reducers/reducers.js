@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-	showFiltersPanel: false
+	showFiltersPanel: false,
+	showProductModal: false
 };
 
 export default function Reducers(state = initialState, action) {
@@ -15,6 +16,16 @@ export default function Reducers(state = initialState, action) {
 			return {
 				...state,
 				showFiltersPanel: false
+			};
+		case actionTypes.SHOW_PRODUCT_MODAL:
+			return {
+				...state,
+				showProductModal: true
+			};
+		case actionTypes.HIDE_PRODUCT_MODAL:
+			return {
+				...state,
+				showProductModal: false
 			};
 		default:
 			return state;

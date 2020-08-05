@@ -1,1 +1,6 @@
-export { showFiltersPanel, hideFiltersPanel } from './actions';
+export {
+	showFiltersPanel,
+	hideFiltersPanel,
+	showProductModal,
+	hideProductModal
+} from './actions';
