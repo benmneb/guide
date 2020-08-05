@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import classes from './ResultsInfo.module.css';
-
 import { makeStyles } from '@material-ui/core/styles';
 import { MenuItem, FormControl, Select, ListSubheader } from '@material-ui/core';
 
@@ -88,6 +86,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	pointer: {
 		cursor: 'pointer'
+	},
+	content: {
+		verticalAlign: 'middle',
+		verticalAlign: '-moz-middle-with-baseline'
 	}
 }));
 
@@ -125,8 +127,8 @@ const ResultsInfo = () => {
 	);
 
 	return (
-		<div className={classes.container}>
-			<span className={classes.content}>
+		<div>
+			<span className={styles.content}>
 				There are {category.products ? category.products : totalProducts} vegan products
 				in {categorySelect} within {currentCountry}
 			</span>

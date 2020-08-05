@@ -2,12 +2,32 @@ import React, { useState } from 'react';
 import More from './More';
 import Advertise from '../dialogs/Advertise';
 import AddProducts from '../dialogs/AddProducts';
-import classes from './NavLinks.module.css';
-
+import { makeStyles } from '@material-ui/core/styles';
 import { Button, IconButton, Tooltip, Zoom } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
+const useStyles = makeStyles((theme) => ({
+	container: {
+		'& ul': {
+			listStyleType: 'none',
+			padding: 20,
+			display: 'flex',
+			justifyContent: 'flex-end',
+			alignItems: 'center'
+		},
+		'& li': {
+			display: 'inline',
+			margin: '0 5px 0 5px'
+		},
+		'& li:nth-last-child(2)': {
+			marginRight: 0
+		}
+	}
+}));
+
 const NavLinks = () => {
+	const styles = useStyles();
+
 	const [openDialog, setOpenDialog] = useState(null);
 
 	const openAdvertise = () => {
@@ -23,7 +43,7 @@ const NavLinks = () => {
 	};
 
 	return (
-		<div className={classes.container}>
+		<div className={styles.container}>
 			<ul>
 				<li>
 					<Tooltip title="Support us on Patreon" TransitionComponent={Zoom} arrow>

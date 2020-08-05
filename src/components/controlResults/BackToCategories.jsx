@@ -1,10 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import classes from './BackToCategories.module.css';
 import { Button } from '@material-ui/core';
 import * as actionCreators from '../../store/actions';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+	container: {
+		paddingLeft: 20
+	}
+}));
 
 const BackToCategories = (props) => {
+	const styles = useStyles();
+
 	const handleClick = () => {
 		if (props.showFiltersPanel) {
 			props.onHideFiltersPanel();
@@ -16,7 +24,7 @@ const BackToCategories = (props) => {
 	const buttonLabel = props.showFiltersPanel ? 'Hide Filters' : 'Show Filters';
 
 	return (
-		<div className={classes.container}>
+		<div className={styles.container}>
 			<Button
 				variant="contained"
 				color="primary"

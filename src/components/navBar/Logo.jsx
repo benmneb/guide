@@ -1,12 +1,22 @@
 import React from 'react';
-import classes from './Logo.module.css';
+import { makeStyles } from '@material-ui/core/styles';
 import LogoImg from '../../assets/logo.png';
 
+const useStyles = makeStyles((theme) => ({
+	content: {
+		padding: 20,
+		marginTop: 7,
+		height: 'calc(var(--header-input-height) + 10px)'
+	}
+}));
+
 const Logo = () => {
+	const styles = useStyles();
+
 	return (
-		<div className={classes.container}>
+		<div>
 			<img
-				className={classes.content}
+				className={styles.content}
 				src={LogoImg}
 				alt="Vomad Guide: Find Vegan Products Near You"
 			/>

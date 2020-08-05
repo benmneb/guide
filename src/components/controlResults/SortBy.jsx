@@ -1,6 +1,5 @@
 import React from 'react';
-import classes from './SortBy.module.css';
-
+import { makeStyles } from '@material-ui/core/styles';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
 import {
 	Select,
@@ -12,10 +11,23 @@ import {
 	Zoom
 } from '@material-ui/core';
 
+const useStyles = makeStyles((theme) => ({
+	container: {
+		paddingRight: 13
+	},
+	content: {
+		display: 'flex',
+		justifyContent: 'flex-end',
+		alignItems: 'center'
+	}
+}));
+
 const SortBy = ({ customStyle }) => {
+	const styles = useStyles();
+
 	return (
-		<div className={classes.container}>
-			<div className={classes.content} name="sort-by">
+		<div className={styles.container}>
+			<div className={styles.content} name="sort-by">
 				<FormControl variant="outlined">
 					<InputLabel id="sort-by-label">Sort by</InputLabel>
 					<Select
