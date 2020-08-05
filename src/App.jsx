@@ -4,6 +4,7 @@ import Hero from './components/hero/Hero';
 import ControlResults from './components/controlResults/ControlResults';
 import ResultsList from './components/resultsList/ResultsList';
 import FiltersPanel from './components/UI/FiltersPanel';
+import ProductModal from './components/modals/ProductModal';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { orange, grey } from '@material-ui/core/colors';
 
@@ -40,6 +41,7 @@ export default function App() {
 				<ControlResults />
 				<FiltersPanel />
 				<ResultsList />
+				<ProductModal />
 			</>
 		</ThemeProvider>
 	);
