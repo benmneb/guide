@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Drawer, Typography } from '@material-ui/core';
+import { Drawer, Typography, Grid } from '@material-ui/core';
 
 import FilterButton from './FilterButton';
 import { ingredients, allergens, tags } from '../../assets/filters';
@@ -25,11 +25,6 @@ const useStyles = makeStyles(() => ({
 		height: `calc(100vh - ${topPosition}px)`,
 		zIndex: 0,
 		border: 'none'
-	},
-	filtersSection: {
-		display: 'flex',
-		flexWrap: 'wrap',
-		justifyContent: 'space-evenly'
 	},
 	filtersSectionFirstTitle: {
 		paddingTop: 10,
@@ -57,23 +52,23 @@ const FiltersPanel = (props) => {
 			<Typography align="center" className={styles.filtersSectionFirstTitle}>
 				Tags
 			</Typography>
-			<div className={styles.filtersSection}>
+			<Grid container justify="space-evenly">
 				{tags.map((tag) => (
 					<FilterButton name={tag.name} tooltip={tag.tooltip} key={tag.name} />
 				))}
-			</div>
+			</Grid>
 			<Typography align="center" className={styles.filtersSectionTitle}>
 				Ingredients
 			</Typography>
-			<div className={styles.filtersSection}>
+			<Grid container justify="space-evenly">
 				{ingredients.map((ing) => (
 					<FilterButton name={ing.name} tooltip={ing.tooltip} key={ing.name} />
 				))}
-			</div>
+			</Grid>
 			<Typography align="center" className={styles.filtersSectionTitle}>
 				Allergens
 			</Typography>
-			<div className={styles.filtersSection}>
+			<Grid container justify="space-evenly">
 				{allergens.map((allergen) => (
 					<FilterButton
 						name={allergen.name}
@@ -88,7 +83,7 @@ const FiltersPanel = (props) => {
 						Always check the label before use.
 					</p>
 				</Typography>
-			</div>
+			</Grid>
 		</Drawer>
 	);
 };

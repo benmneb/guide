@@ -23,7 +23,7 @@ export default function FilterButton(props) {
 	}
 
 	return (
-		<Tooltip title={props.tooltip} TransitionComponent={Zoom} arrow>
+		<Tooltip title={props.tooltip} TransitionComponent={Zoom} arrow enterDelay={750}>
 			<Button
 				className={classes.filtersBtn}
 				variant={variant}
