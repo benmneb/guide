@@ -25,12 +25,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 	container: {
 		height: 300,
-		backgroundColor: 'white'
+		backgroundColor: 'white',
+		position: 'relative',
+		zIndex: 1
 	},
 	textBox: {
 		position: 'relative',
 		top: 'calc(50% + calc(var(--header-height) / 2))',
-		transform: 'translateY(-50%)'
+		transform: 'translateY(-50%)',
+		zIndex: 1
 	},
 	displayNone: {
 		display: 'none'
@@ -42,7 +45,7 @@ const Hero = (props) => {
 
 	return (
 		<Container
-			maxWidth="lg"
+			maxWidth="false"
 			className={clsx(styles.container, { [styles.displayNone]: props.showFiltersPanel })}
 		>
 			<Container maxWidth="md" className={styles.textBox}>
