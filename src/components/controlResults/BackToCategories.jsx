@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
+import { Button, Box } from '@material-ui/core';
 import * as actionCreators from '../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
-		paddingLeft: 20
+		flex: '1 9999 0%',
+		marginLeft: 20
 	}
 }));
 
@@ -24,7 +25,7 @@ const BackToCategories = (props) => {
 	const buttonLabel = props.showFiltersPanel ? 'Hide Filters' : 'Show Filters';
 
 	return (
-		<div className={styles.container}>
+		<Box className={styles.container}>
 			<Button
 				variant="contained"
 				color="primary"
@@ -35,7 +36,7 @@ const BackToCategories = (props) => {
 			>
 				{buttonLabel}
 			</Button>
-		</div>
+		</Box>
 	);
 };
 

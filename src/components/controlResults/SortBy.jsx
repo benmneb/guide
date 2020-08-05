@@ -8,11 +8,13 @@ import {
 	MenuItem,
 	IconButton,
 	Tooltip,
-	Zoom
+	Zoom,
+	Box
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
+		flex: '1 0 0%',
 		paddingRight: 13
 	},
 	content: {
@@ -26,8 +28,8 @@ const SortBy = ({ customStyle }) => {
 	const styles = useStyles();
 
 	return (
-		<div className={styles.container}>
-			<div className={styles.content} name="sort-by">
+		<Box className={styles.container}>
+			<Box className={styles.content} name="sort-by">
 				<FormControl variant="outlined">
 					<InputLabel id="sort-by-label">Sort by</InputLabel>
 					<Select
@@ -48,8 +50,8 @@ const SortBy = ({ customStyle }) => {
 						<SwapVertIcon />
 					</IconButton>
 				</Tooltip>
-			</div>
-		</div>
+			</Box>
+		</Box>
 	);
 };
 

@@ -3,11 +3,12 @@ import More from './More';
 import Advertise from '../dialogs/Advertise';
 import AddProducts from '../dialogs/AddProducts';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, IconButton, Tooltip, Zoom } from '@material-ui/core';
+import { Button, IconButton, Tooltip, Zoom, Box } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
+		flex: '1 0 0%',
 		'& ul': {
 			listStyleType: 'none',
 			padding: 20,
@@ -43,7 +44,7 @@ const NavLinks = () => {
 	};
 
 	return (
-		<div className={styles.container}>
+		<Box className={styles.container}>
 			<ul>
 				<li>
 					<Tooltip title="Support us on Patreon" TransitionComponent={Zoom} arrow>
@@ -78,7 +79,7 @@ const NavLinks = () => {
 			</ul>
 			<Advertise open={openDialog === 'Advertise'} onClose={closeDialog} />
 			<AddProducts open={openDialog === 'AddProducts'} onClose={closeDialog} />
-		</div>
+		</Box>
 	);
 };
 

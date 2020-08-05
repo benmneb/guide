@@ -9,11 +9,9 @@ const useStyles = makeStyles((theme) => ({
 		margin: 0,
 		padding: 0,
 		zIndex: '2',
-		opacity: '1',
 		backgroundColor: '#fff',
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'space-between',
 		transition: 'box-shadow 0.3s'
 	},
 	fixed: {

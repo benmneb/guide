@@ -1,9 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField } from '@material-ui/core';
+import { TextField, Box } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
+		flex: '0 1 auto',
 		width: 350
 	}
 }));
@@ -14,7 +15,7 @@ export default function SearchBar(props) {
 	const label = `Search for vegan ${props.currentScope}...`;
 
 	return (
-		<div className={styles.container}>
+		<Box className={styles.container}>
 			<TextField
 				id="main-search"
 				label={label}
@@ -23,6 +24,6 @@ export default function SearchBar(props) {
 				size="small"
 				fullWidth
 			/>
-		</div>
+		</Box>
 	);
 }

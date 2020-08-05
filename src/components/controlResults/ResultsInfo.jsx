@@ -6,7 +6,8 @@ import {
 	Select,
 	ListSubheader,
 	Typography,
-	Grid
+	Grid,
+	Box
 } from '@material-ui/core';
 
 const totalProducts = '11,587';
@@ -88,8 +89,8 @@ const categories = [
 ];
 
 const useStyles = makeStyles((theme) => ({
-	widthAuto: {
-		width: 'auto'
+	container: {
+		flex: '0 1 auto'
 	},
 	pointer: {
 		cursor: 'pointer'
@@ -110,7 +111,6 @@ const ResultsInfo = () => {
 				value={category}
 				onChange={handleChange}
 				displayEmpty
-				className={styles.selectEmpty}
 				inputProps={{ 'aria-label': 'Select category' }}
 			>
 				<MenuItem value="">All categories</MenuItem>
@@ -130,25 +130,20 @@ const ResultsInfo = () => {
 	);
 
 	return (
-		<Grid
-			container
-			component="span"
-			justify="center"
-			spacing={1}
-			alignItems="center"
-			className={styles.widthAuto}
-		>
-			<Grid item>
-				<Typography component="span">
-					There are {category.products ? category.products : totalProducts} vegan products
-					in
-				</Typography>
+		<Box className={styles.container}>
+			<Grid container component="span" justify="center" spacing={1} alignItems="center">
+				<Grid item>
+					<Typography component="span">
+						There are {category.products ? category.products : totalProducts} vegan
+						products in
+					</Typography>
+				</Grid>
+				<Grid item>{categorySelect}</Grid>
+				<Grid item>
+					<Typography component="span">within {currentCountry}</Typography>
+				</Grid>
 			</Grid>
-			<Grid item>{categorySelect}</Grid>
-			<Grid item>
-				<Typography component="span">within {currentCountry}</Typography>
-			</Grid>
-		</Grid>
+		</Box>
 	);
 };
 
