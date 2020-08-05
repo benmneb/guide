@@ -4,15 +4,14 @@ import { TextField } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
-		maxWidth: 350,
 		width: 350
 	}
 }));
 
-const SearchBar = ({ currentScope }) => {
+export default function SearchBar(props) {
 	const styles = useStyles();
 
-	const label = `Search for vegan ${currentScope}...`;
+	const label = `Search for vegan ${props.currentScope}...`;
 
 	return (
 		<div className={styles.container}>
@@ -26,6 +25,4 @@ const SearchBar = ({ currentScope }) => {
 			/>
 		</div>
 	);
-};
-
-export default SearchBar;
+}

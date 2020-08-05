@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { MenuItem, FormControl, Select, ListSubheader } from '@material-ui/core';
+import {
+	MenuItem,
+	FormControl,
+	Select,
+	ListSubheader,
+	Typography,
+	Grid
+} from '@material-ui/core';
 
 const totalProducts = '11,587';
 const currentCountry = 'Australia';
@@ -81,15 +88,11 @@ const categories = [
 ];
 
 const useStyles = makeStyles((theme) => ({
-	formControl: {
-		margin: '0 4px'
+	widthAuto: {
+		width: 'auto'
 	},
 	pointer: {
 		cursor: 'pointer'
-	},
-	content: {
-		verticalAlign: 'middle',
-		verticalAlign: '-moz-middle-with-baseline'
 	}
 }));
 
@@ -102,7 +105,7 @@ const ResultsInfo = () => {
 	};
 
 	const categorySelect = (
-		<FormControl className={styles.formControl}>
+		<FormControl component="span">
 			<Select
 				value={category}
 				onChange={handleChange}
@@ -127,12 +130,25 @@ const ResultsInfo = () => {
 	);
 
 	return (
-		<div>
-			<span className={styles.content}>
-				There are {category.products ? category.products : totalProducts} vegan products
-				in {categorySelect} within {currentCountry}
-			</span>
-		</div>
+		<Grid
+			container
+			component="span"
+			justify="center"
+			spacing={1}
+			alignItems="center"
+			className={styles.widthAuto}
+		>
+			<Grid item>
+				<Typography component="span">
+					There are {category.products ? category.products : totalProducts} vegan products
+					in
+				</Typography>
+			</Grid>
+			<Grid item>{categorySelect}</Grid>
+			<Grid item>
+				<Typography component="span">within {currentCountry}</Typography>
+			</Grid>
+		</Grid>
 	);
 };
 

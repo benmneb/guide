@@ -45,7 +45,7 @@ const Hero = (props) => {
 
 	return (
 		<Container
-			maxWidth="false"
+			maxWidth={false}
 			className={clsx(styles.container, { [styles.displayNone]: props.showFiltersPanel })}
 		>
 			<Container maxWidth="md" className={styles.textBox}>
