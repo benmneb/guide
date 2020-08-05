@@ -1,13 +1,13 @@
 import React from 'react';
+import clsx from 'clsx';
 import { connect } from 'react-redux';
-import classes from './Hero.module.css';
-import { Typography } from '@material-ui/core';
+import { Typography, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
 	h1: {
 		[theme.breakpoints.down('md')]: {
-			fontSize: '2.4rem'
+			fontSize: '2.6rem'
 		},
 		[theme.breakpoints.down('sm')]: {
 			fontSize: '2rem'
@@ -22,19 +22,30 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('sm')]: {
 			display: 'none'
 		}
+	},
+	container: {
+		height: 300,
+		backgroundColor: 'white'
+	},
+	textBox: {
+		position: 'relative',
+		top: 'calc(50% + calc(var(--header-height) / 2))',
+		transform: 'translateY(-50%)'
+	},
+	displayNone: {
+		display: 'none'
 	}
 }));
 
 const Hero = (props) => {
 	const styles = useStyles();
 
-	const classList = `${classes.container} ${
-		props.showFiltersPanel ? classes.displayNone : ''
-	}`;
-
 	return (
-		<div className={classList}>
-			<div className={classes.textBox}>
+		<Container
+			maxWidth="lg"
+			className={clsx(styles.container, { [styles.displayNone]: props.showFiltersPanel })}
+		>
+			<Container maxWidth="md" className={styles.textBox}>
 				<Typography
 					variant="h1"
 					align="center"
@@ -47,18 +58,18 @@ const Hero = (props) => {
 				<Typography
 					variant="body1"
 					align="center"
-					component="h2"
+					component="p"
 					paragraph
 					className={styles.h2}
 				>
 					The Vomad Guide is a free community-sourced database of 100% plant-based
 					products.
 				</Typography>
-				<Typography variant="button" align="center" component="div" className={styles.h3}>
+				<Typography variant="button" align="center" component="p" className={styles.h3}>
 					Filter. Search. Browse. Review. Contribute.
 				</Typography>
-			</div>
-		</div>
+			</Container>
+		</Container>
 	);
 };
 
