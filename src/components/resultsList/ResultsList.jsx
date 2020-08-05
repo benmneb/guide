@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { makeStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Result from './Result';
+import * as actionCreators from '../../store/actions';
 
 const muiBaseTheme = createMuiTheme();
 
@@ -50,41 +51,49 @@ const ResultsList = (props) => {
 					image="https://mouthsofmums.com.au/wp-content/uploads/2016/05/046731-300x300.jpg"
 					brand="Kraft"
 					name="Peanut Butter - Crunchy"
+					clicked={props.onShowProductModal}
 				/>
 				<Result
 					image="https://southburnett.com.au/news2/wp-content/uploads/2017/01/kraft1.jpg"
 					brand="Kraft"
 					name="Peanut Butter - Smooth"
+					clicked={props.onShowProductModal}
 				/>
 				<Result
 					image="https://shop.countdown.co.nz/Content/ProductImages/zoom/9421901881054.jpg/Pics-Peanut-Butter-Crunchy.jpg"
 					brand="Pic's"
 					name="Really Good Peanut Butter - Crunchy Freshly Roasted and Lovingly Squashed"
+					clicked={props.onShowProductModal}
 				/>
 				<Result
 					image="https://i5.walmartimages.com/asr/c7806ff6-536e-4f37-8653-95d08d630fdb_1.5d608b379a7ef87af70460cb56c02bcf.jpeg"
 					brand="Tofurky"
 					name="Deli Slices - Original Recipe Savoury Plant-Based"
+					clicked={props.onShowProductModal}
 				/>
 				<Result
 					image="https://mouthsofmums.com.au/wp-content/uploads/2016/05/046731-300x300.jpg"
 					brand="Kraft"
 					name="Peanut Butter - Crunchy"
+					clicked={props.onShowProductModal}
 				/>
 				<Result
 					image="https://southburnett.com.au/news2/wp-content/uploads/2017/01/kraft1.jpg"
 					brand="Kraft"
 					name="Peanut Butter - Smooth"
+					clicked={props.onShowProductModal}
 				/>
 				<Result
 					image="https://shop.countdown.co.nz/Content/ProductImages/zoom/9421901881054.jpg/Pics-Peanut-Butter-Crunchy.jpg"
 					brand="Pic's"
 					name="Peanut Butter - Crunchy"
+					clicked={props.onShowProductModal}
 				/>
 				<Result
 					image="https://i5.walmartimages.com/asr/c7806ff6-536e-4f37-8653-95d08d630fdb_1.5d608b379a7ef87af70460cb56c02bcf.jpeg"
 					brand="Tofurky"
 					name="Deli Slices - Original Recipe Savoury Plant-Based"
+					clicked={props.onShowProductModal}
 				/>
 				<Result />
 				<Result />
@@ -104,8 +113,15 @@ const ResultsList = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel
+		showFiltersPanel: state.showFiltersPanel,
+		showProductModal: state.showProductModal
 	};
 };
 
-export default connect(mapStateToProps)(ResultsList);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onShowProductModal: () => dispatch(actionCreators.showProductModal())
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResultsList);

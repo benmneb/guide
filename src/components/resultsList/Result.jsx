@@ -2,17 +2,17 @@ import React from 'react';
 import { Card, CardMedia, CardContent, CardActions, Typography } from '@material-ui/core';
 import StarRating from './StarRating';
 
-const Result = ({ image, brand, name }) => (
-	<Card className={'MuiNewsCard--01'}>
-		<CardMedia className={'MuiCardMedia-root'} image={image}>
+const Result = (props) => (
+	<Card className={'MuiNewsCard--01'} onClick={props.clicked}>
+		<CardMedia className={'MuiCardMedia-root'} image={props.image}>
 			<Typography className={'MuiTypography--category'} />
 		</CardMedia>
 		<CardContent className={'MuiCardContent-root'}>
 			<Typography className={'MuiTypography--overline'} variant={'overline'} gutterBottom>
-				{brand}
+				{props.brand}
 			</Typography>
 			<Typography className={'MuiTypography--heading'} variant={'h6'}>
-				{name}
+				{props.name}
 			</Typography>
 			{/* <Typography className={"MuiTypography--subheading"} variant={"caption"}>
         caption etc
@@ -41,7 +41,8 @@ Result.getTheme = (muiBaseTheme) => ({
 				},
 				'&:hover': {
 					transform: 'scale(1.04)',
-					boxShadow: '0 4px 20px 0 rgba(0,0,0,0.12)'
+					boxShadow: '0 4px 20px 0 rgba(0,0,0,0.12)',
+					cursor: 'pointer'
 				},
 				'& .MuiCardMedia-root': {
 					paddingTop: '100%',
