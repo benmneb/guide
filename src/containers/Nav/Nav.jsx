@@ -1,17 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
+import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-	container: {
-		width: '100vw',
-		height: 'var(--header-height)',
-		margin: 0,
-		padding: 0,
-		zIndex: '2',
-		backgroundColor: '#fff',
-		display: 'flex',
-		alignItems: 'center',
+	transitionBoxShadow: {
 		transition: 'box-shadow 0.3s'
 	},
 	fixed: {
@@ -46,8 +39,16 @@ export default function NavBar(props) {
 	const styles = useStyles();
 
 	return (
-		<nav
-			className={clsx(styles.container, {
+		<Box
+			display="flex"
+			alignItems="center"
+			width="100vw"
+			height="var(--header-height)"
+			margin={0}
+			padding={0}
+			zIndex="2"
+			bgcolor="#fff"
+			className={clsx(styles.transitionBoxShadow, {
 				[styles.sticky]: props.position === 'sticky',
 				[styles.fixed]: props.position === 'fixed',
 				[styles.shadowDark]: props.shadowDark,
@@ -58,6 +59,6 @@ export default function NavBar(props) {
 			})}
 		>
 			{props.children}
-		</nav>
+		</Box>
 	);
 }
