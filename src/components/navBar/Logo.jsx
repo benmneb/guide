@@ -5,8 +5,8 @@ import LogoImg from '../../assets/logo.png';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
-		padding: 20,
-		marginTop: 7,
+		padding: theme.spacing(2),
+		marginTop: theme.spacing(),
 		height: 'calc(var(--header-input-height) + 10px)'
 	}
 }));

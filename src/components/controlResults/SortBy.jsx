@@ -11,9 +11,9 @@ import {
 	Box
 } from '@material-ui/core';
 
-const SortBy = ({ customStyle }) => {
+export default function SortBy(props) {
 	return (
-		<Box flex="1 0 0%" paddingRight="13px">
+		<Box flex="1 0 0%" marginRight={2}>
 			<Box display="flex" justifyContent="flex-end" alignItems="center" name="sort-by">
 				<FormControl variant="outlined">
 					<InputLabel id="sort-by-label">Sort by</InputLabel>
@@ -23,7 +23,7 @@ const SortBy = ({ customStyle }) => {
 						label="Sort by"
 						autoWidth
 						defaultValue={1}
-						style={customStyle}
+						style={props.customStyle}
 					>
 						<MenuItem value={1}>Popularity</MenuItem>
 						<MenuItem value={2}>Rating</MenuItem>
@@ -38,6 +38,4 @@ const SortBy = ({ customStyle }) => {
 			</Box>
 		</Box>
 	);
-};
-
-export default SortBy;
+}

@@ -10,14 +10,14 @@ const useStyles = makeStyles((theme) => ({
 	container: {
 		'& ul': {
 			listStyleType: 'none',
-			padding: 20,
+			padding: theme.spacing(2),
 			display: 'flex',
 			justifyContent: 'flex-end',
 			alignItems: 'center'
 		},
 		'& li': {
 			display: 'inline',
-			margin: '0 5px 0 5px'
+			margin: theme.spacing(0, 0.5)
 		},
 		'& li:nth-last-child(2)': {
 			marginRight: 0
