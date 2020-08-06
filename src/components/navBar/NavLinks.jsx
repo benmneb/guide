@@ -8,7 +8,6 @@ import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
-		flex: '1 0 0%',
 		'& ul': {
 			listStyleType: 'none',
 			padding: 20,
@@ -44,7 +43,7 @@ const NavLinks = () => {
 	};
 
 	return (
-		<Box className={styles.container}>
+		<Box flex="1 0 0%" className={styles.container}>
 			<ul>
 				<li>
 					<Tooltip title="Support us on Patreon" TransitionComponent={Zoom} arrow>

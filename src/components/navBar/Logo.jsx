@@ -4,9 +4,6 @@ import { Box } from '@material-ui/core';
 import LogoImg from '../../assets/logo.png';
 
 const useStyles = makeStyles((theme) => ({
-	container: {
-		flex: '1 9999 0%'
-	},
 	content: {
 		padding: 20,
 		marginTop: 7,
@@ -18,7 +15,7 @@ const Logo = () => {
 	const styles = useStyles();
 
 	return (
-		<Box className={styles.container}>
+		<Box flex="1 9999 0%">
 			<img
 				className={styles.content}
 				src={LogoImg}

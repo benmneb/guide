@@ -89,9 +89,6 @@ const categories = [
 ];
 
 const useStyles = makeStyles((theme) => ({
-	container: {
-		flex: '0 1 auto'
-	},
 	pointer: {
 		cursor: 'pointer'
 	}
@@ -130,7 +127,7 @@ const ResultsInfo = () => {
 	);
 
 	return (
-		<Box className={styles.container}>
+		<Box flex="0 1 auto">
 			<Grid container component="span" justify="center" spacing={1} alignItems="center">
 				<Grid item>
 					<Typography component="span">

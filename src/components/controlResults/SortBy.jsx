@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
 import {
 	Select,
@@ -12,24 +11,10 @@ import {
 	Box
 } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
-	container: {
-		flex: '1 0 0%',
-		paddingRight: 13
-	},
-	content: {
-		display: 'flex',
-		justifyContent: 'flex-end',
-		alignItems: 'center'
-	}
-}));
-
 const SortBy = ({ customStyle }) => {
-	const styles = useStyles();
-
 	return (
-		<Box className={styles.container}>
-			<Box className={styles.content} name="sort-by">
+		<Box flex="1 0 0%" paddingRight="13px">
+			<Box display="flex" justifyContent="flex-end" alignItems="center" name="sort-by">
 				<FormControl variant="outlined">
 					<InputLabel id="sort-by-label">Sort by</InputLabel>
 					<Select
