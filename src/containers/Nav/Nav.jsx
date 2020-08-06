@@ -40,6 +40,7 @@ export default function NavBar(props) {
 
 	return (
 		<Box
+			component="nav"
 			display="flex"
 			alignItems="center"
 			width="100vw"
