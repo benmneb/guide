@@ -5,7 +5,7 @@ export default function SearchBar(props) {
 	const label = `Search for vegan ${props.currentScope}...`;
 
 	return (
-		<Box flex="0 1 auto" width={350}>
+		<Box display={{ xs: 'none', md: 'flex' }} flex="0 1 auto" width={350}>
 			<TextField
 				id="main-search"
 				label={label}

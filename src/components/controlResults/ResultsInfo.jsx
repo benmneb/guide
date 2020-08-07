@@ -128,18 +128,35 @@ const ResultsInfo = () => {
 
 	return (
 		<Box flex="0 1 auto">
-			<Grid container component="span" justify="center" spacing={1} alignItems="center">
-				<Grid item>
-					<Typography component="span">
-						There are {category.products ? category.products : totalProducts} vegan
-						products in
-					</Typography>
+			<Box display={{ xs: 'flex', sm: 'none' }}>
+				<Grid container component="span" justify="center" spacing={1} alignItems="center">
+					<Grid item>{categorySelect}</Grid>
 				</Grid>
-				<Grid item>{categorySelect}</Grid>
-				<Grid item>
-					<Typography component="span">within {currentCountry}</Typography>
+			</Box>
+			<Box display={{ xs: 'none', sm: 'flex', md: 'none' }}>
+				<Grid container component="span" justify="center" spacing={1} alignItems="center">
+					<Grid item>
+						<Typography component="span">
+							{category.products ? category.products : totalProducts} results in
+						</Typography>
+					</Grid>
+					<Grid item>{categorySelect}</Grid>
 				</Grid>
-			</Grid>
+			</Box>
+			<Box display={{ xs: 'none', md: 'flex' }}>
+				<Grid container component="span" justify="center" spacing={1} alignItems="center">
+					<Grid item>
+						<Typography component="span">
+							There are {category.products ? category.products : totalProducts} vegan
+							products in
+						</Typography>
+					</Grid>
+					<Grid item>{categorySelect}</Grid>
+					<Grid item>
+						<Typography component="span">within {currentCountry}</Typography>
+					</Grid>
+				</Grid>
+			</Box>
 		</Box>
 	);
 };
