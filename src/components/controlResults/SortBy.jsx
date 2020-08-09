@@ -1,6 +1,5 @@
 import React from 'react';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
-import SortIcon from '@material-ui/icons/Sort';
 import {
 	Select,
 	FormControl,
@@ -53,15 +52,16 @@ export default function SortBy(props) {
 	};
 
 	return (
-		<Box flex="1 0 0%" marginRight={2}>
+		// <Box flex="1 0 0%" marginRight={2}>
+		<>
 			<Box
-				display={{ xs: 'flex', md: 'none' }}
+				display={{ xs: 'flex', sm: 'none' }}
 				justifyContent="flex-end"
 				alignItems="center"
 				name="sort-by"
 			>
-				<IconButton onClick={handleClickOpen}>
-					<SortIcon />
+				<IconButton onClick={handleClickOpen} edge="end">
+					<SwapVertIcon />
 				</IconButton>
 				<Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
 					<DialogTitle>Sort results by...</DialogTitle>
@@ -105,12 +105,12 @@ export default function SortBy(props) {
 				</Dialog>
 			</Box>
 			<Box
-				display={{ xs: 'none', md: 'flex' }}
+				display={{ xs: 'none', sm: 'flex' }}
 				justifyContent="flex-end"
 				alignItems="center"
 				name="sort-by"
 			>
-				<FormControl variant="outlined">
+				<FormControl variant="outlined" margin="dense" size="small">
 					<InputLabel id="sort-by-label">Sort by</InputLabel>
 					<Select
 						labelId="sort-by-label"
@@ -126,11 +126,12 @@ export default function SortBy(props) {
 					</Select>
 				</FormControl>
 				<Tooltip title="Swap sort order" TransitionComponent={Zoom} arrow>
-					<IconButton aria-label="Order by ascending or descending">
+					<IconButton aria-label="Order by ascending or descending" edge="end">
 						<SwapVertIcon />
 					</IconButton>
 				</Tooltip>
 			</Box>
-		</Box>
+		</>
+		// </Box>
 	);
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Box } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import * as actionCreators from '../../store/actions';
 
 const BackToCategories = (props) => {
@@ -15,18 +15,18 @@ const BackToCategories = (props) => {
 	const buttonLabel = props.showFiltersPanel ? 'Hide Filters' : 'Show Filters';
 
 	return (
-		<Box flex="1 9999 0%" marginLeft={2}>
-			<Button
-				variant="contained"
-				color="primary"
-				size="large"
-				style={props.customStyle}
-				onClick={handleClick}
-				disableElevation
-			>
-				{buttonLabel}
-			</Button>
-		</Box>
+		// <Box flex="1 9999 0%" marginLeft={2}>
+		<Button
+			variant="contained"
+			color="primary"
+			size="large"
+			style={props.customStyle}
+			onClick={handleClick}
+			disableElevation
+		>
+			{buttonLabel}
+		</Button>
+		// </Box>
 	);
 };
 

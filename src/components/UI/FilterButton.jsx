@@ -4,9 +4,9 @@ import { Button, Tooltip, Zoom } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	filtersBtn: {
-		textTransform: 'capitalize',
 		width: '40%',
-		margin: '5px 0'
+		margin: theme.spacing(0.5, 0),
+		fontWeight: theme.typography.fontWeightRegular
 	}
 }));
 
@@ -14,20 +14,18 @@ export default function FilterButton(props) {
 	const classes = useStyles();
 	const [selected, setSelected] = useState(false);
 
-	let color = 'default';
 	let variant = 'outlined';
 
 	if (selected) {
-		color = 'primary';
 		variant = 'contained';
 	}
 
 	return (
-		<Tooltip title={props.tooltip} TransitionComponent={Zoom} arrow enterDelay={750}>
+		<Tooltip title={props.tooltip} TransitionComponent={Zoom} arrow enterDelay={1000}>
 			<Button
 				className={classes.filtersBtn}
 				variant={variant}
-				color={color}
+				color="default"
 				onClick={() => setSelected(!selected)}
 				disableElevation
 				disableRipple

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	sticky: {
 		position: 'sticky',
-		top: 'var(--header-height)'
+		top: 64
 	},
 	shadowDark: {
 		boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14)',
@@ -23,14 +23,14 @@ const useStyles = makeStyles((theme) => ({
 			'0px 2px 4px -1px rgba(255, 255, 255, 0.8), 0px 4px 5px 0px rgba(255, 255, 255, 0.86)'
 	},
 	hide: {
-		top: 'calc(var(--header-height) - var(--header-height))',
+		top: theme.mixins.toolbar.minHeight - 64,
 		transition: 'top 0.3s'
 	},
 	displayNone: {
 		display: 'none'
 	},
-	top0: {
-		top: '0',
+	filtersAreOpen: {
+		top: 64,
 		transition: 'top 0ms, box-shadow 0.3s'
 	}
 }));
@@ -43,8 +43,8 @@ export default function NavBar(props) {
 			component="nav"
 			display="flex"
 			alignItems="center"
-			width="100vw"
-			height="var(--header-height)"
+			width="100%"
+			height={'var(--header-height)'}
 			margin={0}
 			padding={0}
 			zIndex="2"
@@ -56,7 +56,7 @@ export default function NavBar(props) {
 				[styles.shadowLight]: props.shadowLight,
 				[styles.hide]: props.hide,
 				[styles.displayNone]: props.displayNone,
-				[styles.top0]: props.filtersAreOpen
+				[styles.filtersAreOpen]: props.filtersAreOpen
 			})}
 		>
 			{props.children}

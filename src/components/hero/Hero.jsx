@@ -1,39 +1,19 @@
 import React from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
-import { Typography, Container } from '@material-ui/core';
+import { Typography, Link, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-	h1: {
-		[theme.breakpoints.down('md')]: {
-			fontSize: '2.6rem'
-		},
-		[theme.breakpoints.down('sm')]: {
-			fontSize: '2rem'
-		}
-	},
-	h2: {
-		[theme.breakpoints.down('xs')]: {
-			display: 'none'
-		}
-	},
-	h3: {
-		[theme.breakpoints.down('sm')]: {
-			display: 'none'
-		}
-	},
 	container: {
-		height: 300,
 		backgroundColor: 'white',
-		position: 'relative',
-		zIndex: 1
+		zIndex: theme.zIndex.appBar + 1
 	},
 	textBox: {
-		position: 'relative',
-		top: 'calc(50% + calc(var(--header-height) / 2))',
-		transform: 'translateY(-50%)',
-		zIndex: 1
+		// top: 'calc(50% + calc(var(--header-height) / 2))',
+		// transform: 'translateY(-50%)',
+		top: theme.mixins.toolbar.minHeight / 2,
+		zIndex: theme.zIndex.appBar + 1
 	},
 	displayNone: {
 		display: 'none'
@@ -44,35 +24,34 @@ const Hero = (props) => {
 	const styles = useStyles();
 
 	return (
-		<Container
-			maxWidth={false}
+		<Box
+			height={300}
+			position="relative"
+			display="flex"
+			alignItems="center"
 			className={clsx(styles.container, { [styles.displayNone]: props.showFiltersPanel })}
 		>
-			<Container maxWidth="md" className={styles.textBox}>
-				<Typography
-					variant="h1"
-					align="center"
-					paragraph
-					gutterBottom
-					className={styles.h1}
-				>
-					Find Vegan Products Near You
+			<Box position="relative" marginLeft={3} width={3 / 4} className={styles.textBox}>
+				<Typography variant="h1" align="left" gutterBottom>
+					Vegan Nut-Butters & Spreads
 				</Typography>
-				<Typography
-					variant="body1"
-					align="center"
-					component="p"
-					paragraph
-					className={styles.h2}
-				>
-					The Vomad Guide is a free community-sourced database of 100% plant-based
-					products.
-				</Typography>
-				<Typography variant="button" align="center" component="p" className={styles.h3}>
-					Filter. Search. Browse. Review. Contribute.
-				</Typography>
-			</Container>
-		</Container>
+				<Box display={{ xs: 'none', sm: 'block' }}>
+					<Typography align="left" component="p" variant="h5" paragraph>
+						There are 64 vegan nut-butters & spreads in Australia from brands like Kraft,
+						Pics, Bega and 14 more.
+					</Typography>
+				</Box>
+				<Box display={{ xs: 'none', md: 'block' }}>
+					<Typography align="left" paragraph>
+						You can{' '}
+						<Link href="#" underline="hover">
+							add any missing products
+						</Link>
+						.
+					</Typography>
+				</Box>
+			</Box>
+		</Box>
 	);
 };
 

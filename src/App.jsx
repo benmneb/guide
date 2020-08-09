@@ -1,10 +1,11 @@
 import React from 'react';
-import NavBar from './components/navBar/NavBar';
+import AppBar from './components/AppBar/AppBar';
 import Hero from './components/hero/Hero';
-import ControlResults from './components/controlResults/ControlResults';
+import FiltersBar from './components/AppBar/FiltersBar';
 import ResultsList from './components/resultsList/ResultsList';
 import FiltersPanel from './components/UI/FiltersPanel';
 import ProductModal from './components/modals/ProductModal';
+import BottomNav from './components/AppBar/BottomNav';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { orange, grey } from '@material-ui/core/colors';
 
@@ -36,11 +37,13 @@ export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<>
-				<NavBar />
-				<Hero />
-				<ControlResults />
-				<FiltersPanel />
-				<ResultsList />
+				<AppBar>
+					<Hero />
+					<FiltersBar />
+					<FiltersPanel />
+					<ResultsList />
+					<BottomNav />
+				</AppBar>
 				<ProductModal />
 			</>
 		</ThemeProvider>

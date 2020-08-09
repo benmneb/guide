@@ -1,16 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Drawer, Typography, Grid } from '@material-ui/core';
-
+import { Drawer, Typography, Grid, Box } from '@material-ui/core';
+import SortBy from './SortBy';
+import OrderBy from './OrderBy';
 import FilterButton from './FilterButton';
 import { ingredients, allergens, tags } from '../../assets/filters';
 
-const drawerWidth = 430;
+const drawerWidth = 395;
 
-const topPosition = 70;
-
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
 		position: 'sticky'
@@ -21,18 +20,20 @@ const useStyles = makeStyles(() => ({
 	},
 	drawerPaper: {
 		width: drawerWidth,
-		top: topPosition,
-		height: `calc(100vh - ${topPosition}px)`,
-		zIndex: 0,
-		border: 'none'
+		top: 64, // theme.mixins.toolbar min width 600px height
+		right: 0,
+		height: `calc(100vh - 64px)`, // theme.mixins.toolbar min width 600px height
+		zIndex: theme.zIndex.appBar,
+		borderTop: `1px solid rgba(0, 0, 0, 0.12);`
 	},
 	filtersSectionFirstTitle: {
-		paddingTop: 10,
-		fontWeight: 'bold'
+		marginTop: theme.spacing(1)
 	},
 	filtersSectionTitle: {
-		paddingTop: 10,
-		fontWeight: 'bold'
+		marginTop: theme.spacing(1)
+	},
+	subtitle1: {
+		fontSize: theme.typography.subtitle2.fontSize
 	}
 }));
 
@@ -43,7 +44,7 @@ const FiltersPanel = (props) => {
 		<Drawer
 			className={styles.drawer}
 			variant="persistent"
-			anchor="left"
+			anchor="right"
 			open={props.showFiltersPanel}
 			classes={{
 				paper: styles.drawerPaper
@@ -76,14 +77,33 @@ const FiltersPanel = (props) => {
 						key={allergen.name}
 					/>
 				))}
-				<Typography variant="subtitle2" align="center">
-					<p>
-						Allergens are a guide only.
-						<br />
-						Always check the label before use.
-					</p>
-				</Typography>
 			</Grid>
+			<Typography align="center" className={styles.filtersSectionTitle}>
+				Sort by
+			</Typography>
+			<Grid container justify="space-evenly">
+				<Grid item flexgrow="1">
+					<SortBy />
+				</Grid>
+			</Grid>
+			<Typography align="center" className={styles.filtersSectionTitle}>
+				Order by
+			</Typography>
+			<Grid container justify="center">
+				<OrderBy />
+			</Grid>
+			<Box margin={2}>
+				<Typography
+					variant="subtitle1"
+					classes={{ subtitle1: styles.subtitle1 }}
+					paragraph
+					align="center"
+				>
+					Allergens are a guide only.
+					<br />
+					Always check the label before use.
+				</Typography>
+			</Box>
 		</Drawer>
 	);
 };
