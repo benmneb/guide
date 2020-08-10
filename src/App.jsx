@@ -1,13 +1,14 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { orange, grey } from '@material-ui/core/colors';
 import AppBar from './components/AppBar/AppBar';
-import Hero from './components/hero/Hero';
-import FiltersBar from './components/AppBar/FiltersBar';
 import ResultsList from './components/resultsList/ResultsList';
 import FiltersPanel from './components/UI/FiltersPanel';
 import ProductModal from './components/modals/ProductModal';
 import BottomNav from './components/AppBar/BottomNav';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { orange, grey } from '@material-ui/core/colors';
+import SubCat1s from './components/categories/SubCat1s';
+import FoodDrink from './components/categories/FoodDrink';
 
 const theme = createMuiTheme({
 	palette: {
@@ -17,9 +18,6 @@ const theme = createMuiTheme({
 		}
 	},
 	typography: {
-		h1: {
-			fontSize: '3rem'
-		},
 		button: {
 			textTransform: 'capitalize'
 		}
@@ -38,13 +36,15 @@ export default function App() {
 		<ThemeProvider theme={theme}>
 			<>
 				<AppBar>
-					<Hero />
-					<FiltersBar />
-					<FiltersPanel />
-					<ResultsList />
-					<BottomNav />
+					<Switch>
+						<Route path="/food-drink/nut-butters-spreads" component={ResultsList} />
+						<Route path="/food-drink" component={FoodDrink} />
+						<Route path="/" component={SubCat1s} />
+					</Switch>
 				</AppBar>
+				<FiltersPanel />
 				<ProductModal />
+				<BottomNav />
 			</>
 		</ThemeProvider>
 	);
