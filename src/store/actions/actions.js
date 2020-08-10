@@ -12,6 +12,18 @@ export const hideFiltersPanel = () => {
 	};
 };
 
+export const showSideDrawer = () => {
+	return {
+		type: actionTypes.SHOW_SIDE_DRAWER
+	};
+};
+
+export const hideSideDrawer = () => {
+	return {
+		type: actionTypes.HIDE_SIDE_DRAWER
+	};
+};
+
 export const showProductModal = () => {
 	return {
 		type: actionTypes.SHOW_PRODUCT_MODAL
