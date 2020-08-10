@@ -6,12 +6,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
-		backgroundColor: 'white',
+		backgroundColor: theme.palette.background.paper,
 		zIndex: theme.zIndex.appBar + 1
 	},
-	textBox: {
-		// top: 'calc(50% + calc(var(--header-height) / 2))',
-		// transform: 'translateY(-50%)',
+	content: {
 		top: theme.mixins.toolbar.minHeight / 2,
 		zIndex: theme.zIndex.appBar + 1
 	},
@@ -31,25 +29,26 @@ const Hero = (props) => {
 			alignItems="center"
 			className={clsx(styles.container, { [styles.displayNone]: props.showFiltersPanel })}
 		>
-			<Box position="relative" marginLeft={3} width={3 / 4} className={styles.textBox}>
-				<Typography variant="h1" align="left" gutterBottom>
-					Vegan Nut-Butters & Spreads
+			<Box position="relative" marginLeft={3} width={3 / 4} className={styles.content}>
+				<Typography component="h1" variant="h2" align="left" gutterBottom>
+					{props.heading}
 				</Typography>
 				<Box display={{ xs: 'none', sm: 'block' }}>
 					<Typography align="left" component="p" variant="h5" paragraph>
-						There are 64 vegan nut-butters & spreads in Australia from brands like Kraft,
-						Pics, Bega and 14 more.
+						{props.subheading}
 					</Typography>
 				</Box>
-				<Box display={{ xs: 'none', md: 'block' }}>
-					<Typography align="left" paragraph>
-						You can{' '}
-						<Link href="#" underline="hover">
-							add any missing products
-						</Link>
-						.
-					</Typography>
-				</Box>
+				{props.showAddProductsLink && (
+					<Box display={{ xs: 'none', md: 'block' }}>
+						<Typography align="left" paragraph>
+							You can{' '}
+							<Link href="#" underline="hover">
+								add any missing products
+							</Link>
+							.
+						</Typography>
+					</Box>
+				)}
 			</Box>
 		</Box>
 	);
