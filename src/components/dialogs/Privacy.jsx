@@ -1,29 +1,62 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { useTheme, withStyles } from '@material-ui/core/styles';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import CloseIcon from '@material-ui/icons/Close';
 import {
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogContentText,
-	DialogTitle,
 	Button,
 	Typography,
+	IconButton,
 	useMediaQuery
 } from '@material-ui/core';
+import * as actionCreators from '../../store/actions';
 
-const Privacy = ({ open, onClose }) => {
+const styles = (theme) => ({
+	closeButton: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+		color: theme.palette.grey[500]
+	}
+});
+
+const DialogTitle = withStyles(styles)((props) => {
+	const { children, classes, onClose, ...other } = props;
+	return (
+		<MuiDialogTitle disableTypography className={classes.root} {...other}>
+			<Typography variant="h6">{children}</Typography>
+			{onClose ? (
+				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+					<CloseIcon />
+				</IconButton>
+			) : null}
+		</MuiDialogTitle>
+	);
+});
+
+const Privacy = (props) => {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
+	const onClose = () => {
+		props.onTogglePrivacyModal();
+	};
+
 	return (
 		<Dialog
-			open={open}
+			open={props.showPrivacyModal}
 			onClose={onClose}
 			aria-labelledby="privacy-dialog-title"
 			aria-describedby="privacy-dialog-description"
 			fullScreen={fullScreen}
 		>
-			<DialogTitle id="alert-dialog-title">{'Privacy Policy'}</DialogTitle>
+			<DialogTitle id="alert-dialog-title" onClose={onClose}>
+				{'Privacy Policy'}
+			</DialogTitle>
 			<DialogContent>
 				<DialogContentText id="privacy-dialog-description">
 					<Typography variant="body1" gutterBottom>
@@ -507,4 +540,16 @@ const Privacy = ({ open, onClose }) => {
 	);
 };
 
-export default Privacy;
+const mapStateToProps = (state) => {
+	return {
+		showPrivacyModal: state.showPrivacyModal
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal())
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Privacy);

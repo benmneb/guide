@@ -45,6 +45,7 @@ const AddProductsFab = (props) => {
 						color="primary"
 						aria-label="add products"
 						className={clsx(styles.fab, { [styles.displayNone]: props.showFiltersPanel })}
+						onClick={() => props.onToggleAddProductsModal()}
 					>
 						<AddIcon />
 					</Fab>
@@ -56,14 +57,13 @@ const AddProductsFab = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel,
-		showProductModal: state.showProductModal
+		showFiltersPanel: state.showFiltersPanel
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onShowProductModal: () => dispatch(actionCreators.showProductModal())
+		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal())
 	};
 };
 

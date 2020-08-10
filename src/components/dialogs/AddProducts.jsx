@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import SendIcon from '@material-ui/icons/Send';
@@ -14,6 +15,7 @@ import {
 	IconButton,
 	useMediaQuery
 } from '@material-ui/core';
+import * as actionCreators from '../../store/actions';
 
 const styles = (theme) => ({
 	closeButton: {
@@ -38,29 +40,31 @@ const DialogTitle = withStyles(styles)((props) => {
 	);
 });
 
-const AddProducts = ({ open, onClose }) => {
+const AddProducts = (props) => {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
+	const onClose = () => {
+		props.onToggleAddProductsModal();
+	};
+
 	return (
 		<Dialog
-			open={open}
+			open={props.showAddProductsModal}
 			onClose={onClose}
 			aria-labelledby="form-dialog-title"
 			fullScreen={fullScreen}
 		>
 			<DialogTitle id="form-dialog-title" onClose={onClose}>
-				<span role="img" aria-label="">
-					🌱
-				</span>{' '}
 				Contribute to the Guide
 			</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					Let us know of any missing vegan products!{' '}
 					<span role="img" aria-label="thanks">
 						🙏
-					</span>
+					</span>{' '}
+					Know of any vegan products that are missing from the Guide? Add them here so
+					others can easily find them.
 				</DialogContentText>
 				<TextField
 					autoFocus
@@ -77,11 +81,10 @@ const AddProducts = ({ open, onClose }) => {
 				<TextField
 					margin="dense"
 					id="email"
-					label="Link(s) to the products"
+					label="Link(s) to the products (optional but helpful)"
 					type="url"
 					variant="outlined"
 					fullWidth
-					required
 				/>
 				<TextField
 					margin="dense"
@@ -101,4 +104,16 @@ const AddProducts = ({ open, onClose }) => {
 	);
 };
 
-export default AddProducts;
+const mapStateToProps = (state) => {
+	return {
+		showAddProductsModal: state.showAddProductsModal
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal())
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddProducts);

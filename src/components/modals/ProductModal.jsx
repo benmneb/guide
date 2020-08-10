@@ -106,19 +106,23 @@ const rows = [
 
 const ProductModal = (props) => {
 	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const classes = useStyles();
+
+	const onClose = () => {
+		props.onToggleProductModal();
+	};
 
 	return (
 		<Dialog
-			onClose={props.onHideProductModal}
+			onClose={onClose}
 			fullScreen={fullScreen}
 			aria-labelledby="product-dialog-title"
 			open={props.showProductModal}
 			maxWidth="md"
 			fullWidth
 		>
-			<DialogTitle id="product-dialog-title" onClose={props.onHideProductModal}>
+			<DialogTitle id="product-dialog-title" onClose={onClose}>
 				Kraft Peanut Butter - Crunchy
 			</DialogTitle>
 			<DialogContent>
@@ -230,7 +234,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onHideProductModal: () => dispatch(actionCreators.hideProductModal())
+		onToggleProductModal: () => dispatch(actionCreators.toggleProductModal())
 	};
 };
 

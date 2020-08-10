@@ -21,26 +21,47 @@ const useStyles = makeStyles((theme) => ({
 const Hero = (props) => {
 	const styles = useStyles();
 
+	let textAlign = 'left';
+	let marginLeft = 3;
+
+	if (props.textAlignCenter) {
+		textAlign = 'center';
+		marginLeft = 0;
+	}
+
 	return (
 		<Box
 			height={300}
 			position="relative"
 			display="flex"
 			alignItems="center"
+			justifyContent={props.textAlignCenter ? 'center' : 'flex-start'}
 			className={clsx(styles.container, { [styles.displayNone]: props.showFiltersPanel })}
 		>
-			<Box position="relative" marginLeft={3} width={3 / 4} className={styles.content}>
-				<Typography component="h1" variant="h2" align="left" gutterBottom>
+			<Box
+				position="relative"
+				marginLeft={marginLeft}
+				width={3 / 4}
+				className={styles.content}
+			>
+				<Typography component="h1" variant="h2" align={textAlign} gutterBottom>
 					{props.heading}
 				</Typography>
+				{props.siteIntro && (
+					<Box display={{ xs: 'none', sm: 'block' }}>
+						<Typography align={textAlign} component="p" variant="h6" paragraph>
+							{props.siteIntro}
+						</Typography>
+					</Box>
+				)}
 				<Box display={{ xs: 'none', sm: 'block' }}>
-					<Typography align="left" component="p" variant="h5" paragraph>
+					<Typography align={textAlign} component="p" variant="h5" paragraph>
 						{props.subheading}
 					</Typography>
 				</Box>
 				{props.showAddProductsLink && (
 					<Box display={{ xs: 'none', md: 'block' }}>
-						<Typography align="left" paragraph>
+						<Typography align={textAlign} paragraph>
 							You can{' '}
 							<Link href="#" underline="hover">
 								add any missing products

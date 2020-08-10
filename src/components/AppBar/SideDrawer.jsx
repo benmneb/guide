@@ -49,12 +49,28 @@ const SideDrawer = (props) => {
 	const theme = useTheme();
 	const [expandCategories, setExpandCategories] = useState(false);
 
-	const handleExpand = () => {
+	const handleExpandCategories = () => {
 		setExpandCategories(!expandCategories);
 	};
 
-	const handleDrawerToggle = () => {
+	const handleCloseSideDrawer = () => {
 		props.onHideSideDrawer();
+	};
+
+	const openMenuItem = (clickedItem) => {
+		handleCloseSideDrawer();
+		switch (clickedItem) {
+			case 'addProducts':
+				return props.onToggleAddProductsModal();
+			case 'advertise':
+				return props.onToggleAdvertiseModal();
+			case 'terms':
+				return props.onToggleTermsModal();
+			case 'privacy':
+				return props.onTogglePrivacyModal();
+			default:
+				return;
+		}
 	};
 
 	const container = window !== undefined ? () => window().document.body : undefined;
@@ -88,7 +104,7 @@ const SideDrawer = (props) => {
 					</ListItemIcon>
 					<ListItemText primary={'Household'} />
 				</ListItem>
-				<ListItem button onClick={handleExpand}>
+				<ListItem button onClick={handleExpandCategories}>
 					<ListItemIcon>
 						<AllInclusiveIcon />
 					</ListItemIcon>
@@ -103,7 +119,7 @@ const SideDrawer = (props) => {
 						))}
 					</List>
 				</Collapse>
-				<ListItem button>
+				<ListItem button onClick={() => openMenuItem('addProducts')}>
 					<ListItemIcon>
 						<AddCircleIcon />
 					</ListItemIcon>
@@ -115,7 +131,7 @@ const SideDrawer = (props) => {
 					</ListItemIcon>
 					<ListItemText primary={'Support Us'} />
 				</ListItem>
-				<ListItem button>
+				<ListItem button onClick={() => openMenuItem('advertise')}>
 					<ListItemIcon>
 						<VisibilityIcon />
 					</ListItemIcon>
@@ -133,10 +149,10 @@ const SideDrawer = (props) => {
 				<ListItem button>
 					<ListItemText primary="Provide Feedback" />
 				</ListItem>
-				<ListItem button>
+				<ListItem button onClick={() => openMenuItem('terms')}>
 					<ListItemText primary="Terms of Use" />
 				</ListItem>
-				<ListItem button>
+				<ListItem button onClick={() => openMenuItem('privacy')}>
 					<ListItemText primary="Privacy Policy" />
 				</ListItem>
 			</List>
@@ -152,7 +168,7 @@ const SideDrawer = (props) => {
 					variant="temporary"
 					anchor={theme.direction === 'rtl' ? 'right' : 'left'}
 					open={props.showSideDrawer}
-					onClose={handleDrawerToggle}
+					onClose={handleCloseSideDrawer}
 					classes={{
 						paper: styles.drawerPaper
 					}}
@@ -186,7 +202,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer())
+		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer()),
+		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
+		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
+		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal()),
+		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal())
 	};
 };
 

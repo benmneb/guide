@@ -3,7 +3,11 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
 	showFiltersPanel: false,
 	showSideDrawer: false,
-	showProductModal: false
+	showProductModal: false,
+	showAddProductsModal: false,
+	showAdvertiseModal: false,
+	showTermsModal: false,
+	showPrivacyModal: false
 };
 
 export default function Reducers(state = initialState, action) {
@@ -28,15 +32,30 @@ export default function Reducers(state = initialState, action) {
 				...state,
 				showSideDrawer: false
 			};
-		case actionTypes.SHOW_PRODUCT_MODAL:
+		case actionTypes.TOGGLE_PRODUCT_MODAL:
 			return {
 				...state,
-				showProductModal: true
+				showProductModal: !state.showProductModal
 			};
-		case actionTypes.HIDE_PRODUCT_MODAL:
+		case actionTypes.TOGGLE_ADD_PRODUCTS_MODAL:
 			return {
 				...state,
-				showProductModal: false
+				showAddProductsModal: !state.showAddProductsModal
+			};
+		case actionTypes.TOGGLE_ADVERTISE_MODAL:
+			return {
+				...state,
+				showAdvertiseModal: !state.showAdvertiseModal
+			};
+		case actionTypes.TOGGLE_TERMS_MODAL:
+			return {
+				...state,
+				showTermsModal: !state.showTermsModal
+			};
+		case actionTypes.TOGGLE_PRIVACY_MODAL:
+			return {
+				...state,
+				showPrivacyModal: !state.showPrivacyModal
 			};
 		default:
 			return state;

@@ -1,5 +1,4 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
 import { Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 
@@ -8,24 +7,15 @@ const labels = {
 	2: 'Okay',
 	3: 'Good',
 	4: 'Great',
-	5: 'Excellent'
+	5: 'Epic!'
 };
 
-const useStyles = makeStyles({
-	root: {
-		width: '100%',
-		display: 'flex',
-		alignItems: 'center'
-	}
-});
-
 const StarRating = () => {
-	const [value, setValue] = React.useState(4);
-	const [hover, setHover] = React.useState(-1);
-	const classes = useStyles();
+	const [value, setValue] = useState(4);
+	const [hover, setHover] = useState(-1);
 
 	return (
-		<div className={classes.root}>
+		<Box display="flex" alignItems="center" justifyContent="center" width="100%">
 			<Rating
 				name="hover-rating"
 				value={value}
@@ -38,7 +28,7 @@ const StarRating = () => {
 				}}
 			/>
 			{value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
-		</div>
+		</Box>
 	);
 };
 

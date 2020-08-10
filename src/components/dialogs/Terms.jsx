@@ -1,29 +1,62 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { useTheme, withStyles } from '@material-ui/core/styles';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import CloseIcon from '@material-ui/icons/Close';
 import {
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogContentText,
-	DialogTitle,
 	Button,
 	Typography,
+	IconButton,
 	useMediaQuery
 } from '@material-ui/core';
+import * as actionCreators from '../../store/actions';
 
-const Terms = ({ open, onClose }) => {
+const styles = (theme) => ({
+	closeButton: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+		color: theme.palette.grey[500]
+	}
+});
+
+const DialogTitle = withStyles(styles)((props) => {
+	const { children, classes, onClose, ...other } = props;
+	return (
+		<MuiDialogTitle disableTypography className={classes.root} {...other}>
+			<Typography variant="h6">{children}</Typography>
+			{onClose ? (
+				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+					<CloseIcon />
+				</IconButton>
+			) : null}
+		</MuiDialogTitle>
+	);
+});
+
+const Terms = (props) => {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
+	const onClose = () => {
+		props.onToggleTermsModal();
+	};
+
 	return (
 		<Dialog
-			open={open}
+			open={props.showTermsModal}
 			onClose={onClose}
 			aria-labelledby="terms-dialog-title"
 			aria-describedby="terms-dialog-description"
 			fullScreen={fullScreen}
 		>
-			<DialogTitle id="terms-dialog-title">{'Terms of Use'}</DialogTitle>
+			<DialogTitle id="terms-dialog-title" onClose={onClose}>
+				{'Terms of Use'}
+			</DialogTitle>
 			<DialogContent>
 				<DialogContentText id="terms-dialog-description">
 					<Typography variant="body1" gutterBottom>
@@ -374,4 +407,16 @@ const Terms = ({ open, onClose }) => {
 	);
 };
 
-export default Terms;
+const mapStateToProps = (state) => {
+	return {
+		showTermsModal: state.showTermsModal
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal())
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Terms);

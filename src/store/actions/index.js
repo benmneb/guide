@@ -3,6 +3,9 @@ export {
 	hideFiltersPanel,
 	showSideDrawer,
 	hideSideDrawer,
-	showProductModal,
-	hideProductModal
+	toggleProductModal,
+	toggleAddProductsModal,
+	toggleAdvertiseModal,
+	toggleTermsModal,
+	togglePrivacyModal
 } from './actions';

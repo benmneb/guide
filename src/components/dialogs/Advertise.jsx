@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import SendIcon from '@material-ui/icons/Send';
@@ -14,6 +15,7 @@ import {
 	IconButton,
 	useMediaQuery
 } from '@material-ui/core';
+import * as actionCreators from '../../store/actions';
 
 const styles = (theme) => ({
 	root: {
@@ -42,29 +44,44 @@ const DialogTitle = withStyles(styles)((props) => {
 	);
 });
 
-const Advertise = ({ open, onClose }) => {
+const Advertise = (props) => {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
+	const onClose = () => {
+		props.onToggleAdvertiseModal();
+	};
+
 	return (
 		<Dialog
-			open={open}
+			open={props.showAdvertiseModal}
 			onClose={onClose}
 			aria-labelledby="form-dialog-title"
 			fullScreen={fullScreen}
 		>
 			<DialogTitle id="form-dialog-title" onClose={onClose}>
-				<span role="img" aria-label="">
-					👀
-				</span>{' '}
 				Advertise on The Guide
 			</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					Put your brand in front of a very specific audience.{' '}
-					<span role="img" aria-label="">
-						👌
-					</span>
+					<Typography>
+						<span role="img" aria-label="">
+							👀
+						</span>{' '}
+						Put your brand in front of a very specific audience.
+					</Typography>
+					<Typography>
+						<span role="img" aria-label="">
+							🌱
+						</span>{' '}
+						Help people find vegan products easier.
+					</Typography>
+					<Typography>
+						<span role="img" aria-label="">
+							🚀
+						</span>{' '}
+						Support an independent vegan start-up.
+					</Typography>
 				</DialogContentText>
 				<TextField
 					autoFocus
@@ -79,7 +96,7 @@ const Advertise = ({ open, onClose }) => {
 				<TextField
 					margin="dense"
 					id="email"
-					label="Your Email"
+					label="Business Email"
 					type="email"
 					variant="outlined"
 					fullWidth
@@ -88,7 +105,7 @@ const Advertise = ({ open, onClose }) => {
 				<TextField
 					margin="dense"
 					id="message"
-					label="Your Message"
+					label="Your Message (optional)"
 					type="text"
 					variant="outlined"
 					multiline
@@ -105,4 +122,16 @@ const Advertise = ({ open, onClose }) => {
 	);
 };
 
-export default Advertise;
+const mapStateToProps = (state) => {
+	return {
+		showAdvertiseModal: state.showAdvertiseModal
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal())
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Advertise);

@@ -24,14 +24,32 @@ export const hideSideDrawer = () => {
 	};
 };
 
-export const showProductModal = () => {
+export const toggleProductModal = () => {
 	return {
-		type: actionTypes.SHOW_PRODUCT_MODAL
+		type: actionTypes.TOGGLE_PRODUCT_MODAL
 	};
 };
 
-export const hideProductModal = () => {
+export const toggleAddProductsModal = () => {
 	return {
-		type: actionTypes.HIDE_PRODUCT_MODAL
+		type: actionTypes.TOGGLE_ADD_PRODUCTS_MODAL
+	};
+};
+
+export const toggleAdvertiseModal = () => {
+	return {
+		type: actionTypes.TOGGLE_ADVERTISE_MODAL
+	};
+};
+
+export const toggleTermsModal = () => {
+	return {
+		type: actionTypes.TOGGLE_TERMS_MODAL
+	};
+};
+
+export const togglePrivacyModal = () => {
+	return {
+		type: actionTypes.TOGGLE_PRIVACY_MODAL
 	};
 };

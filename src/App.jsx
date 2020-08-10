@@ -9,6 +9,10 @@ import ProductModal from './components/modals/ProductModal';
 import BottomNav from './components/AppBar/BottomNav';
 import SubCat1s from './components/categories/SubCat1s';
 import FoodDrink from './components/categories/FoodDrink';
+import AddProducts from './components/dialogs/AddProducts';
+import Advertise from './components/dialogs/Advertise';
+import Privacy from './components/dialogs/Privacy';
+import Terms from './components/dialogs/Terms';
 
 const theme = createMuiTheme({
 	palette: {
@@ -44,6 +48,10 @@ export default function App() {
 				</AppBar>
 				<FiltersPanel />
 				<ProductModal />
+				<AddProducts />
+				<Advertise />
+				<Privacy />
+				<Terms />
 				<BottomNav />
 			</>
 		</ThemeProvider>
