@@ -51,8 +51,9 @@ const SubCat1s = () => {
 	return (
 		<>
 			<Hero
-				heading="Find Vegan Products Near You"
-				subheading="There are 12,834 vegan products in 212 categories within Australia from brands like Gardein, Tofurky, Linda McCartney and 573 more."
+				textAlignCenter
+				heading="Find Vegan Products"
+				subheading="The Vomad Guide is a free community-sourced collection of 100% plant-based products."
 			/>
 			<Box className={styles.root}>
 				<GridList cellHeight={400} className={styles.gridList} cols={4} spacing={0}>
