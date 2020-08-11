@@ -63,7 +63,7 @@ const Advertise = (props) => {
 				Advertise on The Guide
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText>
+				<DialogContentText component="div">
 					<Typography>
 						<span role="img" aria-label="">
 							👀

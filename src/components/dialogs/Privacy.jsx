@@ -5,10 +5,8 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import {
 	Dialog,
-	DialogActions,
 	DialogContent,
 	DialogContentText,
-	Button,
 	Typography,
 	IconButton,
 	useMediaQuery
@@ -30,7 +28,12 @@ const DialogTitle = withStyles(styles)((props) => {
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
 			<Typography variant="h6">{children}</Typography>
 			{onClose ? (
-				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+				<IconButton
+					aria-label="close"
+					className={classes.closeButton}
+					onClick={onClose}
+					autoFocus
+				>
 					<CloseIcon />
 				</IconButton>
 			) : null}
@@ -58,7 +61,7 @@ const Privacy = (props) => {
 				{'Privacy Policy'}
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText id="privacy-dialog-description">
+				<DialogContentText component="div" id="privacy-dialog-description">
 					<Typography variant="body1" gutterBottom>
 						Your privacy is critically important to us.
 					</Typography>
@@ -531,11 +534,6 @@ const Privacy = (props) => {
 					</Typography>
 				</DialogContentText>
 			</DialogContent>
-			<DialogActions>
-				<Button onClick={onClose} color="default" autoFocus>
-					Close
-				</Button>
-			</DialogActions>
 		</Dialog>
 	);
 };

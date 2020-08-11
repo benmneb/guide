@@ -5,10 +5,8 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import {
 	Dialog,
-	DialogActions,
 	DialogContent,
 	DialogContentText,
-	Button,
 	Typography,
 	IconButton,
 	useMediaQuery
@@ -30,7 +28,12 @@ const DialogTitle = withStyles(styles)((props) => {
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
 			<Typography variant="h6">{children}</Typography>
 			{onClose ? (
-				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+				<IconButton
+					aria-label="close"
+					className={classes.closeButton}
+					onClick={onClose}
+					autoFocus
+				>
 					<CloseIcon />
 				</IconButton>
 			) : null}
@@ -58,7 +61,7 @@ const Terms = (props) => {
 				{'Terms of Use'}
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText id="terms-dialog-description">
+				<DialogContentText component="div" id="terms-dialog-description">
 					<Typography variant="body1" gutterBottom>
 						This website and mobile application (The Vomad Guide or VOMADguide) is
 						operated by VOMAD (we, our or us). &nbsp;It is available at:
@@ -398,11 +401,6 @@ const Terms = (props) => {
 					</Typography>
 				</DialogContentText>
 			</DialogContent>
-			<DialogActions>
-				<Button onClick={onClose} color="default" autoFocus>
-					Close
-				</Button>
-			</DialogActions>
 		</Dialog>
 	);
 };
