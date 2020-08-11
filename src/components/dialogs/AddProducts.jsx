@@ -364,7 +364,7 @@ const AddProducts = (props) => {
 					))}
 				</Stepper>
 				{activeStep === steps.length && (
-					<Box>
+					<Box margin={1}>
 						<Typography paragraph>
 							Success! Thank you for helping people find vegan products easier.
 						</Typography>
