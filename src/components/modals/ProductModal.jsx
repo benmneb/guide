@@ -1,226 +1,136 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
-import { withStyles, useTheme } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { Paper, Grid, CardMedia, Container } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import DialogContent from '@material-ui/core/DialogContent';
 import {
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow
+	Dialog,
+	IconButton,
+	Typography,
+	useMediaQuery,
+	Tabs,
+	Tab,
+	Paper,
+	Grid,
+	Box
 } from '@material-ui/core';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import EcoIcon from '@material-ui/icons/Eco';
+import CloseIcon from '@material-ui/icons/Close';
 import Rating from '@material-ui/lab/Rating';
+import ProductAbout from './ProductAbout';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
+		flexGrow: 1
+	},
+	titleRoot: {
 		margin: 0,
-		padding: theme.spacing(2)
+		padding: 0
 	},
 	closeButton: {
 		position: 'absolute',
 		right: theme.spacing(1),
 		top: theme.spacing(1),
 		color: theme.palette.grey[500]
-	}
-});
-
-const DialogTitle = withStyles(styles)((props) => {
-	const { children, classes, onClose, ...other } = props;
-	return (
-		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Grid container spacing={1} direction="column" alignItems="center">
-				<Grid item xs={12}>
-					<Typography variant="h4" component="h2">
-						{children}
-					</Typography>
-				</Grid>
-				<Grid item xs={12}>
-					<Grid container spacing={1} alignItems="center">
-						<Grid item>
-							<Rating name="product-rating" defaultValue={4} size="large" />
-						</Grid>
-						<Grid item>
-							<Typography display="inline">from 12 ratings</Typography>
-						</Grid>
-					</Grid>
-				</Grid>
-			</Grid>
-			{onClose ? (
-				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-					<CloseIcon />
-				</IconButton>
-			) : null}
-		</MuiDialogTitle>
-	);
-});
-
-const DialogContent = withStyles((theme) => ({
-	root: {
+	},
+	dialogContentRoot: {
 		padding: theme.spacing(2)
-	}
-}))(MuiDialogContent);
-
-const useStyles = makeStyles((theme) => ({
-	root: {
-		flexGrow: 1
-	},
-	paper: {
-		padding: theme.spacing(2),
-		color: theme.palette.text.secondary
-	},
-	heading: {
-		color: theme.palette.text.primary,
-		fontWeight: theme.typography.fontWeightBold
-	},
-	table: {
-		minWidth: 280
 	}
 }));
 
-function createData(nutrition, perServe, per100g) {
-	return { nutrition, perServe, per100g };
+function TabPanel(props) {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<div
+			role="tabpanel"
+			hidden={value !== index}
+			id={`simple-tabpanel-${index}`}
+			aria-labelledby={`simple-tab-${index}`}
+			{...other}
+		>
+			{value === index && <Box>{children}</Box>}
+		</div>
+	);
 }
 
-const rows = [
-	createData('Energy', '525kj', '2630kj'),
-	createData('Protein', '5.6g', '28.2g'),
-	createData('Fat, total', '10.4g', '51.8g'),
-	createData('- saturated', '1.5g', '7.6g'),
-	createData('Carbohydrate', '2.1g', '10.4g'),
-	createData('- sugars', '1.6g', '8.1g'),
-	createData('Sodium', '73mg', '365mg')
-];
+function a11yProps(index) {
+	return {
+		id: `simple-tab-${index}`,
+		'aria-controls': `simple-tabpanel-${index}`
+	};
+}
 
 const ProductModal = (props) => {
 	const theme = useTheme();
+	const styles = useStyles();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-	const classes = useStyles();
+	const [currentTab, setCurrentTab] = useState(0);
 
-	const onClose = () => {
+	const onCloseModal = () => {
 		props.onToggleProductModal();
+	};
+
+	const handleChangeCurrentTab = (event, newValue) => {
+		setCurrentTab(newValue);
 	};
 
 	return (
 		<Dialog
-			onClose={onClose}
+			onClose={onCloseModal}
 			fullScreen={fullScreen}
 			aria-labelledby="product-dialog-title"
 			open={props.showProductModal}
 			maxWidth="md"
 			fullWidth
 		>
-			<DialogTitle id="product-dialog-title" onClose={onClose}>
-				Kraft Peanut Butter - Crunchy
-			</DialogTitle>
-			<DialogContent>
-				<Grid container spacing={3}>
-					<Grid item xs={12} sm={6}>
-						<Grid container spacing={0} direction="column">
-							<Container maxWidth="xs">
-								<Paper className={classes.paper} elevation={0}>
-									<Grid item xs={12}>
-										<CardMedia
-											component="img"
-											alt="peanut butter"
-											image="https://mouthsofmums.com.au/wp-content/uploads/2016/05/046731-300x300.jpg"
-											title="Peanut Butter"
-										/>
-									</Grid>
-								</Paper>
-							</Container>
-						</Grid>
-						<Grid container spacing={1} direction="column" alignItems="center">
-							<Grid item xs={12}>
-								<Typography className={classes.heading}>Buy Now Online</Typography>
+			<MuiDialogTitle disableTypography className={styles.titleRoot}>
+				<IconButton
+					aria-label="close"
+					className={styles.closeButton}
+					onClick={onCloseModal}
+				>
+					<CloseIcon />
+				</IconButton>
+			</MuiDialogTitle>
+			<DialogContent className={styles.dialogContentRoot}>
+				<Grid container spacing={1} direction="column" alignItems="center">
+					<Grid item xs={12}>
+						<Typography variant="h4" component="h2" align="center">
+							Kraft Peanut Butter - Crunchy
+						</Typography>
+					</Grid>
+					<Grid item xs={12}>
+						<Grid container spacing={1} alignItems="center">
+							<Grid item>
+								<Rating name="product-rating" defaultValue={4} size="large" />
 							</Grid>
-							<Grid item xs={12}>
-								<Button
-									variant="contained"
-									color="primary"
-									size="large"
-									disableElevation
-									endIcon={<OpenInNewIcon />}
-								>
-									Woolworths.com.au
-								</Button>
-							</Grid>
-							<Grid item xs={12}>
-								<Button
-									variant="contained"
-									color="primary"
-									size="large"
-									disableElevation
-									startIcon={<EcoIcon />}
-									endIcon={<OpenInNewIcon />}
-								>
-									CrueltyFreeShop.com.au
-								</Button>
+							<Grid item>
+								<Typography display="inline">from 12 ratings</Typography>
 							</Grid>
 						</Grid>
 					</Grid>
-					<Grid item xs={12} sm={6}>
-						<Paper className={classes.paper} variant="outlined">
-							<Typography gutterBottom className={classes.heading}>
-								Ingredients
-							</Typography>
-							<Typography paragraph>
-								Roasted Peanuts (85% minimum), Sugar, Vegetable Oils, Salt.
-							</Typography>
-							<Typography gutterBottom className={classes.heading}>
-								Nutritional Info
-							</Typography>
-							<Typography>Servings per package: 25</Typography>
-							<Typography gutterBottom>Serving size: 20g</Typography>
-							<TableContainer>
-								<Table
-									className={classes.table}
-									size="small"
-									aria-label="nutrition information"
-								>
-									<TableHead>
-										<TableRow>
-											<TableCell>Nutrition</TableCell>
-											<TableCell align="right">Per Serve</TableCell>
-											<TableCell align="right">Per 100g</TableCell>
-										</TableRow>
-									</TableHead>
-									<TableBody>
-										{rows.map((row) => (
-											<TableRow key={row.nutrition}>
-												<TableCell component="th" scope="row">
-													{row.nutrition}
-												</TableCell>
-												<TableCell align="right">{row.perServe}</TableCell>
-												<TableCell align="right">{row.per100g}</TableCell>
-											</TableRow>
-										))}
-									</TableBody>
-									<caption>
-										Amounts are averages. Further information may be displayed on back of
-										pack.
-									</caption>
-								</Table>
-							</TableContainer>
-							<Typography gutterBottom className={classes.heading}>
-								Allergens
-							</Typography>
-							<Typography>Peanuts</Typography>
+					<Grid item xs={12}>
+						<Paper variant="outlined">
+							<Tabs
+								value={currentTab}
+								onChange={handleChangeCurrentTab}
+								indicatorColor="primary"
+								textColor="inherit"
+								centered
+							>
+								<Tab label="About" {...a11yProps(0)} />
+								<Tab label="Reviews" {...a11yProps(1)} />
+								<Tab label="Where To Buy" {...a11yProps(2)} />
+							</Tabs>
 						</Paper>
 					</Grid>
 				</Grid>
+				<Box marginTop={1}>
+					<TabPanel value={currentTab} index={0}>
+						<ProductAbout />
+					</TabPanel>
+				</Box>
 			</DialogContent>
 		</Dialog>
 	);
