@@ -34,6 +34,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 	actionsContainer: {
 		marginBottom: theme.spacing(2)
+	},
+	stepIconTextFill: {
+		'& .MuiStepIcon-root': {
+			'& .MuiStepIcon-text': {
+				fill: theme.palette.common.white
+			}
+		}
 	}
 }));
 
@@ -327,7 +334,9 @@ const AddProducts = (props) => {
 				<Stepper activeStep={activeStep} orientation="vertical">
 					{steps.map((label, index) => (
 						<Step key={label}>
-							<StepLabel>{label}</StepLabel>
+							<StepLabel classes={{ iconContainer: classes.stepIconTextFill }}>
+								{label}
+							</StepLabel>
 							<StepContent>
 								<Box>{getStepContent(index)}</Box>
 								<div className={classes.actionsContainer}>
