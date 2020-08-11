@@ -1,21 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
-import SendIcon from '@material-ui/icons/Send';
-import { useTheme, withStyles } from '@material-ui/core/styles';
 import {
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
 	Button,
+	Checkbox,
+	Dialog,
+	DialogContent,
+	FormControlLabel,
+	FormGroup,
+	IconButton,
+	Stepper,
+	Step,
+	StepLabel,
+	StepContent,
 	TextField,
 	Typography,
-	IconButton,
-	useMediaQuery
+	useMediaQuery,
+	Box
 } from '@material-ui/core';
-import * as actionCreators from '../../store/actions';
+import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import { useTheme, withStyles, makeStyles } from '@material-ui/core/styles';
+import { categories } from '../../assets/categories';
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		width: '100%'
+	},
+	button: {
+		marginTop: theme.spacing(1),
+		marginRight: theme.spacing(1)
+	},
+	actionsContainer: {
+		marginBottom: theme.spacing(2)
+	}
+}));
 
 const styles = (theme) => ({
 	closeButton: {
@@ -42,11 +62,254 @@ const DialogTitle = withStyles(styles)((props) => {
 
 const AddProducts = (props) => {
 	const theme = useTheme();
+	const classes = useStyles();
+	const steps = getSteps();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
+	const [activeStep, setActiveStep] = useState(0);
+	const [confirmItsVegan, setConfirmItsVegan] = useState(false);
+	const [brandname, setBrandname] = useState(null);
+	const [productTitle, setProductTitle] = useState(null);
+	const [selectedCategory, setSelectedCategory] = useState(null);
+	const [inputValue, setInputValue] = useState('');
+
+	const handleItsVeganChange = (event) => {
+		setConfirmItsVegan(event.target.checked);
+	};
+
+	const handleNext = () => {
+		setActiveStep((prevActiveStep) => prevActiveStep + 1);
+	};
+
+	const handleBack = () => {
+		setActiveStep((prevActiveStep) => prevActiveStep - 1);
+	};
+
+	const handleReset = () => {
+		setActiveStep(0);
+		setConfirmItsVegan(false);
+	};
+
 	const onClose = () => {
+		handleReset();
 		props.onToggleAddProductsModal();
 	};
+
+	const categoriesMapped = categories.map((category) => {
+		return category.name;
+	});
+
+	const filter = createFilterOptions();
+
+	function getSteps() {
+		return [
+			'Is the product you want to add vegan?',
+			'Product Details',
+			'Category',
+			'Review & Confirm'
+		];
+	}
+
+	function getStepContent(step) {
+		switch (step) {
+			case 0:
+				return (
+					<>
+						<Typography paragraph>
+							Vegan means it contains no animal ingredients (or ingredients derived from
+							animals) and that the item was not tested on animals. Ingredients like
+							honey, whey powder and fish stock are not vegan.
+						</Typography>
+						<Typography>Please tick the box to confirm:</Typography>
+						<FormGroup row>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={confirmItsVegan}
+										onChange={handleItsVeganChange}
+										color="primary"
+										name="checked"
+									/>
+								}
+								label="I confirm the product I want to add is vegan"
+							/>
+						</FormGroup>
+					</>
+				);
+			case 1:
+				return (
+					<>
+						<Typography paragraph>
+							Please include all details as they appear on the packaging.
+						</Typography>
+						<Box margin={1}>
+							<Autocomplete
+								value={brandname}
+								onChange={(event, newValue) => {
+									if (typeof newValue === 'string') {
+										setBrandname({
+											name: newValue
+										});
+									} else if (newValue && newValue.inputValue) {
+										// Create a new value from the user input
+										setBrandname({
+											name: newValue.inputValue
+										});
+									} else {
+										setBrandname(newValue);
+									}
+								}}
+								filterOptions={(options, params) => {
+									const filtered = filter(options, params);
+
+									// Suggest the creation of a new value
+									if (params.inputValue !== '') {
+										filtered.push({
+											inputValue: params.inputValue,
+											name: `Add "${params.inputValue}"`
+										});
+									}
+
+									return filtered;
+								}}
+								selectOnFocus
+								clearOnBlur
+								handleHomeEndKeys
+								id="brandname"
+								options={categories}
+								getOptionLabel={(category) => {
+									// Value selected with enter, right from the input
+									if (typeof category === 'string') {
+										return category;
+									}
+									// Add "xxx" option created dynamically
+									if (category.inputValue) {
+										return category.inputValue;
+									}
+									// Regular option
+									return category.name;
+								}}
+								renderOption={(category) => category.name}
+								style={{ width: 300 }}
+								freeSolo
+								renderInput={(params) => (
+									<TextField {...params} label="Brand Name" variant="outlined" />
+								)}
+							/>
+						</Box>
+						<Box marginY={2} marginX={1}>
+							<Autocomplete
+								value={productTitle}
+								onChange={(event, newValue) => {
+									if (typeof newValue === 'string') {
+										setProductTitle({
+											name: newValue
+										});
+									} else if (newValue && newValue.inputValue) {
+										// Create a new value from the user input
+										setProductTitle({
+											name: newValue.inputValue
+										});
+									} else {
+										setProductTitle(newValue);
+									}
+								}}
+								filterOptions={(options, params) => {
+									const filtered = filter(options, params);
+
+									// Suggest the creation of a new value
+									if (params.inputValue !== '') {
+										filtered.push({
+											inputValue: params.inputValue,
+											name: `Add "${params.inputValue}"`
+										});
+									}
+
+									return filtered;
+								}}
+								selectOnFocus
+								clearOnBlur
+								handleHomeEndKeys
+								id="productTitle"
+								options={categories}
+								getOptionLabel={(product) => {
+									// Value selected with enter, right from the input
+									if (typeof product === 'string') {
+										return product;
+									}
+									// Add "xxx" option created dynamically
+									if (product.inputValue) {
+										return product.inputValue;
+									}
+									// Regular option
+									return product.name;
+								}}
+								renderOption={(product) => product.name}
+								style={{ width: 300 }}
+								freeSolo
+								renderInput={(params) => (
+									<TextField {...params} label="Product Title" variant="outlined" />
+								)}
+							/>
+						</Box>
+					</>
+				);
+			case 2:
+				return (
+					<>
+						<Typography paragraph>Select the most appropriate category.</Typography>
+						<Box margin={1}>
+							<Autocomplete
+								id="grouped-demo"
+								value={selectedCategory}
+								onChange={(event, chosenCategory) => setSelectedCategory(chosenCategory)}
+								inputValue={inputValue}
+								onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+								options={categoriesMapped}
+								style={{ width: 300 }}
+								renderInput={(params) => (
+									<TextField {...params} label="Category" variant="outlined" />
+								)}
+							/>
+						</Box>
+					</>
+				);
+			case 3:
+				return (
+					<>
+						<Box>
+							<Typography component="span" color="textSecondary">
+								Brand name:{' '}
+							</Typography>
+							<Typography component="span" gutterBottom>
+								{brandname && brandname.name}
+							</Typography>
+						</Box>
+						<Box>
+							<Typography component="span" color="textSecondary">
+								Product name:{' '}
+							</Typography>
+							<Typography component="span" gutterBottom>
+								{productTitle && productTitle.name}
+							</Typography>
+						</Box>
+						<Box marginBottom={1}>
+							<Typography component="span" color="textSecondary">
+								Category:{' '}
+							</Typography>
+							<Typography component="span" gutterBottom>
+								{selectedCategory && selectedCategory}
+							</Typography>
+						</Box>
+						<Typography paragraph>
+							If the above details are correct, click submit.
+						</Typography>
+					</>
+				);
+			default:
+				return 'Unknown step';
+		}
+	}
 
 	return (
 		<Dialog
@@ -54,52 +317,58 @@ const AddProducts = (props) => {
 			onClose={onClose}
 			aria-labelledby="form-dialog-title"
 			fullScreen={fullScreen}
+			maxWidth="sm"
+			fullWidth
 		>
 			<DialogTitle id="form-dialog-title" onClose={onClose}>
-				Contribute to the Guide
+				Add a Product to the Guide
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText>
-					<span role="img" aria-label="thanks">
-						🙏
-					</span>{' '}
-					Know of any vegan products that are missing from the Guide? Add them here so
-					others can easily find them.
-				</DialogContentText>
-				<TextField
-					autoFocus
-					margin="dense"
-					id="message"
-					label="Which products are missing?"
-					type="text"
-					variant="outlined"
-					multiline
-					rows={4}
-					fullWidth
-					required
-				/>
-				<TextField
-					margin="dense"
-					id="email"
-					label="Link(s) to the products (optional but helpful)"
-					type="url"
-					variant="outlined"
-					fullWidth
-				/>
-				<TextField
-					margin="dense"
-					id="email"
-					label="Your Email (optional)"
-					type="email"
-					variant="outlined"
-					fullWidth
-				/>
+				<Stepper activeStep={activeStep} orientation="vertical">
+					{steps.map((label, index) => (
+						<Step key={label}>
+							<StepLabel>{label}</StepLabel>
+							<StepContent>
+								<Box>{getStepContent(index)}</Box>
+								<div className={classes.actionsContainer}>
+									<div>
+										<Button
+											disabled={activeStep === 0}
+											onClick={handleBack}
+											className={classes.button}
+										>
+											Back
+										</Button>
+										<Button
+											variant="contained"
+											color="primary"
+											disabled={!confirmItsVegan}
+											onClick={handleNext}
+											className={classes.button}
+										>
+											{activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+										</Button>
+									</div>
+								</div>
+							</StepContent>
+						</Step>
+					))}
+				</Stepper>
+				{activeStep === steps.length && (
+					<Box>
+						<Typography paragraph>
+							Success! Thank you for helping people find vegan products easier.
+						</Typography>
+						<Typography>
+							Please note that for quality assurance we manually review all submissions
+							before they appear on the Guide.
+						</Typography>
+						<Box display="flex" justifyContent="flex-end">
+							<Button onClick={handleReset}>Add another product</Button>
+						</Box>
+					</Box>
+				)}
 			</DialogContent>
-			<DialogActions>
-				<Button onClick={onClose} color="default" size="large" endIcon={<SendIcon />}>
-					Submit
-				</Button>
-			</DialogActions>
 		</Dialog>
 	);
 };
