@@ -7,7 +7,7 @@ import ResultsList from './components/resultsList/ResultsList';
 import FiltersPanel from './components/UI/FiltersPanel';
 import ProductModal from './components/modals/ProductModal';
 import BottomNav from './components/AppBar/BottomNav';
-import SubCat1s from './components/categories/SubCat1s';
+import Home from './components/categories/Home';
 import FoodDrink from './components/categories/FoodDrink';
 import AddProducts from './components/dialogs/AddProducts';
 import Advertise from './components/dialogs/Advertise';
@@ -43,7 +43,7 @@ export default function App() {
 					<Switch>
 						<Route path="/food-drink/nut-butters-spreads" component={ResultsList} />
 						<Route path="/food-drink" component={FoodDrink} />
-						<Route path="/" component={SubCat1s} />
+						<Route path="/" component={Home} />
 					</Switch>
 				</AppBar>
 				<FiltersPanel />
