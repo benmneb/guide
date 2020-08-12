@@ -18,6 +18,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import Rating from '@material-ui/lab/Rating';
 import ProductAbout from './ProductAbout';
+import ProductWhereToBuy from './ProductWhereToBuy';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -129,6 +130,12 @@ const ProductModal = (props) => {
 				<Box marginTop={1}>
 					<TabPanel value={currentTab} index={0}>
 						<ProductAbout />
+					</TabPanel>
+					<TabPanel value={currentTab} index={1}>
+						<ProductAbout />
+					</TabPanel>
+					<TabPanel value={currentTab} index={2}>
+						<ProductWhereToBuy />
 					</TabPanel>
 				</Box>
 			</DialogContent>
