@@ -19,6 +19,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Rating from '@material-ui/lab/Rating';
 import ProductAbout from './ProductAbout';
 import ProductWhereToBuy from './ProductWhereToBuy';
+import BottomNav from './BottomNav';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -35,7 +36,11 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.grey[500]
 	},
 	dialogContentRoot: {
-		padding: theme.spacing(2)
+		padding: theme.spacing(2),
+		marginBottom: 56, // height of bottomNav bar
+		[theme.breakpoints.up('md')]: {
+			marginBottom: 0
+		}
 	}
 }));
 
@@ -111,21 +116,23 @@ const ProductModal = (props) => {
 							</Grid>
 						</Grid>
 					</Grid>
-					<Grid item xs={12}>
-						<Paper variant="outlined">
-							<Tabs
-								value={currentTab}
-								onChange={handleChangeCurrentTab}
-								indicatorColor="primary"
-								textColor="inherit"
-								centered
-							>
-								<Tab label="About" {...a11yProps(0)} />
-								<Tab label="Reviews" {...a11yProps(1)} />
-								<Tab label="Where To Buy" {...a11yProps(2)} />
-							</Tabs>
-						</Paper>
-					</Grid>
+					<Box display={{ xs: 'none', md: 'inherit' }}>
+						<Grid item xs={12}>
+							<Paper variant="outlined">
+								<Tabs
+									value={currentTab}
+									onChange={handleChangeCurrentTab}
+									indicatorColor="primary"
+									textColor="inherit"
+									centered
+								>
+									<Tab label="About" {...a11yProps(0)} />
+									<Tab label="Reviews" {...a11yProps(1)} />
+									<Tab label="Where To Buy" {...a11yProps(2)} />
+								</Tabs>
+							</Paper>
+						</Grid>
+					</Box>
 				</Grid>
 				<Box marginTop={1}>
 					<TabPanel value={currentTab} index={0}>
@@ -138,6 +145,7 @@ const ProductModal = (props) => {
 						<ProductWhereToBuy />
 					</TabPanel>
 				</Box>
+				<BottomNav currentTab={currentTab} onChange={handleChangeCurrentTab} />
 			</DialogContent>
 		</Dialog>
 	);
