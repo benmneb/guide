@@ -18,6 +18,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import Rating from '@material-ui/lab/Rating';
 import ProductAbout from './ProductAbout';
+import ProductReviews from './ProductReviews';
 import ProductWhereToBuy from './ProductWhereToBuy';
 import BottomNav from './BottomNav';
 
@@ -140,12 +141,12 @@ const ProductModal = (props) => {
 						</Grid>
 					</Box>
 				</Grid>
-				<Box marginTop={1}>
+				<Box marginTop={2}>
 					<TabPanel value={currentTab} index={0}>
 						<ProductAbout />
 					</TabPanel>
 					<TabPanel value={currentTab} index={1}>
-						<ProductAbout />
+						<ProductReviews />
 					</TabPanel>
 					<TabPanel value={currentTab} index={2}>
 						<ProductWhereToBuy />
