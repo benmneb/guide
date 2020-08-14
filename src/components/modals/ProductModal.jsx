@@ -41,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {
 			marginBottom: 0
 		}
+	},
+	modalMaxHeight: {
+		[theme.breakpoints.up('md')]: {
+			height: `calc(100% - ${theme.spacing(8)}px)` // always max height so there is no jump with less modal content
+		}
 	}
 }));
 
@@ -89,6 +94,7 @@ const ProductModal = (props) => {
 			open={props.showProductModal}
 			maxWidth="md"
 			fullWidth
+			classes={{ paperScrollPaper: styles.modalMaxHeight }}
 		>
 			<MuiDialogTitle disableTypography className={styles.titleRoot}>
 				<IconButton
