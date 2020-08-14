@@ -53,7 +53,7 @@ const SubCat1s = () => {
 			<Hero
 				textAlignCenter
 				heading="Find Vegan Products"
-				subheading="The Vomad Guide is a free community-sourced collection of 100% plant-based products."
+				subheading="The Vomad Guide is a free community-sourced collection of 100% plant-based products. There are 12,815 vegan products in 212 categories in 576 stores and 54 online stores within Australia."
 			/>
 			<Box className={styles.root}>
 				<GridList cellHeight={400} className={styles.gridList} cols={4} spacing={0}>
