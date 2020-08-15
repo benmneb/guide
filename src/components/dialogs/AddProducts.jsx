@@ -41,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
 				fill: theme.palette.common.white
 			}
 		}
+	},
+	modalMaxHeight: {
+		[theme.breakpoints.up('sm')]: {
+			height: 590
+		}
 	}
 }));
 
@@ -326,6 +331,7 @@ const AddProducts = (props) => {
 			fullScreen={fullScreen}
 			maxWidth="sm"
 			fullWidth
+			classes={{ paperFullWidth: classes.modalMaxHeight }}
 		>
 			<DialogTitle id="form-dialog-title" onClose={onClose}>
 				Add a Product to the Guide
@@ -365,10 +371,11 @@ const AddProducts = (props) => {
 				</Stepper>
 				{activeStep === steps.length && (
 					<Box margin={1}>
+						<Typography paragraph>We have received your submission.</Typography>
 						<Typography paragraph>
-							Success! Thank you for helping people find vegan products easier.
+							Thank you for helping people find vegan products easier.
 						</Typography>
-						<Typography>
+						<Typography paragraph>
 							Please note that for quality assurance we manually review all submissions
 							before they appear on the Guide.
 						</Typography>
