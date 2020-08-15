@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AppBar from '@material-ui/core/AppBar';
+import { AppBar, useMediaQuery } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import BackToCategories from '../controlResults/BackToCategories';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import ShowFiltersButton from './ShowFiltersButton';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -18,8 +18,9 @@ const useStyles = makeStyles((theme) => ({
 	menuButton: {
 		marginRight: theme.spacing(2)
 	},
-	title: {
+	breadcrumbs: {
 		flexGrow: 1,
+		overflow: 'scroll',
 		display: 'none',
 		[theme.breakpoints.up('sm')]: {
 			display: 'block'
@@ -42,10 +43,16 @@ function ElevationScroll(props) {
 
 function FiltersBar(props) {
 	const classes = useStyles();
+	const theme = useTheme();
+
+	let maxItems = 6;
+	if (useMediaQuery(theme.breakpoints.down('sm'))) {
+		maxItems = 1;
+	}
 
 	return (
 		<Box
-			display={{ xs: 'none', md: 'flex' }}
+			display={{ xs: 'none', sm: 'flex' }}
 			flexGrow="1"
 			top="0"
 			position="sticky"
@@ -54,10 +61,12 @@ function FiltersBar(props) {
 			<ElevationScroll {...props}>
 				<AppBar position="sticky" color="inherit" elevation={3}>
 					<Toolbar>
-						<Box display="flex" flexGrow="1" className={classes.title}>
+						<Box className={classes.breadcrumbs}>
 							<Breadcrumbs
 								separator={<NavigateNextIcon fontSize="small" />}
 								aria-label="breadcrumb"
+								maxItems={maxItems}
+								itemsBeforeCollapse={0}
 							>
 								<Link color="inherit" href="#">
 									Food & Drink
@@ -71,7 +80,7 @@ function FiltersBar(props) {
 								<Typography color="textPrimary">Nut Butters & Spreads</Typography>
 							</Breadcrumbs>
 						</Box>
-						<BackToCategories />
+						<ShowFiltersButton />
 					</Toolbar>
 				</AppBar>
 			</ElevationScroll>
