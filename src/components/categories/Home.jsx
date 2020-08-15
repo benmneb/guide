@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { subCat1s } from '../../assets/subCat1s';
-import Hero from '../hero/Hero';
+import Hero, { Heading, SubHeading, Footer } from '../hero/Hero';
 
 const useStyles = makeStyles((theme) => ({
 	gridList: {
@@ -50,11 +50,15 @@ export default function SingleLineGridList() {
 
 	return (
 		<>
-			<Hero
-				heading="Find Vegan Products"
-				subheading="The Vomad Guide is a free community-sourced collection of 100% plant-based products. There are 12,815 vegan products in 212 categories in 576 stores and 54 online stores within Australia."
-				showAddProductsLink
-			/>
+			<Hero textAlign="center">
+				<Heading>Find Vegan Products</Heading>
+				<SubHeading>
+					The Vomad Guide is a free community-sourced collection of 100% plant-based
+					products. There are 12,815 vegan products in 212 categories in 576 stores and 54
+					online stores within Australia.
+				</SubHeading>
+				<Footer forHome />
+			</Hero>
 			<Box marginY={-4}>
 				{[
 					'Popular Categories',

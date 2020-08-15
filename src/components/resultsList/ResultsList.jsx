@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { makeStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Result from './Result';
-import Hero from '../hero/Hero';
+import Hero, { Heading, SubHeading, Footer } from '../hero/Hero';
 import FiltersBar from '../AppBar/FiltersBar';
 import AddProductsFab from './AddProductsFab';
 import * as actionCreators from '../../store/actions';
@@ -43,11 +43,14 @@ const ResultsList = (props) => {
 
 	return (
 		<>
-			<Hero
-				heading="Vegan Nut Butters & Spreads"
-				subheading="There are 64 vegan nut butters & spreads within Australia from brands like Kraft, Pics, Bega and 14 more."
-				showAddProductsLink
-			/>
+			<Hero>
+				<Heading>Vegan Nut Butters & Spreads</Heading>
+				<SubHeading>
+					There are 64 vegan nut butters & spreads within Australia from brands like
+					Kraft, Pics, Bega and 14 more.
+				</SubHeading>
+				<Footer forCategory />
+			</Hero>
 			<FiltersBar />
 			<div
 				className={clsx(styles.container, {

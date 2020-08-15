@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { subCat1s } from '../../assets/subCat1s';
-import Hero from '../hero/Hero';
+import Hero, { Heading, SubHeading, Footer } from '../hero/Hero';
 
 const useStyles = makeStyles((theme) => ({
 	gridList: {
@@ -50,11 +50,14 @@ export default function SingleLineGridList() {
 
 	return (
 		<>
-			<Hero
-				heading="Vegan Food & Drink Products"
-				subheading="There are 5,147 vegan food & drink products in 103 categories within Australia from brands like Gardein, Tofurky, Linda McCartney and 285 more."
-				showAddProductsLink
-			/>
+			<Hero>
+				<Heading>Vegan Food & Drink Products</Heading>
+				<SubHeading>
+					There are 5,147 vegan food & drink products in 103 categories within Australia
+					from brands like Gardein, Tofurky, Linda McCartney and 285 more.
+				</SubHeading>
+				<Footer forCategory />
+			</Hero>
 			<Box marginY={-4}>
 				{['Baby', 'Bakery', 'Drinks', 'Fridge & Freezer', 'Pantry', 'Pet Food'].map(
 					(category) => (
