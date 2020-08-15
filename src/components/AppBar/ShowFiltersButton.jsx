@@ -15,7 +15,6 @@ const BackToCategories = (props) => {
 	const buttonLabel = props.showFiltersPanel ? 'Hide Filters' : 'Show Filters';
 
 	return (
-		// <Box flex="1 9999 0%" marginLeft={2}>
 		<Button
 			variant="contained"
 			color="primary"
@@ -26,7 +25,6 @@ const BackToCategories = (props) => {
 		>
 			{buttonLabel}
 		</Button>
-		// </Box>
 	);
 };
 
