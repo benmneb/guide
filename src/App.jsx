@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { orange, grey } from '@material-ui/core/colors';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from './components/AppBar/AppBar';
 import ResultsList from './components/resultsList/ResultsList';
 import FiltersPanel from './components/UI/FiltersPanel';
@@ -27,6 +28,13 @@ const theme = createMuiTheme({
 		}
 	},
 	overrides: {
+		MuiCssBaseline: {
+			'@global': {
+				html: {
+					WebkitFontSmoothing: 'auto'
+				}
+			}
+		},
 		MuiButton: {
 			containedPrimary: {
 				color: 'white'
@@ -39,6 +47,7 @@ export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<>
+				<CssBaseline />
 				<AppBar>
 					<Switch>
 						<Route path="/food-drink/nut-butters-spreads" component={ResultsList} />
