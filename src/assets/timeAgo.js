@@ -10,25 +10,25 @@ export function getTimeAgo(date) {
 
 	if (secondsAgo <= 45) {
 		return 'Just now';
-	} else if (secondsAgo > 45 && secondsAgo <= 90) {
-		return 'One minute ago';
-	} else if (secondsAgo > 90 && secondsAgo <= MINUTE * 45) {
-		return Math.floor(secondsAgo / MINUTE) + ' minutes ago';
-	} else if (secondsAgo > MINUTE * 45 && secondsAgo <= MINUTE * 90) {
-		return 'An hour ago';
-	} else if (secondsAgo > MINUTE * 90 && secondsAgo <= HOUR * 21) {
-		return Math.floor(secondsAgo / HOUR) + ' hours ago';
-	} else if (secondsAgo > HOUR * 21 && secondsAgo <= HOUR * 35) {
-		return 'A day ago';
-	} else if (secondsAgo > HOUR * 36 && secondsAgo <= DAY * 25) {
-		return Math.floor(secondsAgo / DAY) + ' days ago';
-	} else if (secondsAgo > DAY * 25 && secondsAgo <= DAY * 45) {
-		return 'A month ago';
-	} else if (secondsAgo > DAY * 45 && secondsAgo <= DAY * 320) {
-		return Math.floor(secondsAgo / MONTH) + ' months ago';
-	} else if (secondsAgo > DAY * 320 && secondsAgo <= YEAR * 1.5) {
-		return 'A year ago';
-	} else if (secondsAgo > YEAR * 1.5) {
-		return Math.floor(secondsAgo / YEAR) + ' years ago';
+	} else if (secondsAgo > 45 && secondsAgo <= MINUTE * 45) {
+		let timePeriod = Math.floor(secondsAgo / MINUTE);
+		if (timePeriod <= 1) return 'A minute ago';
+		else return timePeriod + ' minutes ago';
+	} else if (secondsAgo > MINUTE * 45 && secondsAgo <= HOUR * 21) {
+		let timePeriod = Math.floor(secondsAgo / HOUR);
+		if (timePeriod <= 1) return 'An hour ago';
+		else return timePeriod + ' hours ago';
+	} else if (secondsAgo > HOUR * 21 && secondsAgo <= DAY * 25) {
+		let timePeriod = Math.floor(secondsAgo / DAY);
+		if (timePeriod <= 1) return 'A day ago';
+		else return timePeriod + ' days ago';
+	} else if (secondsAgo > DAY * 25 && secondsAgo <= DAY * 320) {
+		let timePeriod = Math.floor(secondsAgo / MONTH);
+		if (timePeriod <= 1) return 'A month ago';
+		else return timePeriod + ' months ago';
+	} else if (secondsAgo > DAY * 320) {
+		let timePeriod = Math.floor(secondsAgo / YEAR);
+		if (timePeriod <= 1) return 'A year ago';
+		else return timePeriod + ' years ago';
 	}
 }
