@@ -79,7 +79,7 @@ export default function ReviewCard(props) {
 					</Box>
 					<Box marginBottom={2}>
 						<Rating name="rating" value={props.review.rating} readOnly />
-						<Typography>{getTimeAgo(props.review.date)}</Typography>
+						<Typography>{getTimeAgo(new Date(props.review.date))}</Typography>
 					</Box>
 					<Box>
 						<Typography>{props.review.body}</Typography>
