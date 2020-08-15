@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { makeStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Result from './Result';
-import Hero, { Heading, SubHeading, Footer } from '../hero/Hero';
+import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import FiltersBar from '../AppBar/FiltersBar';
 import AddProductsFab from './AddProductsFab';
 import * as actionCreators from '../../store/actions';

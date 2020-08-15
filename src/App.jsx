@@ -4,16 +4,16 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { orange, grey } from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from './components/AppBar/AppBar';
-import ResultsList from './components/resultsList/ResultsList';
-import FiltersPanel from './components/UI/FiltersPanel';
-import ProductModal from './components/modals/ProductModal';
+import ResultsList from './components/ResultsList/ResultsList';
+import FiltersPanel from './components/FiltersPanel/FiltersPanel';
+import ProductModal from './components/ProductModal/ProductModal';
 import BottomNav from './components/AppBar/BottomNav';
 import Home from './components/categories/Home';
 import FoodDrink from './components/categories/FoodDrink';
-import AddProducts from './components/dialogs/AddProducts';
-import Advertise from './components/dialogs/Advertise';
-import Privacy from './components/dialogs/Privacy';
-import Terms from './components/dialogs/Terms';
+import AddProducts from './components/Dialogs/AddProducts';
+import Advertise from './components/Dialogs/Advertise';
+import Privacy from './components/Dialogs/Privacy';
+import Terms from './components/Dialogs/Terms';
 
 const theme = createMuiTheme({
 	palette: {

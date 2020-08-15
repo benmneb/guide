@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { subCat1s } from '../../assets/subCat1s';
-import Hero, { Heading, SubHeading, Footer } from '../hero/Hero';
+import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 
 const useStyles = makeStyles((theme) => ({
 	gridList: {
