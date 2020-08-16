@@ -7,6 +7,8 @@ import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import FiltersBar from '../AppBar/FiltersBar';
 import AddProductsFab from './AddProductsFab';
 import * as actionCreators from '../../store/actions';
+import { results } from '../../assets/results';
+import peanuts from '../../assets/images/peanuts.jpg';
 
 const drawerWidth = 430;
 
@@ -41,7 +43,7 @@ const ResultsList = (props) => {
 
 	return (
 		<>
-			<Hero>
+			<Hero bgImage={peanuts}>
 				<Heading>Vegan Nut Butters & Spreads</Heading>
 				<SubHeading>
 					There are 64 vegan nut butters & spreads within Australia from brands like
@@ -55,65 +57,17 @@ const ResultsList = (props) => {
 					[styles.containerShift]: props.showFiltersPanel
 				})}
 			>
-				<Result
-					image="https://mouthsofmums.com.au/wp-content/uploads/2016/05/046731-300x300.jpg"
-					brand="Kraft"
-					name="Peanut Butter - Crunchy"
-					clicked={() => props.onToggleProductModal()}
-				/>
-				<Result
-					image="https://southburnett.com.au/news2/wp-content/uploads/2017/01/kraft1.jpg"
-					brand="Kraft"
-					name="Peanut Butter - Smooth"
-					clicked={() => props.onToggleProductModal()}
-				/>
-				<Result
-					image="https://shop.countdown.co.nz/Content/ProductImages/zoom/9421901881054.jpg/Pics-Peanut-Butter-Crunchy.jpg"
-					brand="Pic's"
-					name="Really Good Peanut Butter - Crunchy Freshly Roasted and Lovingly Squashed"
-					clicked={() => props.onToggleProductModal()}
-				/>
-				<Result
-					image="https://i5.walmartimages.com/asr/c7806ff6-536e-4f37-8653-95d08d630fdb_1.5d608b379a7ef87af70460cb56c02bcf.jpeg"
-					brand="Tofurky"
-					name="Deli Slices - Original Recipe Savoury Plant-Based"
-					clicked={() => props.onToggleProductModal()}
-				/>
-				<Result
-					image="https://mouthsofmums.com.au/wp-content/uploads/2016/05/046731-300x300.jpg"
-					brand="Kraft"
-					name="Peanut Butter - Crunchy"
-					clicked={() => props.onToggleProductModal()}
-				/>
-				<Result
-					image="https://southburnett.com.au/news2/wp-content/uploads/2017/01/kraft1.jpg"
-					brand="Kraft"
-					name="Peanut Butter - Smooth"
-					clicked={() => props.onToggleProductModal()}
-				/>
-				<Result
-					image="https://shop.countdown.co.nz/Content/ProductImages/zoom/9421901881054.jpg/Pics-Peanut-Butter-Crunchy.jpg"
-					brand="Pic's"
-					name="Peanut Butter - Crunchy"
-					clicked={() => props.onToggleProductModal()}
-				/>
-				<Result
-					image="https://i5.walmartimages.com/asr/c7806ff6-536e-4f37-8653-95d08d630fdb_1.5d608b379a7ef87af70460cb56c02bcf.jpeg"
-					brand="Tofurky"
-					name="Deli Slices - Original Recipe Savoury Plant-Based"
-					clicked={() => props.onToggleProductModal()}
-				/>
-				<Result />
-				<Result />
-				<Result />
-				<Result />
-				<Result />
-				<Result />
-				<Result />
-				<Result />
-				<Result />
-				<Result />
-				<Result />
+				{results.map((result) => (
+					<Result
+						key={result.id}
+						image={result.image}
+						brand={result.brand}
+						name={result.name}
+						clicked={() => props.onToggleProductModal()}
+						avgRating={result.avgRating}
+						amtRatings={result.amtRatings}
+					/>
+				))}
 			</div>
 			<AddProductsFab />
 		</>

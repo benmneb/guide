@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardMedia, CardContent, CardActions, Typography } from '@material-ui/core';
-import StarRating from './StarRating';
 import { makeStyles } from '@material-ui/core/styles';
+import Rating from '@material-ui/lab/Rating';
 
 const useStyles = makeStyles((theme) => ({
 	productTile: {
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		flexDirection: 'column'
+		flexDirection: 'row'
 	}
 }));
 
@@ -58,7 +58,8 @@ export default function Result(props) {
 				</Typography>
 			</CardContent>
 			<CardActions className={styles.cardActions}>
-				<StarRating />
+				<Rating value={props.avgRating} precision={0.1} readOnly />
+				<Typography variant="body2">{props.amtRatings} ratings</Typography>
 			</CardActions>
 		</Card>
 	);
