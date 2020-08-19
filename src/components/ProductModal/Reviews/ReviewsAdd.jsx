@@ -52,7 +52,7 @@ export default function ReviewsAdd() {
 						/>
 					</Grid>
 					<Grid item container xs={12} justify="center">
-						<Button size="large" variant="contained" color="primary" disableElevation>
+						<Button size="large" variant="contained" color="primary">
 							Submit
 						</Button>
 					</Grid>

@@ -15,13 +15,7 @@ const BackToCategories = (props) => {
 	const buttonLabel = props.showFiltersPanel ? 'Hide Filters' : 'Show Filters';
 
 	return (
-		<Button
-			variant="contained"
-			color="primary"
-			size="large"
-			onClick={handleClick}
-			disableElevation
-		>
+		<Button variant="contained" color="primary" size="large" onClick={handleClick}>
 			{buttonLabel}
 		</Button>
 	);

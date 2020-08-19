@@ -109,12 +109,7 @@ export default function AboutEdit(props) {
 						value={elaboration}
 						onChange={(e) => setElaboration(e.target.value)}
 					/>
-					<Button
-						color="primary"
-						variant="contained"
-						disableElevation
-						onClick={handleSubmit}
-					>
+					<Button color="primary" variant="contained" onClick={handleSubmit}>
 						Submit
 					</Button>
 				</Box>

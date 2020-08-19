@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { orange, grey } from '@material-ui/core/colors';
+import { orange } from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from './components/AppBar/AppBar';
 import ResultsList from './components/ResultsList/ResultsList';
@@ -17,10 +17,7 @@ import Terms from './components/Dialogs/Terms';
 
 const theme = createMuiTheme({
 	palette: {
-		primary: orange,
-		secondary: {
-			main: grey[500]
-		}
+		primary: orange
 	},
 	typography: {
 		button: {
@@ -39,6 +36,11 @@ const theme = createMuiTheme({
 			containedPrimary: {
 				color: 'white'
 			}
+		}
+	},
+	props: {
+		MuiButton: {
+			disableElevation: true
 		}
 	}
 });

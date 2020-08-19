@@ -116,7 +116,6 @@ export default function ProductAbout(props) {
 									variant="contained"
 									color="primary"
 									size="large"
-									disableElevation
 									onClick={() =>
 										window.open(store.url + '?ref=vomadguide', '_blank', 'noopener')
 									}

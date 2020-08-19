@@ -57,7 +57,7 @@ export default function StoresAdd() {
 					/>
 				)}
 			/>
-			<Button variant="contained" color="primary" disableElevation>
+			<Button variant="contained" color="primary">
 				Add
 			</Button>
 		</Box>

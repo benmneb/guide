@@ -51,7 +51,6 @@ export default function ProductReviews() {
 						size="large"
 						variant={showAddReview ? 'outlined' : 'contained'}
 						color="primary"
-						disableElevation
 						onClick={handleAddReviewClick}
 					>
 						{showAddReview ? 'Cancel Review' : 'Add Review'}
