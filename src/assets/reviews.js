@@ -2,7 +2,8 @@ export const reviews = [
 	{
 		id: 1,
 		author: 'Joey Carbstrong',
-		avatar: 'image.jpg',
+		avatar:
+			'https://i1.wp.com/metro.co.uk/wp-content/uploads/2018/02/pri_681196711-e1518036268898.jpg?quality=90&strip=all&zoom=1&resize=644%2C530&ssl=1',
 		authorPoints: 215,
 		rating: 4,
 		body:
