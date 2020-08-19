@@ -19,7 +19,6 @@ const BackToCategories = (props) => {
 			variant="contained"
 			color="primary"
 			size="large"
-			style={props.customStyle}
 			onClick={handleClick}
 			disableElevation
 		>
