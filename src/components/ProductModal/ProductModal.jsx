@@ -16,11 +16,12 @@ import {
 	Box
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import Rating from '@material-ui/lab/Rating';
-import ProductAbout from './ProductAbout';
-import ProductReviews from './ProductReviews';
-import ProductWhereToBuy from './ProductWhereToBuy';
+import About from './About/About';
+import Reviews from './Reviews/Reviews';
+import WhereToBuy from './WhereToBuy/WhereToBuy';
 import BottomNav from './BottomNav';
+import StarRating from './StarRating';
+import { product } from '../../assets/product';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -110,18 +111,14 @@ const ProductModal = (props) => {
 				<Grid container spacing={1} direction="column" alignItems="center">
 					<Grid item xs={12}>
 						<Typography variant="h4" component="h2" align="center">
-							Kraft Peanut Butter - Crunchy
+							{product.brand} {product.name}
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>
-						<Grid container spacing={1} alignItems="center">
-							<Grid item>
-								<Rating name="product-rating" defaultValue={4} size="large" />
-							</Grid>
-							<Grid item>
-								<Typography display="inline">from 12 ratings</Typography>
-							</Grid>
-						</Grid>
+						<StarRating
+							averageRating={product.rating}
+							amountOfRatings={product.amountOfRatings}
+						/>
 					</Grid>
 					<Box display={{ xs: 'none', md: 'inherit' }}>
 						<Grid item xs={12}>
@@ -143,13 +140,13 @@ const ProductModal = (props) => {
 				</Grid>
 				<Box marginTop={2}>
 					<TabPanel value={currentTab} index={0}>
-						<ProductAbout />
+						<About product={product} />
 					</TabPanel>
 					<TabPanel value={currentTab} index={1}>
-						<ProductReviews />
+						<Reviews />
 					</TabPanel>
 					<TabPanel value={currentTab} index={2}>
-						<ProductWhereToBuy />
+						<WhereToBuy />
 					</TabPanel>
 				</Box>
 				<BottomNav currentTab={currentTab} onChange={handleChangeCurrentTab} />

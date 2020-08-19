@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { stores } from '../../assets/stores';
-import StoresList from './StoresList';
+import { stores } from '../../../assets/stores';
 import StoresMap from './StoresMap';
-import {
-	Grid,
-	List,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
-	Snackbar,
-	Fab,
-	SwipeableDrawer,
-	Box
-} from '@material-ui/core';
+import StoresListSection from './StoresListSection';
+import { Grid, Snackbar, Fab, SwipeableDrawer, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiAlert from '@material-ui/lab/Alert';
-import { AddCircle, Add, List as ListIcon } from '@material-ui/icons';
+import { Add, List as ListIcon } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
-	storesList: {
-		width: '100%',
-		backgroundColor: theme.palette.background.paper
-	},
 	mapBox: {
 		[theme.breakpoints.down('md')]: {
 			width: `calc(100% + ${theme.spacing(4)}px)`, // account for parent padding to make map full width
@@ -66,20 +52,21 @@ export default function ProductWhereToBuy() {
 	const [showSnack, setShowSnack] = useState(false);
 	const [showErrorSnack, setShowErrorSnack] = useState(false);
 	const [openBottomDrawer, setOpenBottomDrawer] = useState(false);
+	const [showAddStore, setShowAddStore] = useState(false);
 
-	const handleCloseSnack = (event, reason) => {
+	function handleCloseSnack(event, reason) {
 		if (reason === 'clickaway') {
 			return;
 		}
 		setShowSnack(false);
-	};
+	}
 
-	const handleCloseErrorSnack = (event, reason) => {
+	function handleCloseErrorSnack(event, reason) {
 		if (reason === 'clickaway') {
 			return;
 		}
 		setShowErrorSnack(false);
-	};
+	}
 
 	function toggleBottomDrawer(currentState) {
 		setOpenBottomDrawer(currentState);
@@ -110,10 +97,18 @@ export default function ProductWhereToBuy() {
 			navigator.clipboard
 				.writeText(address)
 				.then(setShowSnack(true))
-				.catch((err) => console.error(err));
+				.catch((err) => {
+					console.error(err);
+					setShowErrorSnack(true);
+				});
 		} else {
 			setShowErrorSnack(true);
 		}
+	}
+
+	function handleAddStoreFabClick() {
+		setOpenBottomDrawer(true);
+		setShowAddStore(true);
 	}
 
 	return (
@@ -140,8 +135,9 @@ export default function ProductWhereToBuy() {
 				<Fab
 					color="primary"
 					size="medium"
-					aria-label="Show list"
+					aria-label="Add store to list"
 					className={styles.addFab}
+					onClick={handleAddStoreFabClick}
 				>
 					<Add />
 				</Fab>
@@ -153,31 +149,21 @@ export default function ProductWhereToBuy() {
 						onOpen={() => toggleBottomDrawer(true)}
 						onClose={() => toggleBottomDrawer(false)}
 					>
-						<List
-							component="div"
-							aria-label="Stores near you"
-							className={styles.storesList}
-						>
-							<StoresList
-								data={stores}
-								selectedStore={selectedStore}
-								listItemClick={handleListItemClick}
-								copyAddress={handleCopyAddress}
-							/>
-							<ListItem button>
-								<ListItemIcon>
-									<AddCircle color="primary" />
-								</ListItemIcon>
-								<ListItemText primary="Add a Store to the List" />
-							</ListItem>
-						</List>
+						<StoresListSection
+							showAddStore={showAddStore}
+							setShowAddStore={setShowAddStore}
+							handleListItemClick={handleListItemClick}
+							handleCopyAddress={handleCopyAddress}
+							stores={stores}
+							selectedStore={selectedStore}
+						/>
 					</SwipeableDrawer>
 				</Box>
 			</Box>
 			<Box display={{ xs: 'none', md: 'flex' }}>
 				<Grid container spacing={2}>
 					<Grid item md={6}>
-						<Box marginTop={2} height={570}>
+						<Box marginTop={1} height={570}>
 							<StoresMap
 								data={stores}
 								selectedStore={selectedStore}
@@ -187,25 +173,15 @@ export default function ProductWhereToBuy() {
 						</Box>
 					</Grid>
 					<Grid item md={6}>
-						<Box marginTop={2} height={570} overflow="auto">
-							<List
-								component="div"
-								aria-label="Stores near you"
-								className={styles.storesList}
-							>
-								<StoresList
-									data={stores}
-									selectedStore={selectedStore}
-									listItemClick={handleListItemClick}
-									copyAddress={handleCopyAddress}
-								/>
-								<ListItem button>
-									<ListItemIcon>
-										<AddCircle color="primary" />
-									</ListItemIcon>
-									<ListItemText primary="Add a Store to the List" />
-								</ListItem>
-							</List>
+						<Box marginTop={0} height={570} overflow="auto">
+							<StoresListSection
+								showAddStore={showAddStore}
+								setShowAddStore={setShowAddStore}
+								handleListItemClick={handleListItemClick}
+								handleCopyAddress={handleCopyAddress}
+								stores={stores}
+								selectedStore={selectedStore}
+							/>
 						</Box>
 					</Grid>
 				</Grid>
