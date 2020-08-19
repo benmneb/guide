@@ -18,10 +18,14 @@ export function getTimeAgo(date) {
 		let timePeriod = Math.floor(secondsAgo / HOUR);
 		if (timePeriod <= 1) return 'An hour ago';
 		else return timePeriod + ' hours ago';
-	} else if (secondsAgo > HOUR * 21 && secondsAgo <= DAY * 25) {
+	} else if (secondsAgo > HOUR * 21 && secondsAgo <= DAY * 6) {
 		let timePeriod = Math.floor(secondsAgo / DAY);
 		if (timePeriod <= 1) return 'A day ago';
 		else return timePeriod + ' days ago';
+	} else if (secondsAgo > DAY * 6 && secondsAgo <= DAY * 25) {
+		let timePeriod = Math.floor(secondsAgo / WEEK);
+		if (timePeriod <= 1) return 'A week ago';
+		else return timePeriod + ' weeks ago';
 	} else if (secondsAgo > DAY * 25 && secondsAgo <= DAY * 320) {
 		let timePeriod = Math.floor(secondsAgo / MONTH);
 		if (timePeriod <= 1) return 'A month ago';
