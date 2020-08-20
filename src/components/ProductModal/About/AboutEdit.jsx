@@ -101,7 +101,7 @@ export default function AboutEdit(props) {
 						id="suggest-edit-elaboration"
 						label="If you can, please elaboarate"
 						multiline
-						rows={8}
+						rows={10}
 						variant="outlined"
 						autoFocus
 						className={styles.marginBtm}
