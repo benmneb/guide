@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Tooltip, Zoom } from '@material-ui/core';
+import { Button, Tooltip } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	filtersBtn: {
@@ -21,7 +21,7 @@ export default function FilterButton(props) {
 	}
 
 	return (
-		<Tooltip title={props.tooltip} TransitionComponent={Zoom} arrow enterDelay={1000}>
+		<Tooltip title={props.tooltip} arrow enterDelay={1000}>
 			<Button
 				className={classes.filtersBtn}
 				variant={variant}

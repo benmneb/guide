@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
-import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
+import TooltipToggleButton from './TooltipToggleButton';
+import { orderBy as orderByOptions } from '../../assets/filters';
 
 const useStyles = makeStyles((theme) => ({
 	buttonGroup: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function OrderBy() {
 	const styles = useStyles();
-	const [orderBy, setOrderBy] = useState('descending');
+	const [orderBy, setOrderBy] = useState('↓ Descending');
 
 	const handleClick = (event, newOrder) => {
 		if (newOrder !== null) {
@@ -36,26 +37,20 @@ export default function OrderBy() {
 			aria-label="order results by"
 			className={styles.buttonGroup}
 		>
-			<ToggleButton
-				value="ascending"
-				aria-label="ascending"
-				disableRipple
-				classes={{ label: styles.label }}
-			>
-				<Typography variant="body1" classes={{ body1: styles.body1 }}>
-					Ascending
-				</Typography>
-			</ToggleButton>
-			<ToggleButton
-				value="descending"
-				aria-label="descending"
-				disableRipple
-				classes={{ label: styles.label }}
-			>
-				<Typography variant="body1" classes={{ body1: styles.body1 }}>
-					Descending
-				</Typography>
-			</ToggleButton>
+			{orderByOptions.map((option) => (
+				<TooltipToggleButton
+					key={option.name}
+					title={option.tooltip}
+					value={option.name}
+					aria-label={option.name}
+					disableRipple
+					classes={{ label: styles.label }}
+				>
+					<Typography variant="body1" classes={{ body1: styles.body1 }}>
+						{option.name}
+					</Typography>
+				</TooltipToggleButton>
+			))}
 		</ToggleButtonGroup>
 	);
 }

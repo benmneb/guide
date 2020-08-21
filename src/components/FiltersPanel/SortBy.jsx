@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Typography } from '@material-ui/core';
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+import { ToggleButtonGroup } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
+import TooltipToggleButton from './TooltipToggleButton';
+import { sortBy as sortByOptions } from '../../assets/filters';
 
 const useStyles = makeStyles((theme) => ({
 	buttonGroup: {
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SortBy() {
 	const styles = useStyles();
-	const [sortBy, setSortBy] = useState('popularity');
+	const [sortBy, setSortBy] = useState('🔥 Popularity');
 
 	const handleClick = (event, newSort) => {
 		if (newSort !== null) {
@@ -35,36 +37,20 @@ export default function SortBy() {
 			aria-label="sort results by"
 			className={styles.buttonGroup}
 		>
-			<ToggleButton
-				value="popularity"
-				aria-label="left aligned"
-				disableRipple
-				classes={{ label: styles.label }}
-			>
-				<Typography variant="body1" classes={{ body1: styles.body1 }}>
-					Popularity
-				</Typography>
-			</ToggleButton>
-			<ToggleButton
-				value="alphabetical"
-				aria-label="centered"
-				disableRipple
-				classes={{ label: styles.label }}
-			>
-				<Typography variant="body1" classes={{ body1: styles.body1 }}>
-					Alphabetical
-				</Typography>
-			</ToggleButton>
-			<ToggleButton
-				value="rating"
-				aria-label="right aligned"
-				disableRipple
-				classes={{ label: styles.label }}
-			>
-				<Typography variant="body1" classes={{ body1: styles.body1 }}>
-					Rating
-				</Typography>
-			</ToggleButton>
+			{sortByOptions.map((option) => (
+				<TooltipToggleButton
+					key={option.name}
+					title={option.tooltip}
+					value={option.name}
+					aria-label={option.name}
+					disableRipple
+					classes={{ label: styles.label }}
+				>
+					<Typography variant="body1" classes={{ body1: styles.body1 }}>
+						{option.name}
+					</Typography>
+				</TooltipToggleButton>
+			))}
 		</ToggleButtonGroup>
 	);
 }
