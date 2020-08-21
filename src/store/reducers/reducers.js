@@ -7,7 +7,9 @@ const initialState = {
 	showAddProductsModal: false,
 	showAdvertiseModal: false,
 	showTermsModal: false,
-	showPrivacyModal: false
+	showPrivacyModal: false,
+	showAddReview: false,
+	ratingBeforeClickedAddReviewSnackbar: null
 };
 
 export default function Reducers(state = initialState, action) {
@@ -35,7 +37,8 @@ export default function Reducers(state = initialState, action) {
 		case actionTypes.TOGGLE_PRODUCT_MODAL:
 			return {
 				...state,
-				showProductModal: !state.showProductModal
+				showProductModal: !state.showProductModal,
+				ratingBeforeClickedAddReviewSnackbar: null
 			};
 		case actionTypes.TOGGLE_ADD_PRODUCTS_MODAL:
 			return {
@@ -56,6 +59,21 @@ export default function Reducers(state = initialState, action) {
 			return {
 				...state,
 				showPrivacyModal: !state.showPrivacyModal
+			};
+		case actionTypes.CLICK_ADD_REVIEW_AFTER_RATING:
+			return {
+				...state,
+				ratingBeforeClickedAddReviewSnackbar: Number(action.payload.rating)
+			};
+		case actionTypes.SHOW_ADD_REVIEW:
+			return {
+				...state,
+				showAddReview: true
+			};
+		case actionTypes.HIDE_ADD_REVIEW:
+			return {
+				...state,
+				showAddReview: false
 			};
 		default:
 			return state;

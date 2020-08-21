@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
@@ -82,11 +82,21 @@ const ProductModal = (props) => {
 
 	const onCloseModal = () => {
 		props.onToggleProductModal();
+		props.onHideAddReview();
 	};
 
 	const handleChangeCurrentTab = (event, newValue) => {
+		if (newValue !== 1) {
+			props.onHideAddReview();
+		}
 		setCurrentTab(newValue);
 	};
+
+	useEffect(() => {
+		if (props.showAddReview && currentTab !== 1) {
+			setCurrentTab(1);
+		}
+	}, [props.showAddReview, currentTab]);
 
 	return (
 		<Dialog
@@ -157,13 +167,15 @@ const ProductModal = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		showProductModal: state.showProductModal
+		showProductModal: state.showProductModal,
+		showAddReview: state.showAddReview
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onToggleProductModal: () => dispatch(actionCreators.toggleProductModal())
+		onToggleProductModal: () => dispatch(actionCreators.toggleProductModal()),
+		onHideAddReview: () => dispatch(actionCreators.hideAddReview())
 	};
 };
 

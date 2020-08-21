@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Button, TextField, Grid, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 
@@ -10,21 +10,37 @@ const labels = {
 	5: 'Excellent'
 };
 
-export default function ReviewsAdd() {
+export default function ReviewsAdd(props) {
 	const [rating, setRating] = useState(0);
 	const [hover, setHover] = useState(-1);
+
+	const { ratingBeforeClickedAddReviewSnackbar } = props;
+	useEffect(() => {
+		if (
+			ratingBeforeClickedAddReviewSnackbar &&
+			rating !== ratingBeforeClickedAddReviewSnackbar
+		) {
+			setRating(ratingBeforeClickedAddReviewSnackbar);
+		}
+		//eslint-disable-next-line
+	}, [ratingBeforeClickedAddReviewSnackbar]);
+
+	let ratingHelperText;
+
+	if ((rating === 0 && hover === -1) || (rating === null && hover === -1)) {
+		ratingHelperText = 'Select a rating:';
+	} else {
+		ratingHelperText = (
+			<Box component="span">Rate as "{labels[hover !== -1 ? hover : rating]}"</Box>
+		);
+	}
 
 	return (
 		<Box marginTop={1}>
 			<Grid container alignItems="center" justify="center">
 				<Grid item container xs={12} justify="center" alignItems="center" spacing={1}>
 					<Grid item xs={12} container justify="center">
-						<Typography>
-							Your rating:{' '}
-							{rating !== null && (
-								<Box component="span">{labels[hover !== -1 ? hover : rating]}</Box>
-							)}
-						</Typography>
+						<Typography>{ratingHelperText}</Typography>
 					</Grid>
 					<Grid item xs={12} container justify="center">
 						<Rating
@@ -49,6 +65,7 @@ export default function ReviewsAdd() {
 							fullWidth
 							variant="outlined"
 							size="small"
+							autoFocus
 						/>
 					</Grid>
 					<Grid item container xs={12} justify="center">

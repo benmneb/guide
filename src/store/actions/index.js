@@ -7,5 +7,8 @@ export {
 	toggleAddProductsModal,
 	toggleAdvertiseModal,
 	toggleTermsModal,
-	togglePrivacyModal
+	togglePrivacyModal,
+	clickAddReviewAfterRating,
+	showAddReview,
+	hideAddReview
 } from './actions';
