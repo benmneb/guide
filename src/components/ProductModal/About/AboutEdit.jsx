@@ -21,7 +21,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
-		height: 416,
+		height: 464,
 		width: theme.breakpoints.values.sm / 2
 	},
 	marginBtm: {
@@ -49,13 +49,14 @@ const reasons = [
 	'Wrong/bad image',
 	'Wrong/missing tags',
 	'Duplicate product',
+	'Discontinued product',
 	'Non-vegan product'
 ];
 
 export default function AboutEdit(props) {
 	const styles = useStyles();
-	const [hasSelected, setHasSelected] = useState(false);
 	const [selectedReason, setSelectedReason] = useState(null);
+	const [hasSelected, setHasSelected] = useState(false);
 	const [elaboration, setElaboration] = useState('');
 
 	const handleClose = () => {
@@ -114,7 +115,7 @@ export default function AboutEdit(props) {
 						id="suggest-edit-elaboration"
 						label="If you can, please elaboarate"
 						multiline
-						rows={9}
+						rows={11}
 						variant="outlined"
 						autoFocus
 						className={styles.marginBtm}
