@@ -14,6 +14,7 @@ import AddProducts from './components/Dialogs/AddProducts';
 import Advertise from './components/Dialogs/Advertise';
 import Privacy from './components/Dialogs/Privacy';
 import Terms from './components/Dialogs/Terms';
+import Feedback from './components/Dialogs/Feedback';
 
 const theme = createMuiTheme({
 	palette: {
@@ -61,6 +62,7 @@ export default function App() {
 				<ProductModal />
 				<AddProducts />
 				<Advertise />
+				<Feedback />
 				<Privacy />
 				<Terms />
 				<BottomNav />

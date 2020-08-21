@@ -54,6 +54,12 @@ export const togglePrivacyModal = () => {
 	};
 };
 
+export const toggleFeedbackModal = () => {
+	return {
+		type: actionTypes.TOGGLE_FEEDBACK_MODAL
+	};
+};
+
 export const clickAddReviewAfterRating = (rating) => {
 	return {
 		type: actionTypes.CLICK_ADD_REVIEW_AFTER_RATING,

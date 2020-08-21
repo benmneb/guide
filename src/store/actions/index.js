@@ -8,6 +8,7 @@ export {
 	toggleAdvertiseModal,
 	toggleTermsModal,
 	togglePrivacyModal,
+	toggleFeedbackModal,
 	clickAddReviewAfterRating,
 	showAddReview,
 	hideAddReview

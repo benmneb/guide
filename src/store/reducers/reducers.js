@@ -8,6 +8,7 @@ const initialState = {
 	showAdvertiseModal: false,
 	showTermsModal: false,
 	showPrivacyModal: false,
+	showFeedbackModal: false,
 	showAddReview: false,
 	ratingBeforeClickedAddReviewSnackbar: null
 };
@@ -59,6 +60,11 @@ export default function Reducers(state = initialState, action) {
 			return {
 				...state,
 				showPrivacyModal: !state.showPrivacyModal
+			};
+		case actionTypes.TOGGLE_FEEDBACK_MODAL:
+			return {
+				...state,
+				showFeedbackModal: !state.showFeedbackModal
 			};
 		case actionTypes.CLICK_ADD_REVIEW_AFTER_RATING:
 			return {

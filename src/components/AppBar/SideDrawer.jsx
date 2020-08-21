@@ -16,6 +16,7 @@ import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import FeedbackIcon from '@material-ui/icons/Feedback';
 import { categories } from '../../assets/categories';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as actionCreators from '../../store/actions';
@@ -68,6 +69,8 @@ const SideDrawer = (props) => {
 				return props.onToggleTermsModal();
 			case 'privacy':
 				return props.onTogglePrivacyModal();
+			case 'feedback':
+				return props.onToggleFeedbackModal();
 			default:
 				return;
 		}
@@ -137,6 +140,12 @@ const SideDrawer = (props) => {
 					</ListItemIcon>
 					<ListItemText primary={'Advertise'} />
 				</ListItem>
+				<ListItem button onClick={() => openMenuItem('feedback')}>
+					<ListItemIcon>
+						<FeedbackIcon />
+					</ListItemIcon>
+					<ListItemText primary="Provide Feedback" />
+				</ListItem>
 				<ListItem button>
 					<ListItemIcon>
 						<GetAppIcon />
@@ -146,9 +155,6 @@ const SideDrawer = (props) => {
 			</List>
 			<Divider />
 			<List>
-				<ListItem button>
-					<ListItemText primary="Provide Feedback" />
-				</ListItem>
 				<ListItem button onClick={() => openMenuItem('terms')}>
 					<ListItemText primary="Terms of Use" />
 				</ListItem>
@@ -206,7 +212,8 @@ const mapDispatchToProps = (dispatch) => {
 		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
 		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
 		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal()),
-		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal())
+		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal()),
+		onToggleFeedbackModal: () => dispatch(actionCreators.toggleFeedbackModal())
 	};
 };
 
