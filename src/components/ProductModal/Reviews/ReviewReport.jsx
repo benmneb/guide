@@ -1,5 +1,9 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import CloseIcon from '@material-ui/icons/Close';
 import {
+	IconButton,
 	List,
 	ListItem,
 	ListItemIcon,
@@ -10,7 +14,25 @@ import {
 import { ReportProblemRounded, ReportRounded } from '@material-ui/icons';
 import { red, deepOrange } from '@material-ui/core/colors';
 
+const useStyles = makeStyles((theme) => ({
+	dialogTitle: {
+		textAlign: 'left'
+	},
+	titleRoot: {
+		margin: 0,
+		padding: 0
+	},
+	closeButton: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+		color: theme.palette.grey[500]
+	}
+}));
+
 export default function ReviewReport(props) {
+	const styles = useStyles();
+
 	const handleClose = () => {
 		props.onClose();
 	};
@@ -25,6 +47,15 @@ export default function ReviewReport(props) {
 
 	return (
 		<Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={props.show}>
+			<MuiDialogTitle disableTypography className={styles.titleRoot}>
+				<IconButton
+					aria-label="close"
+					className={styles.closeButton}
+					onClick={handleClose}
+				>
+					<CloseIcon />
+				</IconButton>
+			</MuiDialogTitle>
 			<DialogTitle id="simple-dialog-title">Report as...</DialogTitle>
 			<List>
 				<ListItem

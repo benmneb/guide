@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import CloseIcon from '@material-ui/icons/Close';
 import {
+	IconButton,
 	List,
 	ListItem,
 	ListItemText,
@@ -18,14 +21,24 @@ import {
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
-		height: 420,
+		height: 416,
 		width: theme.breakpoints.values.sm / 2
 	},
 	marginBtm: {
 		marginBottom: theme.spacing()
 	},
 	dialogTitle: {
-		textAlign: 'center'
+		textAlign: 'left'
+	},
+	titleRoot: {
+		margin: 0,
+		padding: 0
+	},
+	closeButton: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+		color: theme.palette.grey[500]
 	}
 }));
 
@@ -95,13 +108,13 @@ export default function AboutEdit(props) {
 					flexDirection="column"
 					justifyContent="center"
 					alignItems="center"
-					margin={1}
+					margin={2}
 				>
 					<TextField
 						id="suggest-edit-elaboration"
 						label="If you can, please elaboarate"
 						multiline
-						rows={10}
+						rows={9}
 						variant="outlined"
 						autoFocus
 						className={styles.marginBtm}
@@ -125,6 +138,15 @@ export default function AboutEdit(props) {
 			maxWidth="sm"
 			classes={{ paperWidthSm: styles.modal }}
 		>
+			<MuiDialogTitle disableTypography className={styles.titleRoot}>
+				<IconButton
+					aria-label="close"
+					className={styles.closeButton}
+					onClick={handleClose}
+				>
+					<CloseIcon />
+				</IconButton>
+			</MuiDialogTitle>
 			<DialogTitle id="simple-dialog-title" className={styles.dialogTitle}>
 				Suggest an Edit
 			</DialogTitle>
