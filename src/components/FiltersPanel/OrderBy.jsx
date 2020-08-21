@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function OrderBy() {
 	const styles = useStyles();
-	const [orderBy, setOrderBy] = useState('↓ Descending');
+	const [orderBy, setOrderBy] = useState('Descending');
 
 	const handleClick = (event, newOrder) => {
 		if (newOrder !== null) {
@@ -39,10 +39,10 @@ export default function OrderBy() {
 		>
 			{orderByOptions.map((option) => (
 				<TooltipToggleButton
-					key={option.name}
+					key={option.value}
 					title={option.tooltip}
-					value={option.name}
-					aria-label={option.name}
+					value={option.value}
+					aria-label={option.value}
 					disableRipple
 					classes={{ label: styles.label }}
 				>

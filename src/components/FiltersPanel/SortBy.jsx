@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SortBy() {
 	const styles = useStyles();
-	const [sortBy, setSortBy] = useState('🔥 Popularity');
+	const [sortBy, setSortBy] = useState('Popularity');
 
 	const handleClick = (event, newSort) => {
 		if (newSort !== null) {
@@ -39,10 +39,10 @@ export default function SortBy() {
 		>
 			{sortByOptions.map((option) => (
 				<TooltipToggleButton
-					key={option.name}
+					key={option.value}
 					title={option.tooltip}
-					value={option.name}
-					aria-label={option.name}
+					value={option.value}
+					aria-label={option.value}
 					disableRipple
 					classes={{ label: styles.label }}
 				>
