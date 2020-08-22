@@ -138,24 +138,9 @@ SubHeading.defaultProps = {
 ///////// FOOTER
 
 export function Footer(props) {
-	const { textAlign, forHome, forCategory } = props;
+	const { textAlign, forCategory } = props;
 
 	let footerContent;
-
-	if (forHome) {
-		footerContent = (
-			<Typography align={textAlign} paragraph>
-				You can{' '}
-				<Link href="#" underline="hover">
-					add any missing products
-				</Link>
-				, edit existing products and{' '}
-				<Link href="#" underline="hover">
-					change your location.
-				</Link>
-			</Typography>
-		);
-	}
 
 	if (forCategory) {
 		footerContent = (
