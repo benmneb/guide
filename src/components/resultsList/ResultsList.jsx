@@ -40,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
 
 const ResultsList = (props) => {
 	const styles = useStyles();
+	const { showFiltersPanel, onToggleProductModal } = props;
+
+	function handleResultClick() {
+		onToggleProductModal();
+	}
 
 	return (
 		<>
@@ -54,7 +59,7 @@ const ResultsList = (props) => {
 			<FiltersBar />
 			<div
 				className={clsx(styles.container, {
-					[styles.containerShift]: props.showFiltersPanel
+					[styles.containerShift]: showFiltersPanel
 				})}
 			>
 				{results.map((result) => (
@@ -63,7 +68,7 @@ const ResultsList = (props) => {
 						image={result.image}
 						brand={result.brand}
 						name={result.name}
-						clicked={() => props.onToggleProductModal()}
+						clicked={handleResultClick}
 						avgRating={result.avgRating}
 						amtRatings={result.amtRatings}
 					/>
