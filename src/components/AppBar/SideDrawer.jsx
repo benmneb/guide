@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -17,7 +18,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import FeedbackIcon from '@material-ui/icons/Feedback';
-import { categories } from '../../assets/categories';
+import { categories } from '../../assets/categoriesAZ';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as actionCreators from '../../store/actions';
 
@@ -89,13 +90,18 @@ const SideDrawer = (props) => {
 			</div>
 			<Divider />
 			<List component="nav">
-				<ListItem button>
+				<ListItem component={Link} to="/" button onClick={handleCloseSideDrawer}>
 					<ListItemIcon>
 						<HomeIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Home'} />
 				</ListItem>
-				<ListItem button>
+				<ListItem
+					component={Link}
+					to="/food-drink"
+					button
+					onClick={handleCloseSideDrawer}
+				>
 					<ListItemIcon>
 						<FastfoodIcon />
 					</ListItemIcon>
@@ -114,10 +120,17 @@ const SideDrawer = (props) => {
 					<ListItemText primary={'All Categories'} />
 				</ListItem>
 				<Collapse in={expandCategories} timeout="auto" unmountOnExit>
-					<List component="div" disablePadding>
+					<List dense component="div" disablePadding>
 						{categories.map((category) => (
-							<ListItem button key={category.id} className={styles.nested}>
-								<ListItemText primary={category.name} key={category.id} />
+							<ListItem
+								component={Link}
+								to="/food-drink/nut-butters-spreads"
+								dense
+								button
+								key={category.id}
+								className={styles.nested}
+							>
+								<ListItemText primary={category.name} />
 							</ListItem>
 						))}
 					</List>

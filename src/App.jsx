@@ -53,9 +53,9 @@ export default function App() {
 				<CssBaseline />
 				<AppBar>
 					<Switch>
-						<Route path="/food-drink/nut-butters-spreads" component={ResultsList} />
-						<Route path="/food-drink" component={FoodDrink} />
-						<Route path="/" component={Home} />
+						<Route exact path="/" component={Home} />
+						<Route path="/:productType/:category" component={ResultsList} />
+						<Route path="/:productType" component={FoodDrink} />
 					</Switch>
 				</AppBar>
 				<FiltersPanel />

@@ -76,9 +76,20 @@ export default function SingleLineGridList() {
 									</Link>
 								</Box>
 							</Toolbar>
-							<GridList className={styles.gridList} cols={5} cellHeight={300} spacing={0}>
+							<GridList
+								className={styles.gridList}
+								cols={5.3}
+								cellHeight={300}
+								spacing={0}
+							>
 								{subCat1s.map((image) => (
-									<GridListTile key={image.img} cols={1} className={styles.gridListTile}>
+									<GridListTile
+										component={Link}
+										to="/food-drink/nut-butters-spreads"
+										key={image.img}
+										cols={1}
+										className={styles.gridListTile}
+									>
 										<img src={image.img} alt={image.title} className={styles.image} />
 										<GridListTileBar
 											titlePosition="top"
