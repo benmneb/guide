@@ -84,7 +84,7 @@ const SideDrawer = (props) => {
 			<div className={styles.toolbar}>
 				<img
 					style={{ height: 30, marginTop: 5 }}
-					src={require('../../assets/logo.png')}
+					src={require('../../assets/images/logo.png')}
 					alt="Vomad Guide: Find Vegan Products Near You"
 				/>
 			</div>
