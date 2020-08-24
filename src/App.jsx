@@ -5,7 +5,6 @@ import { orange } from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from './components/AppBar/AppBar';
 import ResultsList from './components/ResultsList/ResultsList';
-import FiltersPanel from './components/FiltersPanel/FiltersPanel';
 import ProductModal from './components/ProductModal/ProductModal';
 import BottomNav from './components/AppBar/BottomNav';
 import Home from './components/categories/Home';
@@ -58,7 +57,6 @@ export default function App() {
 						<Route path="/:productType" component={FoodDrink} />
 					</Switch>
 				</AppBar>
-				<FiltersPanel />
 				<ProductModal />
 				<AddProducts />
 				<Advertise />

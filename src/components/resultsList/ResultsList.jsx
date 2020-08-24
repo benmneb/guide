@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Result from './Result';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import FiltersBar from '../AppBar/FiltersBar';
+import FiltersPanel from '../FiltersPanel/FiltersPanel';
 import AddProductsFab from './AddProductsFab';
 import * as actionCreators from '../../store/actions';
 import { results } from '../../assets/results';
@@ -48,7 +49,7 @@ const ResultsList = (props) => {
 
 	return (
 		<>
-			<Hero bgImage={peanuts}>
+			<Hero bgImage={peanuts} hide={showFiltersPanel}>
 				<Heading>Vegan Nut Butters & Spreads</Heading>
 				<SubHeading>
 					There are 64 vegan nut butters & spreads within Australia from brands like
@@ -75,6 +76,7 @@ const ResultsList = (props) => {
 				))}
 			</div>
 			<AddProductsFab />
+			<FiltersPanel />
 		</>
 	);
 };

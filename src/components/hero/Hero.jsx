@@ -58,7 +58,7 @@ function Hero(props) {
 			alignItems="center"
 			justifyContent={justifyContent}
 			className={clsx(styles.container, {
-				[styles.displayNone]: props.showFiltersPanel,
+				[styles.displayNone]: props.hide,
 				[styles.hasBgImage]: props.bgImage
 			})}
 		>
