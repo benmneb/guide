@@ -71,6 +71,7 @@ function Reviews(props) {
 					ratingBeforeClickedAddReviewSnackbar={
 						props.ratingBeforeClickedAddReviewSnackbar
 					}
+					hide={onHideAddReview}
 				/>
 			</Collapse>
 			<MasonryLayout>

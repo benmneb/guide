@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
 export default function StoresListSection(props) {
 	const styles = useStyles();
 
+	function closeSelf() {
+		props.setShowAddStore(!props.showAddStore);
+	}
+
 	return (
 		<List
 			component="div"
@@ -33,14 +37,14 @@ export default function StoresListSection(props) {
 				</ListSubheader>
 			}
 		>
-			<ListItem button onClick={() => props.setShowAddStore(!props.showAddStore)}>
+			<ListItem button onClick={closeSelf}>
 				<ListItemIcon>
 					{props.showAddStore ? <CancelRounded /> : <AddCircle color="primary" />}
 				</ListItemIcon>
 				<ListItemText>{props.showAddStore ? 'Cancel' : 'Add a Store'}</ListItemText>
 			</ListItem>
 			<Collapse in={props.showAddStore} timeout="auto" unmountOnExit>
-				<StoresAdd />
+				<StoresAdd hide={closeSelf} />
 			</Collapse>
 			<StoresList
 				data={props.stores}
