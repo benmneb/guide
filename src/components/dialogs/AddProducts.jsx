@@ -18,10 +18,8 @@ import {
 	TextField,
 	Typography,
 	useMediaQuery,
-	Snackbar,
 	Box
 } from '@material-ui/core';
-import { Alert, AlertTitle } from '@material-ui/lab';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 import { useTheme, withStyles, makeStyles } from '@material-ui/core/styles';
 import { categories } from '../../assets/categories';
@@ -74,7 +72,11 @@ const DialogTitle = withStyles(styles)((props) => {
 	);
 });
 
-const AddProducts = (props) => {
+const AddProducts = ({
+	onToggleAddProductsModal,
+	onShowSuccessSnack,
+	showAddProductsModal
+}) => {
 	const theme = useTheme();
 	const classes = useStyles();
 	const steps = getSteps();
@@ -86,15 +88,6 @@ const AddProducts = (props) => {
 	const [productName, setProductName] = useState(null);
 	const [selectedCategory, setSelectedCategory] = useState(null);
 	const [inputValue, setInputValue] = useState('');
-	const [showSnack, setShowSnack] = useState(false);
-
-	const handleCloseSnack = (event, reason) => {
-		if (reason === 'clickaway') {
-			return;
-		}
-
-		setShowSnack(false);
-	};
 
 	const handleItsVeganChange = (event) => {
 		setConfirmItsVegan(event.target.checked);
@@ -107,7 +100,14 @@ const AddProducts = (props) => {
 			return;
 		}
 		if (activeStep === steps.length - 1) {
-			setShowSnack(true);
+			onShowSuccessSnack({
+				snackData: {
+					type: 'success',
+					title: 'Submission Received',
+					message: 'Thank you for helping people find vegan products easier',
+					emoji: '💪'
+				}
+			});
 			console.log(
 				`user $userId suggested to add 
 			brand: "${brandname.name}", 
@@ -134,7 +134,7 @@ const AddProducts = (props) => {
 
 	const onClose = () => {
 		handleReset();
-		props.onToggleAddProductsModal();
+		onToggleAddProductsModal();
 	};
 
 	const categoriesMapped = categories.map((category) => {
@@ -359,92 +359,70 @@ const AddProducts = (props) => {
 	}
 
 	return (
-		<>
-			<Dialog
-				open={props.showAddProductsModal}
-				onClose={onClose}
-				aria-labelledby="form-dialog-title"
-				fullScreen={fullScreen}
-				maxWidth="sm"
-				fullWidth
-				classes={{ paperFullWidth: classes.modalMaxHeight }}
-			>
-				<DialogTitle id="form-dialog-title" onClose={onClose}>
-					Add a Product to the Guide
-				</DialogTitle>
-				<DialogContent>
-					<form ref={formRef}>
-						<Stepper activeStep={activeStep} orientation="vertical">
-							{steps.map((label, index) => (
-								<Step key={label}>
-									<StepLabel classes={{ iconContainer: classes.stepIconTextFill }}>
-										{label}
-									</StepLabel>
-									<StepContent>
-										<Box>{getStepContent(index)}</Box>
-										<div className={classes.actionsContainer}>
-											<div>
-												<Button
-													disabled={activeStep === 0}
-													onClick={handleBack}
-													className={classes.button}
-												>
-													Back
-												</Button>
-												<Button
-													variant="contained"
-													color="primary"
-													disabled={!confirmItsVegan}
-													onClick={handleNext}
-													className={classes.button}
-												>
-													{activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-												</Button>
-											</div>
+		<Dialog
+			open={showAddProductsModal}
+			onClose={onClose}
+			aria-labelledby="form-dialog-title"
+			fullScreen={fullScreen}
+			maxWidth="sm"
+			fullWidth
+			classes={{ paperFullWidth: classes.modalMaxHeight }}
+		>
+			<DialogTitle id="form-dialog-title" onClose={onClose}>
+				Add a Product to the Guide
+			</DialogTitle>
+			<DialogContent>
+				<form ref={formRef}>
+					<Stepper activeStep={activeStep} orientation="vertical">
+						{steps.map((label, index) => (
+							<Step key={label}>
+								<StepLabel classes={{ iconContainer: classes.stepIconTextFill }}>
+									{label}
+								</StepLabel>
+								<StepContent>
+									<Box>{getStepContent(index)}</Box>
+									<div className={classes.actionsContainer}>
+										<div>
+											<Button
+												disabled={activeStep === 0}
+												onClick={handleBack}
+												className={classes.button}
+											>
+												Back
+											</Button>
+											<Button
+												variant="contained"
+												color="primary"
+												disabled={!confirmItsVegan}
+												onClick={handleNext}
+												className={classes.button}
+											>
+												{activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+											</Button>
 										</div>
-									</StepContent>
-								</Step>
-							))}
-						</Stepper>
-					</form>
-					{activeStep === steps.length && (
-						<Box margin={1}>
-							<Typography paragraph>We have received your submission.</Typography>
-							<Typography paragraph>
-								Thank you for helping people find vegan products easier.
-							</Typography>
-							<Typography paragraph>
-								Please note that for quality assurance we manually review all submissions
-								before they appear on the Guide.
-							</Typography>
-							<Box display="flex" justifyContent="flex-end">
-								<Button onClick={handleReset}>Add another product</Button>
-							</Box>
+									</div>
+								</StepContent>
+							</Step>
+						))}
+					</Stepper>
+				</form>
+				{activeStep === steps.length && (
+					<Box margin={1}>
+						<Typography paragraph>We have received your submission.</Typography>
+						<Typography paragraph>
+							Thank you for helping people find vegan products easier.
+						</Typography>
+						<Typography paragraph>
+							Please note that for quality assurance we manually review all submissions
+							before they appear on the Guide.
+						</Typography>
+						<Box display="flex" justifyContent="flex-end">
+							<Button onClick={handleReset}>Add another product</Button>
 						</Box>
-					)}
-				</DialogContent>
-			</Dialog>
-			<Snackbar
-				open={showSnack}
-				autoHideDuration={6000}
-				onClose={handleCloseSnack}
-				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-			>
-				<Alert
-					onClose={handleCloseSnack}
-					severity="success"
-					color="info"
-					variant="filled"
-					elevation={6}
-				>
-					<AlertTitle>Submission received.</AlertTitle>
-					Thank you for helping people find vegan products easier{' '}
-					<span role="img" aria-label="">
-						💪
-					</span>
-				</Alert>
-			</Snackbar>
-		</>
+					</Box>
+				)}
+			</DialogContent>
+		</Dialog>
 	);
 };
 
@@ -456,7 +434,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal())
+		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
+		onShowSuccessSnack: ({ snackData }) =>
+			dispatch(actionCreators.showSuccessSnack({ snackData }))
 	};
 };
 

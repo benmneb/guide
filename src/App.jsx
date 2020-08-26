@@ -14,6 +14,7 @@ import Advertise from './components/Dialogs/Advertise';
 import Privacy from './components/Dialogs/Privacy';
 import Terms from './components/Dialogs/Terms';
 import Feedback from './components/Dialogs/Feedback';
+import Snackbars from './components/Dialogs/Snackbars';
 
 const theme = createMuiTheme({
 	palette: {
@@ -63,6 +64,7 @@ export default function App() {
 				<Feedback />
 				<Privacy />
 				<Terms />
+				<Snackbars />
 				<BottomNav />
 			</>
 		</ThemeProvider>

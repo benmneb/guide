@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../../store/actions';
 import { stores } from '../../../assets/stores';
 import StoresMap from './StoresMap';
 import StoresListSection from './StoresListSection';
-import { Grid, Snackbar, Fab, SwipeableDrawer, Box } from '@material-ui/core';
+import { Grid, Fab, SwipeableDrawer, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import MuiAlert from '@material-ui/lab/Alert';
 import { Add, List as ListIcon } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,33 +41,13 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-export default function ProductWhereToBuy() {
+function WhereToBuy({ onShowSuccessSnack }) {
 	const styles = useStyles();
 	const [selectedStore, setSelectedStore] = useState(null);
 	const [mapPosition, setMapPosition] = useState(null);
 	const [errMessage, setErrMessage] = useState(null);
-	const [showSnack, setShowSnack] = useState(false);
-	const [showErrorSnack, setShowErrorSnack] = useState(false);
 	const [openBottomDrawer, setOpenBottomDrawer] = useState(false);
 	const [showAddStore, setShowAddStore] = useState(false);
-
-	function handleCloseSnack(event, reason) {
-		if (reason === 'clickaway') {
-			return;
-		}
-		setShowSnack(false);
-	}
-
-	function handleCloseErrorSnack(event, reason) {
-		if (reason === 'clickaway') {
-			return;
-		}
-		setShowErrorSnack(false);
-	}
 
 	function toggleBottomDrawer(currentState) {
 		setOpenBottomDrawer(currentState);
@@ -96,13 +77,30 @@ export default function ProductWhereToBuy() {
 		if (navigator.clipboard) {
 			navigator.clipboard
 				.writeText(address)
-				.then(setShowSnack(true))
+				.then(
+					onShowSuccessSnack({
+						snackData: {
+							type: 'info',
+							message: 'Address copied to clipboard'
+						}
+					})
+				)
 				.catch((err) => {
 					console.error(err);
-					setShowErrorSnack(true);
+					onShowSuccessSnack({
+						snackData: {
+							type: 'error',
+							message: 'Could not copy to clipboard'
+						}
+					});
 				});
 		} else {
-			setShowErrorSnack(true);
+			onShowSuccessSnack({
+				snackData: {
+					type: 'error',
+					message: 'Could not copy to clipboard'
+				}
+			});
 		}
 	}
 
@@ -186,26 +184,15 @@ export default function ProductWhereToBuy() {
 					</Grid>
 				</Grid>
 			</Box>
-			<Snackbar
-				open={showSnack}
-				autoHideDuration={3000}
-				onClose={handleCloseSnack}
-				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-			>
-				<Alert onClose={handleCloseSnack} severity="info" className={styles.alert}>
-					Address copied to clipboard
-				</Alert>
-			</Snackbar>
-			<Snackbar
-				open={showErrorSnack}
-				autoHideDuration={3000}
-				onClose={handleCloseErrorSnack}
-				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-			>
-				<Alert onClose={handleCloseErrorSnack} severity="error" className={styles.alert}>
-					Could not copy to clipboard
-				</Alert>
-			</Snackbar>
 		</>
 	);
 }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onShowSuccessSnack: ({ snackData }) =>
+			dispatch(actionCreators.showSuccessSnack({ snackData }))
+	};
+};
+
+export default connect(null, mapDispatchToProps)(WhereToBuy);

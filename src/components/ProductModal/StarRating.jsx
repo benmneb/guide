@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
-import { Typography, Snackbar, Button, Box } from '@material-ui/core';
+import { Typography, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
-import MuiAlert from '@material-ui/lab/Alert';
 
 const labels = {
 	1: 'Bad',
@@ -13,27 +12,18 @@ const labels = {
 	5: 'Excellent'
 };
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-function StarRating(props) {
-	const [newRating, setNewRating] = useState(null);
+function StarRating({
+	showAddReview,
+	onHideSuccessSnack,
+	onShowSuccessSnack,
+	onClickAddReviewSnackbarAfterRating,
+	...props
+}) {
 	const [hover, setHover] = useState(-1);
-	const [showSnack, setShowSnack] = useState(false);
 
-	const handleCloseSnack = (event, reason) => {
-		if (reason === 'clickaway') {
-			return;
-		}
-		setShowSnack(false);
-	};
-
-	const { showAddReview } = props;
-
-	const handleClickAddReviewAfterRating = () => {
-		setShowSnack(false);
-		props.onClickAddReviewSnackbarAfterRating(newRating);
+	const handleClickAddReviewAfterRating = (newRating) => {
+		onHideSuccessSnack();
+		onClickAddReviewSnackbarAfterRating(newRating);
 	};
 
 	let text = `from ${props.amountOfRatings} ratings`;
@@ -44,57 +34,42 @@ function StarRating(props) {
 	}
 
 	return (
-		<>
-			<Box disaply="flex" justifyContent="center">
-				<Box display="flex" alignItems="center" marginBottom={1} minWidth={295}>
-					<Box>
-						<Box display="flex" alignItems="center" justifyContent="center">
-							<Rating
-								name="product-rating"
-								value={props.averageRating}
-								precision={precision}
-								size="large"
-								onChange={(event, newValue) => {
-									setNewRating(event.target.value);
-									setShowSnack(true);
-								}}
-								onChangeActive={(event, newHover) => {
-									setHover(Math.floor(newHover));
-								}}
-								readOnly={showAddReview}
-							/>
-						</Box>
+		<Box disaply="flex" justifyContent="center">
+			<Box display="flex" alignItems="center" marginBottom={1} minWidth={295}>
+				<Box>
+					<Box display="flex" alignItems="center" justifyContent="center">
+						<Rating
+							name="product-rating"
+							value={props.averageRating}
+							precision={precision}
+							size="large"
+							onChange={(event, newValue) => {
+								const newRating = event.target.value;
+								onShowSuccessSnack({
+									snackData: {
+										type: 'success',
+										message: `Rated as "${labels[event.target.value]}"`,
+										action: {
+											text: 'Add a review?',
+											clicked: () => handleClickAddReviewAfterRating(newRating)
+										}
+									}
+								});
+							}}
+							onChangeActive={(event, newHover) => {
+								setHover(Math.floor(newHover));
+							}}
+							readOnly={showAddReview}
+						/>
 					</Box>
-					<Box marginLeft={2}>
-						<Box display="flex" alignItems="center" justifyContent="center">
-							<Typography display="inline">{text}</Typography>
-						</Box>
+				</Box>
+				<Box marginLeft={2}>
+					<Box display="flex" alignItems="center" justifyContent="center">
+						<Typography display="inline">{text}</Typography>
 					</Box>
 				</Box>
 			</Box>
-			<Snackbar
-				open={showSnack}
-				autoHideDuration={5000}
-				onClose={handleCloseSnack}
-				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-			>
-				<Alert
-					onClose={handleCloseSnack}
-					severity="success"
-					action={
-						<Button
-							onClick={handleClickAddReviewAfterRating}
-							color="inherit"
-							size="small"
-						>
-							Add a review?
-						</Button>
-					}
-				>
-					Rated as "{labels[newRating]}"
-				</Alert>
-			</Snackbar>
-		</>
+		</Box>
 	);
 }
 
@@ -110,7 +85,10 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(
 				actionCreators.clickAddReviewAfterRating(rating),
 				dispatch(actionCreators.showAddReview())
-			)
+			),
+		onShowSuccessSnack: ({ snackData }) =>
+			dispatch(actionCreators.showSuccessSnack({ snackData })),
+		onHideSuccessSnack: () => dispatch(actionCreators.hideSuccessSnack())
 	};
 };
 

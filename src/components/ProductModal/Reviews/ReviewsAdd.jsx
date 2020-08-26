@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../../store/actions';
 import clsx from 'clsx';
-import { Typography, Button, TextField, Grid, Snackbar, Box } from '@material-ui/core';
+import { Typography, Button, TextField, Grid, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
-import { Alert, AlertTitle } from '@material-ui/lab';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
 	ratingError: {
-		fontWeight: theme.typography.fontWeightMedium,
+		fontWeight: theme.typography.fontWeightBold,
 		color: theme.palette.error.main
 	}
 }));
@@ -21,34 +22,31 @@ const labels = {
 	5: 'Excellent'
 };
 
-export default function ReviewsAdd(props) {
+function ReviewsAdd({ hide, onShowSuccessSnack, ratingBeforeClickedAddReviewSnackbar }) {
 	const styles = useStyles();
 	const [rating, setRating] = useState(0);
 	const [hover, setHover] = useState(-1);
 	const [ratingError, setRatingError] = useState(false);
-	const [showSnack, setShowSnack] = useState(false);
-
-	const handleCloseSnack = (event, reason) => {
-		if (reason === 'clickaway') {
-			return;
-		}
-
-		setShowSnack(false);
-	};
 
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmit = (data) => {
 		if (rating > 0) {
-			setShowSnack(true);
+			onShowSuccessSnack({
+				snackData: {
+					type: 'success',
+					title: 'Review Added',
+					message: 'Thank you for helping people find vegan products easier',
+					emoji: '💪'
+				}
+			});
 			console.log('review', data.review, rating);
-			props.hide();
+			hide();
 		} else {
 			setRatingError(true);
 		}
 	};
 
-	const { ratingBeforeClickedAddReviewSnackbar } = props;
 	useEffect(() => {
 		if (
 			ratingBeforeClickedAddReviewSnackbar &&
@@ -79,72 +77,59 @@ export default function ReviewsAdd(props) {
 	}
 
 	return (
-		<>
-			<Box marginTop={1}>
-				<Grid container alignItems="center" justify="center">
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<Grid item container xs={12} justify="center" alignItems="center" spacing={1}>
-							<Grid item xs={12} container justify="center">
-								<Typography>{ratingHelperText}</Typography>
-							</Grid>
-							<Grid item xs={12} container justify="center">
-								<Rating
-									name="second-rating"
-									value={rating}
-									precision={1}
-									size="large"
-									onChange={(event, newValue) => {
-										setRating(newValue);
-									}}
-									onChangeActive={(event, newHover) => {
-										setHover(newHover);
-									}}
-								/>
-							</Grid>
-							<Grid item xs={12} sm={8} container justify="center">
-								<TextField
-									id="review-body"
-									label="Your Review"
-									name="review"
-									multiline
-									rows={4}
-									fullWidth
-									variant="outlined"
-									size="small"
-									inputRef={register({ required: true, minLength: 5, maxLength: 1000 })}
-									error={Boolean(errors.review)}
-									autoFocus
-								/>
-							</Grid>
-							<Grid item container xs={12} justify="center">
-								<Button type="submit" size="large" variant="contained" color="primary">
-									Submit
-								</Button>
-							</Grid>
+		<Box marginTop={1}>
+			<Grid container alignItems="center" justify="center">
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<Grid item container xs={12} justify="center" alignItems="center" spacing={1}>
+						<Grid item xs={12} container justify="center">
+							<Typography>{ratingHelperText}</Typography>
 						</Grid>
-					</form>
-				</Grid>
-			</Box>
-			<Snackbar
-				open={showSnack}
-				autoHideDuration={6000}
-				onClose={handleCloseSnack}
-				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-			>
-				<Alert
-					onClose={handleCloseSnack}
-					severity="success"
-					color="info"
-					variant="filled"
-					elevation={6}
-				>
-					<AlertTitle>Review added.</AlertTitle>
-					Thank you for helping people find vegan products easier{' '}
-					<span role="img" aria-label="">
-						💪
-					</span>
-				</Alert>
-			</Snackbar>
-		</>
+						<Grid item xs={12} container justify="center">
+							<Rating
+								name="second-rating"
+								value={rating}
+								precision={1}
+								size="large"
+								onChange={(event, newValue) => {
+									setRating(newValue);
+								}}
+								onChangeActive={(event, newHover) => {
+									setHover(newHover);
+								}}
+							/>
+						</Grid>
+						<Grid item xs={12} sm={8} container justify="center">
+							<TextField
+								id="review-body"
+								label="Your Review"
+								name="review"
+								multiline
+								rows={4}
+								fullWidth
+								variant="outlined"
+								size="small"
+								inputRef={register({ required: true, minLength: 5, maxLength: 1000 })}
+								error={Boolean(errors.review)}
+								autoFocus
+							/>
+						</Grid>
+						<Grid item container xs={12} justify="center">
+							<Button type="submit" size="large" variant="contained" color="primary">
+								Submit
+							</Button>
+						</Grid>
+					</Grid>
+				</form>
+			</Grid>
+		</Box>
 	);
 }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onShowSuccessSnack: ({ snackData }) =>
+			dispatch(actionCreators.showSuccessSnack({ snackData }))
+	};
+};
+
+export default connect(null, mapDispatchToProps)(ReviewsAdd);

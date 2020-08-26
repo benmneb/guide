@@ -60,6 +60,21 @@ export const toggleFeedbackModal = () => {
 	};
 };
 
+export const showSuccessSnack = ({ snackData }) => {
+	return {
+		type: actionTypes.SHOW_SUCCESS_SNACK,
+		payload: {
+			snackData
+		}
+	};
+};
+
+export const hideSuccessSnack = () => {
+	return {
+		type: actionTypes.HIDE_SUCCESS_SNACK
+	};
+};
+
 export const clickAddReviewAfterRating = (rating) => {
 	return {
 		type: actionTypes.CLICK_ADD_REVIEW_AFTER_RATING,
