@@ -8,13 +8,13 @@ import { useForm } from 'react-hook-form';
 
 const filter = createFilterOptions();
 
-function StoresAdd({ hide, onShowSuccessSnack }) {
+function StoresAdd({ hide, onShowSnackbar }) {
 	const [storeName, setStoreName] = useState(null);
 
 	const { register, handleSubmit, errors } = useForm({ reValidateMode: 'onBlur' });
 
 	const onSubmit = (data) => {
-		onShowSuccessSnack({
+		onShowSnackbar({
 			snackData: {
 				type: 'success',
 				title: 'Store Added',
@@ -89,8 +89,8 @@ function StoresAdd({ hide, onShowSuccessSnack }) {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onShowSuccessSnack: ({ snackData }) =>
-			dispatch(actionCreators.showSuccessSnack({ snackData }))
+		onShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 

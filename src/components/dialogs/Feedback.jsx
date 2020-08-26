@@ -41,14 +41,14 @@ const DialogTitle = withStyles(styles)((props) => {
 	);
 });
 
-function Feedback({ onShowSuccessSnack, onToggleFeedbackModal, showFeedbackModal }) {
+function Feedback({ onShowSnackbar, onToggleFeedbackModal, showFeedbackModal }) {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmit = (data) => {
 		console.log('data', data);
-		onShowSuccessSnack({
+		onShowSnackbar({
 			snackData: {
 				type: 'success',
 				color: 'info',
@@ -152,8 +152,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onToggleFeedbackModal: () => dispatch(actionCreators.toggleFeedbackModal()),
-		onShowSuccessSnack: ({ snackData }) =>
-			dispatch(actionCreators.showSuccessSnack({ snackData }))
+		onShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 

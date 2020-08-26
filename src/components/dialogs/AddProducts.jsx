@@ -74,7 +74,7 @@ const DialogTitle = withStyles(styles)((props) => {
 
 const AddProducts = ({
 	onToggleAddProductsModal,
-	onShowSuccessSnack,
+	onShowSnackbar,
 	showAddProductsModal
 }) => {
 	const theme = useTheme();
@@ -100,7 +100,7 @@ const AddProducts = ({
 			return;
 		}
 		if (activeStep === steps.length - 1) {
-			onShowSuccessSnack({
+			onShowSnackbar({
 				snackData: {
 					type: 'success',
 					title: 'Submission Received',
@@ -435,8 +435,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
-		onShowSuccessSnack: ({ snackData }) =>
-			dispatch(actionCreators.showSuccessSnack({ snackData }))
+		onShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 

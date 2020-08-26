@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function WhereToBuy({ onShowSuccessSnack }) {
+function WhereToBuy({ onShowSnackbar }) {
 	const styles = useStyles();
 	const [selectedStore, setSelectedStore] = useState(null);
 	const [mapPosition, setMapPosition] = useState(null);
@@ -78,7 +78,7 @@ function WhereToBuy({ onShowSuccessSnack }) {
 			navigator.clipboard
 				.writeText(address)
 				.then(
-					onShowSuccessSnack({
+					onShowSnackbar({
 						snackData: {
 							type: 'info',
 							message: 'Address copied to clipboard'
@@ -87,7 +87,7 @@ function WhereToBuy({ onShowSuccessSnack }) {
 				)
 				.catch((err) => {
 					console.error(err);
-					onShowSuccessSnack({
+					onShowSnackbar({
 						snackData: {
 							type: 'error',
 							message: 'Could not copy to clipboard'
@@ -95,7 +95,7 @@ function WhereToBuy({ onShowSuccessSnack }) {
 					});
 				});
 		} else {
-			onShowSuccessSnack({
+			onShowSnackbar({
 				snackData: {
 					type: 'error',
 					message: 'Could not copy to clipboard'
@@ -190,8 +190,8 @@ function WhereToBuy({ onShowSuccessSnack }) {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onShowSuccessSnack: ({ snackData }) =>
-			dispatch(actionCreators.showSuccessSnack({ snackData }))
+		onShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 

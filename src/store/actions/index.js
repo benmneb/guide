@@ -9,8 +9,8 @@ export {
 	toggleTermsModal,
 	togglePrivacyModal,
 	toggleFeedbackModal,
-	showSuccessSnack,
-	hideSuccessSnack,
+	showSnackbar,
+	hideSnackbar,
 	clickAddReviewAfterRating,
 	showAddReview,
 	hideAddReview

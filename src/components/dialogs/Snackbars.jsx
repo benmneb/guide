@@ -5,10 +5,10 @@ import { Snackbar, Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import * as actionCreators from '../../store/actions';
 
-function Snackbars({ snackData, showSuccessSnack, onHideSuccessSnack }) {
+function Snackbars({ snackData, showSnackbar, onHideSnackbar }) {
 	const handleCloseSuccessSnack = (event, reason) => {
 		if (reason !== 'clickaway') {
-			onHideSuccessSnack();
+			onHideSnackbar();
 		}
 	};
 
@@ -27,7 +27,7 @@ function Snackbars({ snackData, showSuccessSnack, onHideSuccessSnack }) {
 
 	return (
 		<Snackbar
-			open={showSuccessSnack}
+			open={showSnackbar}
 			autoHideDuration={6000}
 			onClose={handleCloseSuccessSnack}
 			anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
@@ -49,20 +49,20 @@ function Snackbars({ snackData, showSuccessSnack, onHideSuccessSnack }) {
 
 Snackbars.propTypes = {
 	snackData: PropTypes.object.isRequired,
-	showSuccessSnack: PropTypes.bool.isRequired,
-	onHideSuccessSnack: PropTypes.func.isRequired
+	showSnackbar: PropTypes.bool.isRequired,
+	onHideSnackbar: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
 	return {
-		showSuccessSnack: state.showSuccessSnack,
+		showSnackbar: state.showSnackbar,
 		snackData: state.snackData
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onHideSuccessSnack: () => dispatch(actionCreators.hideSuccessSnack())
+		onHideSnackbar: () => dispatch(actionCreators.hideSnackbar())
 	};
 };
 

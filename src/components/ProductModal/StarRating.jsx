@@ -14,15 +14,15 @@ const labels = {
 
 function StarRating({
 	showAddReview,
-	onHideSuccessSnack,
-	onShowSuccessSnack,
+	onHideSnackbar,
+	onShowSnackbar,
 	onClickAddReviewSnackbarAfterRating,
 	...props
 }) {
 	const [hover, setHover] = useState(-1);
 
 	const handleClickAddReviewAfterRating = (newRating) => {
-		onHideSuccessSnack();
+		onHideSnackbar();
 		onClickAddReviewSnackbarAfterRating(newRating);
 	};
 
@@ -45,7 +45,7 @@ function StarRating({
 							size="large"
 							onChange={(event, newValue) => {
 								const newRating = event.target.value;
-								onShowSuccessSnack({
+								onShowSnackbar({
 									snackData: {
 										type: 'success',
 										message: `Rated as "${labels[event.target.value]}"`,
@@ -86,9 +86,9 @@ const mapDispatchToProps = (dispatch) => {
 				actionCreators.clickAddReviewAfterRating(rating),
 				dispatch(actionCreators.showAddReview())
 			),
-		onShowSuccessSnack: ({ snackData }) =>
-			dispatch(actionCreators.showSuccessSnack({ snackData })),
-		onHideSuccessSnack: () => dispatch(actionCreators.hideSuccessSnack())
+		onShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData })),
+		onHideSnackbar: () => dispatch(actionCreators.hideSnackbar())
 	};
 };
 

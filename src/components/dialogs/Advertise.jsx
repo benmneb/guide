@@ -41,7 +41,7 @@ const DialogTitle = withStyles(styles)((props) => {
 	);
 });
 
-function Advertise({ onShowSuccessSnack, showAdvertiseModal, onToggleAdvertiseModal }) {
+function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal }) {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
@@ -49,7 +49,7 @@ function Advertise({ onShowSuccessSnack, showAdvertiseModal, onToggleAdvertiseMo
 
 	const onSubmit = (data) => {
 		console.log('data', data);
-		onShowSuccessSnack({
+		onShowSnackbar({
 			snackData: {
 				type: 'success',
 				title: 'Message sent',
@@ -152,8 +152,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
-		onShowSuccessSnack: ({ snackData }) =>
-			dispatch(actionCreators.showSuccessSnack({ snackData }))
+		onShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 

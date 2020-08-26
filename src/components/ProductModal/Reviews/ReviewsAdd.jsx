@@ -22,7 +22,7 @@ const labels = {
 	5: 'Excellent'
 };
 
-function ReviewsAdd({ hide, onShowSuccessSnack, ratingBeforeClickedAddReviewSnackbar }) {
+function ReviewsAdd({ hide, onShowSnackbar, ratingBeforeClickedAddReviewSnackbar }) {
 	const styles = useStyles();
 	const [rating, setRating] = useState(0);
 	const [hover, setHover] = useState(-1);
@@ -32,7 +32,7 @@ function ReviewsAdd({ hide, onShowSuccessSnack, ratingBeforeClickedAddReviewSnac
 
 	const onSubmit = (data) => {
 		if (rating > 0) {
-			onShowSuccessSnack({
+			onShowSnackbar({
 				snackData: {
 					type: 'success',
 					title: 'Review Added',
@@ -127,8 +127,8 @@ function ReviewsAdd({ hide, onShowSuccessSnack, ratingBeforeClickedAddReviewSnac
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onShowSuccessSnack: ({ snackData }) =>
-			dispatch(actionCreators.showSuccessSnack({ snackData }))
+		onShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 

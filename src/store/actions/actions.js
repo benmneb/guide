@@ -60,18 +60,18 @@ export const toggleFeedbackModal = () => {
 	};
 };
 
-export const showSuccessSnack = ({ snackData }) => {
+export const showSnackbar = ({ snackData }) => {
 	return {
-		type: actionTypes.SHOW_SUCCESS_SNACK,
+		type: actionTypes.SHOW_SNACKBAR,
 		payload: {
 			snackData
 		}
 	};
 };
 
-export const hideSuccessSnack = () => {
+export const hideSnackbar = () => {
 	return {
-		type: actionTypes.HIDE_SUCCESS_SNACK
+		type: actionTypes.HIDE_SNACKBAR
 	};
 };
 
