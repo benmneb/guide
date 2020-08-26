@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -13,6 +13,7 @@ import {
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { subCat1s } from '../../assets/subCat1s';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
+import useWidth from '../../assets/useWidth';
 
 const useStyles = makeStyles((theme) => ({
 	gridList: {
@@ -41,12 +42,38 @@ const useStyles = makeStyles((theme) => ({
 		cursor: 'pointer',
 		filter: 'brightness(85%)',
 		transitionProperty: 'filter',
-		transitionDuration: `${theme.transitions.duration.complex}ms`
+		transitionDuration: `${theme.transitions.duration.complex}ms`,
+		width: '100%',
+		height: '100%'
 	}
 }));
 
 export default function SingleLineGridList() {
 	const styles = useStyles();
+	const width = useWidth();
+	const [cols, setCols] = useState(null);
+
+	useEffect(() => {
+		switch (width) {
+			case 'xs':
+				setCols(2.3);
+				break;
+			case 'sm':
+				setCols(3.3);
+				break;
+			case 'md':
+				setCols(5.3);
+				break;
+			case 'lg':
+				setCols(5.3);
+				break;
+			case 'xl':
+				setCols(7.3);
+				break;
+			default:
+				return;
+		}
+	}, [width]);
 
 	return (
 		<>
@@ -78,7 +105,7 @@ export default function SingleLineGridList() {
 							</Toolbar>
 							<GridList
 								className={styles.gridList}
-								cols={5.3}
+								cols={cols}
 								cellHeight={300}
 								spacing={0}
 							>
