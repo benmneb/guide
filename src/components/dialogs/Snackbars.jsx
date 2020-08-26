@@ -48,7 +48,16 @@ function Snackbars({ snackData, showSnackbar, onHideSnackbar }) {
 }
 
 Snackbars.propTypes = {
-	snackData: PropTypes.object.isRequired,
+	snackData: PropTypes.exact({
+		type: PropTypes.string,
+		title: PropTypes.string,
+		message: PropTypes.string,
+		emoji: PropTypes.string,
+		action: PropTypes.exact({
+			text: PropTypes.string,
+			clicked: PropTypes.func
+		})
+	}).isRequired,
 	showSnackbar: PropTypes.bool.isRequired,
 	onHideSnackbar: PropTypes.func.isRequired
 };
