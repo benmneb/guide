@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const propTypes = {
+MasonryLayout.propTypes = {
 	children: PropTypes.node
 };
 
@@ -48,5 +48,3 @@ export default function MasonryLayout({ children }) {
 		</Masonry>
 	);
 }
-
-MasonryLayout.propTypes = propTypes;
