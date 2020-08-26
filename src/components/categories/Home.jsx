@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { GridList, GridListTile, GridListTileBar, Box } from '@material-ui/core';
 import { subCat1s } from '../../assets/subCat1s';
 import Hero, { Heading, SubHeading } from '../Hero/Hero';
+import useWidth from '../../assets/useWidth';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -48,6 +49,30 @@ const useStyles = makeStyles((theme) => ({
 
 const SubCat1s = () => {
 	const styles = useStyles();
+	const [cols, setCols] = useState(2);
+	const width = useWidth();
+
+	useEffect(() => {
+		switch (width) {
+			case 'xs':
+				setCols(2);
+				break;
+			case 'sm':
+				setCols(4);
+				break;
+			case 'md':
+				setCols(5);
+				break;
+			case 'lg':
+				setCols(6);
+				break;
+			case 'xl':
+				setCols(8);
+				break;
+			default:
+				return;
+		}
+	}, [width]);
 
 	return (
 		<>
@@ -60,7 +85,7 @@ const SubCat1s = () => {
 				</SubHeading>
 			</Hero>
 			<Box className={styles.root}>
-				<GridList cellHeight={300} className={styles.gridList} cols={5} spacing={0}>
+				<GridList cellHeight={300} className={styles.gridList} cols={cols} spacing={0}>
 					{subCat1s.map((image) => (
 						<GridListTile key={image.img} cols={1} className={styles.gridListTile}>
 							<Link to="/food-drink/nut-butters-spreads">
