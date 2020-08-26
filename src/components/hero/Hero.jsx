@@ -5,10 +5,8 @@ import { connect } from 'react-redux';
 import { Typography, Link, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-function Hero(props) {
-	const { children, textAlign, bgImage } = props;
-
-	// JSS has to be inside the function because the it receives props for the bgImage
+function Hero({ children, textAlign, bgImage, hide }) {
+	// JSS has to be inside the function because it receives props for the bgImage
 	const useStyles = makeStyles((theme) => ({
 		container: {
 			zIndex: theme.zIndex.appBar + 1
@@ -58,8 +56,8 @@ function Hero(props) {
 			alignItems="center"
 			justifyContent={justifyContent}
 			className={clsx(styles.container, {
-				[styles.displayNone]: props.hide,
-				[styles.hasBgImage]: props.bgImage
+				[styles.displayNone]: hide,
+				[styles.hasBgImage]: bgImage
 			})}
 		>
 			<Box
@@ -74,7 +72,7 @@ function Hero(props) {
 	);
 }
 
-Hero.propsTypes = {
+Hero.propTypes = {
 	children: PropTypes.node.isRequired,
 	textAlign: PropTypes.oneOf(['left', 'center'])
 };
