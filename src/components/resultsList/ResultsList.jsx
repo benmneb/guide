@@ -83,8 +83,7 @@ const ResultsList = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel,
-		showProductModal: state.showProductModal
+		showFiltersPanel: state.showFiltersPanel
 	};
 };
 
