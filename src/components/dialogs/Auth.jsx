@@ -11,6 +11,9 @@ import { Close, Facebook, Instagram, Twitter, Reddit } from '@material-ui/icons'
 import { indigo, red, blue, deepPurple, deepOrange } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
+	dialogPaperWidth: {
+		minWidth: 291
+	},
 	titleRoot: {
 		margin: 0,
 		padding: 0
@@ -105,7 +108,12 @@ const Login = ({ showAuthModal, onToggleAuthModal }) => {
 	};
 
 	return (
-		<Dialog onClose={onClose} aria-labelledby="product-dialog-title" open={showAuthModal}>
+		<Dialog
+			onClose={onClose}
+			aria-labelledby="product-dialog-title"
+			open={showAuthModal}
+			classes={{ paperWidthSm: styles.dialogPaperWidth }}
+		>
 			<DialogTitle id="login-title" onClose={onClose}>
 				Welcome!
 			</DialogTitle>
