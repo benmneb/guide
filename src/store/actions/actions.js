@@ -60,6 +60,12 @@ export const toggleFeedbackModal = () => {
 	};
 };
 
+export const toggleAuthModal = () => {
+	return {
+		type: actionTypes.TOGGLE_AUTH_MODAL
+	};
+};
+
 export const showSnackbar = ({ snackData }) => {
 	return {
 		type: actionTypes.SHOW_SNACKBAR,

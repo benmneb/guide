@@ -9,6 +9,7 @@ const initialState = {
 	showTermsModal: false,
 	showPrivacyModal: false,
 	showFeedbackModal: false,
+	showAuthModal: false,
 	showSnackbar: false,
 	snackData: {},
 	showAddReview: false,
@@ -67,6 +68,11 @@ export default function Reducers(state = initialState, action) {
 			return {
 				...state,
 				showFeedbackModal: !state.showFeedbackModal
+			};
+		case actionTypes.TOGGLE_AUTH_MODAL:
+			return {
+				...state,
+				showAuthModal: !state.showAuthModal
 			};
 		case actionTypes.SHOW_SNACKBAR:
 			return {

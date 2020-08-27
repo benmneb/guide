@@ -10,6 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import HomeIcon from '@material-ui/icons/Home';
+import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import BathtubIcon from '@material-ui/icons/Bathtub';
@@ -62,16 +63,18 @@ const SideDrawer = (props) => {
 	const openMenuItem = (clickedItem) => {
 		handleCloseSideDrawer();
 		switch (clickedItem) {
+			case 'auth':
+				return props.onToggleAuthModal();
 			case 'addProducts':
 				return props.onToggleAddProductsModal();
 			case 'advertise':
 				return props.onToggleAdvertiseModal();
+			case 'feedback':
+				return props.onToggleFeedbackModal();
 			case 'terms':
 				return props.onToggleTermsModal();
 			case 'privacy':
 				return props.onTogglePrivacyModal();
-			case 'feedback':
-				return props.onToggleFeedbackModal();
 			default:
 				return;
 		}
@@ -95,6 +98,12 @@ const SideDrawer = (props) => {
 						<HomeIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Home'} />
+				</ListItem>
+				<ListItem button onClick={() => openMenuItem('auth')}>
+					<ListItemIcon>
+						<LockOpenRoundedIcon />
+					</ListItemIcon>
+					<ListItemText primary={'Login / Join'} />
 				</ListItem>
 				<ListItem
 					component={Link}
@@ -222,6 +231,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer()),
+		onToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal()),
 		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
 		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
 		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal()),
