@@ -23,7 +23,7 @@ const theme = createMuiTheme({
 	},
 	typography: {
 		button: {
-			textTransform: 'capitalize'
+			textTransform: 'none'
 		}
 	},
 	overrides: {
