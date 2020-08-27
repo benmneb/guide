@@ -49,7 +49,8 @@ function Snackbars({ snackData, showSnackbar, onHideSnackbar }) {
 
 Snackbars.propTypes = {
 	snackData: PropTypes.exact({
-		type: PropTypes.string,
+		type: PropTypes.oneOf(['error', 'info', 'success', 'warning']),
+		color: PropTypes.oneOf(['error', 'info', 'success', 'warning']),
 		title: PropTypes.string,
 		message: PropTypes.string,
 		emoji: PropTypes.string,
