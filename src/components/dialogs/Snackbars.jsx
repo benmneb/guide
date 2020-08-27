@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Snackbar, Button } from '@material-ui/core';
+import { Snackbar, Button, IconButton } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import CloseIcon from '@material-ui/icons/Close';
 import * as actionCreators from '../../store/actions';
 
 function Snackbars({ snackData, showSnackbar, onHideSnackbar }) {
-	const handleCloseSuccessSnack = (event, reason) => {
+	const handleCloseSnack = (event, reason) => {
 		if (reason !== 'clickaway') {
 			onHideSnackbar();
 		}
@@ -20,20 +21,30 @@ function Snackbars({ snackData, showSnackbar, onHideSnackbar }) {
 		</span>
 	) : null;
 	const snackAction = snackData.action ? (
-		<Button onClick={snackData.action.clicked} color="inherit" size="small">
-			{snackData.action.text}
-		</Button>
+		<>
+			<Button onClick={snackData.action.clicked} color="inherit" size="small">
+				{snackData.action.text}
+			</Button>
+			<IconButton
+				size="small"
+				aria-label="close"
+				color="inherit"
+				onClick={handleCloseSnack}
+			>
+				<CloseIcon fontSize="small" />
+			</IconButton>
+		</>
 	) : null;
 
 	return (
 		<Snackbar
 			open={showSnackbar}
 			autoHideDuration={6000}
-			onClose={handleCloseSuccessSnack}
+			onClose={handleCloseSnack}
 			anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
 		>
 			<Alert
-				onClose={handleCloseSuccessSnack}
+				onClose={handleCloseSnack}
 				severity={snackData.type}
 				color={snackColor}
 				variant="filled"
