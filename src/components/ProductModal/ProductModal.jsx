@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import * as actionCreators from '../../store/actions';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -21,7 +22,7 @@ import Reviews from './Reviews/Reviews';
 import WhereToBuy from './WhereToBuy/WhereToBuy';
 import BottomNav from './BottomNav';
 import StarRating from './StarRating';
-import { product } from '../../assets/product';
+// import { product } from "../../assets/product";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -79,6 +80,26 @@ const ProductModal = (props) => {
 	const styles = useStyles();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [currentTab, setCurrentTab] = useState(0);
+	const [item, setItem] = useState(null);
+	const [newRating, setNewRating] = useState(null);
+
+	useEffect(() => {
+		axios
+			.get(`http://localhost:3000/product/${props.selectedProduct}`)
+			.then((response) => setItem(response.data))
+			.catch((err) => err);
+	}, [props.selectedProduct, newRating]);
+
+	const onClickHandler = (newValue) => {
+		axios
+			.put('http://localhost:3000/rating/', {
+				rating: newValue,
+				product_id: item && item[0].productId
+			})
+			.then((response) => {
+				setNewRating(JSON.parse(response.config.data).rating);
+			});
+	};
 
 	const onCloseModal = () => {
 		props.onToggleProductModal();
@@ -97,7 +118,6 @@ const ProductModal = (props) => {
 			setCurrentTab(1);
 		}
 	}, [props.showAddReview, currentTab]);
-
 	return (
 		<Dialog
 			onClose={onCloseModal}
@@ -121,13 +141,15 @@ const ProductModal = (props) => {
 				<Grid container spacing={1} direction="column" alignItems="center">
 					<Grid item xs={12}>
 						<Typography variant="h4" component="h2" align="center">
-							{product.brand} {product.name}
+							{item && item[0].brandName} {item && item[0].productName}
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>
 						<StarRating
-							averageRating={product.rating}
-							amountOfRatings={product.amountOfRatings}
+							averageRating={item && Number(item[0].rating)}
+							amountOfRatings={item && item[0].ratingcount}
+							productId={item && item[0].productId}
+							onRate={(newValue) => onClickHandler(newValue)}
 						/>
 					</Grid>
 					<Box display={{ xs: 'none', md: 'inherit' }}>
@@ -150,7 +172,7 @@ const ProductModal = (props) => {
 				</Grid>
 				<Box marginTop={2}>
 					<TabPanel value={currentTab} index={0}>
-						<About product={product} />
+						<About product={item} />
 					</TabPanel>
 					<TabPanel value={currentTab} index={1}>
 						<Reviews />
@@ -168,7 +190,8 @@ const ProductModal = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		showProductModal: state.showProductModal,
-		showAddReview: state.showAddReview
+		showAddReview: state.showAddReview,
+		selectedProduct: state.selectedProduct
 	};
 };
 
