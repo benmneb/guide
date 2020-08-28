@@ -56,7 +56,7 @@ const SubCat1s = () => {
 
 	return (
 		<>
-			<Hero textAlign="center">
+			<Hero>
 				<Heading>Find Vegan Products</Heading>
 				<SubHeading>
 					The Vomad Guide is a free crowd-sourced collection of 100% plant-based products.
