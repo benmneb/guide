@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { getTimeAgo } from '../../../assets/timeAgo';
 import Rating from '@material-ui/lab/Rating';
+import axios from 'axios';
 import { ThumbUpAltRounded, MoreVertRounded, Report } from '@material-ui/icons';
 import {
 	Avatar,
@@ -50,6 +51,12 @@ export default function ReviewCard(props) {
 		setShowReportModal(false);
 	};
 
+	const handleLikeClick = () => {
+		axios.put('http://localhost:3000/like/', {
+			review_id: props.review.review_id
+		});
+	};
+
 	return (
 		<>
 			<Box key={props.review.id} marginTop={2} marginBottom={2}>
@@ -58,14 +65,22 @@ export default function ReviewCard(props) {
 						<Box display="flex" marginBottom={2}>
 							<Box marginRight={2}>
 								<Avatar
-									alt={props.review.author}
+									alt={props.review.user_name}
 									src={props.review.avatar}
 									className={styles.largeAvatar}
 								/>
 							</Box>
-							<Box display="flex" flexDirection="column" justifyContent="center">
-								<Typography className={styles.author}>{props.review.author}</Typography>
-								<Typography variant="body2">+{props.review.authorPoints}</Typography>
+							<Box
+								display="flex"
+								flexDirection="column"
+								justifyContent="center"
+							>
+								<Typography className={styles.author}>
+									{props.review.user_name}
+								</Typography>
+								<Typography variant="body2">
+									+{props.review.authorPoints}
+								</Typography>
 							</Box>
 							<Box
 								flexGrow="1"
@@ -75,17 +90,22 @@ export default function ReviewCard(props) {
 								marginTop={-1}
 								marginRight={-1}
 							>
-								<IconButton aria-label="more options" onClick={handleMoreMenuClick}>
+								<IconButton
+									aria-label="more options"
+									onClick={handleMoreMenuClick}
+								>
 									<MoreVertRounded />
 								</IconButton>
 								<Menu
-									id={props.review.id}
+									id={props.review.review_id}
 									anchorEl={showMoreMenu}
 									keepMounted
 									open={Boolean(showMoreMenu)}
 									onClose={handleMoreMenuClose}
 								>
-									<MenuItem onClick={() => handleReportClick(props.review.id)}>
+									<MenuItem
+										onClick={() => handleReportClick(props.review.review_id)}
+									>
 										<Report className={styles.reportIcon} />
 										<Typography>Report</Typography>
 									</MenuItem>
@@ -97,16 +117,21 @@ export default function ReviewCard(props) {
 							<Typography>{getTimeAgo(new Date(props.review.date))}</Typography>
 						</Box>
 						<Box>
-							<Typography>{props.review.body}</Typography>
+							<Typography>{props.review.review}</Typography>
 						</Box>
 						<Box display="flex" justifyContent="flex-end" marginBottom={-1}>
 							<Box display="flex" alignItems="center" marginRight={1}>
 								<Tooltip title="Was this review helpful?" placement="left">
-									<IconButton aria-label="mark as helpful">
+									<IconButton
+										onClick={handleLikeClick}
+										aria-label="mark as helpful"
+									>
 										<ThumbUpAltRounded />
 									</IconButton>
 								</Tooltip>
-								{props.review.likes > 0 && <Typography>{props.review.likes}</Typography>}
+								{props.review.likes > 0 && (
+									<Typography>{props.review.likes}</Typography>
+								)}
 							</Box>
 						</Box>
 					</Box>
@@ -114,7 +139,7 @@ export default function ReviewCard(props) {
 			</Box>
 			<ReviewReport
 				show={showReportModal}
-				reviewId={props.review.id}
+				reviewId={props.review.review_id}
 				onClose={handleCloseReportModal}
 			/>
 		</>
