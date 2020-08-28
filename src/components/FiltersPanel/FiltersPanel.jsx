@@ -10,10 +10,6 @@ import { ingredients, allergens, tags } from '../../assets/filters';
 const drawerWidth = 395;
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		display: 'flex',
-		position: 'sticky'
-	},
 	drawer: {
 		width: drawerWidth,
 		flexShrink: 0
@@ -50,59 +46,69 @@ const FiltersPanel = (props) => {
 				paper: styles.drawerPaper
 			}}
 		>
-			<Typography align="center" className={styles.filtersSectionFirstTitle}>
-				Tags
-			</Typography>
-			<Grid container justify="space-evenly">
-				{tags.map((tag) => (
-					<FilterButton name={tag.name} tooltip={tag.tooltip} key={tag.name} />
-				))}
-			</Grid>
-			<Typography align="center" className={styles.filtersSectionTitle}>
-				Ingredients
-			</Typography>
-			<Grid container justify="space-evenly">
-				{ingredients.map((ing) => (
-					<FilterButton name={ing.name} tooltip={ing.tooltip} key={ing.name} />
-				))}
-			</Grid>
-			<Typography align="center" className={styles.filtersSectionTitle}>
-				Allergens
-			</Typography>
-			<Grid container justify="space-evenly">
-				{allergens.map((allergen) => (
-					<FilterButton
-						name={allergen.name}
-						tooltip={allergen.tooltip}
-						key={allergen.name}
-					/>
-				))}
-			</Grid>
-			<Typography align="center" className={styles.filtersSectionTitle}>
-				Sort by
-			</Typography>
-			<Grid container justify="space-evenly">
-				<Grid item flexgrow="1">
-					<SortBy />
-				</Grid>
-			</Grid>
-			<Typography align="center" className={styles.filtersSectionTitle}>
-				Order by
-			</Typography>
-			<Grid container justify="center">
-				<OrderBy />
-			</Grid>
-			<Box margin={2}>
-				<Typography
-					variant="subtitle1"
-					classes={{ subtitle1: styles.subtitle1 }}
-					paragraph
-					align="center"
-				>
-					Allergens are a guide only.
-					<br />
-					Always check the label before use.
+			<Box marginX={2}>
+				<Typography align="center" className={styles.filtersSectionFirstTitle}>
+					Tags
 				</Typography>
+				<Grid container justify="space-evenly">
+					{tags.map((tag) => (
+						<FilterButton
+							name={tag.name}
+							tooltip={tag.tooltip}
+							key={tag.name}
+						/>
+					))}
+				</Grid>
+				<Typography align="center" className={styles.filtersSectionTitle}>
+					Ingredients
+				</Typography>
+				<Grid container justify="space-evenly">
+					{ingredients.map((ing) => (
+						<FilterButton
+							name={ing.name}
+							tooltip={ing.tooltip}
+							key={ing.name}
+						/>
+					))}
+				</Grid>
+				<Typography align="center" className={styles.filtersSectionTitle}>
+					Allergens
+				</Typography>
+				<Grid container justify="space-evenly">
+					{allergens.map((allergen) => (
+						<FilterButton
+							name={allergen.name}
+							tooltip={allergen.tooltip}
+							key={allergen.name}
+						/>
+					))}
+				</Grid>
+				<Typography align="center" className={styles.filtersSectionTitle}>
+					Sort by
+				</Typography>
+				<Grid container justify="space-evenly">
+					<Grid item flexgrow="1">
+						<SortBy />
+					</Grid>
+				</Grid>
+				<Typography align="center" className={styles.filtersSectionTitle}>
+					Order by
+				</Typography>
+				<Grid container justify="center">
+					<OrderBy />
+				</Grid>
+				<Box margin={2}>
+					<Typography
+						variant="subtitle1"
+						classes={{ subtitle1: styles.subtitle1 }}
+						paragraph
+						align="center"
+					>
+						Allergens are a guide only.
+						<br />
+						Always check the label before use.
+					</Typography>
+				</Box>
 			</Box>
 		</Drawer>
 	);

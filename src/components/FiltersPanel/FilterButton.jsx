@@ -4,7 +4,7 @@ import { Button, Tooltip } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	filtersBtn: {
-		width: '40%',
+		width: '47%',
 		margin: theme.spacing(0.5, 0),
 		fontWeight: theme.typography.fontWeightRegular
 	}
