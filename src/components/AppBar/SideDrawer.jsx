@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 const SideDrawer = (props) => {
 	const { window } = props;
 	const styles = useStyles();
+	const history = useHistory();
 	const theme = useTheme();
 	const [expandCategories, setExpandCategories] = useState(false);
 
@@ -61,10 +62,14 @@ const SideDrawer = (props) => {
 	};
 
 	const openMenuItem = (clickedItem) => {
-		handleCloseSideDrawer();
+		if (props.showSideDrawer) handleCloseSideDrawer();
 		switch (clickedItem) {
+			case 'home':
+				return history.push('/');
 			case 'auth':
 				return props.onToggleAuthModal();
+			case 'foodDrink':
+				return history.push('/food-drink');
 			case 'addProducts':
 				return props.onToggleAddProductsModal();
 			case 'advertise':
@@ -80,7 +85,8 @@ const SideDrawer = (props) => {
 		}
 	};
 
-	const container = window !== undefined ? () => window().document.body : undefined;
+	const container =
+		window !== undefined ? () => window().document.body : undefined;
 
 	const drawer = (
 		<div>
@@ -93,7 +99,7 @@ const SideDrawer = (props) => {
 			</div>
 			<Divider />
 			<List component="nav">
-				<ListItem component={Link} to="/" button onClick={handleCloseSideDrawer}>
+				<ListItem button onClick={() => openMenuItem('home')}>
 					<ListItemIcon>
 						<HomeRoundedIcon />
 					</ListItemIcon>
@@ -105,12 +111,7 @@ const SideDrawer = (props) => {
 					</ListItemIcon>
 					<ListItemText primary={'Login / Join'} />
 				</ListItem>
-				<ListItem
-					component={Link}
-					to="/food-drink"
-					button
-					onClick={handleCloseSideDrawer}
-				>
+				<ListItem button onClick={() => openMenuItem('foodDrink')}>
 					<ListItemIcon>
 						<FastfoodRoundedIcon />
 					</ListItemIcon>
@@ -232,8 +233,10 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer()),
 		onToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal()),
-		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
-		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
+		onToggleAddProductsModal: () =>
+			dispatch(actionCreators.toggleAddProductsModal()),
+		onToggleAdvertiseModal: () =>
+			dispatch(actionCreators.toggleAdvertiseModal()),
 		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal()),
 		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal()),
 		onToggleFeedbackModal: () => dispatch(actionCreators.toggleFeedbackModal())
