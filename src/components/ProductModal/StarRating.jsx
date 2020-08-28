@@ -18,7 +18,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 function StarRating(props) {
-	const [newRating, setNewRating] = useState(null);
 	const [hover, setHover] = useState(-1);
 	const [showSnack, setShowSnack] = useState(false);
 
@@ -33,7 +32,7 @@ function StarRating(props) {
 
 	const handleClickAddReviewAfterRating = () => {
 		setShowSnack(false);
-		props.onClickAddReviewSnackbarAfterRating(newRating);
+		props.onClickAddReviewSnackbarAfterRating(props.newRating);
 	};
 
 	let text = `from ${props.amountOfRatings} ratings`;
@@ -55,8 +54,8 @@ function StarRating(props) {
 								precision={precision}
 								size="large"
 								onChange={(event, newValue) => {
-									setNewRating(event.target.value);
 									setShowSnack(true);
+									props.onRate(newValue);
 								}}
 								onChangeActive={(event, newHover) => {
 									setHover(Math.floor(newHover));
@@ -91,7 +90,7 @@ function StarRating(props) {
 						</Button>
 					}
 				>
-					Rated as "{labels[newRating]}"
+					Rated as "{labels[props.newRating]}"
 				</Alert>
 			</Snackbar>
 		</>
