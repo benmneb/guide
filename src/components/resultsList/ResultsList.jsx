@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,13 +39,18 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const ResultsList = (props) => {
+const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPanel }) => {
 	const styles = useStyles();
-	const { showFiltersPanel, onToggleProductModal } = props;
 
 	function handleResultClick() {
 		onToggleProductModal();
 	}
+
+	useEffect(() => {
+		return () => {
+			onHideFiltersPanel();
+		}; //eslint-disable-next-line
+	}, []);
 
 	return (
 		<>
@@ -89,7 +94,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onToggleProductModal: () => dispatch(actionCreators.toggleProductModal())
+		onToggleProductModal: () => dispatch(actionCreators.toggleProductModal()),
+		onHideFiltersPanel: () => dispatch(actionCreators.hideFiltersPanel())
 	};
 };
 
