@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Result from './Result';
-import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
+import Hero, { Heading, SubHeading, Footer } from '../hero/Hero';
 import FiltersBar from '../AppBar/FiltersBar';
 import AddProductsFab from './AddProductsFab';
 import * as actionCreators from '../../store/actions';
-import { results } from '../../assets/results';
+// import { results } from '../../assets/results';
 import peanuts from '../../assets/images/peanuts.jpg';
 
 const drawerWidth = 430;
@@ -41,18 +42,37 @@ const useStyles = makeStyles((theme) => ({
 const ResultsList = (props) => {
 	const styles = useStyles();
 	const { showFiltersPanel, onToggleProductModal } = props;
+	const [results, setResults] = useState([]);
 
-	function handleResultClick() {
-		onToggleProductModal();
-	}
+	useEffect(() => {
+		axios
+			.get('http://localhost:3000/')
+			.then((response) => setResults(response.data))
+			.catch((err) => err);
+	}, []);
+
+	const renderedList = results.map((result) => {
+		return (
+			<Result
+				key={Number(result.product_id)}
+				image={result.image_src}
+				brand={result.brand_name}
+				name={result.product_name}
+				avgRating={Number(result.average_rating)}
+				amtRatings={Number(result.rating_count)}
+				productId={Number(result.product_id)}
+				clicked={() => onToggleProductModal(Number(result.product_id))}
+			/>
+		);
+	});
 
 	return (
 		<>
 			<Hero bgImage={peanuts}>
 				<Heading>Vegan Nut Butters & Spreads</Heading>
 				<SubHeading>
-					There are 64 vegan nut butters & spreads within Australia from brands like
-					Kraft, Pics, Bega and 14 more.
+					There are 64 vegan nut butters & spreads within Australia from brands
+					like Kraft, Pics, Bega and 14 more.
 				</SubHeading>
 				<Footer forCategory />
 			</Hero>
@@ -62,17 +82,7 @@ const ResultsList = (props) => {
 					[styles.containerShift]: showFiltersPanel
 				})}
 			>
-				{results.map((result) => (
-					<Result
-						key={result.id}
-						image={result.image}
-						brand={result.brand}
-						name={result.name}
-						clicked={handleResultClick}
-						avgRating={result.avgRating}
-						amtRatings={result.amtRatings}
-					/>
-				))}
+				{renderedList}
 			</div>
 			<AddProductsFab />
 		</>
@@ -88,7 +98,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onToggleProductModal: () => dispatch(actionCreators.toggleProductModal())
+		onToggleProductModal: (id) =>
+			dispatch(actionCreators.toggleProductModal(id))
 	};
 };
 
