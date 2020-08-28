@@ -15,6 +15,7 @@ const drawerWidth = 430;
 
 const useStyles = makeStyles((theme) => ({
 	container: {
+		backgroundColor: theme.palette.background.paper,
 		flexGrow: 1,
 		padding: theme.spacing(3),
 		display: 'grid',

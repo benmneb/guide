@@ -34,10 +34,11 @@ const useStyles = makeStyles((theme) => ({
 	search: {
 		position: 'relative',
 		borderRadius: theme.shape.borderRadius,
-		backgroundColor: fade(theme.palette.common.white, 0.55), // was black 0.15
+		backgroundColor: fade(theme.palette.common.black, 0.15), // was black 0.15
 		'&:hover': {
-			backgroundColor: fade(theme.palette.common.white, 0.75) // was black 0.25
+			backgroundColor: fade(theme.palette.common.black, 0.25) // was black 0.25
 		},
+		backgroundBlendMode: 'darken',
 		marginLeft: 0,
 		width: '100%',
 		[theme.breakpoints.up('sm')]: {
@@ -73,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 	content: {
 		flexGrow: 1,
 		padding: 0,
-		backgroundColor: theme.palette.common.white
+		backgroundColor: theme.palette.background.paper
 	},
 	displayNone: {
 		display: 'none'

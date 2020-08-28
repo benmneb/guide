@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(2)
 	},
 	container: {
+		backgroundColor: theme.palette.background.paper,
 		width: '100%',
 		display: 'grid',
 		[theme.breakpoints.up('xs')]: {

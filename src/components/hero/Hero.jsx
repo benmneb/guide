@@ -2,7 +2,7 @@ import React, { Children, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Typography, Link, Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core/styles';
 
 export default function Hero(props) {
 	const { children, textAlign, bgImage, hide } = props;
@@ -13,16 +13,36 @@ export default function Hero(props) {
 		},
 		hasBgImage: {
 			[theme.breakpoints.only('xs')]: {
-				background: `radial-gradient(farthest-corner at ${theme.breakpoints.values.sm}px 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%), url(${bgImage}) center / cover no-repeat`
+				background: `radial-gradient(farthest-corner at ${
+					theme.breakpoints.values.sm
+				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+					theme.palette.background.paper,
+					1
+				)} 70%), url(${bgImage}) center / cover no-repeat`
 			},
 			[theme.breakpoints.only('sm')]: {
-				background: `radial-gradient(farthest-corner at ${theme.breakpoints.values.md}px 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%), url(${bgImage}) center / cover no-repeat`
+				background: `radial-gradient(farthest-corner at ${
+					theme.breakpoints.values.md
+				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+					theme.palette.background.paper,
+					1
+				)} 70%), url(${bgImage}) center / cover no-repeat`
 			},
 			[theme.breakpoints.up('md')]: {
-				background: `radial-gradient(farthest-corner at ${theme.breakpoints.values.lg}px 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%), url(${bgImage}) center / cover no-repeat`
+				background: `radial-gradient(farthest-corner at ${
+					theme.breakpoints.values.lg
+				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+					theme.palette.background.paper,
+					1
+				)} 70%), url(${bgImage}) center / cover no-repeat`
 			},
 			[theme.breakpoints.up('xl')]: {
-				background: `radial-gradient(farthest-corner at ${theme.breakpoints.values.xl}px 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%), url(${bgImage}) center / cover no-repeat`
+				background: `radial-gradient(farthest-corner at ${
+					theme.breakpoints.values.xl
+				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+					theme.palette.background.paper,
+					1
+				)} 70%), url(${bgImage}) center / cover no-repeat`
 			}
 		},
 		content: {
