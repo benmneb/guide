@@ -3,10 +3,10 @@ import clsx from 'clsx';
 import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuRoundedIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
+import SearchRoundedIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import Box from '@material-ui/core/Box';
 import SideDrawer from './SideDrawer';
@@ -105,12 +105,12 @@ function TopBar(props) {
 						onClick={handleDrawerToggle}
 						className={classes.menuButton}
 					>
-						<MenuIcon />
+						<MenuRoundedIcon />
 					</IconButton>
 					<Box flexGrow="1" justifyContent="flex-start"></Box>
 					<div className={classes.search}>
 						<div className={classes.searchIcon}>
-							<SearchIcon />
+							<SearchRoundedIcon />
 						</div>
 						<InputBase
 							placeholder="Search…"

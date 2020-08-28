@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseRoundedIcon from '@material-ui/icons/Close';
 import {
 	Button,
 	Checkbox,
@@ -65,7 +65,7 @@ const DialogTitle = withStyles(styles)((props) => {
 			<Typography variant="h6">{children}</Typography>
 			{onClose ? (
 				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-					<CloseIcon />
+					<CloseRoundedIcon />
 				</IconButton>
 			) : null}
 		</MuiDialogTitle>

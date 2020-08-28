@@ -9,8 +9,8 @@ import {
 	Box
 } from '@material-ui/core';
 import {
-	Place,
-	Store,
+	PlaceRounded,
+	StoreRounded,
 	EcoRounded,
 	LaunchRounded,
 	FileCopyRounded
@@ -37,7 +37,11 @@ export default function StoresList(props) {
 				selected={props.selectedStore === store.id}
 			>
 				<ListItemIcon>
-					{store.isVegan ? <EcoRounded style={{ color: green[500] }} /> : <Place />}
+					{store.isVegan ? (
+						<EcoRounded style={{ color: green[500] }} />
+					) : (
+						<PlaceRounded />
+					)}
 				</ListItemIcon>
 				<ListItemText primary={store.name} secondary={store.address} />
 				<ListItemSecondaryAction>
@@ -69,7 +73,7 @@ export default function StoresList(props) {
 					</ListItem>
 					<ListItem button className={styles.nested}>
 						<ListItemIcon>
-							<Store />
+							<StoreRounded />
 						</ListItemIcon>
 						<ListItemText primary="See all products in this store" />
 					</ListItem>

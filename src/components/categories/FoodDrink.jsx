@@ -10,7 +10,7 @@ import {
 	Button,
 	Box
 } from '@material-ui/core';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRight';
 import { subCat1s } from '../../assets/subCat1s';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import useWidth from '../../assets/useWidth';
@@ -97,7 +97,11 @@ export default function SingleLineGridList() {
 								</Box>
 								<Box flexGrow="0">
 									<Link to="/food-drink/nut-butters-spreads">
-										<Button variant="text" color="default" endIcon={<ChevronRightIcon />}>
+										<Button
+											variant="text"
+											color="default"
+											endIcon={<ChevronRightRoundedIcon />}
+										>
 											See all {category}
 										</Button>
 									</Link>

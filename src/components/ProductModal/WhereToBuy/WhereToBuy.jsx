@@ -6,7 +6,7 @@ import StoresMap from './StoresMap';
 import StoresListSection from './StoresListSection';
 import { Grid, Fab, SwipeableDrawer, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Add, List as ListIcon } from '@material-ui/icons';
+import { AddRounded, ListRounded as ListIcon } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	mapBox: {
@@ -137,7 +137,7 @@ function WhereToBuy({ onShowSnackbar }) {
 					className={styles.addFab}
 					onClick={handleAddStoreFabClick}
 				>
-					<Add />
+					<AddRounded />
 				</Fab>
 				<Box>
 					<SwipeableDrawer

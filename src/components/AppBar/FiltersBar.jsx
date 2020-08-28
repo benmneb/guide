@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNext';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import ShowFiltersButton from './ShowFiltersButton';
 
@@ -63,7 +63,7 @@ function FiltersBar(props) {
 					<Toolbar>
 						<Box className={classes.breadcrumbs}>
 							<Breadcrumbs
-								separator={<NavigateNextIcon fontSize="small" />}
+								separator={<NavigateNextRoundedIcon fontSize="small" />}
 								aria-label="breadcrumb"
 								maxItems={maxItems}
 								itemsBeforeCollapse={0}

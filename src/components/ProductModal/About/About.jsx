@@ -15,8 +15,8 @@ import {
 	Tooltip,
 	Box
 } from '@material-ui/core';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import EcoIcon from '@material-ui/icons/Eco';
+import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNew';
+import EcoRoundedIcon from '@material-ui/icons/Eco';
 import { makeStyles } from '@material-ui/core/styles';
 import AboutEdit from './AboutEdit';
 
@@ -119,8 +119,8 @@ export default function ProductAbout(props) {
 									onClick={() =>
 										window.open(store.url + '?ref=vomadguide', '_blank', 'noopener')
 									}
-									startIcon={store.isVegan ? <EcoIcon /> : null}
-									endIcon={<OpenInNewIcon />}
+									startIcon={store.isVegan ? <EcoRoundedIcon /> : null}
+									endIcon={<OpenInNewRoundedIcon />}
 								>
 									{store.name}
 								</Button>

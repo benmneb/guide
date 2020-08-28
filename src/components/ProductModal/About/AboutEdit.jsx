@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
 import {
 	IconButton,
 	List,
@@ -17,6 +16,7 @@ import {
 	Box
 } from '@material-ui/core';
 import {
+	CloseRounded,
 	RadioButtonCheckedRounded,
 	RadioButtonUncheckedRounded
 } from '@material-ui/icons';
@@ -156,7 +156,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 					className={styles.closeButton}
 					onClick={handleClose}
 				>
-					<CloseIcon />
+					<CloseRounded />
 				</IconButton>
 			</MuiDialogTitle>
 			<DialogTitle id="simple-dialog-title" className={styles.dialogTitle}>

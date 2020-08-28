@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
-import SendIcon from '@material-ui/icons/Send';
+import CloseRoundedIcon from '@material-ui/icons/Close';
+import SendRoundedIcon from '@material-ui/icons/Send';
 import { useTheme, withStyles } from '@material-ui/core/styles';
 import {
 	Dialog,
@@ -34,7 +34,7 @@ const DialogTitle = withStyles(styles)((props) => {
 			<Typography variant="h6">{children}</Typography>
 			{onClose ? (
 				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-					<CloseIcon />
+					<CloseRoundedIcon />
 				</IconButton>
 			) : null}
 		</MuiDialogTitle>
@@ -133,7 +133,12 @@ function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal 
 						fullWidth
 					/>
 					<Box display="flex" justifyContent="flex-end">
-						<Button type="submit" color="default" size="large" endIcon={<SendIcon />}>
+						<Button
+							type="submit"
+							color="default"
+							size="large"
+							endIcon={<SendRoundedIcon />}
+						>
 							Submit
 						</Button>
 					</Box>

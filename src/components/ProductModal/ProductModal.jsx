@@ -15,7 +15,7 @@ import {
 	Grid,
 	Box
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseRoundedIcon from '@material-ui/icons/Close';
 import About from './About/About';
 import Reviews from './Reviews/Reviews';
 import WhereToBuy from './WhereToBuy/WhereToBuy';
@@ -114,7 +114,7 @@ const ProductModal = (props) => {
 					className={styles.closeButton}
 					onClick={onCloseModal}
 				>
-					<CloseIcon />
+					<CloseRoundedIcon />
 				</IconButton>
 			</MuiDialogTitle>
 			<DialogContent className={styles.dialogContentRoot}>

@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Box from '@material-ui/core/Box';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import CategoryIcon from '@material-ui/icons/Category';
-import AppsIcon from '@material-ui/icons/Apps';
+import FilterListRoundedIcon from '@material-ui/icons/FilterList';
+import CategoryRoundedIcon from '@material-ui/icons/Category';
+import AppsRoundedIcon from '@material-ui/icons/Apps';
 
 const useStyles = makeStyles({
 	root: {
@@ -28,9 +28,9 @@ export default function BottomNav() {
 				}}
 				showLabels
 			>
-				<BottomNavigationAction label="Categories" icon={<CategoryIcon />} />
-				<BottomNavigationAction label="Results" icon={<AppsIcon />} />
-				<BottomNavigationAction label="Filters" icon={<FilterListIcon />} />
+				<BottomNavigationAction label="Categories" icon={<CategoryRoundedIcon />} />
+				<BottomNavigationAction label="Results" icon={<AppsRoundedIcon />} />
+				<BottomNavigationAction label="Filters" icon={<FilterListRoundedIcon />} />
 			</BottomNavigation>
 		</Box>
 	);

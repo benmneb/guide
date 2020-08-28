@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useTheme, withStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseRoundedIcon from '@material-ui/icons/Close';
 import {
 	Dialog,
 	DialogContent,
@@ -34,7 +34,7 @@ const DialogTitle = withStyles(styles)((props) => {
 					onClick={onClose}
 					autoFocus
 				>
-					<CloseIcon />
+					<CloseRoundedIcon />
 				</IconButton>
 			) : null}
 		</MuiDialogTitle>

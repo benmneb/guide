@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Snackbar, Button, IconButton } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseRoundedIcon from '@material-ui/icons/Close';
 import * as actionCreators from '../../store/actions';
 
 function Snackbars({ snackData, showSnackbar, onHideSnackbar }) {
@@ -31,7 +31,7 @@ function Snackbars({ snackData, showSnackbar, onHideSnackbar }) {
 				color="inherit"
 				onClick={handleCloseSnack}
 			>
-				<CloseIcon fontSize="small" />
+				<CloseRoundedIcon fontSize="small" />
 			</IconButton>
 		</>
 	) : null;

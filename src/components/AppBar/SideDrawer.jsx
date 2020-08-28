@@ -9,16 +9,16 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import HomeIcon from '@material-ui/icons/Home';
+import HomeRoundedIcon from '@material-ui/icons/Home';
 import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import FastfoodIcon from '@material-ui/icons/Fastfood';
-import BathtubIcon from '@material-ui/icons/Bathtub';
-import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import FeedbackIcon from '@material-ui/icons/Feedback';
+import AddCircleRoundedIcon from '@material-ui/icons/AddCircle';
+import FastfoodRoundedIcon from '@material-ui/icons/Fastfood';
+import BathtubRoundedIcon from '@material-ui/icons/Bathtub';
+import AllInclusiveRoundedIcon from '@material-ui/icons/AllInclusive';
+import FavoriteRoundedIcon from '@material-ui/icons/Favorite';
+import VisibilityRoundedIcon from '@material-ui/icons/Visibility';
+import FeedbackRoundedIcon from '@material-ui/icons/Feedback';
+import GetAppRoundedIcon from '@material-ui/icons/GetApp';
 import { categories } from '../../assets/categoriesAZ';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as actionCreators from '../../store/actions';
@@ -95,7 +95,7 @@ const SideDrawer = (props) => {
 			<List component="nav">
 				<ListItem component={Link} to="/" button onClick={handleCloseSideDrawer}>
 					<ListItemIcon>
-						<HomeIcon />
+						<HomeRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Home'} />
 				</ListItem>
@@ -112,19 +112,19 @@ const SideDrawer = (props) => {
 					onClick={handleCloseSideDrawer}
 				>
 					<ListItemIcon>
-						<FastfoodIcon />
+						<FastfoodRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Food & Drink'} />
 				</ListItem>
 				<ListItem button>
 					<ListItemIcon>
-						<BathtubIcon />
+						<BathtubRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Household'} />
 				</ListItem>
 				<ListItem button onClick={handleExpandCategories}>
 					<ListItemIcon>
-						<AllInclusiveIcon />
+						<AllInclusiveRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'All Categories'} />
 				</ListItem>
@@ -146,31 +146,31 @@ const SideDrawer = (props) => {
 				</Collapse>
 				<ListItem button onClick={() => openMenuItem('addProducts')}>
 					<ListItemIcon>
-						<AddCircleIcon />
+						<AddCircleRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Add Products'} />
 				</ListItem>
 				<ListItem button>
 					<ListItemIcon>
-						<FavoriteIcon />
+						<FavoriteRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Support Us'} />
 				</ListItem>
 				<ListItem button onClick={() => openMenuItem('advertise')}>
 					<ListItemIcon>
-						<VisibilityIcon />
+						<VisibilityRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Advertise'} />
 				</ListItem>
 				<ListItem button onClick={() => openMenuItem('feedback')}>
 					<ListItemIcon>
-						<FeedbackIcon />
+						<FeedbackRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary="Provide Feedback" />
 				</ListItem>
 				<ListItem button>
 					<ListItemIcon>
-						<GetAppIcon />
+						<GetAppRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Get the App'} />
 				</ListItem>

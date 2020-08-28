@@ -7,7 +7,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import { Dialog, Button, Icon, IconButton, Typography, Box } from '@material-ui/core';
-import { Close, Facebook, Instagram, Twitter, Reddit } from '@material-ui/icons';
+import { CloseRounded, Facebook, Instagram, Twitter, Reddit } from '@material-ui/icons';
 import { indigo, red, blue, deepPurple, deepOrange } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
@@ -85,7 +85,7 @@ const Login = ({ showAuthModal, onToggleAuthModal }) => {
 				</Typography>
 				{onClose ? (
 					<IconButton aria-label="close" className={styles.closeButton} onClick={onClose}>
-						<Close />
+						<CloseRounded />
 					</IconButton>
 				) : null}
 			</MuiDialogTitle>
