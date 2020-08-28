@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import * as actionCreators from '../../../store/actions';
 import { Typography, Button, Collapse, Grid } from '@material-ui/core';
 import { CancelRounded } from '@material-ui/icons';
@@ -7,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ReviewCard from './ReviewCard';
 import ReviewsAdd from './ReviewsAdd';
 import MasonryLayout from '../../../assets/MasonryLayout';
-import { reviews } from '../../../assets/reviews';
+// import { reviews } from "../../../assets/reviews";
 
 const useStyles = makeStyles((theme) => ({
 	bold: {
@@ -27,11 +28,26 @@ const useStyles = makeStyles((theme) => ({
 function Reviews(props) {
 	const styles = useStyles();
 	const { showAddReview, onShowAddReview, onHideAddReview } = props;
+	const [reviews, setReviews] = useState(null);
+
+	useEffect(() => {
+		axios
+			.get(`http://localhost:3000/review/${props.selectedProduct}`)
+			.then((response) => setReviews(response.data))
+			.catch((err) => console.log(err));
+	}, [props.selectedProduct]);
 
 	function handleAddReviewButtonClick() {
 		if (showAddReview) return onHideAddReview();
 		else return onShowAddReview();
 	}
+
+	const updateReview = () => {
+		axios
+			.get(`http://localhost:3000/review/${props.selectedProduct}`)
+			.then((response) => setReviews(response.data))
+			.catch((err) => console.log(err));
+	};
 
 	return (
 		<>
@@ -39,15 +55,27 @@ function Reviews(props) {
 				<Grid item xs={12} sm={9}>
 					<Typography variant="body1">
 						The first review was by{' '}
-						<Typography component="span" variant="body1" className={styles.bold}>
+						<Typography
+							component="span"
+							variant="body1"
+							className={styles.bold}
+						>
 							Bonny Rebecca
 						</Typography>{' '}
 						🥇 the most helpful review is by{' '}
-						<Typography component="span" variant="body1" className={styles.bold}>
+						<Typography
+							component="span"
+							variant="body1"
+							className={styles.bold}
+						>
 							Hishelicious
 						</Typography>{' '}
 						💪 the latest review is by{' '}
-						<Typography component="span" variant="body1" className={styles.bold}>
+						<Typography
+							component="span"
+							variant="body1"
+							className={styles.bold}
+						>
 							Joey Carbstrong
 						</Typography>{' '}
 						⏰
@@ -58,7 +86,9 @@ function Reviews(props) {
 						size="large"
 						variant={showAddReview ? 'outlined' : 'contained'}
 						color={showAddReview ? 'default' : 'primary'}
-						startIcon={showAddReview ? <CancelRounded color="disabled" /> : null}
+						startIcon={
+							showAddReview ? <CancelRounded color="disabled" /> : null
+						}
 						onClick={handleAddReviewButtonClick}
 						classes={showAddReview ? { label: styles.cancelButton } : null}
 					>
@@ -71,14 +101,17 @@ function Reviews(props) {
 					ratingBeforeClickedAddReviewSnackbar={
 						props.ratingBeforeClickedAddReviewSnackbar
 					}
+					productId={props.selectedProduct}
+					updateReviews={() => updateReview()}
 				/>
 			</Collapse>
 			<MasonryLayout>
-				{reviews
-					.filter((review) => review.body.length > 0)
-					.map((review) => (
-						<ReviewCard key={review.id} review={review} />
-					))}
+				{reviews &&
+					reviews
+						.filter((review) => review.review.length > 0)
+						.map((review) => (
+							<ReviewCard key={review.review_id} review={review} />
+						))}
 			</MasonryLayout>
 		</>
 	);
@@ -87,7 +120,9 @@ function Reviews(props) {
 const mapStateToProps = (state) => {
 	return {
 		showAddReview: state.showAddReview,
-		ratingBeforeClickedAddReviewSnackbar: state.ratingBeforeClickedAddReviewSnackbar
+		selectedProduct: state.selectedProduct,
+		ratingBeforeClickedAddReviewSnackbar:
+			state.ratingBeforeClickedAddReviewSnackbar
 	};
 };
 
