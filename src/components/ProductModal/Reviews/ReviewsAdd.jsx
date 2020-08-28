@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../../store/actions';
 import { Typography, Button, TextField, Grid, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 
@@ -10,9 +13,10 @@ const labels = {
 	5: 'Excellent'
 };
 
-export default function ReviewsAdd(props) {
+const ReviewsAdd = (props) => {
 	const [rating, setRating] = useState(0);
 	const [hover, setHover] = useState(-1);
+	const [reviewText, setReviewText] = useState(null);
 
 	const { ratingBeforeClickedAddReviewSnackbar } = props;
 	useEffect(() => {
@@ -31,14 +35,39 @@ export default function ReviewsAdd(props) {
 		ratingHelperText = 'Select a rating:';
 	} else {
 		ratingHelperText = (
-			<Box component="span">Rate as "{labels[hover !== -1 ? hover : rating]}"</Box>
+			<Box component="span">
+				Rate as "{labels[hover !== -1 ? hover : rating]}"
+			</Box>
 		);
 	}
+
+	const onTextChange = (event) => {
+		setReviewText(event.target.value);
+	};
+
+	const onSubmitHandler = () => {
+		axios
+			.post('http://localhost:3000/review/', {
+				review: reviewText,
+				product_id: props.productId,
+				user_id: 9,
+				rating: rating
+			})
+			.then(() => props.onHideAddReview())
+			.then(() => props.updateReviews());
+	};
 
 	return (
 		<Box marginTop={1}>
 			<Grid container alignItems="center" justify="center">
-				<Grid item container xs={12} justify="center" alignItems="center" spacing={1}>
+				<Grid
+					item
+					container
+					xs={12}
+					justify="center"
+					alignItems="center"
+					spacing={1}
+				>
 					<Grid item xs={12} container justify="center">
 						<Typography>{ratingHelperText}</Typography>
 					</Grid>
@@ -66,10 +95,17 @@ export default function ReviewsAdd(props) {
 							variant="outlined"
 							size="small"
 							autoFocus
+							value={reviewText}
+							onChange={onTextChange}
 						/>
 					</Grid>
 					<Grid item container xs={12} justify="center">
-						<Button size="large" variant="contained" color="primary">
+						<Button
+							onClick={onSubmitHandler}
+							size="large"
+							variant="contained"
+							color="primary"
+						>
 							Submit
 						</Button>
 					</Grid>
@@ -77,4 +113,11 @@ export default function ReviewsAdd(props) {
 			</Grid>
 		</Box>
 	);
-}
+};
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onHideAddReview: () => dispatch(actionCreators.hideAddReview())
+	};
+};
+
+export default connect(null, mapDispatchToProps)(ReviewsAdd);
