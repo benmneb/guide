@@ -1,11 +1,11 @@
 import React, { Children, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { connect } from 'react-redux';
 import { Typography, Link, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-function Hero({ children, textAlign, bgImage, hide }) {
+export default function Hero(props) {
+	const { children, textAlign, bgImage, hide } = props;
 	// JSS has to be inside the function because it receives props for the bgImage
 	const useStyles = makeStyles((theme) => ({
 		container: {
@@ -80,14 +80,6 @@ Hero.propTypes = {
 Hero.defaultProps = {
 	textAlign: 'left'
 };
-
-const mapStateToProps = (state) => {
-	return {
-		showFiltersPanel: state.showFiltersPanel
-	};
-};
-
-export default connect(mapStateToProps)(Hero);
 
 ///////// HEADING
 
