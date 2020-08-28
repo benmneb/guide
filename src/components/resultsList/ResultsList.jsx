@@ -11,16 +11,20 @@ import * as actionCreators from '../../store/actions';
 import { results } from '../../assets/results';
 import peanuts from '../../assets/images/peanuts.jpg';
 
-const drawerWidth = 430;
+const drawerWidth = 395;
 
 const useStyles = makeStyles((theme) => ({
 	container: {
 		backgroundColor: theme.palette.background.paper,
 		flexGrow: 1,
-		padding: theme.spacing(3),
+		padding: theme.spacing(3, 0),
 		display: 'grid',
-		gridGap: 20,
-		gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+		[theme.breakpoints.up('xs')]: {
+			gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))'
+		},
+		[theme.breakpoints.up('md')]: {
+			gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))'
+		},
 		transition: theme.transitions.create('margin', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen
@@ -40,7 +44,11 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPanel }) => {
+const ResultsList = ({
+	showFiltersPanel,
+	onToggleProductModal,
+	onHideFiltersPanel
+}) => {
 	const styles = useStyles();
 
 	function handleResultClick() {
@@ -58,8 +66,8 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 			<Hero bgImage={peanuts} hide={showFiltersPanel}>
 				<Heading>Vegan Nut Butters & Spreads</Heading>
 				<SubHeading>
-					There are 64 vegan nut butters & spreads within Australia from brands like
-					Kraft, Pics, Bega and 14 more.
+					There are 64 vegan nut butters & spreads within Australia from brands
+					like Kraft, Pics, Bega and 14 more.
 				</SubHeading>
 				<Footer forCategory />
 			</Hero>
