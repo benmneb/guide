@@ -14,6 +14,7 @@ import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRight';
 import { subCat1s } from '../../assets/subCat1s';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import useWidth from '../../assets/useWidth';
+import BottomNav from './BottomNav';
 
 const useStyles = makeStyles((theme) => ({
 	gridList: {
@@ -137,6 +138,7 @@ export default function SingleLineGridList() {
 					)
 				)}
 			</Box>
+			<BottomNav />
 		</>
 	);
 }
