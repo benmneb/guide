@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	drawerPaper: {
 		right: 0,
+		zIndex: theme.zIndex.appBar,
 		[theme.breakpoints.only('xs')]: {
 			display: 'flex',
 			alignItems: 'center',

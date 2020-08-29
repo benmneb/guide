@@ -8,7 +8,13 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 	// JSS has to be inside the function because it receives props for the bgImage
 	const useStyles = makeStyles((theme) => ({
 		container: {
-			zIndex: theme.zIndex.appBar + 1
+			zIndex: theme.zIndex.appBar + 1,
+			[theme.breakpoints.only('xs')]: {
+				height: 350
+			},
+			[theme.breakpoints.up('sm')]: {
+				height: 300
+			}
 		},
 		hasBgImage: {
 			[theme.breakpoints.only('xs')]: {
@@ -55,11 +61,11 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 
 	const styles = useStyles();
 
-	let marginLeft = 3;
+	let marginX = 3;
 	let justifyContent = 'flex-start';
 
 	if (textAlign === 'center') {
-		marginLeft = 0;
+		marginX = 0;
 		justifyContent = 'center';
 	}
 
@@ -69,7 +75,6 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 
 	return (
 		<Box
-			height={300}
 			position="relative"
 			display="flex"
 			alignItems="center"
@@ -81,8 +86,9 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 		>
 			<Box
 				position="relative"
-				marginLeft={marginLeft}
+				marginX={marginX}
 				width={3 / 4}
+				minWidth={272}
 				className={styles.content}
 			>
 				{childrenWithProps}

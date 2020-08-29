@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 		position: 'fixed',
 		bottom: 0,
 		boxShadow: theme.shadows[24],
-		zIndex: theme.zIndex.appBar
+		zIndex: theme.zIndex.appBar - 1
 	}
 }));
 
