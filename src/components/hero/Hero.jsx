@@ -4,8 +4,7 @@ import clsx from 'clsx';
 import { Typography, Link, Box } from '@material-ui/core';
 import { makeStyles, fade } from '@material-ui/core/styles';
 
-export default function Hero(props) {
-	const { children, textAlign, bgImage, hide } = props;
+export default function Hero({ children, textAlign, bgImage, hide }) {
 	// JSS has to be inside the function because it receives props for the bgImage
 	const useStyles = makeStyles((theme) => ({
 		container: {
@@ -103,9 +102,7 @@ Hero.defaultProps = {
 
 ///////// HEADING
 
-export function Heading(props) {
-	const { children, textAlign } = props;
-
+export function Heading({ children, textAlign }) {
 	return (
 		<Typography component="h1" variant="h2" align={textAlign} gutterBottom>
 			{children}
@@ -124,11 +121,9 @@ Heading.defaultProps = {
 
 ///////// SUB-HEADING
 
-export function SubHeading(props) {
-	const { children, textAlign } = props;
-
+export function SubHeading({ children, textAlign }) {
 	return (
-		<Box display={{ xs: 'none', sm: 'block' }}>
+		<Box>
 			<Typography align={textAlign} component="p" variant="h5" paragraph>
 				{children}
 			</Typography>
@@ -147,9 +142,7 @@ SubHeading.defaultProps = {
 
 ///////// FOOTER
 
-export function Footer(props) {
-	const { textAlign, forCategory } = props;
-
+export function Footer({ textAlign, forCategory }) {
 	let footerContent;
 
 	if (forCategory) {
