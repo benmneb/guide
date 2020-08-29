@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AppBar, useMediaQuery } from '@material-ui/core';
+import { AppBar } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNext';
@@ -43,12 +43,6 @@ function ElevationScroll(props) {
 
 function FiltersBar(props) {
 	const classes = useStyles();
-	const theme = useTheme();
-
-	let maxItems = 6;
-	if (useMediaQuery(theme.breakpoints.down('sm'))) {
-		maxItems = 1;
-	}
 
 	return (
 		<Box
@@ -65,7 +59,7 @@ function FiltersBar(props) {
 							<Breadcrumbs
 								separator={<NavigateNextRoundedIcon fontSize="small" />}
 								aria-label="breadcrumb"
-								maxItems={maxItems}
+								maxItems={6}
 								itemsBeforeCollapse={0}
 							>
 								<Link color="inherit" href="#">
@@ -80,7 +74,9 @@ function FiltersBar(props) {
 								<Typography color="textPrimary">Nut Butters & Spreads</Typography>
 							</Breadcrumbs>
 						</Box>
-						<ShowFiltersButton />
+						<Box display={{ xs: 'none', md: 'flex' }}>
+							<ShowFiltersButton />
+						</Box>
 					</Toolbar>
 				</AppBar>
 			</ElevationScroll>

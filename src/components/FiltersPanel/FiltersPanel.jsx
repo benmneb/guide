@@ -15,12 +15,29 @@ const useStyles = makeStyles((theme) => ({
 		flexShrink: 0
 	},
 	drawerPaper: {
-		width: drawerWidth,
-		top: 64, // theme.mixins.toolbar min width 600px height
 		right: 0,
-		height: `calc(100vh - 64px)`, // theme.mixins.toolbar min width 600px height
-		zIndex: theme.zIndex.appBar,
-		borderTop: `1px solid rgba(0, 0, 0, 0.12);`
+		[theme.breakpoints.only('xs')]: {
+			display: 'flex',
+			alignItems: 'center',
+			width: '100vw',
+			bottom: 56, // bottomNav height
+			height: `calc(100vh - 56px)`, // bottomNav height
+			borderBottom: `1px solid rgba(0, 0, 0, 0.12);`
+		},
+		[theme.breakpoints.only('sm')]: {
+			width: drawerWidth,
+			top: 64,
+			bottom: 56, // bottomNav height
+			height: `calc(100vh - 120px)`, // bottomNav height + theme.mixins.toolbar height
+			borderTop: `1px solid rgba(0, 0, 0, 0.12);`,
+			borderBottom: `1px solid rgba(0, 0, 0, 0.12);`
+		},
+		[theme.breakpoints.up('md')]: {
+			width: drawerWidth,
+			top: 64, // theme.mixins.toolbar min width 600px height
+			height: `calc(100vh - 64px)`, // theme.mixins.toolbar min width 600px height
+			borderTop: `1px solid rgba(0, 0, 0, 0.12);`
+		}
 	},
 	filtersSectionFirstTitle: {
 		marginTop: theme.spacing(1)
@@ -46,17 +63,13 @@ const FiltersPanel = (props) => {
 				paper: styles.drawerPaper
 			}}
 		>
-			<Box marginX={2}>
+			<Box marginX={2} maxWidth={drawerWidth}>
 				<Typography align="center" className={styles.filtersSectionFirstTitle}>
 					Tags
 				</Typography>
 				<Grid container justify="space-evenly">
 					{tags.map((tag) => (
-						<FilterButton
-							name={tag.name}
-							tooltip={tag.tooltip}
-							key={tag.name}
-						/>
+						<FilterButton name={tag.name} tooltip={tag.tooltip} key={tag.name} />
 					))}
 				</Grid>
 				<Typography align="center" className={styles.filtersSectionTitle}>
@@ -64,11 +77,7 @@ const FiltersPanel = (props) => {
 				</Typography>
 				<Grid container justify="space-evenly">
 					{ingredients.map((ing) => (
-						<FilterButton
-							name={ing.name}
-							tooltip={ing.tooltip}
-							key={ing.name}
-						/>
+						<FilterButton name={ing.name} tooltip={ing.tooltip} key={ing.name} />
 					))}
 				</Grid>
 				<Typography align="center" className={styles.filtersSectionTitle}>
