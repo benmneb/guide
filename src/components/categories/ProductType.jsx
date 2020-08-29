@@ -53,23 +53,29 @@ export default function SingleLineGridList() {
 	const styles = useStyles();
 	const width = useWidth();
 	const [cols, setCols] = useState(null);
+	const [cellHeight, setCellHeight] = useState(null);
 
 	useEffect(() => {
 		switch (width) {
 			case 'xs':
 				setCols(2.3);
+				setCellHeight(200);
 				break;
 			case 'sm':
 				setCols(3.3);
+				setCellHeight(250);
 				break;
 			case 'md':
 				setCols(5.3);
+				setCellHeight(300);
 				break;
 			case 'lg':
 				setCols(5.3);
+				setCellHeight(300);
 				break;
 			case 'xl':
 				setCols(7.3);
+				setCellHeight(300);
 				break;
 			default:
 				return;
@@ -111,7 +117,7 @@ export default function SingleLineGridList() {
 							<GridList
 								className={styles.gridList}
 								cols={cols}
-								cellHeight={300}
+								cellHeight={cellHeight}
 								spacing={0}
 							>
 								{subCat1s.map((image) => (
