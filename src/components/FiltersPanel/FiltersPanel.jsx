@@ -11,7 +11,6 @@ const drawerWidth = 395;
 
 const useStyles = makeStyles((theme) => ({
 	drawer: {
-		width: drawerWidth,
 		flexShrink: 0
 	},
 	drawerPaper: {
