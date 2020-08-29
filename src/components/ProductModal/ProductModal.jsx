@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
 			marginBottom: 0
 		}
 	},
+	brandName: {
+		color: theme.palette.grey[500],
+		fontWeight: theme.typography.fontWeightBold
+	},
 	modalMaxHeight: {
 		[theme.breakpoints.up('md')]: {
 			height: `calc(100% - ${theme.spacing(8)}px)` // always max height so there is no jump with less modal content
@@ -119,8 +123,16 @@ const ProductModal = (props) => {
 			<DialogContent className={styles.dialogContentRoot}>
 				<Grid container spacing={1} direction="column" alignItems="center">
 					<Grid item xs={12}>
+						<Typography
+							className={styles.brandName}
+							variant="overline"
+							component="h3"
+							align="center"
+						>
+							{product.brand}
+						</Typography>
 						<Typography variant="h4" component="h2" align="center">
-							{product.brand} {product.name}
+							{product.name}
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>
