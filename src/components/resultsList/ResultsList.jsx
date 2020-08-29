@@ -21,10 +21,12 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(3, 0),
 		display: 'grid',
 		[theme.breakpoints.up('xs')]: {
-			gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))'
+			gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
+			marginBottom: theme.spacing(6)
 		},
 		[theme.breakpoints.up('md')]: {
-			gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))'
+			gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+			marginBottom: theme.spacing(0)
 		},
 		transition: theme.transitions.create('margin', {
 			easing: theme.transitions.easing.sharp,
