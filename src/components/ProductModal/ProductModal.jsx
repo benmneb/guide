@@ -24,10 +24,7 @@ import StarRating from './StarRating';
 import { product } from '../../assets/product';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		flexGrow: 1
-	},
-	titleRoot: {
+	closeBtnContainer: {
 		margin: 0,
 		padding: 0
 	},
@@ -113,7 +110,7 @@ const ProductModal = (props) => {
 			fullWidth
 			classes={{ paperScrollPaper: styles.modalMaxHeight }}
 		>
-			<MuiDialogTitle disableTypography className={styles.titleRoot}>
+			<MuiDialogTitle disableTypography className={styles.closeBtnContainer}>
 				<IconButton
 					aria-label="close"
 					className={styles.closeButton}
@@ -124,17 +121,18 @@ const ProductModal = (props) => {
 			</MuiDialogTitle>
 			<DialogContent className={styles.dialogContentRoot}>
 				<Grid container spacing={1} direction="column" alignItems="center">
-					<Grid item xs={12}>
-						<Typography
-							className={styles.brandName}
-							variant="overline"
-							component="h3"
-							align="center"
-						>
-							{product.brand}
-						</Typography>
-						<Typography variant="h4" component="h2" align="center">
-							{product.name}
+					<Grid item xs={12} style={{ marginTop: '-12px' }}>
+						<Typography component="h1" variant="span" align="center">
+							<Typography
+								className={styles.brandName}
+								variant="overline"
+								component="span"
+							>
+								{product.brand}
+							</Typography>
+							<Typography variant="h4" component="span" display="block">
+								{product.name}
+							</Typography>
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>
