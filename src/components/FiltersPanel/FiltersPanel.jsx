@@ -39,6 +39,14 @@ const useStyles = makeStyles((theme) => ({
 			borderTop: `1px solid rgba(0, 0, 0, 0.12);`
 		}
 	},
+	content: {
+		[theme.breakpoints.only('xs')]: {
+			margin: theme.spacing(0)
+		},
+		[theme.breakpoints.up('sm')]: {
+			margin: theme.spacing(0, 2)
+		}
+	},
 	filtersSectionFirstTitle: {
 		marginTop: theme.spacing(1)
 	},
@@ -63,7 +71,7 @@ const FiltersPanel = (props) => {
 				paper: styles.drawerPaper
 			}}
 		>
-			<Box marginX={2} maxWidth={drawerWidth}>
+			<Box className={styles.content} maxWidth={drawerWidth}>
 				<Typography align="center" className={styles.filtersSectionFirstTitle}>
 					Tags
 				</Typography>

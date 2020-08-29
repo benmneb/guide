@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Tooltip } from '@material-ui/core';
+import { Button, Tooltip, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	filtersBtn: {
 		width: '47%',
+		minWidth: 138,
 		margin: theme.spacing(0.5, 0),
-		fontWeight: theme.typography.fontWeightRegular
+		fontWeight: theme.typography.fontWeightRegular,
+		'& span': {
+			textOverflow: 'ellipsis',
+			overflow: 'hidden',
+			whiteSpace: 'nowrap'
+		}
 	}
 }));
 
@@ -29,7 +35,9 @@ export default function FilterButton(props) {
 				onClick={() => setSelected(!selected)}
 				disableRipple
 			>
-				{props.name}
+				<Typography component="span" variant="inherit">
+					{props.name}
+				</Typography>
 			</Button>
 		</Tooltip>
 	);
