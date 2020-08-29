@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import {
@@ -75,9 +75,8 @@ function a11yProps(index) {
 }
 
 const ProductModal = (props) => {
-	const theme = useTheme();
 	const styles = useStyles();
-	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 	const [currentTab, setCurrentTab] = useState(0);
 
 	const onCloseModal = () => {
