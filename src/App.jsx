@@ -10,7 +10,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from './components/AppBar/AppBar';
 import ResultsList from './components/ResultsList/ResultsList';
 import ProductModal from './components/ProductModal/ProductModal';
-import BottomNav from './components/AppBar/BottomNav';
 import Home from './components/categories/Home';
 import FoodDrink from './components/categories/FoodDrink';
 import AddProducts from './components/Dialogs/AddProducts';
@@ -73,7 +72,6 @@ export default function App() {
 				<Terms />
 				<Auth />
 				<Snackbars />
-				<BottomNav />
 			</>
 		</ThemeProvider>
 	);

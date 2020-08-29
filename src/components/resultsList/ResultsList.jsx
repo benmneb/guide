@@ -10,6 +10,7 @@ import AddProductsFab from './AddProductsFab';
 import * as actionCreators from '../../store/actions';
 import { results } from '../../assets/results';
 import peanuts from '../../assets/images/peanuts.jpg';
+import BottomNav from './BottomNav';
 
 const drawerWidth = 395;
 
@@ -44,11 +45,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const ResultsList = ({
-	showFiltersPanel,
-	onToggleProductModal,
-	onHideFiltersPanel
-}) => {
+const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPanel }) => {
 	const styles = useStyles();
 
 	function handleResultClick() {
@@ -66,8 +63,8 @@ const ResultsList = ({
 			<Hero bgImage={peanuts} hide={showFiltersPanel}>
 				<Heading>Vegan Nut Butters & Spreads</Heading>
 				<SubHeading>
-					There are 64 vegan nut butters & spreads within Australia from brands
-					like Kraft, Pics, Bega and 14 more.
+					There are 64 vegan nut butters & spreads within Australia from brands like
+					Kraft, Pics, Bega and 14 more.
 				</SubHeading>
 				<Footer forCategory />
 			</Hero>
@@ -91,6 +88,7 @@ const ResultsList = ({
 			</div>
 			<AddProductsFab />
 			<FiltersPanel />
+			<BottomNav />
 		</>
 	);
 };
