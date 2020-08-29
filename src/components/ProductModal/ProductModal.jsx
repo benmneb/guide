@@ -46,7 +46,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	brandName: {
 		color: theme.palette.grey[500],
-		fontWeight: theme.typography.fontWeightBold
+		fontWeight: theme.typography.fontWeightBold,
+		fontSize: '0.9rem',
+		lineHeight: '2'
 	},
 	modalMaxHeight: {
 		[theme.breakpoints.up('md')]: {
