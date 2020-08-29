@@ -11,7 +11,7 @@ import AppBar from './components/AppBar/AppBar';
 import ResultsList from './components/ResultsList/ResultsList';
 import ProductModal from './components/ProductModal/ProductModal';
 import Home from './components/categories/Home';
-import FoodDrink from './components/categories/FoodDrink';
+import ProductType from './components/categories/ProductType';
 import AddProducts from './components/Dialogs/AddProducts';
 import Advertise from './components/Dialogs/Advertise';
 import Privacy from './components/Dialogs/Privacy';
@@ -61,7 +61,7 @@ export default function App() {
 					<Switch>
 						<Route exact path="/" component={Home} />
 						<Route path="/:productType/:category" component={ResultsList} />
-						<Route path="/:productType" component={FoodDrink} />
+						<Route path="/:productType" component={ProductType} />
 					</Switch>
 				</AppBar>
 				<ProductModal />
