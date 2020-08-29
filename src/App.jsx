@@ -1,6 +1,10 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import {
+	createMuiTheme,
+	responsiveFontSizes,
+	ThemeProvider
+} from '@material-ui/core/styles';
 import { orange } from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from './components/AppBar/AppBar';
@@ -17,7 +21,7 @@ import Feedback from './components/Dialogs/Feedback';
 import Snackbars from './components/Dialogs/Snackbars';
 import Auth from './components/Dialogs/Auth';
 
-const theme = createMuiTheme({
+let theme = createMuiTheme({
 	palette: {
 		primary: orange
 	},
@@ -46,6 +50,8 @@ const theme = createMuiTheme({
 		}
 	}
 });
+
+theme = responsiveFontSizes(theme);
 
 export default function App() {
 	return (
