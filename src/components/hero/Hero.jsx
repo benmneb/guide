@@ -52,7 +52,15 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 		},
 		content: {
 			top: theme.mixins.toolbar.minHeight / 2,
-			zIndex: theme.zIndex.appBar + 1
+			zIndex: theme.zIndex.appBar + 1,
+			[theme.breakpoints.only('xs')]: {
+				width: '85%',
+				margin: theme.spacing(0, 2)
+			},
+			[theme.breakpoints.up('sm')]: {
+				width: '75%',
+				margin: theme.spacing(0, 3)
+			}
 		},
 		displayNone: {
 			display: 'none'
@@ -61,11 +69,9 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 
 	const styles = useStyles();
 
-	let marginX = 3;
 	let justifyContent = 'flex-start';
 
 	if (textAlign === 'center') {
-		marginX = 0;
 		justifyContent = 'center';
 	}
 
@@ -84,13 +90,7 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 				[styles.hasBgImage]: bgImage
 			})}
 		>
-			<Box
-				position="relative"
-				marginX={marginX}
-				width={3 / 4}
-				minWidth={272}
-				className={styles.content}
-			>
+			<Box position="relative" minWidth={272} className={styles.content}>
 				{childrenWithProps}
 			</Box>
 		</Box>

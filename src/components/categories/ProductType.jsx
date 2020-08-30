@@ -8,7 +8,8 @@ import {
 	Typography,
 	Toolbar,
 	Button,
-	Box
+	Box,
+	Hidden
 } from '@material-ui/core';
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRight';
 import { subCat1s } from '../../assets/subCat1s';
@@ -17,6 +18,18 @@ import useWidth from '../../assets/useWidth';
 import BottomNav from './BottomNav';
 
 const useStyles = makeStyles((theme) => ({
+	container: {
+		marginTop: theme.spacing(-4),
+		[theme.breakpoints.only('xs')]: {
+			marginBottom: theme.spacing(7)
+		}
+	},
+	content: {
+		marginTop: theme.spacing(4)
+	},
+	buttonText: {
+		padding: '6px 0'
+	},
 	gridList: {
 		flexWrap: 'nowrap',
 		// Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
@@ -92,13 +105,13 @@ export default function SingleLineGridList() {
 				</SubHeading>
 				<Footer forCategory />
 			</Hero>
-			<Box marginY={-4}>
+			<Box className={styles.container}>
 				{['Baby', 'Bakery', 'Drinks', 'Fridge & Freezer', 'Pantry', 'Pet Food'].map(
 					(category) => (
-						<Box marginY={4} key={category}>
+						<Box key={category} className={styles.content}>
 							<Toolbar>
 								<Box flexGrow="1">
-									<Typography variant="h5" align="left">
+									<Typography component="h2" variant="h5" align="left">
 										{category}
 									</Typography>
 								</Box>
@@ -108,8 +121,9 @@ export default function SingleLineGridList() {
 											variant="text"
 											color="default"
 											endIcon={<ChevronRightRoundedIcon />}
+											classes={{ text: styles.buttonText }}
 										>
-											See all {category}
+											See all<Hidden only="xs"> {category}</Hidden>
 										</Button>
 									</Link>
 								</Box>
