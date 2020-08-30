@@ -8,6 +8,11 @@ import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+	container: {
+		[theme.breakpoints.up('sm')]: {
+			width: 651
+		}
+	},
 	ratingError: {
 		fontWeight: theme.typography.fontWeightBold,
 		color: theme.palette.error.main
@@ -80,7 +85,15 @@ function ReviewsAdd({ hide, onShowSnackbar, ratingBeforeClickedAddReviewSnackbar
 		<Box marginTop={1}>
 			<Grid container alignItems="center" justify="center">
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<Grid item container xs={12} justify="center" alignItems="center" spacing={1}>
+					<Grid
+						item
+						container
+						xs={12}
+						justify="center"
+						alignItems="center"
+						spacing={1}
+						className={styles.container}
+					>
 						<Grid item xs={12} container justify="center">
 							<Typography>{ratingHelperText}</Typography>
 						</Grid>
