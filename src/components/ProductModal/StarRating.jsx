@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import { Typography, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
+import useWidth from '../../assets/useWidth';
 
 const labels = {
 	1: 'Bad',
@@ -20,6 +21,15 @@ function StarRating({
 	...props
 }) {
 	const [hover, setHover] = useState(-1);
+	const width = useWidth();
+
+	let minWidth = 295;
+	let ratingSize = 'large';
+
+	if (width === 'xs') {
+		minWidth = 265;
+		ratingSize = 'medium';
+	}
 
 	const handleClickAddReviewAfterRating = (newRating) => {
 		onHideSnackbar();
@@ -35,14 +45,14 @@ function StarRating({
 
 	return (
 		<Box disaply="flex" justifyContent="center">
-			<Box display="flex" alignItems="center" marginBottom={1} minWidth={295}>
+			<Box display="flex" alignItems="center" marginBottom={1} minWidth={minWidth}>
 				<Box>
 					<Box display="flex" alignItems="center" justifyContent="center">
 						<Rating
 							name="product-rating"
 							value={props.averageRating}
 							precision={precision}
-							size="large"
+							size={ratingSize}
 							onChange={(event, newValue) => {
 								const newRating = event.target.value;
 								onShowSnackbar({
