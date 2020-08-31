@@ -81,7 +81,9 @@ export default function ReviewCard(props) {
 								flexDirection="column"
 								justifyContent="center"
 							>
-								<Typography className={styles.author}>{props.review.user_name}</Typography>
+								<Typography className={styles.author}>
+									{props.review.user_name}
+								</Typography>
 								<Typography variant="body2">+{props.review.authorPoints}</Typography>
 							</Box>
 							<Box
@@ -122,7 +124,7 @@ export default function ReviewCard(props) {
 									tooltip="Was this review helpful?"
 									tooltipPlacement="left"
 									ariaLabel="mark as helpful"
-                  onClick={handleLikeClick}
+									handleLike={handleLikeClick}
 								/>
 								{props.review.likes > 0 && <Typography>{props.review.likes}</Typography>}
 							</Box>

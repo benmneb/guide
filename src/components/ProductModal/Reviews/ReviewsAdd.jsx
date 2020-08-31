@@ -28,7 +28,12 @@ const labels = {
 	5: 'Excellent'
 };
 
-function ReviewsAdd({ hide, onShowSnackbar, ratingBeforeClickedAddReviewSnackbar }) {
+function ReviewsAdd({
+	hide,
+	onShowSnackbar,
+	ratingBeforeClickedAddReviewSnackbar,
+	...props
+}) {
 	const styles = useStyles();
 	const [rating, setRating] = useState(0);
 	const [hover, setHover] = useState(-1);
@@ -38,28 +43,28 @@ function ReviewsAdd({ hide, onShowSnackbar, ratingBeforeClickedAddReviewSnackbar
 
 	const onSubmit = (data) => {
 		if (rating > 0) {
-      axios
-			.post(
-				'http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/',
-				{
-					review: data.review,
-					product_id: props.productId,
-					user_id: 9,
-					rating: rating
-				}
-			)
-      .then(() => {
-          onShowSnackbar({
-          snackData: {
-            type: 'success',
-            title: 'Review Added',
-            message: 'Thank you for helping people find vegan products easier',
-            emoji: '💪'
-          }
-        });
-      })
-      .then(() => hide())
-			.then(() => props.updateReviews());
+			axios
+				.post(
+					'http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/',
+					{
+						review: data.review,
+						product_id: props.productId,
+						user_id: 1,
+						rating: rating
+					}
+				)
+				.then(() => {
+					onShowSnackbar({
+						snackData: {
+							type: 'success',
+							title: 'Review Added',
+							message: 'Thank you for helping people find vegan products easier',
+							emoji: '💪'
+						}
+					});
+				})
+				.then(() => hide())
+				.then(() => props.updateReviews());
 		} else {
 			setRatingError(true);
 		}

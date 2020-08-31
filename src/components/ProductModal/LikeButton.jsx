@@ -3,11 +3,18 @@ import PropTypes from 'prop-types';
 import { Tooltip, IconButton } from '@material-ui/core';
 import { ThumbUpAltRounded } from '@material-ui/icons';
 
-export default function LikeButton({ tooltip, tooltipPlacement, ariaLabel, size }) {
+export default function LikeButton({
+	tooltip,
+	tooltipPlacement,
+	ariaLabel,
+	size,
+	...props
+}) {
 	const [hasBeenClicked, setHasBeenClicked] = useState(false);
 
 	function handleClick() {
 		setHasBeenClicked(!hasBeenClicked);
+		props.handleLike();
 	}
 
 	const color = hasBeenClicked ? 'primary' : 'inherit';
