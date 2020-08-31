@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: theme.shape.borderRadius,
 		'&:hover': {
 			transform: 'scale(1.04)',
-			boxShadow: theme.shadows[11],
+			boxShadow: theme.shadows[8],
 			cursor: 'pointer'
 		}
 	},
@@ -87,7 +87,9 @@ export default function Result(props) {
 			</CardContent>
 			<CardActions className={styles.cardActions}>
 				<Rating value={props.avgRating} precision={0.1} size={ratingSize} readOnly />
-				<Typography variant="body2">{props.amtRatings} ratings</Typography>
+				{props.amtRatings > 0 ? (
+					<Typography variant="body2">{props.amtRatings} ratings</Typography>
+				) : null}
 			</CardActions>
 		</Card>
 	);

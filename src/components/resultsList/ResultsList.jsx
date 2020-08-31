@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Result from './Result';
-import Hero, { Heading, SubHeading, Footer } from '../hero/Hero';
+import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import FiltersBar from '../AppBar/FiltersBar';
 import FiltersPanel from '../FiltersPanel/FiltersPanel';
 import AddProductsFab from './AddProductsFab';
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 		[theme.breakpoints.up('md')]: {
 			gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+			gridRowGap: theme.spacing(2),
 			marginBottom: theme.spacing(0)
 		},
 		transition: theme.transitions.create('margin', {
@@ -83,13 +84,13 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 				{results.map((result) => (
 					<Result
 						key={Number(result.product_id)}
-            image={result.image_src}
-            brand={result.brand_name}
-            name={result.product_name}
-            avgRating={Number(result.average_rating)}
-            amtRatings={Number(result.rating_count)}
-            productId={Number(result.product_id)}
-            clicked={() => onToggleProductModal(Number(result.product_id))}
+						image={result.image_src}
+						brand={result.brand_name}
+						name={result.product_name}
+						avgRating={Number(result.average_rating)}
+						amtRatings={Number(result.rating_count)}
+						productId={Number(result.product_id)}
+						clicked={() => onToggleProductModal(Number(result.product_id))}
 					/>
 				))}
 			</section>
