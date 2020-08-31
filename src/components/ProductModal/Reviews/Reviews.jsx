@@ -31,10 +31,14 @@ function Reviews(props) {
 	const [reviews, setReviews] = useState(null);
 
 	useEffect(() => {
-		axios
-			.get(`http://localhost:3000/review/${props.selectedProduct}`)
-			.then((response) => setReviews(response.data))
-			.catch((err) => console.log(err));
+		if (props.showProductModal) {
+			axios
+				.get(
+					`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/${props.selectedProduct}`
+				)
+				.then((response) => setReviews(response.data))
+				.catch((err) => console.log(err));
+		}
 	}, [props.selectedProduct]);
 
 	function handleAddReviewButtonClick() {
@@ -44,7 +48,9 @@ function Reviews(props) {
 
 	const updateReview = () => {
 		axios
-			.get(`http://localhost:3000/review/${props.selectedProduct}`)
+			.get(
+				`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/${props.selectedProduct}`
+			)
 			.then((response) => setReviews(response.data))
 			.catch((err) => console.log(err));
 	};
@@ -55,27 +61,15 @@ function Reviews(props) {
 				<Grid item xs={12} sm={9}>
 					<Typography variant="body1">
 						The first review was by{' '}
-						<Typography
-							component="span"
-							variant="body1"
-							className={styles.bold}
-						>
+						<Typography component="span" variant="body1" className={styles.bold}>
 							Bonny Rebecca
 						</Typography>{' '}
 						🥇 the most helpful review is by{' '}
-						<Typography
-							component="span"
-							variant="body1"
-							className={styles.bold}
-						>
+						<Typography component="span" variant="body1" className={styles.bold}>
 							Hishelicious
 						</Typography>{' '}
 						💪 the latest review is by{' '}
-						<Typography
-							component="span"
-							variant="body1"
-							className={styles.bold}
-						>
+						<Typography component="span" variant="body1" className={styles.bold}>
 							Joey Carbstrong
 						</Typography>{' '}
 						⏰
@@ -86,9 +80,7 @@ function Reviews(props) {
 						size="large"
 						variant={showAddReview ? 'outlined' : 'contained'}
 						color={showAddReview ? 'default' : 'primary'}
-						startIcon={
-							showAddReview ? <CancelRounded color="disabled" /> : null
-						}
+						startIcon={showAddReview ? <CancelRounded color="disabled" /> : null}
 						onClick={handleAddReviewButtonClick}
 						classes={showAddReview ? { label: styles.cancelButton } : null}
 					>
@@ -110,7 +102,11 @@ function Reviews(props) {
 					reviews
 						.filter((review) => review.review.length > 0)
 						.map((review) => (
-							<ReviewCard key={review.review_id} review={review} />
+							<ReviewCard
+								key={review.review_id}
+								review={review}
+								updateReview={() => updateReview()}
+							/>
 						))}
 			</MasonryLayout>
 		</>
@@ -121,8 +117,8 @@ const mapStateToProps = (state) => {
 	return {
 		showAddReview: state.showAddReview,
 		selectedProduct: state.selectedProduct,
-		ratingBeforeClickedAddReviewSnackbar:
-			state.ratingBeforeClickedAddReviewSnackbar
+		ratingBeforeClickedAddReviewSnackbar: state.ratingBeforeClickedAddReviewSnackbar,
+		showProductModal: state.showProductModal
 	};
 };
 
