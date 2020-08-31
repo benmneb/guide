@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import * as actionCreators from '../../store/actions';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import {
@@ -80,7 +80,8 @@ function a11yProps(index) {
 
 const ProductModal = (props) => {
 	const styles = useStyles();
-	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const [currentTab, setCurrentTab] = useState(0);
 	const [item, setItem] = useState(null);
 	const [newRating, setNewRating] = useState(null);
@@ -97,7 +98,7 @@ const ProductModal = (props) => {
 		return () => {
 			setTimeout(() => {
 				setItem(null);
-			}, 300);
+			}, theme.transitions.duration.leavingScreen);
 		}; //eslint-disable-next-line
 	}, [props.selectedProduct, newRating]);
 
