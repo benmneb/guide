@@ -84,18 +84,26 @@ const ProductModal = (props) => {
 	const [newRating, setNewRating] = useState(null);
 
 	useEffect(() => {
-		axios
-			.get(`http://localhost:3000/product/${props.selectedProduct}`)
-			.then((response) => setItem(response.data))
-			.catch((err) => err);
+		if (props.showProductModal) {
+			axios
+				.get(
+					`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/product/${props.selectedProduct}`
+				)
+				.then((response) => setItem(response.data))
+				.catch((err) => err);
+		} //eslint-disable-next-line
 	}, [props.selectedProduct, newRating]);
 
 	const onClickHandler = (newValue) => {
 		axios
-			.put('http://localhost:3000/rating/', {
-				rating: newValue,
-				product_id: item && item[0].productId
-			})
+			.put(
+				'http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/rating/',
+				{
+					rating: newValue,
+					product_id: item && item[0].productId,
+					user_id: 1
+				}
+			)
 			.then((response) => {
 				setNewRating(JSON.parse(response.config.data).rating);
 			});
