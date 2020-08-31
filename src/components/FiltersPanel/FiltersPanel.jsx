@@ -71,7 +71,7 @@ const FiltersPanel = (props) => {
 				paper: styles.drawerPaper
 			}}
 		>
-			<Box className={styles.content} maxWidth={drawerWidth}>
+			<Box component="aside" className={styles.content} maxWidth={drawerWidth}>
 				<Typography align="center" className={styles.filtersSectionFirstTitle}>
 					Tags
 				</Typography>
@@ -116,6 +116,7 @@ const FiltersPanel = (props) => {
 				</Grid>
 				<Box margin={2}>
 					<Typography
+						component="footer"
 						variant="subtitle1"
 						classes={{ subtitle1: styles.subtitle1 }}
 						paragraph

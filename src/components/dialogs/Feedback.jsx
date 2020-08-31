@@ -31,12 +31,20 @@ const DialogTitle = withStyles(styles)((props) => {
 	const { children, classes, onClose, ...other } = props;
 	return (
 		<MuiDialogTitle disableTypography {...other}>
-			<Typography variant="h6">{children}</Typography>
-			{onClose ? (
-				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-					<CloseRoundedIcon />
-				</IconButton>
-			) : null}
+			<Box component="header">
+				<Typography variant="h6" component="h1">
+					{children}
+				</Typography>
+				{onClose ? (
+					<IconButton
+						aria-label="close"
+						className={classes.closeButton}
+						onClick={onClose}
+					>
+						<CloseRoundedIcon />
+					</IconButton>
+				) : null}
+			</Box>
 		</MuiDialogTitle>
 	);
 });
@@ -75,20 +83,20 @@ function Feedback({ onShowSnackbar, onToggleFeedbackModal, showFeedbackModal }) 
 				Provide Feedback
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText component="div">
-					<Typography>
+				<DialogContentText component="hgroup">
+					<Typography component="h2">
 						<span role="img" aria-label="">
 							👍
 						</span>{' '}
 						Help us make the Guide better for everyone.
 					</Typography>
-					<Typography>
+					<Typography component="h2">
 						<span role="img" aria-label="">
 							✏️
 						</span>{' '}
-						Please be specific about what you liked or disliked.
+						Please report bugs and request new features.
 					</Typography>
-					<Typography>
+					<Typography component="h2">
 						<span role="img" aria-label="">
 							🌱
 						</span>{' '}

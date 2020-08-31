@@ -9,7 +9,8 @@ import {
 	DialogContentText,
 	Typography,
 	IconButton,
-	useMediaQuery
+	useMediaQuery,
+	Box
 } from '@material-ui/core';
 import * as actionCreators from '../../store/actions';
 
@@ -26,17 +27,21 @@ const DialogTitle = withStyles(styles)((props) => {
 	const { children, classes, onClose, ...other } = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Typography variant="h6">{children}</Typography>
-			{onClose ? (
-				<IconButton
-					aria-label="close"
-					className={classes.closeButton}
-					onClick={onClose}
-					autoFocus
-				>
-					<CloseRoundedIcon />
-				</IconButton>
-			) : null}
+			<Box component="header">
+				<Typography variant="h6" component="h1">
+					{children}
+				</Typography>
+				{onClose ? (
+					<IconButton
+						aria-label="close"
+						className={classes.closeButton}
+						onClick={onClose}
+						autoFocus
+					>
+						<CloseRoundedIcon />
+					</IconButton>
+				) : null}
+			</Box>
 		</MuiDialogTitle>
 	);
 });
@@ -61,7 +66,7 @@ const Terms = (props) => {
 				{'Terms of Use'}
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText component="div" id="terms-dialog-description">
+				<DialogContentText component="article" id="terms-dialog-description">
 					<Typography variant="body1" gutterBottom>
 						This website and mobile application (The Vomad Guide or VOMADguide) is
 						operated by VOMAD (we, our or us). &nbsp;It is available at:

@@ -9,7 +9,8 @@ import {
 	DialogContentText,
 	Typography,
 	IconButton,
-	useMediaQuery
+	useMediaQuery,
+	Box
 } from '@material-ui/core';
 import * as actionCreators from '../../store/actions';
 
@@ -26,17 +27,21 @@ const DialogTitle = withStyles(styles)((props) => {
 	const { children, classes, onClose, ...other } = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Typography variant="h6">{children}</Typography>
-			{onClose ? (
-				<IconButton
-					aria-label="close"
-					className={classes.closeButton}
-					onClick={onClose}
-					autoFocus
-				>
-					<CloseRoundedIcon />
-				</IconButton>
-			) : null}
+			<Box component="header">
+				<Typography variant="h6" component="h1">
+					{children}
+				</Typography>
+				{onClose ? (
+					<IconButton
+						aria-label="close"
+						className={classes.closeButton}
+						onClick={onClose}
+						autoFocus
+					>
+						<CloseRoundedIcon />
+					</IconButton>
+				) : null}
+			</Box>
 		</MuiDialogTitle>
 	);
 });
@@ -61,7 +66,7 @@ const Privacy = (props) => {
 				{'Privacy Policy'}
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText component="div" id="privacy-dialog-description">
+				<DialogContentText component="article" id="privacy-dialog-description">
 					<Typography variant="body1" gutterBottom>
 						Your privacy is critically important to us.
 					</Typography>

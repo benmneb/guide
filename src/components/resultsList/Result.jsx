@@ -70,31 +70,23 @@ export default function Result(props) {
 	const ratingSize = upMd ? 'medium' : 'small';
 
 	return (
-		<Card className={styles.productTile} onClick={props.clicked}>
-			<CardMedia
-				className={styles.cardMedia}
-				component="img"
-				image={props.image}
-			/>
+		<Card component="article" className={styles.productTile} onClick={props.clicked}>
+			<CardMedia className={styles.cardMedia} component="img" image={props.image} />
 			<CardContent className={styles.cardContent}>
-				<Typography
-					className={styles.brandName}
-					variant="overline"
-					gutterBottom
-				>
-					{props.brand}
-				</Typography>
-				<Typography className={styles.productName} component="p">
+				<Typography className={styles.productName} component="h2" variant="body1">
+					<Typography
+						className={styles.brandName}
+						component="span"
+						variant="overline"
+						display="block"
+					>
+						{props.brand}
+					</Typography>
 					{props.name}
 				</Typography>
 			</CardContent>
 			<CardActions className={styles.cardActions}>
-				<Rating
-					value={props.avgRating}
-					precision={0.1}
-					size={ratingSize}
-					readOnly
-				/>
+				<Rating value={props.avgRating} precision={0.1} size={ratingSize} readOnly />
 				<Typography variant="body2">{props.amtRatings} ratings</Typography>
 			</CardActions>
 		</Card>

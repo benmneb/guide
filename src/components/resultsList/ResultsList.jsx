@@ -71,7 +71,7 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 				<Footer forCategory />
 			</Hero>
 			<FiltersBar />
-			<div
+			<section
 				className={clsx(styles.container, {
 					[styles.containerShift]: showFiltersPanel
 				})}
@@ -87,7 +87,7 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 						amtRatings={result.amtRatings}
 					/>
 				))}
-			</div>
+			</section>
 			<AddProductsFab />
 			<FiltersPanel />
 			<BottomNav />

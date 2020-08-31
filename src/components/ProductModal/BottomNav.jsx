@@ -22,7 +22,12 @@ export default function BottomNav(props) {
 
 	return (
 		<Box display={{ xs: 'block', md: 'none' }} className={styles.root}>
-			<BottomNavigation value={props.currentTab} onChange={props.onChange} showLabels>
+			<BottomNavigation
+				component="nav"
+				value={props.currentTab}
+				onChange={props.onChange}
+				showLabels
+			>
 				<BottomNavigationAction label="About" icon={<InfoRoundedIcon />} />
 				<BottomNavigationAction label="Reviews" icon={<RateReviewRoundedIcon />} />
 				<BottomNavigationAction label="Where to Buy" icon={<MapRoundedIcon />} />

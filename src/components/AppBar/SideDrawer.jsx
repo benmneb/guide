@@ -85,8 +85,7 @@ const SideDrawer = (props) => {
 		}
 	};
 
-	const container =
-		window !== undefined ? () => window().document.body : undefined;
+	const container = window !== undefined ? () => window().document.body : undefined;
 
 	const drawer = (
 		<div>
@@ -177,7 +176,7 @@ const SideDrawer = (props) => {
 				</ListItem>
 			</List>
 			<Divider />
-			<List>
+			<List component="nav">
 				<ListItem button onClick={() => openMenuItem('terms')}>
 					<ListItemText primary="Terms of Use" />
 				</ListItem>
@@ -233,10 +232,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer()),
 		onToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal()),
-		onToggleAddProductsModal: () =>
-			dispatch(actionCreators.toggleAddProductsModal()),
-		onToggleAdvertiseModal: () =>
-			dispatch(actionCreators.toggleAdvertiseModal()),
+		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
+		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
 		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal()),
 		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal()),
 		onToggleFeedbackModal: () => dispatch(actionCreators.toggleFeedbackModal())

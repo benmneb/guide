@@ -120,7 +120,13 @@ const ProductModal = (props) => {
 				</IconButton>
 			</MuiDialogTitle>
 			<DialogContent className={styles.dialogContentRoot}>
-				<Grid container spacing={1} direction="column" alignItems="center">
+				<Grid
+					component="header"
+					container
+					spacing={1}
+					direction="column"
+					alignItems="center"
+				>
 					<Grid item xs={12}>
 						<Typography component="h1" variant="h4" align="center">
 							<Typography
@@ -144,6 +150,7 @@ const ProductModal = (props) => {
 						<Grid item xs={12}>
 							<Paper variant="outlined">
 								<Tabs
+									component="nav"
 									value={currentTab}
 									onChange={handleChangeCurrentTab}
 									indicatorColor="primary"

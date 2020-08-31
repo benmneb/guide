@@ -53,8 +53,8 @@ export default function ReviewCard(props) {
 	return (
 		<>
 			<Box key={props.review.id} marginTop={2} marginBottom={2}>
-				<Paper>
-					<Box padding={2}>
+				<Paper component="section">
+					<Box component="article" padding={2}>
 						<Box display="flex" marginBottom={2}>
 							<Box marginRight={2}>
 								<Avatar
@@ -63,7 +63,12 @@ export default function ReviewCard(props) {
 									className={styles.largeAvatar}
 								/>
 							</Box>
-							<Box display="flex" flexDirection="column" justifyContent="center">
+							<Box
+								component="footer"
+								display="flex"
+								flexDirection="column"
+								justifyContent="center"
+							>
 								<Typography className={styles.author}>{props.review.author}</Typography>
 								<Typography variant="body2">+{props.review.authorPoints}</Typography>
 							</Box>
@@ -96,7 +101,7 @@ export default function ReviewCard(props) {
 							<Rating name="rating" value={props.review.rating} readOnly />
 							<Typography>{getTimeAgo(new Date(props.review.date))}</Typography>
 						</Box>
-						<Box>
+						<Box component="article">
 							<Typography>{props.review.body}</Typography>
 						</Box>
 						<Box display="flex" justifyContent="flex-end" marginBottom={-1}>

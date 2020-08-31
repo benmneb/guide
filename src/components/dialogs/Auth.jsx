@@ -80,14 +80,20 @@ const Login = ({ showAuthModal, onToggleAuthModal }) => {
 		const { children, classes, onClose, ...other } = props;
 		return (
 			<MuiDialogTitle disableTypography {...other}>
-				<Typography variant="h6" align="center">
-					{children}
-				</Typography>
-				{onClose ? (
-					<IconButton aria-label="close" className={styles.closeButton} onClick={onClose}>
-						<CloseRounded />
-					</IconButton>
-				) : null}
+				<Box component="header">
+					<Typography variant="h6" component="h1" align="center">
+						{children}
+					</Typography>
+					{onClose ? (
+						<IconButton
+							aria-label="close"
+							className={styles.closeButton}
+							onClick={onClose}
+						>
+							<CloseRounded />
+						</IconButton>
+					) : null}
+				</Box>
 			</MuiDialogTitle>
 		);
 	});

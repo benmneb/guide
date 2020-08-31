@@ -81,6 +81,7 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 
 	return (
 		<Box
+			component="section"
 			position="relative"
 			display="flex"
 			alignItems="center"
@@ -90,7 +91,12 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 				[styles.hasBgImage]: bgImage
 			})}
 		>
-			<Box position="relative" minWidth={272} className={styles.content}>
+			<Box
+				component="header"
+				position="relative"
+				minWidth={272}
+				className={styles.content}
+			>
 				{childrenWithProps}
 			</Box>
 		</Box>

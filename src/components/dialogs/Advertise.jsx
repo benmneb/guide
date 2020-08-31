@@ -31,12 +31,20 @@ const DialogTitle = withStyles(styles)((props) => {
 	const { children, classes, onClose, ...other } = props;
 	return (
 		<MuiDialogTitle disableTypography {...other}>
-			<Typography variant="h6">{children}</Typography>
-			{onClose ? (
-				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-					<CloseRoundedIcon />
-				</IconButton>
-			) : null}
+			<Box component="header">
+				<Typography variant="h6" component="h1">
+					{children}
+				</Typography>
+				{onClose ? (
+					<IconButton
+						aria-label="close"
+						className={classes.closeButton}
+						onClick={onClose}
+					>
+						<CloseRoundedIcon />
+					</IconButton>
+				) : null}
+			</Box>
 		</MuiDialogTitle>
 	);
 });
@@ -75,20 +83,20 @@ function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal 
 				Advertise on The Guide
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText component="div">
-					<Typography>
+				<DialogContentText component="hgroup">
+					<Typography component="h2" variant="body1">
 						<span role="img" aria-label="">
 							👀
 						</span>{' '}
 						Put your brand in front of a very specific audience.
 					</Typography>
-					<Typography>
+					<Typography component="h2" variant="body1">
 						<span role="img" aria-label="">
 							🌱
 						</span>{' '}
 						Help people find vegan products easier.
 					</Typography>
-					<Typography>
+					<Typography component="h2" variant="body1">
 						<span role="img" aria-label="">
 							🚀
 						</span>{' '}

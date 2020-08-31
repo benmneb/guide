@@ -62,12 +62,20 @@ const DialogTitle = withStyles(styles)((props) => {
 	const { children, classes, onClose, ...other } = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Typography variant="h6">{children}</Typography>
-			{onClose ? (
-				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-					<CloseRoundedIcon />
-				</IconButton>
-			) : null}
+			<Box component="header">
+				<Typography variant="h6" component="h1">
+					{children}
+				</Typography>
+				{onClose ? (
+					<IconButton
+						aria-label="close"
+						className={classes.closeButton}
+						onClick={onClose}
+					>
+						<CloseRoundedIcon />
+					</IconButton>
+				) : null}
+			</Box>
 		</MuiDialogTitle>
 	);
 });
@@ -380,7 +388,7 @@ const AddProducts = ({
 									{label}
 								</StepLabel>
 								<StepContent>
-									<Box>{getStepContent(index)}</Box>
+									<Box component="section">{getStepContent(index)}</Box>
 									<div className={classes.actionsContainer}>
 										<div>
 											<Button

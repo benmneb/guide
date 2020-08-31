@@ -90,8 +90,8 @@ export default function ProductAbout(props) {
 
 	return (
 		<>
-			<Grid container spacing={3}>
-				<Grid item xs={12} sm={6}>
+			<Grid component="section" container spacing={3}>
+				<Grid component="section" item xs={12} sm={6}>
 					<Grid container spacing={0} direction="column">
 						<Container maxWidth="xs">
 							<Box padding={2} color="text.secondary">
@@ -129,7 +129,7 @@ export default function ProductAbout(props) {
 					</Grid>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<Paper className={styles.paper} variant="outlined">
+					<Paper component="section" className={styles.paper} variant="outlined">
 						<Typography gutterBottom className={styles.heading}>
 							Ingredients
 						</Typography>

@@ -38,6 +38,7 @@ export default function BottomNav() {
 	return (
 		<Box display={{ xs: 'block', md: 'none' }} className={classes.root}>
 			<BottomNavigation
+				component="nav"
 				value={value}
 				onChange={(event, newValue) => {
 					setValue(newValue);
