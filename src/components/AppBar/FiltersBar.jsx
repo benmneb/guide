@@ -12,11 +12,8 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import ShowFiltersButton from './ShowFiltersButton';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		zIndex: theme.zIndex.appBar
-	},
-	menuButton: {
-		marginRight: theme.spacing(2)
+	zIndex: {
+		zIndex: theme.zIndex.appBar - 1
 	},
 	breadcrumbs: {
 		flexGrow: 1,
@@ -42,7 +39,7 @@ function ElevationScroll(props) {
 }
 
 function FiltersBar(props) {
-	const classes = useStyles();
+	const styles = useStyles();
 
 	return (
 		<Box
@@ -50,12 +47,17 @@ function FiltersBar(props) {
 			flexGrow="1"
 			top="0"
 			position="sticky"
-			zIndex="appBar"
+			className={styles.zIndex}
 		>
 			<ElevationScroll {...props}>
-				<AppBar position="sticky" color="inherit" elevation={3}>
+				<AppBar
+					position="sticky"
+					color="inherit"
+					elevation={3}
+					classes={{ root: styles.zIndex }}
+				>
 					<Toolbar>
-						<Box className={classes.breadcrumbs}>
+						<Box className={styles.breadcrumbs}>
 							<Breadcrumbs
 								separator={<NavigateNextRoundedIcon fontSize="small" />}
 								aria-label="breadcrumb"
