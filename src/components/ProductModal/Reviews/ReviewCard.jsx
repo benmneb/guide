@@ -52,14 +52,19 @@ export default function ReviewCard(props) {
 	};
 
 	const handleLikeClick = () => {
-		axios.put('http://localhost:3000/like/', {
-			review_id: props.review.review_id
-		});
+		axios
+			.put(
+				'http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/like/',
+				{
+					review_id: props.review.review_id
+				}
+			)
+			.then(() => props.updateReview());
 	};
 
 	return (
 		<>
-			<Box key={props.review.id} marginTop={2} marginBottom={2}>
+			<Box key={props.review.review_id} marginTop={2} marginBottom={2}>
 				<Paper>
 					<Box padding={2}>
 						<Box display="flex" marginBottom={2}>
@@ -70,17 +75,11 @@ export default function ReviewCard(props) {
 									className={styles.largeAvatar}
 								/>
 							</Box>
-							<Box
-								display="flex"
-								flexDirection="column"
-								justifyContent="center"
-							>
+							<Box display="flex" flexDirection="column" justifyContent="center">
 								<Typography className={styles.author}>
 									{props.review.user_name}
 								</Typography>
-								<Typography variant="body2">
-									+{props.review.authorPoints}
-								</Typography>
+								<Typography variant="body2">+{props.review.authorPoints}</Typography>
 							</Box>
 							<Box
 								flexGrow="1"
@@ -90,10 +89,7 @@ export default function ReviewCard(props) {
 								marginTop={-1}
 								marginRight={-1}
 							>
-								<IconButton
-									aria-label="more options"
-									onClick={handleMoreMenuClick}
-								>
+								<IconButton aria-label="more options" onClick={handleMoreMenuClick}>
 									<MoreVertRounded />
 								</IconButton>
 								<Menu
@@ -103,9 +99,7 @@ export default function ReviewCard(props) {
 									open={Boolean(showMoreMenu)}
 									onClose={handleMoreMenuClose}
 								>
-									<MenuItem
-										onClick={() => handleReportClick(props.review.review_id)}
-									>
+									<MenuItem onClick={() => handleReportClick(props.review.review_id)}>
 										<Report className={styles.reportIcon} />
 										<Typography>Report</Typography>
 									</MenuItem>
@@ -114,7 +108,7 @@ export default function ReviewCard(props) {
 						</Box>
 						<Box marginBottom={2}>
 							<Rating name="rating" value={props.review.rating} readOnly />
-							<Typography>{getTimeAgo(new Date(props.review.date))}</Typography>
+							<Typography>{getTimeAgo(new Date(props.review.review_date))}</Typography>
 						</Box>
 						<Box>
 							<Typography>{props.review.review}</Typography>
@@ -122,16 +116,11 @@ export default function ReviewCard(props) {
 						<Box display="flex" justifyContent="flex-end" marginBottom={-1}>
 							<Box display="flex" alignItems="center" marginRight={1}>
 								<Tooltip title="Was this review helpful?" placement="left">
-									<IconButton
-										onClick={handleLikeClick}
-										aria-label="mark as helpful"
-									>
+									<IconButton onClick={handleLikeClick} aria-label="mark as helpful">
 										<ThumbUpAltRounded />
 									</IconButton>
 								</Tooltip>
-								{props.review.likes > 0 && (
-									<Typography>{props.review.likes}</Typography>
-								)}
+								{props.review.likes > 0 && <Typography>{props.review.likes}</Typography>}
 							</Box>
 						</Box>
 					</Box>
