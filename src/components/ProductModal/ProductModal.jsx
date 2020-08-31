@@ -93,7 +93,12 @@ const ProductModal = (props) => {
 				)
 				.then((response) => setItem(response.data))
 				.catch((err) => err);
-		} //eslint-disable-next-line
+		}
+		return () => {
+			setTimeout(() => {
+				setItem(null);
+			}, 300);
+		}; //eslint-disable-next-line
 	}, [props.selectedProduct, newRating]);
 
 	const onClickHandler = (newValue) => {
