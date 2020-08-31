@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { getTimeAgo } from '../../../assets/timeAgo';
 import Rating from '@material-ui/lab/Rating';
+import axios from 'axios';
 import { MoreVertRounded, ReportRounded } from '@material-ui/icons';
 import {
 	Avatar,
@@ -50,15 +51,26 @@ export default function ReviewCard(props) {
 		setShowReportModal(false);
 	};
 
+	const handleLikeClick = () => {
+		axios
+			.put(
+				'http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/like/',
+				{
+					review_id: props.review.review_id
+				}
+			)
+			.then(() => props.updateReview());
+	};
+
 	return (
 		<>
-			<Box key={props.review.id} marginTop={2} marginBottom={2}>
+			<Box key={props.review.review_id} marginTop={2} marginBottom={2}>
 				<Paper component="section">
 					<Box component="article" padding={2}>
 						<Box display="flex" marginBottom={2}>
 							<Box marginRight={2}>
 								<Avatar
-									alt={props.review.author}
+									alt={props.review.user_name}
 									src={props.review.avatar}
 									className={styles.largeAvatar}
 								/>
@@ -69,7 +81,7 @@ export default function ReviewCard(props) {
 								flexDirection="column"
 								justifyContent="center"
 							>
-								<Typography className={styles.author}>{props.review.author}</Typography>
+								<Typography className={styles.author}>{props.review.user_name}</Typography>
 								<Typography variant="body2">+{props.review.authorPoints}</Typography>
 							</Box>
 							<Box
@@ -84,13 +96,13 @@ export default function ReviewCard(props) {
 									<MoreVertRounded />
 								</IconButton>
 								<Menu
-									id={props.review.id}
+									id={props.review.review_id}
 									anchorEl={showMoreMenu}
 									keepMounted
 									open={Boolean(showMoreMenu)}
 									onClose={handleMoreMenuClose}
 								>
-									<MenuItem onClick={() => handleReportClick(props.review.id)}>
+									<MenuItem onClick={() => handleReportClick(props.review.review_id)}>
 										<ReportRounded className={styles.reportIcon} />
 										<Typography>Report</Typography>
 									</MenuItem>
@@ -99,10 +111,10 @@ export default function ReviewCard(props) {
 						</Box>
 						<Box marginBottom={2}>
 							<Rating name="rating" value={props.review.rating} readOnly />
-							<Typography>{getTimeAgo(new Date(props.review.date))}</Typography>
+							<Typography>{getTimeAgo(new Date(props.review.review_date))}</Typography>
 						</Box>
 						<Box component="article">
-							<Typography>{props.review.body}</Typography>
+							<Typography>{props.review.review}</Typography>
 						</Box>
 						<Box display="flex" justifyContent="flex-end" marginBottom={-1}>
 							<Box display="flex" alignItems="center" marginRight={1}>
@@ -110,6 +122,7 @@ export default function ReviewCard(props) {
 									tooltip="Was this review helpful?"
 									tooltipPlacement="left"
 									ariaLabel="mark as helpful"
+                  onClick={handleLikeClick}
 								/>
 								{props.review.likes > 0 && <Typography>{props.review.likes}</Typography>}
 							</Box>
@@ -119,7 +132,7 @@ export default function ReviewCard(props) {
 			</Box>
 			<ReviewReport
 				show={showReportModal}
-				reviewId={props.review.id}
+				reviewId={props.review.review_id}
 				onClose={handleCloseReportModal}
 			/>
 		</>

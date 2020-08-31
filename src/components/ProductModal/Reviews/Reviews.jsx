@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import * as actionCreators from '../../../store/actions';
 import { Typography, Button, Collapse, Grid } from '@material-ui/core';
 import { CancelRounded } from '@material-ui/icons';
@@ -7,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ReviewCard from './ReviewCard';
 import ReviewsAdd from './ReviewsAdd';
 import MasonryLayout from '../../../assets/MasonryLayout';
-import { reviews } from '../../../assets/reviews';
+// import { reviews } from "../../../assets/reviews";
 
 const useStyles = makeStyles((theme) => ({
 	bold: {
@@ -27,11 +28,32 @@ const useStyles = makeStyles((theme) => ({
 function Reviews(props) {
 	const styles = useStyles();
 	const { showAddReview, onShowAddReview, onHideAddReview } = props;
+	const [reviews, setReviews] = useState(null);
+
+	useEffect(() => {
+		if (props.showProductModal) {
+			axios
+				.get(
+					`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/${props.selectedProduct}`
+				)
+				.then((response) => setReviews(response.data))
+				.catch((err) => console.log(err));
+		}
+	}, [props.selectedProduct]);
 
 	function handleAddReviewButtonClick() {
 		if (showAddReview) return onHideAddReview();
 		else return onShowAddReview();
 	}
+
+	const updateReview = () => {
+		axios
+			.get(
+				`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/${props.selectedProduct}`
+			)
+			.then((response) => setReviews(response.data))
+			.catch((err) => console.log(err));
+	};
 
 	return (
 		<>
@@ -71,15 +93,22 @@ function Reviews(props) {
 					ratingBeforeClickedAddReviewSnackbar={
 						props.ratingBeforeClickedAddReviewSnackbar
 					}
+					productId={props.selectedProduct}
+					updateReviews={() => updateReview()}
 					hide={onHideAddReview}
 				/>
 			</Collapse>
 			<MasonryLayout>
-				{reviews
-					.filter((review) => review.body.length > 0)
-					.map((review) => (
-						<ReviewCard key={review.id} review={review} />
-					))}
+				{reviews &&
+					reviews
+						.filter((review) => review.review.length > 0)
+						.map((review) => (
+							<ReviewCard
+								key={review.review_id}
+								review={review}
+								updateReview={() => updateReview()}
+							/>
+						))}
 			</MasonryLayout>
 		</>
 	);
@@ -88,7 +117,9 @@ function Reviews(props) {
 const mapStateToProps = (state) => {
 	return {
 		showAddReview: state.showAddReview,
-		ratingBeforeClickedAddReviewSnackbar: state.ratingBeforeClickedAddReviewSnackbar
+		selectedProduct: state.selectedProduct,
+		ratingBeforeClickedAddReviewSnackbar: state.ratingBeforeClickedAddReviewSnackbar,
+		showProductModal: state.showProductModal
 	};
 };
 

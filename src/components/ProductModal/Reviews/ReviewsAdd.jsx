@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../store/actions';
 import clsx from 'clsx';
@@ -37,16 +38,28 @@ function ReviewsAdd({ hide, onShowSnackbar, ratingBeforeClickedAddReviewSnackbar
 
 	const onSubmit = (data) => {
 		if (rating > 0) {
-			onShowSnackbar({
-				snackData: {
-					type: 'success',
-					title: 'Review Added',
-					message: 'Thank you for helping people find vegan products easier',
-					emoji: '💪'
+      axios
+			.post(
+				'http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/',
+				{
+					review: data.review,
+					product_id: props.productId,
+					user_id: 9,
+					rating: rating
 				}
-			});
-			console.log('review', data.review, rating);
-			hide();
+			)
+      .then(() => {
+          onShowSnackbar({
+          snackData: {
+            type: 'success',
+            title: 'Review Added',
+            message: 'Thank you for helping people find vegan products easier',
+            emoji: '💪'
+          }
+        });
+      })
+      .then(() => hide())
+			.then(() => props.updateReviews());
 		} else {
 			setRatingError(true);
 		}

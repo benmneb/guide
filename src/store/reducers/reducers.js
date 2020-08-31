@@ -13,7 +13,8 @@ const initialState = {
 	showSnackbar: false,
 	snackData: {},
 	showAddReview: false,
-	ratingBeforeClickedAddReviewSnackbar: null
+	ratingBeforeClickedAddReviewSnackbar: null,
+	selectedProduct: null
 };
 
 export default function Reducers(state = initialState, action) {
@@ -42,6 +43,7 @@ export default function Reducers(state = initialState, action) {
 			return {
 				...state,
 				showProductModal: !state.showProductModal,
+				selectedProduct: action.payload.id,
 				ratingBeforeClickedAddReviewSnackbar: null
 			};
 		case actionTypes.TOGGLE_ADD_PRODUCTS_MODAL:

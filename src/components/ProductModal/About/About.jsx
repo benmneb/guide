@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function ProductAbout(props) {
+export default function ProductAbout({ product }) {
 	const styles = useStyles();
 	const [showEditModal, setShowEditModal] = useState(false);
 
@@ -57,35 +57,44 @@ export default function ProductAbout(props) {
 	const rows = [
 		createData(
 			'Energy',
-			props.product.nutrition.energy1,
-			props.product.nutrition.energy2
+			product && product[0].energy1,
+			product && product[0].energy2
 		),
 		createData(
 			'Protein',
-			props.product.nutrition.protein1,
-			props.product.nutrition.protein2
+			product && product[0].protein1,
+			product && product[0].protein2
 		),
 		createData(
 			'Fat, total',
-			props.product.nutrition.fatTotal1,
-			props.product.nutrition.fatTotal2
+			product && product[0].totalfat1,
+			product && product[0].totalfat2
 		),
 		createData(
 			'- saturated',
-			props.product.nutrition.fatSat1,
-			props.product.nutrition.fatSat2
+			product && product[0].satfat1,
+			product && product[0].satfat2
 		),
 		createData(
 			'Carbohydrate',
-			props.product.nutrition.carb1,
-			props.product.nutrition.carb2
+			product && product[0].carb1,
+			product && product[0].carb2
 		),
 		createData(
 			'- sugars',
-			props.product.nutrition.sugar1,
-			props.product.nutrition.sugar2
+			product && product[0].sugar1,
+			product && product[0].sugar2
 		),
-		createData('Sodium', props.product.nutrition.sodium1, props.product.nutrition.sodium2)
+		createData(
+			'Dietry fibre',
+			product && product[0].fibre1,
+			product && product[0].fibre2
+		),
+		createData(
+			'Sodium',
+			product && product[0].sodium1,
+			product && product[0].sodium2
+		)
 	];
 
 	return (
@@ -98,9 +107,9 @@ export default function ProductAbout(props) {
 								<Grid item xs={12}>
 									<CardMedia
 										component="img"
-										alt={props.product.name}
-										image={props.product.imageSrc}
-										title={props.product.name}
+										alt={product && product[0].productName}
+										image={product && product[0].imageSrc}
+										title={product && product[0].productName}
 									/>
 								</Grid>
 							</Box>
@@ -110,22 +119,27 @@ export default function ProductAbout(props) {
 						<Grid item xs={12}>
 							<Typography className={styles.heading}>Buy Now Online</Typography>
 						</Grid>
-						{props.product.onlineStores.map((store) => (
-							<Grid key={store.id} item xs={12}>
-								<Button
-									variant="contained"
-									color="primary"
-									size="large"
-									onClick={() =>
-										window.open(store.url + '?ref=vomadguide', '_blank', 'noopener')
-									}
-									startIcon={store.isVegan ? <EcoRoundedIcon /> : null}
-									endIcon={<OpenInNewRoundedIcon />}
-								>
-									{store.name}
-								</Button>
-							</Grid>
-						))}
+						{product &&
+							product[0].storeLinks.map((store) => (
+								<Grid key={store.linkId} item xs={12}>
+									<Button
+										variant="contained"
+										color="primary"
+										size="large"
+										onClick={() =>
+											window.open(
+												store.link + '?ref=vomadguide',
+												'_blank',
+												'noopener'
+											)
+										}
+										startIcon={store.isVegan ? <EcoRoundedIcon /> : null}
+										endIcon={<OpenInNewRoundedIcon />}
+									>
+										{store.website}
+									</Button>
+								</Grid>
+							))}
 					</Grid>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -133,15 +147,17 @@ export default function ProductAbout(props) {
 						<Typography gutterBottom className={styles.heading}>
 							Ingredients
 						</Typography>
-						<Typography paragraph>{props.product.ingredients}</Typography>
+						<Typography paragraph>
+							{product && product[0].ingredients}
+						</Typography>
 						<Typography gutterBottom className={styles.heading}>
 							Nutritional Info
 						</Typography>
 						<Typography>
-							Servings per package: {props.product.nutrition.servesPerPack}
+							Servings per package: {product && product[0].serve1}
 						</Typography>
 						<Typography gutterBottom>
-							Serving size: {props.product.nutrition.serveSize}
+							Serving size: {product && product[0].serve2}
 						</Typography>
 						<TableContainer>
 							<Table
@@ -168,18 +184,21 @@ export default function ProductAbout(props) {
 									))}
 								</TableBody>
 								<caption>
-									Amounts are averages. Further information may be displayed on back of
-									pack.
+									Amounts are averages. Further information may be displayed on
+									back of pack.
 								</caption>
 							</Table>
 						</TableContainer>
 						<Typography gutterBottom className={styles.heading}>
 							Allergens
 						</Typography>
-						<Typography>{props.product.allergens}</Typography>
+						<Typography>{product && product[0].allergens}</Typography>
 					</Paper>
 					<Box display="flex" justifyContent="flex-end" marginTop={1}>
-						<Tooltip title="Last edit was by Vomad on 18/08/2020" placement="left">
+						<Tooltip
+							title="Last edit was by Vomad on 18/08/2020"
+							placement="left"
+						>
 							<Button
 								onClick={handleShowEditModal}
 								classes={{ label: styles.buttonLabel }}
@@ -192,7 +211,7 @@ export default function ProductAbout(props) {
 			</Grid>
 			<AboutEdit
 				show={showEditModal}
-				productId={props.product.id}
+				productId={product && product[0].productId}
 				onClose={handleCloseEditModal}
 			/>
 		</>

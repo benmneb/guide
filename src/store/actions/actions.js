@@ -24,9 +24,12 @@ export const hideSideDrawer = () => {
 	};
 };
 
-export const toggleProductModal = () => {
+export const toggleProductModal = (id) => {
 	return {
-		type: actionTypes.TOGGLE_PRODUCT_MODAL
+		type: actionTypes.TOGGLE_PRODUCT_MODAL,
+		payload: {
+			id
+		}
 	};
 };
 

@@ -38,6 +38,7 @@ function StarRating({
 
 	let text = `from ${props.amountOfRatings} ratings`;
 	let precision = 0.1;
+      
 	if (hover >= 0) {
 		precision = 1;
 		text = `rate as "${labels[hover]}"`;
@@ -55,6 +56,7 @@ function StarRating({
 							size={ratingSize}
 							onChange={(event, newValue) => {
 								const newRating = event.target.value;
+                props.onRate(newRating) // try newValue instead if this throws an error
 								onShowSnackbar({
 									snackData: {
 										type: 'success',
