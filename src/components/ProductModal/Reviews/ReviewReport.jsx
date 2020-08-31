@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
 import {
 	IconButton,
 	List,
@@ -11,7 +10,7 @@ import {
 	DialogTitle,
 	Dialog
 } from '@material-ui/core';
-import { ReportProblemRounded, ReportRounded } from '@material-ui/icons';
+import { CloseRounded, ReportProblemRounded, ReportRounded } from '@material-ui/icons';
 import { red, deepOrange } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +52,7 @@ export default function ReviewReport(props) {
 					className={styles.closeButton}
 					onClick={handleClose}
 				>
-					<CloseIcon />
+					<CloseRounded />
 				</IconButton>
 			</MuiDialogTitle>
 			<DialogTitle id="simple-dialog-title">Report as...</DialogTitle>

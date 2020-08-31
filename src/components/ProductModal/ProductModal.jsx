@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import * as actionCreators from '../../store/actions';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import {
@@ -16,7 +16,7 @@ import {
 	Grid,
 	Box
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseRoundedIcon from '@material-ui/icons/Close';
 import About from './About/About';
 import Reviews from './Reviews/Reviews';
 import WhereToBuy from './WhereToBuy/WhereToBuy';
@@ -25,10 +25,7 @@ import StarRating from './StarRating';
 // import { product } from "../../assets/product";
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		flexGrow: 1
-	},
-	titleRoot: {
+	closeBtnContainer: {
 		margin: 0,
 		padding: 0
 	},
@@ -44,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {
 			marginBottom: 0
 		}
+	},
+	brandName: {
+		color: theme.palette.grey[500],
+		fontWeight: theme.typography.fontWeightBold,
+		fontSize: '0.9rem',
+		lineHeight: '2'
 	},
 	modalMaxHeight: {
 		[theme.breakpoints.up('md')]: {
@@ -76,9 +79,8 @@ function a11yProps(index) {
 }
 
 const ProductModal = (props) => {
-	const theme = useTheme();
 	const styles = useStyles();
-	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 	const [currentTab, setCurrentTab] = useState(0);
 	const [item, setItem] = useState(null);
 	const [newRating, setNewRating] = useState(null);
@@ -136,20 +138,34 @@ const ProductModal = (props) => {
 			fullWidth
 			classes={{ paperScrollPaper: styles.modalMaxHeight }}
 		>
-			<MuiDialogTitle disableTypography className={styles.titleRoot}>
+			<MuiDialogTitle disableTypography className={styles.closeBtnContainer}>
 				<IconButton
 					aria-label="close"
 					className={styles.closeButton}
 					onClick={onCloseModal}
 				>
-					<CloseIcon />
+					<CloseRoundedIcon />
 				</IconButton>
 			</MuiDialogTitle>
 			<DialogContent className={styles.dialogContentRoot}>
-				<Grid container spacing={1} direction="column" alignItems="center">
+				<Grid
+					component="header"
+					container
+					spacing={1}
+					direction="column"
+					alignItems="center"
+				>
 					<Grid item xs={12}>
-						<Typography variant="h4" component="h2" align="center">
-							{item && item[0].brandName} {item && item[0].productName}
+						<Typography component="h1" variant="h4" align="center">
+							<Typography
+								className={styles.brandName}
+								variant="overline"
+								component="span"
+								display="block"
+							>
+								{item && item[0].brandName}
+							</Typography>
+							{item && item[0].productName}
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>
@@ -164,6 +180,7 @@ const ProductModal = (props) => {
 						<Grid item xs={12}>
 							<Paper variant="outlined">
 								<Tabs
+									component="nav"
 									value={currentTab}
 									onChange={handleChangeCurrentTab}
 									indicatorColor="primary"

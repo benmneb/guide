@@ -10,7 +10,7 @@ import {
 	ListSubheader,
 	Collapse
 } from '@material-ui/core';
-import { AddCircle, CancelRounded } from '@material-ui/icons';
+import { AddCircleRounded, CancelRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	storesList: {
@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StoresListSection(props) {
 	const styles = useStyles();
+
+	function closeSelf() {
+		props.setShowAddStore(!props.showAddStore);
+	}
 
 	return (
 		<List
@@ -33,14 +37,14 @@ export default function StoresListSection(props) {
 				</ListSubheader>
 			}
 		>
-			<ListItem button onClick={() => props.setShowAddStore(!props.showAddStore)}>
+			<ListItem button onClick={closeSelf}>
 				<ListItemIcon>
-					{props.showAddStore ? <CancelRounded /> : <AddCircle color="primary" />}
+					{props.showAddStore ? <CancelRounded /> : <AddCircleRounded color="primary" />}
 				</ListItemIcon>
 				<ListItemText>{props.showAddStore ? 'Cancel' : 'Add a Store'}</ListItemText>
 			</ListItem>
 			<Collapse in={props.showAddStore} timeout="auto" unmountOnExit>
-				<StoresAdd />
+				<StoresAdd hide={closeSelf} />
 			</Collapse>
 			<StoresList
 				data={props.stores}

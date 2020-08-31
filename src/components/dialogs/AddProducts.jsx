@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseRoundedIcon from '@material-ui/icons/Close';
 import {
 	Button,
 	Checkbox,
@@ -62,17 +62,29 @@ const DialogTitle = withStyles(styles)((props) => {
 	const { children, classes, onClose, ...other } = props;
 	return (
 		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Typography variant="h6">{children}</Typography>
-			{onClose ? (
-				<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-					<CloseIcon />
-				</IconButton>
-			) : null}
+			<Box component="header">
+				<Typography variant="h6" component="h1">
+					{children}
+				</Typography>
+				{onClose ? (
+					<IconButton
+						aria-label="close"
+						className={classes.closeButton}
+						onClick={onClose}
+					>
+						<CloseRoundedIcon />
+					</IconButton>
+				) : null}
+			</Box>
 		</MuiDialogTitle>
 	);
 });
 
-const AddProducts = (props) => {
+const AddProducts = ({
+	onToggleAddProductsModal,
+	onShowSnackbar,
+	showAddProductsModal
+}) => {
 	const theme = useTheme();
 	const classes = useStyles();
 	const steps = getSteps();
@@ -81,7 +93,7 @@ const AddProducts = (props) => {
 	const [activeStep, setActiveStep] = useState(0);
 	const [confirmItsVegan, setConfirmItsVegan] = useState(false);
 	const [brandname, setBrandname] = useState(null);
-	const [productTitle, setProductTitle] = useState(null);
+	const [productName, setProductName] = useState(null);
 	const [selectedCategory, setSelectedCategory] = useState(null);
 	const [inputValue, setInputValue] = useState('');
 
@@ -89,7 +101,29 @@ const AddProducts = (props) => {
 		setConfirmItsVegan(event.target.checked);
 	};
 
+	let formRef = useRef();
+
 	const handleNext = () => {
+		if (!formRef.current.checkValidity()) {
+			return;
+		}
+		if (activeStep === steps.length - 1) {
+			onShowSnackbar({
+				snackData: {
+					type: 'success',
+					title: 'Submission Received',
+					message: 'Thank you for helping people find vegan products easier',
+					emoji: '💪'
+				}
+			});
+			console.log(
+				`user $userId suggested to add 
+			brand: "${brandname.name}", 
+			product: "${productName.name}" 
+			category: "${selectedCategory}" 
+			on ${new Date()}`
+			);
+		}
 		setActiveStep((prevActiveStep) => prevActiveStep + 1);
 	};
 
@@ -100,11 +134,15 @@ const AddProducts = (props) => {
 	const handleReset = () => {
 		setActiveStep(0);
 		setConfirmItsVegan(false);
+		setBrandname(null);
+		setProductName(null);
+		setSelectedCategory(null);
+		setInputValue('');
 	};
 
 	const onClose = () => {
 		handleReset();
-		props.onToggleAddProductsModal();
+		onToggleAddProductsModal();
 	};
 
 	const categoriesMapped = categories.map((category) => {
@@ -152,7 +190,7 @@ const AddProducts = (props) => {
 				return (
 					<>
 						<Typography paragraph>
-							Please include all details as they appear on the packaging.
+							Please include details as they appear on the packaging.
 						</Typography>
 						<Box margin={1}>
 							<Autocomplete
@@ -205,25 +243,25 @@ const AddProducts = (props) => {
 								style={{ width: 300 }}
 								freeSolo
 								renderInput={(params) => (
-									<TextField {...params} label="Brand Name" variant="outlined" />
+									<TextField {...params} label="Brand Name" variant="outlined" required />
 								)}
 							/>
 						</Box>
 						<Box marginY={2} marginX={1}>
 							<Autocomplete
-								value={productTitle}
+								value={productName}
 								onChange={(event, newValue) => {
 									if (typeof newValue === 'string') {
-										setProductTitle({
+										setProductName({
 											name: newValue
 										});
 									} else if (newValue && newValue.inputValue) {
 										// Create a new value from the user input
-										setProductTitle({
+										setProductName({
 											name: newValue.inputValue
 										});
 									} else {
-										setProductTitle(newValue);
+										setProductName(newValue);
 									}
 								}}
 								filterOptions={(options, params) => {
@@ -242,7 +280,7 @@ const AddProducts = (props) => {
 								selectOnFocus
 								clearOnBlur
 								handleHomeEndKeys
-								id="productTitle"
+								id="productName"
 								options={categories}
 								getOptionLabel={(product) => {
 									// Value selected with enter, right from the input
@@ -260,7 +298,12 @@ const AddProducts = (props) => {
 								style={{ width: 300 }}
 								freeSolo
 								renderInput={(params) => (
-									<TextField {...params} label="Product Title" variant="outlined" />
+									<TextField
+										{...params}
+										label="Product Name"
+										variant="outlined"
+										required
+									/>
 								)}
 							/>
 						</Box>
@@ -280,7 +323,7 @@ const AddProducts = (props) => {
 								options={categoriesMapped}
 								style={{ width: 300 }}
 								renderInput={(params) => (
-									<TextField {...params} label="Category" variant="outlined" />
+									<TextField {...params} label="Category" variant="outlined" required />
 								)}
 							/>
 						</Box>
@@ -302,7 +345,7 @@ const AddProducts = (props) => {
 								Product name:{' '}
 							</Typography>
 							<Typography component="span" gutterBottom>
-								{productTitle && productTitle.name}
+								{productName && productName.name}
 							</Typography>
 						</Box>
 						<Box marginBottom={1}>
@@ -325,7 +368,7 @@ const AddProducts = (props) => {
 
 	return (
 		<Dialog
-			open={props.showAddProductsModal}
+			open={showAddProductsModal}
 			onClose={onClose}
 			aria-labelledby="form-dialog-title"
 			fullScreen={fullScreen}
@@ -337,38 +380,40 @@ const AddProducts = (props) => {
 				Add a Product to the Guide
 			</DialogTitle>
 			<DialogContent>
-				<Stepper activeStep={activeStep} orientation="vertical">
-					{steps.map((label, index) => (
-						<Step key={label}>
-							<StepLabel classes={{ iconContainer: classes.stepIconTextFill }}>
-								{label}
-							</StepLabel>
-							<StepContent>
-								<Box>{getStepContent(index)}</Box>
-								<div className={classes.actionsContainer}>
-									<div>
-										<Button
-											disabled={activeStep === 0}
-											onClick={handleBack}
-											className={classes.button}
-										>
-											Back
-										</Button>
-										<Button
-											variant="contained"
-											color="primary"
-											disabled={!confirmItsVegan}
-											onClick={handleNext}
-											className={classes.button}
-										>
-											{activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-										</Button>
+				<form ref={formRef}>
+					<Stepper activeStep={activeStep} orientation="vertical">
+						{steps.map((label, index) => (
+							<Step key={label}>
+								<StepLabel classes={{ iconContainer: classes.stepIconTextFill }}>
+									{label}
+								</StepLabel>
+								<StepContent>
+									<Box component="section">{getStepContent(index)}</Box>
+									<div className={classes.actionsContainer}>
+										<div>
+											<Button
+												disabled={activeStep === 0}
+												onClick={handleBack}
+												className={classes.button}
+											>
+												Back
+											</Button>
+											<Button
+												variant="contained"
+												color="primary"
+												disabled={!confirmItsVegan}
+												onClick={handleNext}
+												className={classes.button}
+											>
+												{activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+											</Button>
+										</div>
 									</div>
-								</div>
-							</StepContent>
-						</Step>
-					))}
-				</Stepper>
+								</StepContent>
+							</Step>
+						))}
+					</Stepper>
+				</form>
 				{activeStep === steps.length && (
 					<Box margin={1}>
 						<Typography paragraph>We have received your submission.</Typography>
@@ -397,7 +442,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal())
+		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
+		onShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 

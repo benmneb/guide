@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
 import {
 	IconButton,
 	List,
@@ -15,6 +16,7 @@ import {
 	Box
 } from '@material-ui/core';
 import {
+	CloseRounded,
 	RadioButtonCheckedRounded,
 	RadioButtonUncheckedRounded
 } from '@material-ui/icons';
@@ -53,7 +55,7 @@ const reasons = [
 	'Non-vegan product'
 ];
 
-export default function AboutEdit(props) {
+function AboutEdit({ onShowSnackbar, ...props }) {
 	const styles = useStyles();
 	const [selectedReason, setSelectedReason] = useState(null);
 	const [hasSelected, setHasSelected] = useState(false);
@@ -77,6 +79,15 @@ export default function AboutEdit(props) {
 			`User $userId suggested to edit product ${props.productId} due to ${selectedReason} on ${currentTime}. 
       "${elaboration}".`
 		);
+		onShowSnackbar({
+			snackData: {
+				type: 'success',
+				color: 'info',
+				title: 'Suggestion received',
+				message: 'Thank you for helping people find vegan products easier',
+				emoji: '💪'
+			}
+		});
 		handleClose();
 	};
 
@@ -145,7 +156,7 @@ export default function AboutEdit(props) {
 					className={styles.closeButton}
 					onClick={handleClose}
 				>
-					<CloseIcon />
+					<CloseRounded />
 				</IconButton>
 			</MuiDialogTitle>
 			<DialogTitle id="simple-dialog-title" className={styles.dialogTitle}>
@@ -155,3 +166,12 @@ export default function AboutEdit(props) {
 		</Dialog>
 	);
 }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
+	};
+};
+
+export default connect(null, mapDispatchToProps)(AboutEdit);

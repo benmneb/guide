@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -9,15 +9,16 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import HomeIcon from '@material-ui/icons/Home';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import FastfoodIcon from '@material-ui/icons/Fastfood';
-import BathtubIcon from '@material-ui/icons/Bathtub';
-import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import FeedbackIcon from '@material-ui/icons/Feedback';
+import HomeRoundedIcon from '@material-ui/icons/Home';
+import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
+import AddCircleRoundedIcon from '@material-ui/icons/AddCircle';
+import FastfoodRoundedIcon from '@material-ui/icons/Fastfood';
+import BathtubRoundedIcon from '@material-ui/icons/Bathtub';
+import AllInclusiveRoundedIcon from '@material-ui/icons/AllInclusive';
+import FavoriteRoundedIcon from '@material-ui/icons/Favorite';
+import VisibilityRoundedIcon from '@material-ui/icons/Visibility';
+import FeedbackRoundedIcon from '@material-ui/icons/Feedback';
+import GetAppRoundedIcon from '@material-ui/icons/GetApp';
 import { categories } from '../../assets/categoriesAZ';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as actionCreators from '../../store/actions';
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 const SideDrawer = (props) => {
 	const { window } = props;
 	const styles = useStyles();
+	const history = useHistory();
 	const theme = useTheme();
 	const [expandCategories, setExpandCategories] = useState(false);
 
@@ -60,18 +62,24 @@ const SideDrawer = (props) => {
 	};
 
 	const openMenuItem = (clickedItem) => {
-		handleCloseSideDrawer();
+		if (props.showSideDrawer) handleCloseSideDrawer();
 		switch (clickedItem) {
+			case 'home':
+				return history.push('/');
+			case 'auth':
+				return props.onToggleAuthModal();
+			case 'foodDrink':
+				return history.push('/food-drink');
 			case 'addProducts':
 				return props.onToggleAddProductsModal();
 			case 'advertise':
 				return props.onToggleAdvertiseModal();
+			case 'feedback':
+				return props.onToggleFeedbackModal();
 			case 'terms':
 				return props.onToggleTermsModal();
 			case 'privacy':
 				return props.onTogglePrivacyModal();
-			case 'feedback':
-				return props.onToggleFeedbackModal();
 			default:
 				return;
 		}
@@ -84,38 +92,39 @@ const SideDrawer = (props) => {
 			<div className={styles.toolbar}>
 				<img
 					style={{ height: 30, marginTop: 5 }}
-					src={require('../../assets/logo.png')}
+					src={require('../../assets/images/logo.png')}
 					alt="Vomad Guide: Find Vegan Products Near You"
 				/>
 			</div>
 			<Divider />
 			<List component="nav">
-				<ListItem component={Link} to="/" button onClick={handleCloseSideDrawer}>
+				<ListItem button onClick={() => openMenuItem('home')}>
 					<ListItemIcon>
-						<HomeIcon />
+						<HomeRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Home'} />
 				</ListItem>
-				<ListItem
-					component={Link}
-					to="/food-drink"
-					button
-					onClick={handleCloseSideDrawer}
-				>
+				<ListItem button onClick={() => openMenuItem('auth')}>
 					<ListItemIcon>
-						<FastfoodIcon />
+						<LockOpenRoundedIcon />
+					</ListItemIcon>
+					<ListItemText primary={'Login / Join'} />
+				</ListItem>
+				<ListItem button onClick={() => openMenuItem('foodDrink')}>
+					<ListItemIcon>
+						<FastfoodRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Food & Drink'} />
 				</ListItem>
 				<ListItem button>
 					<ListItemIcon>
-						<BathtubIcon />
+						<BathtubRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Household'} />
 				</ListItem>
 				<ListItem button onClick={handleExpandCategories}>
 					<ListItemIcon>
-						<AllInclusiveIcon />
+						<AllInclusiveRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'All Categories'} />
 				</ListItem>
@@ -137,37 +146,37 @@ const SideDrawer = (props) => {
 				</Collapse>
 				<ListItem button onClick={() => openMenuItem('addProducts')}>
 					<ListItemIcon>
-						<AddCircleIcon />
+						<AddCircleRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Add Products'} />
 				</ListItem>
 				<ListItem button>
 					<ListItemIcon>
-						<FavoriteIcon />
+						<FavoriteRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Support Us'} />
 				</ListItem>
 				<ListItem button onClick={() => openMenuItem('advertise')}>
 					<ListItemIcon>
-						<VisibilityIcon />
+						<VisibilityRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Advertise'} />
 				</ListItem>
 				<ListItem button onClick={() => openMenuItem('feedback')}>
 					<ListItemIcon>
-						<FeedbackIcon />
+						<FeedbackRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary="Provide Feedback" />
 				</ListItem>
 				<ListItem button>
 					<ListItemIcon>
-						<GetAppIcon />
+						<GetAppRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Get the App'} />
 				</ListItem>
 			</List>
 			<Divider />
-			<List>
+			<List component="nav">
 				<ListItem button onClick={() => openMenuItem('terms')}>
 					<ListItemText primary="Terms of Use" />
 				</ListItem>
@@ -222,6 +231,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer()),
+		onToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal()),
 		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
 		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
 		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal()),

@@ -1,22 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AppBar, useMediaQuery } from '@material-ui/core';
+import { AppBar } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNext';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import ShowFiltersButton from './ShowFiltersButton';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		zIndex: theme.zIndex.appBar
-	},
-	menuButton: {
-		marginRight: theme.spacing(2)
+	zIndex: {
+		zIndex: theme.zIndex.appBar - 1
 	},
 	breadcrumbs: {
 		flexGrow: 1,
@@ -42,13 +39,7 @@ function ElevationScroll(props) {
 }
 
 function FiltersBar(props) {
-	const classes = useStyles();
-	const theme = useTheme();
-
-	let maxItems = 6;
-	if (useMediaQuery(theme.breakpoints.down('sm'))) {
-		maxItems = 1;
-	}
+	const styles = useStyles();
 
 	return (
 		<Box
@@ -56,16 +47,21 @@ function FiltersBar(props) {
 			flexGrow="1"
 			top="0"
 			position="sticky"
-			zIndex="appBar"
+			className={styles.zIndex}
 		>
 			<ElevationScroll {...props}>
-				<AppBar position="sticky" color="inherit" elevation={3}>
+				<AppBar
+					position="sticky"
+					color="inherit"
+					elevation={3}
+					classes={{ root: styles.zIndex }}
+				>
 					<Toolbar>
-						<Box className={classes.breadcrumbs}>
+						<Box className={styles.breadcrumbs}>
 							<Breadcrumbs
-								separator={<NavigateNextIcon fontSize="small" />}
+								separator={<NavigateNextRoundedIcon fontSize="small" />}
 								aria-label="breadcrumb"
-								maxItems={maxItems}
+								maxItems={6}
 								itemsBeforeCollapse={0}
 							>
 								<Link color="inherit" href="#">
@@ -80,7 +76,9 @@ function FiltersBar(props) {
 								<Typography color="textPrimary">Nut Butters & Spreads</Typography>
 							</Breadcrumbs>
 						</Box>
-						<ShowFiltersButton />
+						<Box display={{ xs: 'none', md: 'flex' }}>
+							<ShowFiltersButton />
+						</Box>
 					</Toolbar>
 				</AppBar>
 			</ElevationScroll>

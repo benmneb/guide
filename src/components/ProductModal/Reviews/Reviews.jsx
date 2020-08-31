@@ -95,6 +95,7 @@ function Reviews(props) {
 					}
 					productId={props.selectedProduct}
 					updateReviews={() => updateReview()}
+					hide={onHideAddReview}
 				/>
 			</Collapse>
 			<MasonryLayout>

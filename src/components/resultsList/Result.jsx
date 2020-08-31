@@ -1,11 +1,26 @@
 import React from 'react';
-import { Card, CardMedia, CardContent, CardActions, Typography } from '@material-ui/core';
+import {
+	Card,
+	CardMedia,
+	CardContent,
+	CardActions,
+	Typography,
+	useMediaQuery
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
 
 const useStyles = makeStyles((theme) => ({
 	productTile: {
-		maxWidth: 300,
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		[theme.breakpoints.up('xs')]: {
+			maxWidth: 180
+		},
+		[theme.breakpoints.up('md')]: {
+			maxWidth: 250
+		},
 		margin: 'auto',
 		transition: `${theme.transitions.duration.complex}ms ${theme.transitions.easing.easeInOut}`,
 		boxShadow: 'none',
@@ -18,12 +33,19 @@ const useStyles = makeStyles((theme) => ({
 	},
 	cardMedia: {
 		paddingTop: theme.spacing(),
-		maxHeight: 300,
+		[theme.breakpoints.up('xs')]: {
+			maxHeight: 160,
+			maxWidth: 150
+		},
+		[theme.breakpoints.up('md')]: {
+			maxHeight: 220,
+			maxWidth: 200
+		},
 		position: 'relative'
 	},
 	cardContent: {
 		textAlign: 'center',
-		padding: theme.spacing(3)
+		padding: theme.spacing(2)
 	},
 	brandName: {
 		color: theme.palette.grey[500],
@@ -31,34 +53,40 @@ const useStyles = makeStyles((theme) => ({
 	},
 	productName: {
 		fontWeight: theme.typography.fontWeightRegular,
-		lineHeight: 1.3
+		lineHeight: 1.3,
+		[theme.breakpoints.up('md')]: {
+			fontSize: '1.1rem'
+		}
 	},
 	cardActions: {
-		padding: `0 ${theme.spacing(3)}px ${theme.spacing(3)}px`,
-		margin: 'auto',
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		flexDirection: 'row'
+		padding: theme.spacing(0, 1, 1),
+		margin: 'auto'
 	}
 }));
 
 export default function Result(props) {
 	const styles = useStyles();
+	const upMd = useMediaQuery((theme) => theme.breakpoints.up('md'));
+	const ratingSize = upMd ? 'medium' : 'small';
 
 	return (
-		<Card className={styles.productTile} onClick={props.clicked}>
+		<Card component="article" className={styles.productTile} onClick={props.clicked}>
 			<CardMedia className={styles.cardMedia} component="img" image={props.image} />
 			<CardContent className={styles.cardContent}>
-				<Typography className={styles.brandName} variant="overline" gutterBottom>
-					{props.brand}
-				</Typography>
-				<Typography className={styles.productName} variant="h6" component="p">
+				<Typography className={styles.productName} component="h2" variant="body1">
+					<Typography
+						className={styles.brandName}
+						component="span"
+						variant="overline"
+						display="block"
+					>
+						{props.brand}
+					</Typography>
 					{props.name}
 				</Typography>
 			</CardContent>
 			<CardActions className={styles.cardActions}>
-				<Rating value={props.avgRating} precision={0.1} readOnly />
+				<Rating value={props.avgRating} precision={0.1} size={ratingSize} readOnly />
 				<Typography variant="body2">{props.amtRatings} ratings</Typography>
 			</CardActions>
 		</Card>

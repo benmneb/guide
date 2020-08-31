@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { Fab, Tooltip, Grow, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
+import AddRoundedIcon from '@material-ui/icons/Add';
 import * as actionCreators from '../../store/actions';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 
@@ -47,7 +47,7 @@ const AddProductsFab = (props) => {
 						className={clsx(styles.fab, { [styles.displayNone]: props.showFiltersPanel })}
 						onClick={() => props.onToggleAddProductsModal()}
 					>
-						<AddIcon />
+						<AddRoundedIcon />
 					</Fab>
 				</Tooltip>
 			</ShowOnScroll>

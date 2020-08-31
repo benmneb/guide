@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -8,13 +8,28 @@ import {
 	Typography,
 	Toolbar,
 	Button,
-	Box
+	Box,
+	Hidden
 } from '@material-ui/core';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRight';
 import { subCat1s } from '../../assets/subCat1s';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
+import useWidth from '../../assets/useWidth';
+import BottomNav from './BottomNav';
 
 const useStyles = makeStyles((theme) => ({
+	container: {
+		marginTop: theme.spacing(-4),
+		[theme.breakpoints.only('xs')]: {
+			marginBottom: theme.spacing(7)
+		}
+	},
+	content: {
+		marginTop: theme.spacing(4)
+	},
+	buttonText: {
+		padding: '6px 0'
+	},
 	gridList: {
 		flexWrap: 'nowrap',
 		// Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
@@ -41,12 +56,44 @@ const useStyles = makeStyles((theme) => ({
 		cursor: 'pointer',
 		filter: 'brightness(85%)',
 		transitionProperty: 'filter',
-		transitionDuration: `${theme.transitions.duration.complex}ms`
+		transitionDuration: `${theme.transitions.duration.complex}ms`,
+		width: '100%',
+		height: '100%'
 	}
 }));
 
 export default function SingleLineGridList() {
 	const styles = useStyles();
+	const width = useWidth();
+	const [cols, setCols] = useState(null);
+	const [cellHeight, setCellHeight] = useState(null);
+
+	useEffect(() => {
+		switch (width) {
+			case 'xs':
+				setCols(2.3);
+				setCellHeight(200);
+				break;
+			case 'sm':
+				setCols(3.3);
+				setCellHeight(250);
+				break;
+			case 'md':
+				setCols(5.3);
+				setCellHeight(300);
+				break;
+			case 'lg':
+				setCols(5.3);
+				setCellHeight(300);
+				break;
+			case 'xl':
+				setCols(7.3);
+				setCellHeight(300);
+				break;
+			default:
+				return;
+		}
+	}, [width]);
 
 	return (
 		<>
@@ -58,28 +105,33 @@ export default function SingleLineGridList() {
 				</SubHeading>
 				<Footer forCategory />
 			</Hero>
-			<Box marginY={-4}>
+			<Box className={styles.container}>
 				{['Baby', 'Bakery', 'Drinks', 'Fridge & Freezer', 'Pantry', 'Pet Food'].map(
 					(category) => (
-						<Box marginY={4} key={category}>
-							<Toolbar>
+						<Box key={category} component="section" className={styles.content}>
+							<Toolbar component="heading">
 								<Box flexGrow="1">
-									<Typography variant="h5" align="left">
+									<Typography component="h2" variant="h5" align="left">
 										{category}
 									</Typography>
 								</Box>
 								<Box flexGrow="0">
 									<Link to="/food-drink/nut-butters-spreads">
-										<Button variant="text" color="default" endIcon={<ChevronRightIcon />}>
-											See all {category}
+										<Button
+											variant="text"
+											color="default"
+											endIcon={<ChevronRightRoundedIcon />}
+											classes={{ text: styles.buttonText }}
+										>
+											See all<Hidden only="xs"> {category}</Hidden>
 										</Button>
 									</Link>
 								</Box>
 							</Toolbar>
 							<GridList
 								className={styles.gridList}
-								cols={5.3}
-								cellHeight={300}
+								cols={cols}
+								cellHeight={cellHeight}
 								spacing={0}
 							>
 								{subCat1s.map((image) => (
@@ -106,6 +158,7 @@ export default function SingleLineGridList() {
 					)
 				)}
 			</Box>
+			<BottomNav />
 		</>
 	);
 }

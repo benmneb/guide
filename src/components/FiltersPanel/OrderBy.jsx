@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(0.5, 0)
 	},
 	label: {
-		color: theme.palette.common.black
+		color: theme.palette.text.primary
 	},
 	body1: {
 		fontSize: theme.typography.button.fontSize

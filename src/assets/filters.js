@@ -111,10 +111,9 @@ export const sortBy = [
 	{
 		name: '🔥 Popularity',
 		value: 'Popularity',
-		tooltip: 'A combination of reviews, ratings and views (default)'
+		tooltip: 'Uses a combination of reviews, ratings and views (default)'
 	},
-	{ name: '🔤 Alphabetical', value: 'Alphabetical', tooltip: 'Uses the product name' },
-	{ name: '🏅 Rating', value: 'Rating', tooltip: 'Uses the average rating' }
+	{ name: '🔤 Alphabetical', value: 'Alphabetical', tooltip: 'Uses the product name' }
 ];
 
 export const orderBy = [

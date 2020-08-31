@@ -1,28 +1,32 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import {
+	createMuiTheme,
+	responsiveFontSizes,
+	ThemeProvider
+} from '@material-ui/core/styles';
 import { orange } from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from './components/AppBar/AppBar';
 import ResultsList from './components/ResultsList/ResultsList';
-import FiltersPanel from './components/FiltersPanel/FiltersPanel';
 import ProductModal from './components/ProductModal/ProductModal';
-import BottomNav from './components/AppBar/BottomNav';
 import Home from './components/categories/Home';
-import FoodDrink from './components/categories/FoodDrink';
+import ProductType from './components/categories/ProductType';
 import AddProducts from './components/Dialogs/AddProducts';
 import Advertise from './components/Dialogs/Advertise';
 import Privacy from './components/Dialogs/Privacy';
 import Terms from './components/Dialogs/Terms';
 import Feedback from './components/Dialogs/Feedback';
+import Snackbars from './components/Dialogs/Snackbars';
+import Auth from './components/Dialogs/Auth';
 
-const theme = createMuiTheme({
+let theme = createMuiTheme({
 	palette: {
 		primary: orange
 	},
 	typography: {
 		button: {
-			textTransform: 'capitalize'
+			textTransform: 'none'
 		}
 	},
 	overrides: {
@@ -46,6 +50,8 @@ const theme = createMuiTheme({
 	}
 });
 
+theme = responsiveFontSizes(theme);
+
 export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
@@ -55,17 +61,17 @@ export default function App() {
 					<Switch>
 						<Route exact path="/" component={Home} />
 						<Route path="/:productType/:category" component={ResultsList} />
-						<Route path="/:productType" component={FoodDrink} />
+						<Route path="/:productType" component={ProductType} />
 					</Switch>
 				</AppBar>
-				<FiltersPanel />
 				<ProductModal />
 				<AddProducts />
 				<Advertise />
 				<Feedback />
 				<Privacy />
 				<Terms />
-				<BottomNav />
+				<Auth />
+				<Snackbars />
 			</>
 		</ThemeProvider>
 	);

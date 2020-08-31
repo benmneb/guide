@@ -63,6 +63,27 @@ export const toggleFeedbackModal = () => {
 	};
 };
 
+export const toggleAuthModal = () => {
+	return {
+		type: actionTypes.TOGGLE_AUTH_MODAL
+	};
+};
+
+export const showSnackbar = ({ snackData }) => {
+	return {
+		type: actionTypes.SHOW_SNACKBAR,
+		payload: {
+			snackData
+		}
+	};
+};
+
+export const hideSnackbar = () => {
+	return {
+		type: actionTypes.HIDE_SNACKBAR
+	};
+};
+
 export const clickAddReviewAfterRating = (rating) => {
 	return {
 		type: actionTypes.CLICK_ADD_REVIEW_AFTER_RATING,

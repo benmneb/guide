@@ -15,8 +15,8 @@ import {
 	Tooltip,
 	Box
 } from '@material-ui/core';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import EcoIcon from '@material-ui/icons/Eco';
+import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNew';
+import EcoRoundedIcon from '@material-ui/icons/Eco';
 import { makeStyles } from '@material-ui/core/styles';
 import AboutEdit from './AboutEdit';
 
@@ -99,8 +99,8 @@ export default function ProductAbout({ product }) {
 
 	return (
 		<>
-			<Grid container spacing={3}>
-				<Grid item xs={12} sm={6}>
+			<Grid component="section" container spacing={3}>
+				<Grid component="section" item xs={12} sm={6}>
 					<Grid container spacing={0} direction="column">
 						<Container maxWidth="xs">
 							<Box padding={2} color="text.secondary">
@@ -133,8 +133,8 @@ export default function ProductAbout({ product }) {
 												'noopener'
 											)
 										}
-										startIcon={store.isVegan ? <EcoIcon /> : null}
-										endIcon={<OpenInNewIcon />}
+										startIcon={store.isVegan ? <EcoRoundedIcon /> : null}
+										endIcon={<OpenInNewRoundedIcon />}
 									>
 										{store.website}
 									</Button>
@@ -143,7 +143,7 @@ export default function ProductAbout({ product }) {
 					</Grid>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<Paper className={styles.paper} variant="outlined">
+					<Paper component="section" className={styles.paper} variant="outlined">
 						<Typography gutterBottom className={styles.heading}>
 							Ingredients
 						</Typography>

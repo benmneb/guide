@@ -1,30 +1,42 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { GridList, GridListTile, GridListTileBar, Box } from '@material-ui/core';
+import { GridListTile, GridListTileBar, Box } from '@material-ui/core';
 import { subCat1s } from '../../assets/subCat1s';
 import Hero, { Heading, SubHeading } from '../Hero/Hero';
 
 const useStyles = makeStyles((theme) => ({
-	container: {
-		padding: theme.spacing(3),
-		display: 'grid',
-		gridGap: theme.spacing(2),
-		gridTemplateColumns: `repeat(auto-fit, minmax(${theme.spacing(31)}, 1fr))`
-	},
 	root: {
 		display: 'flex',
 		justifyContent: 'space-between',
 		backgroundColor: theme.palette.common.white,
 		marginTop: theme.spacing(2)
 	},
-	gridList: {
-		width: '100%'
+	container: {
+		backgroundColor: theme.palette.background.paper,
+		width: '100%',
+		display: 'grid',
+		[theme.breakpoints.up('xs')]: {
+			gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))'
+		},
+		[theme.breakpoints.up('sm')]: {
+			gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))'
+		},
+		[theme.breakpoints.up('md')]: {
+			gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))'
+		}
 	},
 	gridListTile: {
+		height: 300,
 		'&:hover img': {
 			filter: 'brightness(100%)'
 		}
+	},
+	image: {
+		cursor: 'pointer',
+		filter: 'brightness(85%)',
+		transitionProperty: 'filter',
+		transitionDuration: `${theme.transitions.duration.complex}ms`
 	},
 	titleBar: {
 		position: 'absolute',
@@ -37,12 +49,6 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: theme.typography.h6.fontSize,
 		textAlign: 'center',
 		lineHeight: theme.typography.body2.lineHeight
-	},
-	image: {
-		cursor: 'pointer',
-		filter: 'brightness(85%)',
-		transitionProperty: 'filter',
-		transitionDuration: `${theme.transitions.duration.complex}ms`
 	}
 }));
 
@@ -51,7 +57,7 @@ const SubCat1s = () => {
 
 	return (
 		<>
-			<Hero textAlign="center">
+			<Hero>
 				<Heading>Find Vegan Products</Heading>
 				<SubHeading>
 					The Vomad Guide is a free crowd-sourced collection of 100% plant-based products.
@@ -60,9 +66,14 @@ const SubCat1s = () => {
 				</SubHeading>
 			</Hero>
 			<Box className={styles.root}>
-				<GridList cellHeight={300} className={styles.gridList} cols={5} spacing={0}>
+				<Box className={styles.container}>
 					{subCat1s.map((image) => (
-						<GridListTile key={image.img} cols={1} className={styles.gridListTile}>
+						<GridListTile
+							key={image.img}
+							component="div"
+							cols={1}
+							className={styles.gridListTile}
+						>
 							<Link to="/food-drink/nut-butters-spreads">
 								<img src={image.img} alt={image.title} className={styles.image} />
 								<GridListTileBar
@@ -76,7 +87,7 @@ const SubCat1s = () => {
 							</Link>
 						</GridListTile>
 					))}
-				</GridList>
+				</Box>
 			</Box>
 		</>
 	);

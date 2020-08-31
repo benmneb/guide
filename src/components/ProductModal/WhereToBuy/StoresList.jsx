@@ -6,20 +6,18 @@ import {
 	ListItemText,
 	ListItemSecondaryAction,
 	Collapse,
-	IconButton,
-	Tooltip,
 	Box
 } from '@material-ui/core';
 import {
-	Place,
-	Store,
+	PlaceRounded,
+	StoreRounded,
 	EcoRounded,
 	LaunchRounded,
-	ThumbUpRounded,
 	FileCopyRounded
 } from '@material-ui/icons';
 import { green } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
+import LikeButton from '../LikeButton';
 
 const useStyles = makeStyles((theme) => ({
 	nested: {
@@ -39,18 +37,20 @@ export default function StoresList(props) {
 				selected={props.selectedStore === store.id}
 			>
 				<ListItemIcon>
-					{store.isVegan ? <EcoRounded style={{ color: green[500] }} /> : <Place />}
+					{store.isVegan ? (
+						<EcoRounded style={{ color: green[500] }} />
+					) : (
+						<PlaceRounded />
+					)}
 				</ListItemIcon>
 				<ListItemText primary={store.name} secondary={store.address} />
 				<ListItemSecondaryAction>
-					<Tooltip
-						title="Have you seen this product in this store?"
-						placement="bottom-end"
-					>
-						<IconButton aria-label="confirm">
-							<ThumbUpRounded fontSize="small" />
-						</IconButton>
-					</Tooltip>
+					<LikeButton
+						tooltip="Have you seen this product in this store?"
+						tooltipPlacement="bottom-end"
+						ariaLabel="confirm"
+						size="small"
+					/>
 				</ListItemSecondaryAction>
 			</ListItem>
 			<Collapse in={props.selectedStore === store.id} timeout="auto" unmountOnExit>
@@ -73,7 +73,7 @@ export default function StoresList(props) {
 					</ListItem>
 					<ListItem button className={styles.nested}>
 						<ListItemIcon>
-							<Store />
+							<StoreRounded />
 						</ListItemIcon>
 						<ListItemText primary="See all products in this store" />
 					</ListItem>

@@ -1,35 +1,66 @@
 import React, { Children, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { connect } from 'react-redux';
 import { Typography, Link, Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core/styles';
 
-function Hero(props) {
-	const { children, textAlign, bgImage } = props;
-
-	// JSS has to be inside the function because the it receives props for the bgImage
+export default function Hero({ children, textAlign, bgImage, hide }) {
+	// JSS has to be inside the function because it receives props for the bgImage
 	const useStyles = makeStyles((theme) => ({
 		container: {
-			zIndex: theme.zIndex.appBar + 1
+			zIndex: theme.zIndex.appBar + 1,
+			[theme.breakpoints.only('xs')]: {
+				height: 350
+			},
+			[theme.breakpoints.up('sm')]: {
+				height: 300
+			}
 		},
 		hasBgImage: {
 			[theme.breakpoints.only('xs')]: {
-				background: `radial-gradient(farthest-corner at ${theme.breakpoints.values.sm}px 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%), url(${bgImage}) center / cover no-repeat`
+				background: `radial-gradient(farthest-corner at ${
+					theme.breakpoints.values.sm
+				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+					theme.palette.background.paper,
+					1
+				)} 70%), url(${bgImage}) center / cover no-repeat`
 			},
 			[theme.breakpoints.only('sm')]: {
-				background: `radial-gradient(farthest-corner at ${theme.breakpoints.values.md}px 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%), url(${bgImage}) center / cover no-repeat`
+				background: `radial-gradient(farthest-corner at ${
+					theme.breakpoints.values.md
+				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+					theme.palette.background.paper,
+					1
+				)} 70%), url(${bgImage}) center / cover no-repeat`
 			},
 			[theme.breakpoints.up('md')]: {
-				background: `radial-gradient(farthest-corner at ${theme.breakpoints.values.lg}px 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%), url(${bgImage}) center / cover no-repeat`
+				background: `radial-gradient(farthest-corner at ${
+					theme.breakpoints.values.lg
+				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+					theme.palette.background.paper,
+					1
+				)} 70%), url(${bgImage}) center / cover no-repeat`
 			},
 			[theme.breakpoints.up('xl')]: {
-				background: `radial-gradient(farthest-corner at ${theme.breakpoints.values.xl}px 0px, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 70%), url(${bgImage}) center / cover no-repeat`
+				background: `radial-gradient(farthest-corner at ${
+					theme.breakpoints.values.xl
+				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+					theme.palette.background.paper,
+					1
+				)} 70%), url(${bgImage}) center / cover no-repeat`
 			}
 		},
 		content: {
 			top: theme.mixins.toolbar.minHeight / 2,
-			zIndex: theme.zIndex.appBar + 1
+			zIndex: theme.zIndex.appBar + 1,
+			[theme.breakpoints.only('xs')]: {
+				width: '85%',
+				margin: theme.spacing(0, 2)
+			},
+			[theme.breakpoints.up('sm')]: {
+				width: '75%',
+				margin: theme.spacing(0, 3)
+			}
 		},
 		displayNone: {
 			display: 'none'
@@ -38,11 +69,9 @@ function Hero(props) {
 
 	const styles = useStyles();
 
-	let marginLeft = 3;
 	let justifyContent = 'flex-start';
 
 	if (textAlign === 'center') {
-		marginLeft = 0;
 		justifyContent = 'center';
 	}
 
@@ -52,20 +81,20 @@ function Hero(props) {
 
 	return (
 		<Box
-			height={300}
+			component="section"
 			position="relative"
 			display="flex"
 			alignItems="center"
 			justifyContent={justifyContent}
 			className={clsx(styles.container, {
-				[styles.displayNone]: props.showFiltersPanel,
-				[styles.hasBgImage]: props.bgImage
+				[styles.displayNone]: hide,
+				[styles.hasBgImage]: bgImage
 			})}
 		>
 			<Box
+				component="header"
 				position="relative"
-				marginLeft={marginLeft}
-				width={3 / 4}
+				minWidth={272}
 				className={styles.content}
 			>
 				{childrenWithProps}
@@ -74,7 +103,7 @@ function Hero(props) {
 	);
 }
 
-Hero.propsTypes = {
+Hero.propTypes = {
 	children: PropTypes.node.isRequired,
 	textAlign: PropTypes.oneOf(['left', 'center'])
 };
@@ -83,19 +112,9 @@ Hero.defaultProps = {
 	textAlign: 'left'
 };
 
-const mapStateToProps = (state) => {
-	return {
-		showFiltersPanel: state.showFiltersPanel
-	};
-};
-
-export default connect(mapStateToProps)(Hero);
-
 ///////// HEADING
 
-export function Heading(props) {
-	const { children, textAlign } = props;
-
+export function Heading({ children, textAlign }) {
 	return (
 		<Typography component="h1" variant="h2" align={textAlign} gutterBottom>
 			{children}
@@ -114,11 +133,9 @@ Heading.defaultProps = {
 
 ///////// SUB-HEADING
 
-export function SubHeading(props) {
-	const { children, textAlign } = props;
-
+export function SubHeading({ children, textAlign }) {
 	return (
-		<Box display={{ xs: 'none', sm: 'block' }}>
+		<Box>
 			<Typography align={textAlign} component="p" variant="h5" paragraph>
 				{children}
 			</Typography>
@@ -137,9 +154,7 @@ SubHeading.defaultProps = {
 
 ///////// FOOTER
 
-export function Footer(props) {
-	const { textAlign, forCategory } = props;
-
+export function Footer({ textAlign, forCategory }) {
 	let footerContent;
 
 	if (forCategory) {

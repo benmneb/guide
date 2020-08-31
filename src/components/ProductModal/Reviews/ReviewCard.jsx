@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { getTimeAgo } from '../../../assets/timeAgo';
 import Rating from '@material-ui/lab/Rating';
 import axios from 'axios';
-import { ThumbUpAltRounded, MoreVertRounded, Report } from '@material-ui/icons';
+import { MoreVertRounded, ReportRounded } from '@material-ui/icons';
 import {
 	Avatar,
 	Typography,
 	Paper,
-	Tooltip,
 	IconButton,
 	Menu,
 	MenuItem,
@@ -15,6 +14,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ReviewReport from './ReviewReport';
+import LikeButton from '../LikeButton';
 
 const useStyles = makeStyles((theme) => ({
 	largeAvatar: {
@@ -65,8 +65,8 @@ export default function ReviewCard(props) {
 	return (
 		<>
 			<Box key={props.review.review_id} marginTop={2} marginBottom={2}>
-				<Paper>
-					<Box padding={2}>
+				<Paper component="section">
+					<Box component="article" padding={2}>
 						<Box display="flex" marginBottom={2}>
 							<Box marginRight={2}>
 								<Avatar
@@ -75,10 +75,13 @@ export default function ReviewCard(props) {
 									className={styles.largeAvatar}
 								/>
 							</Box>
-							<Box display="flex" flexDirection="column" justifyContent="center">
-								<Typography className={styles.author}>
-									{props.review.user_name}
-								</Typography>
+							<Box
+								component="footer"
+								display="flex"
+								flexDirection="column"
+								justifyContent="center"
+							>
+								<Typography className={styles.author}>{props.review.user_name}</Typography>
 								<Typography variant="body2">+{props.review.authorPoints}</Typography>
 							</Box>
 							<Box
@@ -100,7 +103,7 @@ export default function ReviewCard(props) {
 									onClose={handleMoreMenuClose}
 								>
 									<MenuItem onClick={() => handleReportClick(props.review.review_id)}>
-										<Report className={styles.reportIcon} />
+										<ReportRounded className={styles.reportIcon} />
 										<Typography>Report</Typography>
 									</MenuItem>
 								</Menu>
@@ -110,16 +113,17 @@ export default function ReviewCard(props) {
 							<Rating name="rating" value={props.review.rating} readOnly />
 							<Typography>{getTimeAgo(new Date(props.review.review_date))}</Typography>
 						</Box>
-						<Box>
+						<Box component="article">
 							<Typography>{props.review.review}</Typography>
 						</Box>
 						<Box display="flex" justifyContent="flex-end" marginBottom={-1}>
 							<Box display="flex" alignItems="center" marginRight={1}>
-								<Tooltip title="Was this review helpful?" placement="left">
-									<IconButton onClick={handleLikeClick} aria-label="mark as helpful">
-										<ThumbUpAltRounded />
-									</IconButton>
-								</Tooltip>
+								<LikeButton
+									tooltip="Was this review helpful?"
+									tooltipPlacement="left"
+									ariaLabel="mark as helpful"
+                  onClick={handleLikeClick}
+								/>
 								{props.review.likes > 0 && <Typography>{props.review.likes}</Typography>}
 							</Box>
 						</Box>
