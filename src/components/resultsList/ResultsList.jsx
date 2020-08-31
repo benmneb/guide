@@ -46,7 +46,7 @@ const ResultsList = (props) => {
 
 	useEffect(() => {
 		axios
-			.get('http://localhost:3000/')
+			.get('http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/')
 			.then((response) => setResults(response.data))
 			.catch((err) => err);
 	}, []);
@@ -71,8 +71,8 @@ const ResultsList = (props) => {
 			<Hero bgImage={peanuts}>
 				<Heading>Vegan Nut Butters & Spreads</Heading>
 				<SubHeading>
-					There are 64 vegan nut butters & spreads within Australia from brands
-					like Kraft, Pics, Bega and 14 more.
+					There are 64 vegan nut butters & spreads within Australia from brands like
+					Kraft, Pics, Bega and 14 more.
 				</SubHeading>
 				<Footer forCategory />
 			</Hero>
@@ -98,8 +98,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onToggleProductModal: (id) =>
-			dispatch(actionCreators.toggleProductModal(id))
+		onToggleProductModal: (id) => dispatch(actionCreators.toggleProductModal(id))
 	};
 };
 
