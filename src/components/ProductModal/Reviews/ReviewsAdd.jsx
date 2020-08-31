@@ -16,7 +16,7 @@ const labels = {
 const ReviewsAdd = (props) => {
 	const [rating, setRating] = useState(0);
 	const [hover, setHover] = useState(-1);
-	const [reviewText, setReviewText] = useState(null);
+	const [reviewText, setReviewText] = useState('');
 
 	const { ratingBeforeClickedAddReviewSnackbar } = props;
 	useEffect(() => {
@@ -35,9 +35,7 @@ const ReviewsAdd = (props) => {
 		ratingHelperText = 'Select a rating:';
 	} else {
 		ratingHelperText = (
-			<Box component="span">
-				Rate as "{labels[hover !== -1 ? hover : rating]}"
-			</Box>
+			<Box component="span">Rate as "{labels[hover !== -1 ? hover : rating]}"</Box>
 		);
 	}
 
@@ -47,12 +45,15 @@ const ReviewsAdd = (props) => {
 
 	const onSubmitHandler = () => {
 		axios
-			.post('http://localhost:3000/review/', {
-				review: reviewText,
-				product_id: props.productId,
-				user_id: 9,
-				rating: rating
-			})
+			.post(
+				'http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/',
+				{
+					review: reviewText,
+					product_id: props.productId,
+					user_id: 9,
+					rating: rating
+				}
+			)
 			.then(() => props.onHideAddReview())
 			.then(() => props.updateReviews());
 	};
@@ -60,14 +61,7 @@ const ReviewsAdd = (props) => {
 	return (
 		<Box marginTop={1}>
 			<Grid container alignItems="center" justify="center">
-				<Grid
-					item
-					container
-					xs={12}
-					justify="center"
-					alignItems="center"
-					spacing={1}
-				>
+				<Grid item container xs={12} justify="center" alignItems="center" spacing={1}>
 					<Grid item xs={12} container justify="center">
 						<Typography>{ratingHelperText}</Typography>
 					</Grid>
