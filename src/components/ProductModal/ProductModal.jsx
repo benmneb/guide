@@ -23,7 +23,6 @@ import Reviews from './Reviews/Reviews';
 import WhereToBuy from './WhereToBuy/WhereToBuy';
 import BottomNav from './BottomNav';
 import StarRating from './StarRating';
-// import { product } from "../../assets/product";
 
 const useStyles = makeStyles((theme) => ({
 	closeBtnContainer: {
@@ -80,7 +79,13 @@ function a11yProps(index) {
 	};
 }
 
-const ProductModal = (props) => {
+const ProductModal = ({
+	showAddReview,
+	showProductModal,
+	selectedProduct,
+	onToggleProductModal,
+	onHideAddReview
+}) => {
 	const styles = useStyles();
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -89,10 +94,10 @@ const ProductModal = (props) => {
 	const [newRating, setNewRating] = useState(null);
 
 	useEffect(() => {
-		if (props.showProductModal) {
+		if (showProductModal) {
 			axios
 				.get(
-					`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/product/${props.selectedProduct}`
+					`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/product/${selectedProduct}`
 				)
 				.then((response) => setItem(response.data))
 				.catch((err) => err);
@@ -102,7 +107,7 @@ const ProductModal = (props) => {
 				setItem(null);
 			}, theme.transitions.duration.leavingScreen);
 		}; //eslint-disable-next-line
-	}, [props.selectedProduct, newRating]);
+	}, [selectedProduct, newRating]);
 
 	const onClickHandler = (newValue) => {
 		axios
@@ -120,28 +125,28 @@ const ProductModal = (props) => {
 	};
 
 	const onCloseModal = () => {
-		props.onToggleProductModal();
-		props.onHideAddReview();
+		onToggleProductModal();
+		onHideAddReview();
 	};
 
 	const handleChangeCurrentTab = (event, newValue) => {
 		if (newValue !== 1) {
-			props.onHideAddReview();
+			onHideAddReview();
 		}
 		setCurrentTab(newValue);
 	};
 
 	useEffect(() => {
-		if (props.showAddReview && currentTab !== 1) {
+		if (showAddReview && currentTab !== 1) {
 			setCurrentTab(1);
 		}
-	}, [props.showAddReview, currentTab]);
+	}, [showAddReview, currentTab]);
 	return (
 		<Dialog
 			onClose={onCloseModal}
 			fullScreen={fullScreen}
 			aria-labelledby="product-dialog-title"
-			open={props.showProductModal}
+			open={showProductModal}
 			maxWidth="md"
 			fullWidth
 			classes={{ paperScrollPaper: styles.modalMaxHeight }}
