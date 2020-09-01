@@ -8,17 +8,19 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
+		margin: 'auto',
+		marginTop: theme.spacing(),
 		[theme.breakpoints.up('xs')]: {
 			width: 180
 		},
 		[theme.breakpoints.up('md')]: {
 			width: 250
-		},
-		margin: 'auto',
-		marginTop: theme.spacing()
+		}
 	},
 	cardMedia: {
+		position: 'relative',
 		paddingTop: theme.spacing(),
+		borderRadius: theme.shape.borderRadius,
 		[theme.breakpoints.up('xs')]: {
 			height: 160,
 			width: 150
@@ -26,12 +28,13 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {
 			height: 220,
 			width: 200
-		},
-		position: 'relative'
+		}
 	},
 	cardContent: {
-		textAlign: 'center',
-		padding: theme.spacing(2)
+		padding: theme.spacing(2),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center'
 	}
 }));
 
@@ -43,8 +46,8 @@ export default function Result() {
 			<Skeleton variant="rect" className={styles.cardMedia} />
 			<CardContent className={styles.cardContent}>
 				<Skeleton width={200} />
-				<Skeleton />
-				<Skeleton />
+				<Skeleton width={150} />
+				<Skeleton width={110} />
 			</CardContent>
 		</Card>
 	);
