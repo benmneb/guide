@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import ReviewCard from './ReviewCard';
 import ReviewsAdd from './ReviewsAdd';
 import MasonryLayout from '../../../assets/MasonryLayout';
-// import { reviews } from "../../../assets/reviews";
 
 const useStyles = makeStyles((theme) => ({
 	bold: {
@@ -25,21 +24,27 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Reviews(props) {
+function Reviews({
+	showAddReview,
+	onShowAddReview,
+	onHideAddReview,
+	showProductModal,
+	selectedProduct,
+	ratingBeforeClickedAddReviewSnackbar
+}) {
 	const styles = useStyles();
-	const { showAddReview, onShowAddReview, onHideAddReview } = props;
 	const [reviews, setReviews] = useState(null);
 
 	useEffect(() => {
-		if (props.showProductModal) {
+		if (showProductModal) {
 			axios
 				.get(
-					`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/${props.selectedProduct}`
+					`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/${selectedProduct}`
 				)
 				.then((response) => setReviews(response.data))
 				.catch((err) => console.log(err));
 		}
-	}, [props.selectedProduct]);
+	}, [selectedProduct, showProductModal]);
 
 	function handleAddReviewButtonClick() {
 		if (showAddReview) return onHideAddReview();
@@ -49,7 +54,7 @@ function Reviews(props) {
 	const updateReview = () => {
 		axios
 			.get(
-				`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/${props.selectedProduct}`
+				`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/${selectedProduct}`
 			)
 			.then((response) => setReviews(response.data))
 			.catch((err) => console.log(err));
@@ -90,25 +95,21 @@ function Reviews(props) {
 			</Grid>
 			<Collapse in={showAddReview} timeout="auto" unmountOnExit>
 				<ReviewsAdd
-					ratingBeforeClickedAddReviewSnackbar={
-						props.ratingBeforeClickedAddReviewSnackbar
-					}
-					productId={props.selectedProduct}
+					ratingBeforeClickedAddReviewSnackbar={ratingBeforeClickedAddReviewSnackbar}
+					productId={selectedProduct}
 					updateReviews={() => updateReview()}
 					hide={onHideAddReview}
 				/>
 			</Collapse>
 			<MasonryLayout>
 				{reviews &&
-					reviews
-						.filter((review) => review.review.length > 0)
-						.map((review) => (
-							<ReviewCard
-								key={review.review_id}
-								review={review}
-								updateReview={() => updateReview()}
-							/>
-						))}
+					reviews.map((review) => (
+						<ReviewCard
+							key={review.review_id}
+							review={review}
+							updateReview={() => updateReview()}
+						/>
+					))}
 			</MasonryLayout>
 		</>
 	);
