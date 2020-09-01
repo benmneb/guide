@@ -109,7 +109,7 @@ export default function SingleLineGridList() {
 				{['Baby', 'Bakery', 'Drinks', 'Fridge & Freezer', 'Pantry', 'Pet Food'].map(
 					(category) => (
 						<Box key={category} component="section" className={styles.content}>
-							<Toolbar component="heading">
+							<Toolbar component="header">
 								<Box flexGrow="1">
 									<Typography component="h2" variant="h5" align="left">
 										{category}
