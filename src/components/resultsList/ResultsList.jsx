@@ -11,6 +11,7 @@ import AddProductsFab from './AddProductsFab';
 import * as actionCreators from '../../store/actions';
 import peanuts from '../../assets/images/peanuts.jpg';
 import BottomNav from './BottomNav';
+import ResultSkeleton from './ResultSkeleton';
 
 const drawerWidth = 395;
 
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 		[theme.breakpoints.up('md')]: {
 			gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-			gridRowGap: theme.spacing(2),
+			gridRowGap: theme.spacing(3),
 			marginBottom: theme.spacing(0)
 		},
 		transition: theme.transitions.create('margin', {
@@ -81,18 +82,20 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 					[styles.containerShift]: showFiltersPanel
 				})}
 			>
-				{results.map((result) => (
-					<Result
-						key={Number(result.product_id)}
-						image={result.image_src}
-						brand={result.brand_name}
-						name={result.product_name}
-						avgRating={Number(result.average_rating)}
-						amtRatings={Number(result.rating_count)}
-						productId={Number(result.product_id)}
-						clicked={() => onToggleProductModal(Number(result.product_id))}
-					/>
-				))}
+				{results.length > 0
+					? results.map((result) => (
+							<Result
+								key={Number(result.product_id)}
+								image={result.image_src}
+								brand={result.brand_name}
+								name={result.product_name}
+								avgRating={Number(result.average_rating)}
+								amtRatings={Number(result.rating_count)}
+								productId={Number(result.product_id)}
+								clicked={() => onToggleProductModal(Number(result.product_id))}
+							/>
+					  ))
+					: [1, 2, 3, 4, 5, 6, 7, 8].map((skel) => <ResultSkeleton key={skel} />)}
 			</section>
 			<AddProductsFab />
 			<FiltersPanel />

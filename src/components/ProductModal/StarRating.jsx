@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import { Typography, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
+import Skeleton from '@material-ui/lab/Skeleton';
 import useWidth from '../../assets/useWidth';
 
 const labels = {
@@ -22,6 +23,7 @@ function StarRating({
 }) {
 	const [hover, setHover] = useState(-1);
 	const width = useWidth();
+	const product = props.product;
 
 	let minWidth = 295;
 	let ratingSize = 'large';
@@ -36,9 +38,9 @@ function StarRating({
 		onClickAddReviewSnackbarAfterRating(newRating);
 	};
 
-	let text = `from ${props.amountOfRatings} ratings`;
+	let text = product ? `from ${props.amountOfRatings} ratings` : <Skeleton width={100} />;
 	let precision = 0.1;
-      
+
 	if (hover >= 0) {
 		precision = 1;
 		text = `rate as "${labels[hover]}"`;
@@ -56,7 +58,7 @@ function StarRating({
 							size={ratingSize}
 							onChange={(event, newValue) => {
 								const newRating = event.target.value;
-                props.onRate(newRating) // try newValue instead if this throws an error
+								props.onRate(newRating);
 								onShowSnackbar({
 									snackData: {
 										type: 'success',

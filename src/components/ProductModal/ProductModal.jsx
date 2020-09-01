@@ -17,6 +17,7 @@ import {
 	Box
 } from '@material-ui/core';
 import CloseRoundedIcon from '@material-ui/icons/Close';
+import Skeleton from '@material-ui/lab/Skeleton';
 import About from './About/About';
 import Reviews from './Reviews/Reviews';
 import WhereToBuy from './WhereToBuy/WhereToBuy';
@@ -46,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.grey[500],
 		fontWeight: theme.typography.fontWeightBold,
 		fontSize: '0.9rem',
-		lineHeight: '2'
+		lineHeight: '2',
+		width: '100%'
 	},
 	modalMaxHeight: {
 		[theme.breakpoints.up('md')]: {
@@ -169,13 +171,14 @@ const ProductModal = (props) => {
 								component="span"
 								display="block"
 							>
-								{item && item[0].brandName}
+								{item ? item[0].brandName : <Skeleton width="30%" />}
 							</Typography>
-							{item && item[0].productName}
+							{item ? item[0].productName : <Skeleton width={500} />}
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>
 						<StarRating
+							product={item}
 							averageRating={item && Number(item[0].rating)}
 							amountOfRatings={item && item[0].ratingcount}
 							productId={item && item[0].productId}
