@@ -105,6 +105,7 @@ const ProductModal = ({
 		return () => {
 			setTimeout(() => {
 				setItem(null);
+				setCurrentTab(0);
 			}, theme.transitions.duration.leavingScreen);
 		}; //eslint-disable-next-line
 	}, [selectedProduct, newRating]);
