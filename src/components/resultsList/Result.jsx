@@ -88,7 +88,7 @@ export default function Result(props) {
 			<CardActions className={styles.cardActions}>
 				<Rating value={props.avgRating} precision={0.1} size={ratingSize} readOnly />
 				{props.amtRatings > 0 ? (
-					<Typography variant="body2">{props.amtRatings} ratings</Typography>
+					<Typography variant="body2"> x {props.amtRatings}</Typography>
 				) : null}
 			</CardActions>
 		</Card>
