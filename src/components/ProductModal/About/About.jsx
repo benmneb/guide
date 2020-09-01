@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
 	buttonLabel: {
 		color: theme.palette.text.secondary,
 		textTransform: 'none'
+	},
+	imageSkeleton: {
+		borderRadius: theme.shape.borderRadius
 	}
 }));
 
@@ -96,7 +99,12 @@ export default function ProductAbout(props) {
 										/>
 									) : (
 										<Box margin={2}>
-											<Skeleton variant="rect" height={300} width="100%" />
+											<Skeleton
+												variant="rect"
+												height={300}
+												width="100%"
+												className={styles.imageSkeleton}
+											/>
 										</Box>
 									)}
 								</Grid>
