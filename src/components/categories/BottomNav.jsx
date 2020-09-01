@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Box from '@material-ui/core/Box';
-import { HomeRounded, FastfoodRounded, BathtubRounded } from '@material-ui/icons';
+import { WhatshotRounded, FastfoodRounded, BathtubRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -19,20 +19,21 @@ const useStyles = makeStyles((theme) => ({
 export default function BottomNav() {
 	const classes = useStyles();
 	const history = useHistory();
-	const [value, setValue] = useState(1);
+	const [value, setValue] = useState(0);
 
 	function handleHomeClick() {
+		setValue(0);
 		history.push('/');
 	}
 
 	function handleFoodDrinkClick() {
-		history.push('/food-drink');
 		setValue(1);
+		history.push('/food-drink');
 	}
 
 	function handleHouseholdClick() {
-		history.push('/household');
 		setValue(2);
+		history.push('/household');
 	}
 
 	return (
@@ -46,8 +47,8 @@ export default function BottomNav() {
 				showLabels
 			>
 				<BottomNavigationAction
-					label="Home"
-					icon={<HomeRounded />}
+					label="Popular"
+					icon={<WhatshotRounded />}
 					onClick={handleHomeClick}
 				/>
 				<BottomNavigationAction
