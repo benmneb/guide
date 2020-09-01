@@ -169,17 +169,26 @@ const ProductModal = ({
 					alignItems="center"
 				>
 					<Grid item xs={12}>
-						<Typography component="h1" variant="h4" align="center">
-							<Typography
-								className={styles.brandName}
-								variant="overline"
-								component="span"
-								display="block"
-							>
-								{item ? item[0].brandName : <Skeleton width="30%" />}
+						{item ? (
+							<Typography component="h1" variant="h4" align="center">
+								<Typography
+									className={styles.brandName}
+									variant="overline"
+									component="span"
+									display="block"
+								>
+									{item[0].brandName}
+								</Typography>
+								{item[0].productName}
 							</Typography>
-							{item ? item[0].productName : <Skeleton width={500} />}
-						</Typography>
+						) : (
+							<Box display="flex" flexDirection="column" alignItems="center">
+								<Skeleton width="30%" className={styles.brandName} />
+								<Typography component="h1" variant="h4" align="center">
+									<Skeleton width={500} />
+								</Typography>
+							</Box>
+						)}
 					</Grid>
 					<Grid item xs={12}>
 						<StarRating
