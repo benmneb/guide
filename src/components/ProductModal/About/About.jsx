@@ -59,27 +59,15 @@ export default function ProductAbout(props) {
 		return { nutrition, perServe, per100g };
 	}
 
-	const rows = [
-		createData('Energy', product && product[0].energy1, product && product[0].energy2),
-		createData('Protein', product && product[0].protein1, product && product[0].protein2),
-		createData(
-			'Fat, total',
-			product && product[0].totalfat1,
-			product && product[0].totalfat2
-		),
-		createData(
-			'- saturated',
-			product && product[0].satfat1,
-			product && product[0].satfat2
-		),
-		createData('Carbohydrate', product && product[0].carb1, product && product[0].carb2),
-		createData('- sugars', product && product[0].sugar1, product && product[0].sugar2),
-		createData(
-			'Dietry fibre',
-			product && product[0].fibre1,
-			product && product[0].fibre2
-		),
-		createData('Sodium', product && product[0].sodium1, product && product[0].sodium2)
+	const rows = product && [
+		createData('Energy', product[0].energy1, product[0].energy2),
+		createData('Protein', product[0].protein1, product[0].protein2),
+		createData('Fat, total', product[0].totalfat1, product[0].totalfat2),
+		createData('- saturated', product[0].satfat1, product[0].satfat2),
+		createData('Carbohydrate', product[0].carb1, product[0].carb2),
+		createData('- sugars', product[0].sugar1, product[0].sugar2),
+		createData('Dietary fibre', product[0].fibre1, product[0].fibre2),
+		createData('Sodium', product[0].sodium1, product[0].sodium2)
 	];
 
 	return (
@@ -93,9 +81,9 @@ export default function ProductAbout(props) {
 									{product ? (
 										<CardMedia
 											component="img"
-											alt={product && product[0].productName}
-											image={product && product[0].imageSrc}
-											title={product && product[0].productName}
+											alt={product[0].productName}
+											image={product[0].imageSrc}
+											title={product[0].productName}
 										/>
 									) : (
 										<Box margin={2}>
@@ -143,16 +131,12 @@ export default function ProductAbout(props) {
 								<Typography gutterBottom className={styles.heading}>
 									Ingredients
 								</Typography>
-								<Typography paragraph>{product && product[0].ingredients}</Typography>
+								<Typography paragraph>{product[0].ingredients}</Typography>
 								<Typography gutterBottom className={styles.heading}>
 									Nutritional Info
 								</Typography>
-								<Typography>
-									Servings per package: {product && product[0].serve1}
-								</Typography>
-								<Typography gutterBottom>
-									Serving size: {product && product[0].serve2}
-								</Typography>
+								<Typography>Servings per package: {product[0].serve1}</Typography>
+								<Typography gutterBottom>Serving size: {product[0].serve2}</Typography>
 								<TableContainer>
 									<Table
 										className={styles.table}
@@ -186,7 +170,7 @@ export default function ProductAbout(props) {
 								<Typography gutterBottom className={styles.heading}>
 									Allergens
 								</Typography>
-								<Typography>{product && product[0].allergens}</Typography>
+								<Typography>{product[0].allergens}</Typography>
 							</Paper>
 							<Box display="flex" justifyContent="flex-end" marginTop={1}>
 								<Tooltip title="Last edit was by Vomad on 18/08/2020" placement="left">
