@@ -9,7 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import HomeRoundedIcon from '@material-ui/icons/Home';
+import { AccountCircleRounded, HomeRounded } from '@material-ui/icons';
 import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircle';
 import FastfoodRoundedIcon from '@material-ui/icons/Fastfood';
@@ -68,6 +68,8 @@ const SideDrawer = (props) => {
 				return history.push('/');
 			case 'auth':
 				return props.onToggleAuthModal();
+			case 'userProfile':
+				return props.onToggleUserProfileModal();
 			case 'foodDrink':
 				return history.push('/food-drink');
 			case 'addProducts':
@@ -100,7 +102,7 @@ const SideDrawer = (props) => {
 			<List component="nav">
 				<ListItem button onClick={() => openMenuItem('home')}>
 					<ListItemIcon>
-						<HomeRoundedIcon />
+						<HomeRounded />
 					</ListItemIcon>
 					<ListItemText primary={'Home'} />
 				</ListItem>
@@ -109,6 +111,12 @@ const SideDrawer = (props) => {
 						<LockOpenRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Login / Join'} />
+				</ListItem>
+				<ListItem button onClick={() => openMenuItem('userProfile')}>
+					<ListItemIcon>
+						<AccountCircleRounded />
+					</ListItemIcon>
+					<ListItemText primary={'View Profile'} />
 				</ListItem>
 				<ListItem button onClick={() => openMenuItem('foodDrink')}>
 					<ListItemIcon>
@@ -236,7 +244,8 @@ const mapDispatchToProps = (dispatch) => {
 		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
 		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal()),
 		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal()),
-		onToggleFeedbackModal: () => dispatch(actionCreators.toggleFeedbackModal())
+		onToggleFeedbackModal: () => dispatch(actionCreators.toggleFeedbackModal()),
+		onToggleUserProfileModal: () => dispatch(actionCreators.toggleUserProfileModal())
 	};
 };
 

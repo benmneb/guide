@@ -19,6 +19,7 @@ import Terms from './components/Dialogs/Terms';
 import Feedback from './components/Dialogs/Feedback';
 import Snackbars from './components/Dialogs/Snackbars';
 import Auth from './components/Dialogs/Auth';
+import UserProfile from './components/Dialogs/UserProfile';
 
 let theme = createMuiTheme({
 	palette: {
@@ -71,6 +72,7 @@ export default function App() {
 				<Privacy />
 				<Terms />
 				<Auth />
+				<UserProfile />
 				<Snackbars />
 			</>
 		</ThemeProvider>

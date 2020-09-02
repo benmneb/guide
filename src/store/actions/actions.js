@@ -69,6 +69,12 @@ export const toggleAuthModal = () => {
 	};
 };
 
+export const toggleUserProfileModal = () => {
+	return {
+		type: actionTypes.TOGGLE_USER_PROFILE_MODAL
+	};
+};
+
 export const showSnackbar = ({ snackData }) => {
 	return {
 		type: actionTypes.SHOW_SNACKBAR,

@@ -10,6 +10,7 @@ export {
 	togglePrivacyModal,
 	toggleFeedbackModal,
 	toggleAuthModal,
+	toggleUserProfileModal,
 	showSnackbar,
 	hideSnackbar,
 	clickAddReviewAfterRating,
