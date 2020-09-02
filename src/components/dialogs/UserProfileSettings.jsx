@@ -9,6 +9,10 @@ import {
 	Collapse,
 	DialogTitle,
 	Dialog,
+	List,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
 	TextField,
 	Typography,
 	Button,
@@ -47,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	deleteAccountBorder: {
 		borderColor: theme.palette.error.main
+	},
+	textFieldRoot: {
+		width: '20ch'
 	}
 }));
 
@@ -90,7 +97,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 		console.log('new username', data);
 		onShowSnackbar({
 			snackData: {
-				type: 'info',
+				type: 'success',
 				message: 'Username changed'
 			}
 		});
@@ -118,79 +125,93 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 				Profile Settings
 			</DialogTitle>
 
-			<Button
-				onClick={() => handleSettingClick('editUsername')}
-				endIcon={<CreateRounded />}
-			>
-				Edit Username
-			</Button>
-			<Collapse in={editUsername} timeout="auto" unmountOnExit>
-				<Box
-					component="form"
-					onSubmit={handleSubmit(onSubmit)}
-					display="flex"
-					direction="column"
-					alignItems="center"
-					justifyContent="space-around"
-					marginY={2}
+			<List>
+				<ListItem
+					button
+					onClick={() => handleSettingClick('editUsername')}
+					selected={editUsername}
 				>
-					<TextField
-						id="edit-username"
-						name="username"
-						size="small"
-						type="text"
-						placeholder="New username"
-						inputRef={register({ required: true, minLength: 5, maxLength: 25 })}
-						error={Boolean(errors.username)}
-						autoFocus
-					/>
-
-					<Button type="submit" variant="outlined" size="small" color="primary">
-						Change
-					</Button>
-				</Box>
-			</Collapse>
-			<Button onClick={() => handleSettingClick('logOut')} endIcon={<ExitToAppRounded />}>
-				Log Out
-			</Button>
-			<Collapse in={logOut} timeout="auto" unmountOnExit>
-				<Box display="flex" flexDirection="column" alignItems="center" marginY={2}>
-					<Typography variant="body2" paragraph>
-						Are you sure you want to log out?
-					</Typography>
-					<Box display="flex">
-						<Button size="small" variant="outlined" color="primary">
-							Log Out
-						</Button>
-					</Box>
-				</Box>
-			</Collapse>
-			<Button
-				onClick={() => handleSettingClick('deleteAccount')}
-				endIcon={<DeleteForeverRounded />}
-			>
-				Delete Account
-			</Button>
-			<Collapse in={deleteAccount} timeout="auto" unmountOnExit>
-				<Box display="flex" flexDirection="column" alignItems="center" margin={2}>
-					<Typography variant="body2" paragraph>
-						Do you really want to delete your account? This action is permanent and can
-						not be undone.
-					</Typography>
-					<Box display="flex">
-						<Button
+					<ListItemIcon>
+						<CreateRounded />
+					</ListItemIcon>
+					<ListItemText primary="Edit Username" />
+				</ListItem>
+				<Collapse in={editUsername} timeout="auto" unmountOnExit>
+					<Box
+						component="form"
+						onSubmit={handleSubmit(onSubmit)}
+						display="flex"
+						direction="column"
+						alignItems="center"
+						justifyContent="space-evenly"
+						marginY={2}
+					>
+						<TextField
+							id="edit-username"
+							name="username"
 							size="small"
-							variant="outlined"
-							classes={{
-								label: styles.deleteAccountLabel,
-								outlined: styles.deleteAccountBorder
-							}}
-						>
-							Delete Account Forever
+							type="text"
+							placeholder="New username"
+							inputRef={register({ required: true, minLength: 5, maxLength: 25 })}
+							error={Boolean(errors.username)}
+							autoFocus
+							classes={{ root: styles.textFieldRoot }}
+						/>
+
+						<Button type="submit" variant="outlined" size="small" color="primary">
+							Change
 						</Button>
 					</Box>
-				</Box>
-			</Collapse>
+				</Collapse>
+				<ListItem button onClick={() => handleSettingClick('logOut')} selected={logOut}>
+					<ListItemIcon>
+						<ExitToAppRounded />
+					</ListItemIcon>
+					<ListItemText primary="Log Out" />
+				</ListItem>
+				<Collapse in={logOut} timeout="auto" unmountOnExit>
+					<Box display="flex" flexDirection="column" alignItems="center" marginY={2}>
+						<Typography variant="body2" paragraph>
+							Are you sure you want to log out?
+						</Typography>
+						<Box display="flex">
+							<Button size="small" variant="outlined" color="primary">
+								Log Out
+							</Button>
+						</Box>
+					</Box>
+				</Collapse>
+				<ListItem
+					button
+					onClick={() => handleSettingClick('deleteAccount')}
+					selected={deleteAccount}
+				>
+					<ListItemIcon>
+						<DeleteForeverRounded />
+					</ListItemIcon>
+					<ListItemText primary="Delete Account" />
+				</ListItem>
+				<Collapse in={deleteAccount} timeout="auto" unmountOnExit>
+					<Box display="flex" flexDirection="column" alignItems="center" margin={2}>
+						<Typography variant="body2" paragraph>
+							Do you really want to delete your account? This action is permanent and can
+							not be undone.
+						</Typography>
+						<Box display="flex">
+							<Button
+								size="small"
+								variant="outlined"
+								classes={{
+									label: styles.deleteAccountLabel,
+									outlined: styles.deleteAccountBorder
+								}}
+							>
+								Delete Account Forever
+							</Button>
+						</Box>
+					</Box>
+				</Collapse>
+			</List>
 		</Dialog>
 	);
 }

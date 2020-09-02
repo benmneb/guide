@@ -185,7 +185,11 @@ function ProductModal({ showUserProfileModal, onToggleUserProfileModal }) {
 							</Typography>
 							{user && user[0].id === currentUserId && (
 								<Box marginTop={2} display="flex" flexDirection="column">
-									<Button onClick={handleShowSettingsModal} endIcon={<SettingsRounded />}>
+									<Button
+										variant="outlined"
+										onClick={handleShowSettingsModal}
+										startIcon={<SettingsRounded />}
+									>
 										Settings
 									</Button>
 								</Box>
