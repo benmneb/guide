@@ -4,14 +4,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import { GridListTile, GridListTileBar, Box } from '@material-ui/core';
 import { subCat1s } from '../../assets/subCat1s';
 import Hero, { Heading, SubHeading } from '../Hero/Hero';
-import BottomNav from './BottomNav';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
 		justifyContent: 'space-between',
 		backgroundColor: theme.palette.common.white,
-		marginTop: theme.spacing(2)
+		marginTop: theme.spacing(2),
+		[theme.breakpoints.down('sm')]: {
+			marginBottom: theme.spacing(7)
+		}
 	},
 	container: {
 		backgroundColor: theme.palette.background.paper,
@@ -90,7 +92,6 @@ const SubCat1s = () => {
 					))}
 				</Box>
 			</Box>
-			<BottomNav />
 		</>
 	);
 };

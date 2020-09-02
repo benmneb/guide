@@ -15,12 +15,11 @@ import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRight';
 import { subCat1s } from '../../assets/subCat1s';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import useWidth from '../../assets/useWidth';
-import BottomNav from './BottomNav';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
 		marginTop: theme.spacing(-4),
-		[theme.breakpoints.only('xs')]: {
+		[theme.breakpoints.down('sm')]: {
 			marginBottom: theme.spacing(7)
 		}
 	},
@@ -65,8 +64,10 @@ const useStyles = makeStyles((theme) => ({
 export default function SingleLineGridList() {
 	const styles = useStyles();
 	const width = useWidth();
+	// const location = useLocation();
 	const [cols, setCols] = useState(null);
 	const [cellHeight, setCellHeight] = useState(null);
+	// const [currentTab, setCurrentTab] = useState(null);
 
 	useEffect(() => {
 		switch (width) {
@@ -158,7 +159,6 @@ export default function SingleLineGridList() {
 					)
 				)}
 			</Box>
-			<BottomNav />
 		</>
 	);
 }

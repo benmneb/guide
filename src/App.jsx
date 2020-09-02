@@ -10,8 +10,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from './components/AppBar/AppBar';
 import ResultsList from './components/ResultsList/ResultsList';
 import ProductModal from './components/ProductModal/ProductModal';
-import Home from './components/categories/Home';
-import ProductType from './components/categories/ProductType';
 import AddProducts from './components/Dialogs/AddProducts';
 import Advertise from './components/Dialogs/Advertise';
 import Privacy from './components/Dialogs/Privacy';
@@ -20,6 +18,7 @@ import Feedback from './components/Dialogs/Feedback';
 import Snackbars from './components/Dialogs/Snackbars';
 import Auth from './components/Dialogs/Auth';
 import UserProfile from './components/Dialogs/UserProfile';
+import Categories from './components/categories/Categories';
 
 let theme = createMuiTheme({
 	palette: {
@@ -60,9 +59,10 @@ export default function App() {
 				<CssBaseline />
 				<AppBar>
 					<Switch>
-						<Route exact path="/" component={Home} />
-						<Route path="/:productType/:category" component={ResultsList} />
-						<Route path="/:productType" component={ProductType} />
+						<Route exact path="/" component={Categories} />
+						<Route exact path="/food-drink" component={Categories} />
+						<Route exact path="/household" component={Categories} />
+						<Route exact path="/:productType/:category" component={ResultsList} />
 					</Switch>
 				</AppBar>
 				<ProductModal />
