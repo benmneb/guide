@@ -30,13 +30,6 @@ let theme = createMuiTheme({
 		}
 	},
 	overrides: {
-		MuiCssBaseline: {
-			'@global': {
-				html: {
-					WebkitFontSmoothing: 'auto'
-				}
-			}
-		},
 		MuiButton: {
 			containedPrimary: {
 				color: 'white'

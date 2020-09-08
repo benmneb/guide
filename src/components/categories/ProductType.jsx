@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(4)
 	},
 	buttonText: {
-		padding: '6px 0'
+		margin: theme.spacing(0, -1)
 	},
 	gridList: {
 		flexWrap: 'nowrap',
@@ -117,16 +117,16 @@ export default function SingleLineGridList() {
 									</Typography>
 								</Box>
 								<Box flexGrow="0">
-									<Link to="/food-drink/nut-butters-spreads">
-										<Button
-											variant="text"
-											color="default"
-											endIcon={<ChevronRightRoundedIcon />}
-											classes={{ text: styles.buttonText }}
-										>
-											See all<Hidden only="xs"> {category}</Hidden>
-										</Button>
-									</Link>
+									<Button
+										component={Link}
+										to="/food-drink/nut-butters-spreads"
+										variant="text"
+										color="default"
+										endIcon={<ChevronRightRoundedIcon />}
+										classes={{ text: styles.buttonText }}
+									>
+										See all<Hidden only="xs"> {category}</Hidden>
+									</Button>
 								</Box>
 							</Toolbar>
 							<GridList

@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme) => ({
 	label: {
 		color: theme.palette.text.primary
 	},
+	toggleButtonRoot: {
+		paddingTop: 0,
+		paddingBottom: 0
+	},
 	body1: {
 		fontSize: theme.typography.button.fontSize
 	}
@@ -30,7 +34,6 @@ export default function OrderBy() {
 
 	return (
 		<ToggleButtonGroup
-			size="large"
 			value={orderBy}
 			exclusive
 			onChange={handleClick}
@@ -44,9 +47,9 @@ export default function OrderBy() {
 					value={option.value}
 					aria-label={option.value}
 					disableRipple
-					classes={{ label: styles.label }}
+					classes={{ label: styles.label, root: styles.toggleButtonRoot }}
 				>
-					<Typography variant="body1" classes={{ body1: styles.body1 }}>
+					<Typography variant="body1" component="span" classes={{ body1: styles.body1 }}>
 						{option.name}
 					</Typography>
 				</TooltipToggleButton>
