@@ -110,3 +110,12 @@ export const hideAddReview = () => {
 		type: actionTypes.HIDE_ADD_REVIEW
 	};
 };
+
+export const setCurrentLocation = (location) => {
+	return {
+		type: actionTypes.SET_CURRENT_LOCATION,
+		payload: {
+			location
+		}
+	};
+};

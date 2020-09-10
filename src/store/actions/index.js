@@ -15,5 +15,6 @@ export {
 	hideSnackbar,
 	clickAddReviewAfterRating,
 	showAddReview,
-	hideAddReview
+	hideAddReview,
+	setCurrentLocation
 } from './actions';

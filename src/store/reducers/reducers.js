@@ -15,7 +15,8 @@ const initialState = {
 	snackData: {},
 	showAddReview: false,
 	ratingBeforeClickedAddReviewSnackbar: null,
-	selectedProduct: null
+	selectedProduct: null,
+	currentLocation: null
 };
 
 export default function Reducers(state = initialState, action) {
@@ -107,6 +108,11 @@ export default function Reducers(state = initialState, action) {
 			return {
 				...state,
 				showAddReview: false
+			};
+		case actionTypes.SET_CURRENT_LOCATION:
+			return {
+				...state,
+				currentLocation: action.payload.location
 			};
 		default:
 			return state;
