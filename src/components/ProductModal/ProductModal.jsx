@@ -134,13 +134,11 @@ const ProductModal = ({
 
 	const onCloseModal = () => {
 		onToggleProductModal();
-		onHideAddReview();
+		if (showAddReview) onHideAddReview();
 	};
 
 	const handleChangeCurrentTab = (event, newValue) => {
-		if (newValue !== 1) {
-			onHideAddReview();
-		}
+		if (newValue !== 1 && showAddReview) onHideAddReview();
 		setCurrentTab(newValue);
 	};
 
@@ -149,6 +147,7 @@ const ProductModal = ({
 			setCurrentTab(1);
 		}
 	}, [showAddReview, currentTab]);
+
 	return (
 		<Dialog
 			onClose={onCloseModal}
