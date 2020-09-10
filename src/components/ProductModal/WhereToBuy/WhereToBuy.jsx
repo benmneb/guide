@@ -63,14 +63,15 @@ function WhereToBuy({ onShowSnackbar, currentLocation, setCurrentLocation }) {
 
 	useEffect(() => {
 		let mounted = true;
+
 		if ('geolocation' in navigator) {
 			window.navigator.geolocation.getCurrentPosition(
 				(position) => {
-					if (mounted && position !== currentLocation)
-						setCurrentLocation({
-							lat: position.coords.latitude,
-							lng: position.coords.longitude
-						});
+					if (mounted) console.log('set current location');
+					setCurrentLocation({
+						lat: position.coords.latitude,
+						lng: position.coords.longitude
+					});
 				},
 				(err) => {
 					if (mounted) {
@@ -92,8 +93,8 @@ function WhereToBuy({ onShowSnackbar, currentLocation, setCurrentLocation }) {
 
 		return () => {
 			mounted = false;
-		}; //eslint-disable-next-line
-	}, [setCurrentLocation]);
+		};
+	}, [setCurrentLocation, onShowSnackbar]);
 
 	function handleListItemClick(store) {
 		if (selectedStore === store) {

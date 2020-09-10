@@ -74,8 +74,7 @@ function ReviewsAdd({
 		) {
 			setRating(ratingBeforeClickedAddReviewSnackbar);
 		}
-		//eslint-disable-next-line
-	}, [ratingBeforeClickedAddReviewSnackbar]);
+	}, [ratingBeforeClickedAddReviewSnackbar, rating]);
 
 	let ratingHelperText;
 

@@ -119,8 +119,12 @@ const ProductModal = ({
 				setCurrentTab(0);
 			}, theme.transitions.duration.leavingScreen);
 		};
-		//eslint-disable-next-line
-	}, [selectedProduct, newRating]);
+	}, [
+		selectedProduct,
+		newRating,
+		showProductModal,
+		theme.transitions.duration.leavingScreen
+	]);
 
 	const handleStarRating = (newValue) => {
 		axios

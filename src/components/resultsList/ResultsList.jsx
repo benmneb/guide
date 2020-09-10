@@ -76,9 +76,9 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 
 	useEffect(() => {
 		return () => {
-			onHideFiltersPanel();
-		}; //eslint-disable-next-line
-	}, []);
+			if (showFiltersPanel) onHideFiltersPanel();
+		};
+	}, [showFiltersPanel, onHideFiltersPanel]);
 
 	return (
 		<>
