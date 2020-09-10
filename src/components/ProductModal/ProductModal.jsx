@@ -94,13 +94,25 @@ const ProductModal = ({
 	const [newRating, setNewRating] = useState(null);
 
 	useEffect(() => {
+		let mounted = true;
+		const source = axios.CancelToken.source();
+
 		if (showProductModal) {
 			axios
-				.get(`https://api.vomad.guide/product/${selectedProduct}`)
-				.then((response) => setItem(response.data))
-				.catch((err) => err);
+				.get(`https://api.vomad.guide/product/${selectedProduct}`, {
+					cancelToken: source.token
+				})
+				.then((response) => {
+					if (mounted) setItem(response.data);
+					console.log('getting selected product');
+				})
+				.catch((err) => {
+					if (mounted) console.error(err);
+				});
 		}
 		return () => {
+			mounted = false;
+			source.cancel('Cancelled during clean-up');
 			setTimeout(() => {
 				setItem(null);
 				setCurrentTab(0);
@@ -108,7 +120,7 @@ const ProductModal = ({
 		}; //eslint-disable-next-line
 	}, [selectedProduct, newRating]);
 
-	const onClickHandler = (newValue) => {
+	const handleStarRating = (newValue) => {
 		axios
 			.put('https://api.vomad.guide/rating/', {
 				rating: newValue,
@@ -192,7 +204,7 @@ const ProductModal = ({
 							averageRating={item && Number(item[0].rating)}
 							amountOfRatings={item && item[0].ratingcount}
 							productId={item && item[0].productId}
-							onRate={(newValue) => onClickHandler(newValue)}
+							onRate={(newValue) => handleStarRating(newValue)}
 						/>
 					</Grid>
 					<Box display={{ xs: 'none', md: 'inherit' }}>

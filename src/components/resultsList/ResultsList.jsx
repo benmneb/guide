@@ -54,10 +54,24 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 	const [results, setResults] = useState([]);
 
 	useEffect(() => {
+		let mounted = true;
+		const source = axios.CancelToken.source();
+
 		axios
-			.get('https://api.vomad.guide/')
-			.then((response) => setResults(response.data))
-			.catch((err) => err);
+			.get('https://api.vomad.guide/', {
+				cancelToken: source.token
+			})
+			.then((response) => {
+				if (mounted) setResults(response.data);
+			})
+			.catch((err) => {
+				if (mounted) console.error(err);
+			});
+
+		return () => {
+			mounted = false;
+			source.cancel('Results list cancelled during clean-up');
+		};
 	}, []);
 
 	useEffect(() => {

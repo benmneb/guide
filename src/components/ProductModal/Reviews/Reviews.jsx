@@ -55,7 +55,7 @@ function Reviews({
 
 		return () => {
 			mounted = false;
-			source.cancel('Cancelled during clean-up');
+			source.cancel('Reviews fetch cancelled during clean-up');
 		};
 	}, [selectedProduct, showProductModal]);
 
@@ -65,26 +65,12 @@ function Reviews({
 	}
 
 	const updateReview = () => {
-		let mounted = true;
-		const source = axios.CancelToken.source();
-
 		if (showProductModal) {
 			axios
-				.get(`https://api.vomad.guide/review/${selectedProduct}`, {
-					cancelToken: source.token
-				})
-				.then((response) => {
-					if (mounted) setReviews(response.data);
-				})
-				.catch((err) => {
-					if (mounted) console.error(err);
-				});
+				.get(`https://api.vomad.guide/review/${selectedProduct}`)
+				.then((response) => setReviews(response.data))
+				.catch((err) => console.error(err));
 		}
-
-		return () => {
-			mounted = false;
-			source.cancel('Cancelled during clean-up');
-		};
 	};
 
 	return (
