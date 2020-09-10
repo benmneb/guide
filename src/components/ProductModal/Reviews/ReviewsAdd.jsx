@@ -7,6 +7,7 @@ import { Typography, Button, TextField, Grid, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
+import { labels } from '../../../assets/ratingLabels';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -19,14 +20,6 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.error.main
 	}
 }));
-
-const labels = {
-	1: 'Bad',
-	2: 'Poor',
-	3: 'Okay',
-	4: 'Good',
-	5: 'Great'
-};
 
 function ReviewsAdd({
 	hide,

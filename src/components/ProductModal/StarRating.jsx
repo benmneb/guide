@@ -4,15 +4,8 @@ import * as actionCreators from '../../store/actions';
 import { Typography, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import Skeleton from '@material-ui/lab/Skeleton';
-import useWidth from '../../assets/useWidth';
-
-const labels = {
-	1: 'Bad',
-	2: 'Poor',
-	3: 'Okay',
-	4: 'Good',
-	5: 'Great'
-};
+import useWidth from '../../utils/useWidth';
+import { labels } from '../../assets/ratingLabels';
 
 function StarRating({
 	showAddReview,
