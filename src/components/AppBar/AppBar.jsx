@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
@@ -81,11 +82,57 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function TopBar(props) {
+function TopBar({
+	setCurrentUserData,
+	currentUserData,
+	setShowSideDrawer,
+	showFiltersPanel,
+	setShowSnackbar,
+	...props
+}) {
 	const classes = useStyles();
 
+	useEffect(() => {
+		let mounted = true;
+		const source = axios.CancelToken.source();
+
+		axios
+			.get('https://api.vomad.guide/auth/login/success', {
+				withCredentials: true,
+				crossorigin: true,
+				cancelToken: source.token
+			})
+			.then((response) => {
+				if (mounted) {
+					if (response.status === 200) return response.data.user;
+					else throw new Error('failed to authenticate user');
+				}
+			})
+			.then((user) => {
+				if (mounted) {
+					setCurrentUserData(user, true);
+					setShowSnackbar({
+						snackData: {
+							type: 'success',
+							message: 'Welcome back, ' + user.user_name
+						}
+					});
+				}
+			})
+			.catch((error) => {
+				if (mounted) {
+					setCurrentUserData(null, false);
+				}
+			});
+
+		return () => {
+			mounted = false;
+			source.cancel('Auth call cancelled during clean-up');
+		};
+	}, [setCurrentUserData, setShowSnackbar]);
+
 	const handleDrawerToggle = () => {
-		props.onShowSideDrawer();
+		setShowSideDrawer();
 	};
 
 	return (
@@ -94,7 +141,7 @@ function TopBar(props) {
 				position="absolute"
 				color="transparent"
 				className={clsx(classes.appBar, {
-					[classes.displayNone]: props.showFiltersPanel
+					[classes.displayNone]: showFiltersPanel
 				})}
 				elevation={0}
 			>
@@ -135,14 +182,18 @@ function TopBar(props) {
 const mapStateToProps = (state) => {
 	return {
 		showFiltersPanel: state.showFiltersPanel,
-		showSideDrawer: state.showSideDrawer
+		showSideDrawer: state.showSideDrawer,
+		currentUserData: state.currentUserData
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onShowSideDrawer: () => dispatch(actionCreators.showSideDrawer()),
-		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer())
+		setShowSideDrawer: () => dispatch(actionCreators.showSideDrawer()),
+		setCurrentUserData: (user, isAuth) =>
+			dispatch(actionCreators.setCurrentUserData(user, isAuth)),
+		setShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 

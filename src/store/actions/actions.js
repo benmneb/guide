@@ -75,6 +75,16 @@ export const toggleUserProfileModal = () => {
 	};
 };
 
+export const setCurrentUserData = (user, isAuth) => {
+	return {
+		type: actionTypes.SET_CURRENT_USER_DATA,
+		payload: {
+			user,
+			isAuth
+		}
+	};
+};
+
 export const showSnackbar = ({ snackData }) => {
 	return {
 		type: actionTypes.SHOW_SNACKBAR,

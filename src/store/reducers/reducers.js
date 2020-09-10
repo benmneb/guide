@@ -11,6 +11,8 @@ const initialState = {
 	showFeedbackModal: false,
 	showAuthModal: false,
 	showUserProfileModal: false,
+	currentUserData: {},
+	isAuthenticated: false,
 	showSnackbar: false,
 	snackData: {},
 	showAddReview: false,
@@ -83,6 +85,12 @@ export default function Reducers(state = initialState, action) {
 				...state,
 				showUserProfileModal: !state.showUserProfileModal
 			};
+		case actionTypes.SET_CURRENT_USER_DATA:
+			return {
+				...state,
+				isAuthenticated: action.payload.isAuth,
+				currentUserData: action.payload.user
+			};
 		case actionTypes.SHOW_SNACKBAR:
 			return {
 				...state,
@@ -92,7 +100,8 @@ export default function Reducers(state = initialState, action) {
 		case actionTypes.HIDE_SNACKBAR:
 			return {
 				...state,
-				showSnackbar: false
+				showSnackbar: false,
+				snackData: {}
 			};
 		case actionTypes.CLICK_ADD_REVIEW_AFTER_RATING:
 			return {
