@@ -104,20 +104,22 @@ const ProductModal = ({
 				})
 				.then((response) => {
 					if (mounted) setItem(response.data);
-					console.log('getting selected product');
 				})
 				.catch((err) => {
 					if (mounted) console.error(err);
 				});
 		}
+
 		return () => {
 			mounted = false;
-			source.cancel('Cancelled during clean-up');
+			source.cancel('Product modal call cancelled during clean-up');
+
 			setTimeout(() => {
 				setItem(null);
 				setCurrentTab(0);
 			}, theme.transitions.duration.leavingScreen);
-		}; //eslint-disable-next-line
+		};
+		//eslint-disable-next-line
 	}, [selectedProduct, newRating]);
 
 	const handleStarRating = (newValue) => {
