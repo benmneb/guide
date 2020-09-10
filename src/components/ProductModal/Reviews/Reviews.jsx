@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import * as actionCreators from '../../../store/actions';
-import { Typography, Button, Collapse, Grid } from '@material-ui/core';
+import { Typography, Button, Collapse, Grid, Box } from '@material-ui/core';
 import { CancelRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import Skeleton from '@material-ui/lab/Skeleton';
 import ReviewCard from './ReviewCard';
 import ReviewsAdd from './ReviewsAdd';
 import MasonryLayout from '../../../assets/MasonryLayout';
@@ -36,14 +37,26 @@ function Reviews({
 	const [reviews, setReviews] = useState(null);
 
 	useEffect(() => {
+		let mounted = true;
+		const source = axios.CancelToken.source();
+
 		if (showProductModal) {
 			axios
-				.get(
-					`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/${selectedProduct}`
-				)
-				.then((response) => setReviews(response.data))
-				.catch((err) => console.log(err));
+				.get(`https://api.vomad.guide/review/${selectedProduct}`, {
+					cancelToken: source.token
+				})
+				.then((response) => {
+					if (mounted) setReviews(response.data);
+				})
+				.catch((err) => {
+					if (mounted) console.error(err);
+				});
 		}
+
+		return () => {
+			mounted = false;
+			source.cancel('Cancelled during clean-up');
+		};
 	}, [selectedProduct, showProductModal]);
 
 	function handleAddReviewButtonClick() {
@@ -52,35 +65,39 @@ function Reviews({
 	}
 
 	const updateReview = () => {
-		axios
-			.get(
-				`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/${selectedProduct}`
-			)
-			.then((response) => setReviews(response.data))
-			.catch((err) => console.log(err));
+		let mounted = true;
+		const source = axios.CancelToken.source();
+
+		if (showProductModal) {
+			axios
+				.get(`https://api.vomad.guide/review/${selectedProduct}`, {
+					cancelToken: source.token
+				})
+				.then((response) => {
+					if (mounted) setReviews(response.data);
+				})
+				.catch((err) => {
+					if (mounted) console.error(err);
+				});
+		}
+
+		return () => {
+			mounted = false;
+			source.cancel('Cancelled during clean-up');
+		};
 	};
 
 	return (
 		<>
 			<Grid container alignItems="center" spacing={1}>
-				<Grid item xs={12} sm={9}>
-					<Typography variant="body1">
-						The first review was by{' '}
-						<Typography component="span" variant="body1" className={styles.bold}>
-							Bonny Rebecca
-						</Typography>{' '}
-						🥇 the most helpful review is by{' '}
-						<Typography component="span" variant="body1" className={styles.bold}>
-							Hishelicious
-						</Typography>{' '}
-						💪 the latest review is by{' '}
-						<Typography component="span" variant="body1" className={styles.bold}>
-							Joey Carbstrong
-						</Typography>{' '}
-						⏰
-					</Typography>
-				</Grid>
-				<Grid item container xs={12} sm={3} justify="flex-end">
+				<Grid item xs container justify="space-between" alignItems="center">
+					{reviews ? (
+						<Typography variant="h5" component="h2" color="textSecondary">
+							{reviews.length} {reviews.length === 1 ? 'review' : 'reviews'}
+						</Typography>
+					) : (
+						<Skeleton width={120} height={40} />
+					)}
 					<Button
 						size="large"
 						variant={showAddReview ? 'outlined' : 'contained'}
@@ -101,16 +118,29 @@ function Reviews({
 					hide={onHideAddReview}
 				/>
 			</Collapse>
-			<MasonryLayout>
-				{reviews &&
-					reviews.map((review) => (
-						<ReviewCard
-							key={review.review_id}
-							review={review}
-							updateReview={() => updateReview()}
-						/>
-					))}
-			</MasonryLayout>
+			{reviews && reviews.length > 0 ? (
+				<MasonryLayout>
+					{reviews &&
+						reviews.map((review) => (
+							<ReviewCard
+								key={review.review_id}
+								review={review}
+								updateReview={() => updateReview()}
+							/>
+						))}
+				</MasonryLayout>
+			) : (
+				reviews && (
+					<Box marginTop={1}>
+						<Typography variant="h6" component="h3" gutterBottom>
+							Have you tried this product?
+						</Typography>
+						<Typography color="textSecondary" paragraph>
+							Leave the first review so everyone else knows what it's like!
+						</Typography>
+					</Box>
+				)
+			)}
 		</>
 	);
 }

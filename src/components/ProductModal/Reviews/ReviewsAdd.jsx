@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
 
 const labels = {
 	1: 'Bad',
-	2: 'Okay',
-	3: 'Good',
-	4: 'Great',
-	5: 'Excellent'
+	2: 'Poor',
+	3: 'Okay',
+	4: 'Good',
+	5: 'Great'
 };
 
 function ReviewsAdd({
@@ -44,15 +44,12 @@ function ReviewsAdd({
 	const onSubmit = (data) => {
 		if (rating > 0) {
 			axios
-				.post(
-					'http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/review/',
-					{
-						review: data.review,
-						product_id: props.productId,
-						user_id: 1,
-						rating: rating
-					}
-				)
+				.post('https://api.vomad.guide/review/', {
+					review: data.review,
+					product_id: props.productId,
+					user_id: 1,
+					rating: rating
+				})
 				.then(() => {
 					onShowSnackbar({
 						snackData: {

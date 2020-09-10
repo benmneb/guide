@@ -55,7 +55,7 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 
 	useEffect(() => {
 		axios
-			.get('http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/')
+			.get('https://api.vomad.guide/')
 			.then((response) => setResults(response.data))
 			.catch((err) => err);
 	}, []);

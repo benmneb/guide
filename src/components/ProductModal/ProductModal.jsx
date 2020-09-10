@@ -96,9 +96,7 @@ const ProductModal = ({
 	useEffect(() => {
 		if (showProductModal) {
 			axios
-				.get(
-					`http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/product/${selectedProduct}`
-				)
+				.get(`https://api.vomad.guide/product/${selectedProduct}`)
 				.then((response) => setItem(response.data))
 				.catch((err) => err);
 		}
@@ -112,14 +110,11 @@ const ProductModal = ({
 
 	const onClickHandler = (newValue) => {
 		axios
-			.put(
-				'http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/rating/',
-				{
-					rating: newValue,
-					product_id: item && item[0].productId,
-					user_id: 1
-				}
-			)
+			.put('https://api.vomad.guide/rating/', {
+				rating: newValue,
+				product_id: item && item[0].productId,
+				user_id: 1
+			})
 			.then((response) => {
 				setNewRating(JSON.parse(response.config.data).rating);
 			});

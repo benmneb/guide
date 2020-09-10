@@ -54,12 +54,9 @@ export default function ReviewCard(props) {
 
 	const handleLikeClick = () => {
 		axios
-			.put(
-				'http://GuideApiServer-env.eba-u5p3tcik.us-east-2.elasticbeanstalk.com/like/',
-				{
-					review_id: review.review_id
-				}
-			)
+			.put('https://api.vomad.guide/like/', {
+				review_id: review.review_id
+			})
 			.then(() => props.updateReview());
 	};
 
@@ -74,7 +71,9 @@ export default function ReviewCard(props) {
 									alt={review.user_name}
 									src={review.avatar}
 									className={styles.largeAvatar}
-								/>
+								>
+									{review.user_name.charAt(0).toUpperCase()}
+								</Avatar>
 							</Box>
 							<Box
 								component="footer"

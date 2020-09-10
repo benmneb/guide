@@ -7,8 +7,8 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import { Dialog, Button, Icon, IconButton, Typography, Box } from '@material-ui/core';
-import { CloseRounded, Facebook, Instagram, Twitter, Reddit } from '@material-ui/icons';
-import { indigo, red, blue, deepPurple, deepOrange } from '@material-ui/core/colors';
+import { CloseRounded, Facebook, Twitter } from '@material-ui/icons';
+import { indigo, red, blue } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
 	dialogPaperWidth: {
@@ -49,20 +49,6 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: blue[500],
 		'&:hover': {
 			backgroundColor: blue[700]
-		}
-	},
-	instagram: {
-		color: theme.palette.getContrastText(deepPurple[500]),
-		backgroundColor: deepPurple[500],
-		'&:hover': {
-			backgroundColor: deepPurple[700]
-		}
-	},
-	reddit: {
-		color: theme.palette.getContrastText(deepOrange[500]),
-		backgroundColor: deepOrange[500],
-		'&:hover': {
-			backgroundColor: deepOrange[700]
 		}
 	},
 	dialogContentRoot: {
@@ -140,6 +126,7 @@ const Login = ({ showAuthModal, onToggleAuthModal }) => {
 								label: styles.buttonLabel,
 								root: clsx(styles.facebook, styles.buttonMargin)
 							}}
+							href="https://api.vomad.guide/auth/facebook/guide"
 						>
 							Continue with Facebook
 						</Button>
@@ -153,6 +140,7 @@ const Login = ({ showAuthModal, onToggleAuthModal }) => {
 								label: styles.buttonLabel,
 								root: clsx(styles.google, styles.buttonMargin)
 							}}
+							href="https://api.vomad.guide/auth/google"
 						>
 							Continue with Google
 						</Button>
@@ -166,28 +154,6 @@ const Login = ({ showAuthModal, onToggleAuthModal }) => {
 							}}
 						>
 							Continue with Twitter
-						</Button>
-						<Button
-							size="large"
-							variant="contained"
-							startIcon={<Instagram />}
-							classes={{
-								label: styles.buttonLabel,
-								root: clsx(styles.instagram, styles.buttonMargin)
-							}}
-						>
-							Continue with Instagram
-						</Button>
-						<Button
-							size="large"
-							variant="contained"
-							startIcon={<Reddit />}
-							classes={{
-								label: styles.buttonLabel,
-								root: clsx(styles.reddit, styles.buttonMargin)
-							}}
-						>
-							Continue with Reddit
 						</Button>
 					</Box>
 				</Box>
