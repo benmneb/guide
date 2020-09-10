@@ -3,54 +3,67 @@ import { makeStyles } from '@material-ui/core/styles';
 import StoresList from './StoresList';
 import StoresAdd from './StoresAdd';
 import {
+	Button,
+	Collapse,
 	List,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
 	ListSubheader,
-	Collapse
+	Typography,
+	Box
 } from '@material-ui/core';
-import { AddCircleRounded, CancelRounded } from '@material-ui/icons';
+import { CancelRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	storesList: {
 		width: '100%',
 		backgroundColor: theme.palette.background.paper
+	},
+	cancelButton: {
+		color: theme.palette.text.secondary
 	}
 }));
 
 export default function StoresListSection(props) {
 	const styles = useStyles();
 
-	function closeSelf() {
+	function toggleAddStore() {
 		props.setShowAddStore(!props.showAddStore);
 	}
 
 	return (
 		<List
-			component="div"
+			component="header"
 			aria-label="Stores near you"
 			className={styles.storesList}
 			subheader={
 				<ListSubheader style={{ zIndex: '2' }} component="div">
-					Stores Near You
+					<Box display="flex" justifyContent="space-between" alignItems="center">
+						<Typography component="h2" variant="h5">
+							Stores Near You
+						</Typography>
+						<Button
+							size="large"
+							style={{ margin: '8px 0' }}
+							onClick={toggleAddStore}
+							variant={props.showAddStore ? 'outlined' : 'contained'}
+							color={props.showAddStore ? 'default' : 'primary'}
+							startIcon={props.showAddStore ? <CancelRounded color="disabled" /> : null}
+							classes={props.showAddStore ? { label: styles.cancelButton } : null}
+						>
+							{props.showAddStore ? 'Cancel' : 'Add Store'}
+						</Button>
+					</Box>
 				</ListSubheader>
 			}
 		>
-			<ListItem button onClick={closeSelf}>
-				<ListItemIcon>
-					{props.showAddStore ? <CancelRounded /> : <AddCircleRounded color="primary" />}
-				</ListItemIcon>
-				<ListItemText>{props.showAddStore ? 'Cancel' : 'Add a Store'}</ListItemText>
-			</ListItem>
 			<Collapse in={props.showAddStore} timeout="auto" unmountOnExit>
-				<StoresAdd hide={closeSelf} />
+				<StoresAdd hide={toggleAddStore} />
 			</Collapse>
 			<StoresList
-				data={props.stores}
+				stores={props.stores}
 				selectedStore={props.selectedStore}
-				listItemClick={props.handleListItemClick}
+				listItemClick={props.onListItemClick}
 				copyAddress={props.handleCopyAddress}
+				getDirections={props.getDirections}
 			/>
 		</List>
 	);

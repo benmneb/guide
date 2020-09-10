@@ -1,64 +1,72 @@
-import React, { useEffect, useRef } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { useState, useCallback } from 'react';
+import { useTheme } from '@material-ui/core/styles';
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
+import InfoWindowContent from './InfoWindowContent';
 
-const useStyles = makeStyles((theme) => ({
-	map: {
+function StoresMap(props) {
+	const theme = useTheme();
+	const [map, setMap] = useState(null);
+
+	const containerStyle = {
+		width: '100%',
 		height: '100%',
 		borderRadius: theme.shape.borderRadius
-	}
-}));
+	};
 
-export default function StoresMap(props) {
-	const styles = useStyles();
-	const mapZoom = 15;
+	const options = {
+		gestureHandling: 'greedy', // https://developers.google.com/maps/documentation/javascript/interaction#understand-the-terminology
+		streetViewControl: false,
+		mapTypeControl: false,
+		fullscreenControl: false,
+		rotateControl: false,
+		zoomControl: false
+	};
 
-	function PointsLayer(props) {
-		return props.data.map((store) => (
-			<PointMarker
-				key={store.id}
-				content={store.name}
-				position={store.coords}
-				openPopup={props.selectedMarker === store.id}
-			/>
-		));
-	}
+	const onLoad = useCallback(function callback(map) {
+		const bounds = new window.google.maps.LatLngBounds();
+		props.stores.map((store) => {
+			bounds.extend(store.coords);
+			return store.id;
+		});
+		map.fitBounds(bounds);
+		setMap(map);
+		//eslint-disable-next-line
+	}, []);
 
-	function PointMarker(props) {
-		const markerRef = useRef(null);
-		const { openPopup } = props;
+	const onUnmount = useCallback(function callback(map) {
+		setMap(null);
+	}, []);
 
-		useEffect(() => {
-			if (openPopup) markerRef.current.leafletElement.openPopup();
-		}, [openPopup]);
-
-		return (
-			<Marker ref={markerRef} position={props.position}>
-				<Popup>{props.content}</Popup>
-			</Marker>
-		);
-	}
-
-	let showMap;
-	if (props.errMessage) {
-		showMap = <Typography>Error: {props.errMessage}</Typography>;
-	} else if (props.mapPosition) {
-		showMap = (
-			<Map
-				center={props.mapPosition}
-				zoom={mapZoom}
-				animate
-				duration="0.375"
-				className={styles.map}
-			>
-				<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-				<PointsLayer selectedMarker={props.selectedStore} data={props.data} />
-			</Map>
-		);
-	} else {
-		showMap = <Typography>Please accept the location request</Typography>;
-	}
-
-	return showMap;
+	return (
+		<GoogleMap
+			map={map} // i added this here to remove the error, the docs sux
+			onLoad={onLoad}
+			onUnmount={onUnmount}
+			mapContainerStyle={containerStyle}
+			// center={props.mapPosition}
+			zoom={13}
+			options={options}
+			onClick={props.deselectStore}
+			clickableIcons={false}
+		>
+			{props.stores.map((store) => (
+				<Marker
+					key={store.id}
+					onLoad={(marker) => props.onMarkerLoad(marker, store)}
+					position={store.coords}
+					onClick={() => props.onMarkerClick(store)}
+				/>
+			))}
+			{props.infoWindowOpen && props.selectedStore && (
+				<InfoWindow
+					anchor={props.markerMap[props.selectedStore.id]}
+					onCloseClick={props.deselectStore}
+				>
+					<InfoWindowContent {...props} />
+				</InfoWindow>
+			)}
+		</GoogleMap>
+	);
 }
+
+export default React.memo(StoresMap);

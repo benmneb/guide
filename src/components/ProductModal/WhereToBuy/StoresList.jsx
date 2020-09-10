@@ -1,34 +1,41 @@
 import React from 'react';
 import {
+	Collapse,
 	List,
 	ListItem,
 	ListItemIcon,
 	ListItemText,
 	ListItemSecondaryAction,
-	Collapse,
+	Tooltip,
+	Typography,
 	Box
 } from '@material-ui/core';
 import {
 	PlaceRounded,
-	StoreRounded,
 	EcoRounded,
 	LaunchRounded,
 	FileCopyRounded
 } from '@material-ui/icons';
 import { green } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
-import LikeButton from '../LikeButton';
+import { getTimeAgo } from '../../../assets/timeAgo';
+import StoresVoteButtons from './StoresVoteButtons';
 
 const useStyles = makeStyles((theme) => ({
 	nested: {
 		paddingLeft: theme.spacing(4)
+	},
+	iconButton: {
+		[theme.breakpoints.only('xs')]: {
+			padding: 6
+		}
 	}
 }));
 
 export default function StoresList(props) {
 	const styles = useStyles();
 
-	return props.data.map((store) => (
+	return props.stores.map((store) => (
 		<Box key={store.id}>
 			<ListItem
 				dense
@@ -43,19 +50,38 @@ export default function StoresList(props) {
 						<PlaceRounded />
 					)}
 				</ListItemIcon>
-				<ListItemText primary={store.name} secondary={store.address} />
-				<ListItemSecondaryAction>
-					<LikeButton
-						tooltip="Have you seen this product in this store?"
-						tooltipPlacement="bottom-end"
-						ariaLabel="confirm"
-						size="small"
-					/>
-				</ListItemSecondaryAction>
+				<ListItemText
+					primary={store.name}
+					secondary={
+						<Typography variant="body2" color="textSecondary" noWrap>
+							{store.address}
+						</Typography>
+					}
+				/>
+				<Tooltip title="Seen by this many people">
+					{store.likes >= 1 ? (
+						<Typography component="span" variant="overline">
+							+{store.likes}
+						</Typography>
+					) : (
+						<Typography component="span" variant="overline" color="error">
+							{store.likes}
+						</Typography>
+					)}
+				</Tooltip>
 			</ListItem>
 			<Collapse in={props.selectedStore === store.id} timeout="auto" unmountOnExit>
 				<List component="div" dense style={{ paddingTop: 0 }}>
-					<ListItem button className={styles.nested}>
+					<ListItem className={styles.nested}>
+						<ListItemText
+							primary="Have you seen this product here?"
+							secondary={`Last confirmed ${getTimeAgo(store.lastSeen).toLowerCase()}`}
+						/>
+						<ListItemSecondaryAction>
+							<StoresVoteButtons />
+						</ListItemSecondaryAction>
+					</ListItem>
+					<ListItem button className={styles.nested} onClick={props.getDirections}>
 						<ListItemIcon>
 							<LaunchRounded fontSize="small" />
 						</ListItemIcon>
@@ -70,12 +96,6 @@ export default function StoresList(props) {
 							<FileCopyRounded fontSize="small" />
 						</ListItemIcon>
 						<ListItemText primary="Copy address to clipboard" />
-					</ListItem>
-					<ListItem button className={styles.nested}>
-						<ListItemIcon>
-							<StoreRounded />
-						</ListItemIcon>
-						<ListItemText primary="See all products in this store" />
 					</ListItem>
 				</List>
 			</Collapse>
