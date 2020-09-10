@@ -15,6 +15,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import ReviewReport from './ReviewReport';
 import LikeButton from '../LikeButton';
+import randomMC from 'random-material-color';
 
 const useStyles = makeStyles((theme) => ({
 	largeAvatar: {
@@ -60,6 +61,8 @@ export default function ReviewCard(props) {
 			.then(() => props.updateReview());
 	};
 
+	const color = randomMC.getColor({ text: review.user_name });
+
 	return (
 		<>
 			<Box key={review.review_id} marginTop={2} marginBottom={2}>
@@ -71,6 +74,7 @@ export default function ReviewCard(props) {
 									alt={review.user_name}
 									src={review.avatar}
 									className={styles.largeAvatar}
+									style={{ backgroundColor: color }}
 								>
 									{review.user_name.charAt(0).toUpperCase()}
 								</Avatar>
