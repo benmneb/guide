@@ -8,10 +8,10 @@ import useWidth from '../../assets/useWidth';
 
 const labels = {
 	1: 'Bad',
-	2: 'Okay',
-	3: 'Good',
-	4: 'Great',
-	5: 'Excellent'
+	2: 'Poor',
+	3: 'Okay',
+	4: 'Good',
+	5: 'Great'
 };
 
 function StarRating({
@@ -38,7 +38,14 @@ function StarRating({
 		onClickAddReviewSnackbarAfterRating(newRating);
 	};
 
-	let text = product ? `from ${props.amountOfRatings} ratings` : <Skeleton width={100} />;
+	let text;
+	if (product && props.amountOfRatings > 0) {
+		text = `from ${props.amountOfRatings} ratings`;
+	} else if (product && props.amountOfRatings <= 0) {
+		text = 'be the first to rate';
+	} else {
+		text = <Skeleton width={100} />;
+	}
 	let precision = 0.1;
 
 	if (hover >= 0) {
