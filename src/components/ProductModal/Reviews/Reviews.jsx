@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 import ReviewCard from './ReviewCard';
 import ReviewsAdd from './ReviewsAdd';
-import MasonryLayout from '../../../assets/MasonryLayout';
+import MasonryLayout from '../../../utils/MasonryLayout';
 
 const useStyles = makeStyles((theme) => ({
 	bold: {

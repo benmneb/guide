@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getTimeAgo } from '../../../assets/timeAgo';
+import { getTimeAgo } from '../../../utils/timeAgo';
 import Rating from '@material-ui/lab/Rating';
 import axios from 'axios';
 import { MoreVertRounded, ReportRounded } from '@material-ui/icons';

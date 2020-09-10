@@ -14,7 +14,7 @@ import {
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRight';
 import { subCat1s } from '../../assets/subCat1s';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
-import useWidth from '../../assets/useWidth';
+import useWidth from '../../utils/useWidth';
 
 const useStyles = makeStyles((theme) => ({
 	container: {

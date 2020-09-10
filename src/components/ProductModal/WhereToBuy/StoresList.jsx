@@ -18,7 +18,7 @@ import {
 } from '@material-ui/icons';
 import { green } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
-import { getTimeAgo } from '../../../assets/timeAgo';
+import { getTimeAgo } from '../../../utils/timeAgo';
 import StoresVoteButtons from './StoresVoteButtons';
 
 const useStyles = makeStyles((theme) => ({

@@ -17,7 +17,7 @@ import {
 import { CloseRounded, PhotoCameraRounded, SettingsRounded } from '@material-ui/icons';
 import Skeleton from '@material-ui/lab/Skeleton';
 import UserProfileSettings from './UserProfileSettings';
-import { getTimeAgo } from '../../assets/timeAgo';
+import { getTimeAgo } from '../../utils/timeAgo';
 import { user } from '../../assets/user';
 
 const useStyles = makeStyles((theme) => ({
