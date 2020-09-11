@@ -115,7 +115,7 @@ export default function ProductAbout(props) {
 								</Box>
 							) : (
 								<Box display="flex" flexDirection="column" alignItems="center">
-									<Skeleton width={100} height={40} />
+									<Skeleton width={80} height={40} />
 									<Skeleton
 										variant="rect"
 										height={300}
@@ -189,8 +189,8 @@ export default function ProductAbout(props) {
 											))}
 										</TableBody>
 										<caption>
-											Amounts are averages. Further information may be displayed on back
-											of pack.
+											Amounts are averages. Blanks indicate no data provided. Further
+											information may be displayed on back of pack.
 										</caption>
 									</Table>
 								</TableContainer>
