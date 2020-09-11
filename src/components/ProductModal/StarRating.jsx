@@ -32,16 +32,18 @@ function StarRating({
 	};
 
 	let text;
-	if (product && props.amountOfRatings > 0) {
+	if (product && props.amountOfRatings > 1) {
 		text = `from ${props.amountOfRatings} ratings`;
+	} else if (product && props.amountOfRatings === 1) {
+		text = 'from 1 rating';
 	} else if (product && props.amountOfRatings <= 0) {
 		text = 'be the first to rate';
 	} else {
 		text = <Skeleton width={100} />;
 	}
-	let precision = 0.1;
 
-	if (hover >= 0) {
+	let precision = 0.1;
+	if (hover > -1) {
 		precision = 1;
 		text = `rate as "${labels[hover]}"`;
 	}
