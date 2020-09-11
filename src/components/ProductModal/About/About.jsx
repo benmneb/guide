@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {
 	Button,
+	Chip,
 	Paper,
 	Grid,
 	CardMedia,
-	Container,
 	Table,
 	TableBody,
 	TableCell,
@@ -16,8 +16,7 @@ import {
 	Box
 } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNew';
-import EcoRoundedIcon from '@material-ui/icons/Eco';
+import { EcoRounded, OpenInNewRounded, LocalOfferRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import AboutEdit from './AboutEdit';
 
@@ -38,7 +37,14 @@ const useStyles = makeStyles((theme) => ({
 		textTransform: 'none'
 	},
 	imageSkeleton: {
-		borderRadius: theme.shape.borderRadius
+		borderRadius: theme.shape.borderRadius,
+		marginTop: theme.spacing(2)
+	},
+	chipBox: {
+		marginBottom: theme.spacing(2),
+		'& > *': {
+			margin: theme.spacing(0.5)
+		}
 	}
 }));
 
@@ -75,29 +81,50 @@ export default function ProductAbout(props) {
 			<Grid component="section" container spacing={3}>
 				<Grid component="section" item xs={12} sm={6}>
 					<Grid container spacing={0} direction="column">
-						<Container maxWidth="xs">
-							<Box padding={2} color="text.secondary">
-								<Grid item xs={12}>
-									{product ? (
-										<CardMedia
-											component="img"
-											alt={product[0].productName}
-											image={product[0].imageSrc}
-											title={product[0].productName}
-										/>
-									) : (
-										<Box margin={2}>
-											<Skeleton
-												variant="rect"
-												height={300}
-												width="100%"
-												className={styles.imageSkeleton}
+						<Grid item xs={12}>
+							{product ? (
+								<Box margin={0} marginBottom={2} display="flex" flexDirection="column">
+									<Box
+										display="flex"
+										flexWrap="wrap"
+										justifyContent="center"
+										className={styles.chipBox}
+									>
+										<Chip icon={<EcoRounded fontSize="small" />} label="Vegan" />
+										{product[0].tags !== null &&
+											product[0].tags
+												.filter((tag) => tag !== 'Men' && tag !== 'Women')
+												.map((tag) => (
+													<Chip
+														key={tag}
+														icon={<LocalOfferRounded fontSize="small" />}
+														label={tag}
+													/>
+												))}
+									</Box>
+									<Box display="flex" flexDirection="column" alignItems="center">
+										<Box maxWidth={300}>
+											<CardMedia
+												component="img"
+												alt={product[0].productName}
+												image={product[0].imageSrc}
+												title={product[0].productName}
 											/>
 										</Box>
-									)}
-								</Grid>
-							</Box>
-						</Container>
+									</Box>
+								</Box>
+							) : (
+								<Box display="flex" flexDirection="column" alignItems="center">
+									<Skeleton width={100} height={40} />
+									<Skeleton
+										variant="rect"
+										height={300}
+										width={300}
+										className={styles.imageSkeleton}
+									/>
+								</Box>
+							)}
+						</Grid>
 					</Grid>
 					<Grid container spacing={1} direction="column" alignItems="center">
 						{product && product[0].storeLinks.length > 0 && (
@@ -115,8 +142,8 @@ export default function ProductAbout(props) {
 										onClick={() =>
 											window.open(store.link + '?ref=vomadguide', '_blank', 'noopener')
 										}
-										startIcon={store.isVegan ? <EcoRoundedIcon /> : null}
-										endIcon={<OpenInNewRoundedIcon />}
+										startIcon={store.isVegan ? <EcoRounded /> : null}
+										endIcon={<OpenInNewRounded />}
 									>
 										{store.website}
 									</Button>
