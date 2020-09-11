@@ -47,9 +47,6 @@ const useStyles = makeStyles((theme) => ({
 			margin: theme.spacing(0, 2)
 		}
 	},
-	filtersSectionFirstTitle: {
-		marginTop: theme.spacing(1)
-	},
 	filtersSectionTitle: {
 		marginTop: theme.spacing(1)
 	},
@@ -72,7 +69,7 @@ const FiltersPanel = (props) => {
 			}}
 		>
 			<Box component="aside" className={styles.content} maxWidth={drawerWidth}>
-				<Typography align="center" className={styles.filtersSectionFirstTitle}>
+				<Typography align="center" className={styles.filtersSectionTitle}>
 					Tags
 				</Typography>
 				<Grid container justify="space-evenly">
