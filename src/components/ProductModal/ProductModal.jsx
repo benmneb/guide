@@ -113,11 +113,6 @@ const ProductModal = ({
 		return () => {
 			mounted = false;
 			source.cancel('Product modal call cancelled during clean-up');
-
-			setTimeout(() => {
-				setItem(null);
-				setCurrentTab(0);
-			}, theme.transitions.duration.leavingScreen);
 		};
 	}, [
 		selectedProduct,
@@ -141,6 +136,8 @@ const ProductModal = ({
 	const onCloseModal = () => {
 		onToggleProductModal();
 		if (showAddReview) onHideAddReview();
+		if (currentTab !== 0) setCurrentTab(0);
+		setItem(null);
 	};
 
 	const handleChangeCurrentTab = (event, newValue) => {
@@ -149,9 +146,7 @@ const ProductModal = ({
 	};
 
 	useEffect(() => {
-		if (showAddReview && currentTab !== 1) {
-			setCurrentTab(1);
-		}
+		if (showAddReview && currentTab !== 1) setCurrentTab(1);
 	}, [showAddReview, currentTab]);
 
 	return (
@@ -207,7 +202,7 @@ const ProductModal = ({
 						<StarRating
 							product={item}
 							averageRating={item && Number(item[0].rating)}
-							amountOfRatings={item && item[0].ratingcount}
+							amountOfRatings={item && Number(item[0].ratingcount)}
 							productId={item && item[0].productId}
 							onRate={(newValue) => handleStarRating(newValue)}
 						/>
