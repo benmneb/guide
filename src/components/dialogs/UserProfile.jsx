@@ -9,6 +9,7 @@ import {
 	Button,
 	Dialog,
 	IconButton,
+	Tooltip,
 	Typography,
 	useMediaQuery,
 	Grid,
@@ -19,6 +20,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
 import { user } from '../../assets/user';
+import randomMC from 'random-material-color';
 
 const useStyles = makeStyles((theme) => ({
 	closeBtnContainer: {
@@ -70,6 +72,8 @@ function ProductModal({ showUserProfileModal, onToggleUserProfileModal }) {
 	function handleHideSettingsModal() {
 		setShowSettingsModal(false);
 	}
+
+	const color = randomMC.getColor({ text: user[0].username });
 
 	return (
 		<>
@@ -130,6 +134,7 @@ function ProductModal({ showUserProfileModal, onToggleUserProfileModal }) {
 										src={user[0].avatar}
 										alt={user[0].username}
 										className={styles.avatar}
+										style={{ backgroundColor: color }}
 									/>
 								) : (
 									<Skeleton variant="circle" className={styles.avatar} />
@@ -143,9 +148,11 @@ function ProductModal({ showUserProfileModal, onToggleUserProfileModal }) {
 											type="file"
 										/>
 										<label htmlFor="icon-button-file">
-											<IconButton aria-label="upload avatar" component="span">
-												<PhotoCameraRounded />
-											</IconButton>
+											<Tooltip title="Upload a new avatar" enterDelay={1000}>
+												<IconButton aria-label="upload avatar" component="span">
+													<PhotoCameraRounded />
+												</IconButton>
+											</Tooltip>
 										</label>
 									</Box>
 								)}
