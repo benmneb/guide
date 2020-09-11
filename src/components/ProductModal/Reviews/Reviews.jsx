@@ -14,12 +14,6 @@ const useStyles = makeStyles((theme) => ({
 	bold: {
 		fontWeight: theme.typography.fontWeightMedium
 	},
-	avatarSmall: {
-		display: 'inline-flex',
-		width: theme.spacing(3),
-		height: theme.spacing(3),
-		marginRight: theme.spacing(0.5)
-	},
 	cancelButton: {
 		color: theme.palette.text.secondary
 	}
