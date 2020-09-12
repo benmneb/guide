@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
 		bottom: 0,
 		left: 0,
 		boxShadow: theme.shadows[24]
+	},
+	bottomNav: {
+		...theme.mixins.toolbar
 	}
 }));
 
@@ -27,6 +30,7 @@ export default function BottomNav(props) {
 				value={props.currentTab}
 				onChange={props.onChange}
 				showLabels
+				className={styles.bottomNav}
 			>
 				<BottomNavigationAction label="About" icon={<InfoRoundedIcon />} />
 				<BottomNavigationAction label="Reviews" icon={<RateReviewRoundedIcon />} />

@@ -13,11 +13,14 @@ const useStyles = makeStyles((theme) => ({
 		bottom: 0,
 		boxShadow: theme.shadows[24],
 		zIndex: theme.zIndex.appBar
+	},
+	bottomNav: {
+		...theme.mixins.toolbar
 	}
 }));
 
 export default function BottomNav(props) {
-	const classes = useStyles();
+	const styles = useStyles();
 	const history = useHistory();
 
 	function handleHomeClick() {
@@ -33,8 +36,13 @@ export default function BottomNav(props) {
 	}
 
 	return (
-		<Box display={{ xs: 'block', md: 'none' }} className={classes.root}>
-			<BottomNavigation component="nav" value={props.currentTab} showLabels>
+		<Box display={{ xs: 'block', md: 'none' }} className={styles.root}>
+			<BottomNavigation
+				component="nav"
+				value={props.currentTab}
+				showLabels
+				className={styles.bottomNav}
+			>
 				<BottomNavigationAction
 					label="Popular"
 					icon={<WhatshotRounded />}

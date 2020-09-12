@@ -15,11 +15,14 @@ const useStyles = makeStyles((theme) => ({
 		bottom: 0,
 		boxShadow: theme.shadows[24],
 		zIndex: theme.zIndex.appBar - 1
+	},
+	bottomNav: {
+		...theme.mixins.toolbar
 	}
 }));
 
 function BottomNav({ showFiltersPanel, onShowFiltersPanel, onHideFiltersPanel }) {
-	const classes = useStyles();
+	const styles = useStyles();
 	const history = useHistory();
 	const [value, setValue] = useState(1);
 
@@ -43,7 +46,7 @@ function BottomNav({ showFiltersPanel, onShowFiltersPanel, onHideFiltersPanel })
 	}
 
 	return (
-		<Box display={{ xs: 'block', md: 'none' }} className={classes.root}>
+		<Box display={{ xs: 'block', md: 'none' }} className={styles.root}>
 			<BottomNavigation
 				component="nav"
 				value={value}
@@ -51,6 +54,7 @@ function BottomNav({ showFiltersPanel, onShowFiltersPanel, onHideFiltersPanel })
 					setValue(newValue);
 				}}
 				showLabels
+				className={styles.bottomNav}
 			>
 				<BottomNavigationAction
 					label="Categories"

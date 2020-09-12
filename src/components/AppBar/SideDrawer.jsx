@@ -36,10 +36,15 @@ const useStyles = makeStyles((theme) => ({
 		width: drawerWidth
 	},
 	toolbar: {
-		height: 64,
 		display: 'flex',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		...theme.mixins.toolbar
+	},
+	logo: {
+		height: 30,
+		marginTop: 5,
+		marginLeft: -5
 	},
 	nested: {
 		paddingLeft: theme.spacing(4)
@@ -93,8 +98,8 @@ const SideDrawer = (props) => {
 		<div>
 			<div className={styles.toolbar}>
 				<img
-					style={{ height: 30, marginTop: 5 }}
-					src={require('../../assets/images/logo.png')}
+					className={styles.logo}
+					src="https://ik.imagekit.io/vomadguide/logo/logo_a_nCYxlAP.png"
 					alt="Vomad Guide: Find Vegan Products Near You"
 				/>
 			</div>
