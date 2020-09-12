@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+	Box,
 	Card,
 	CardMedia,
 	CardContent,
@@ -43,6 +44,18 @@ const useStyles = makeStyles((theme) => ({
 		},
 		position: 'relative'
 	},
+	cardMediaPlaceholder: {
+		paddingTop: theme.spacing(),
+		[theme.breakpoints.up('xs')]: {
+			height: 160,
+			width: 150
+		},
+		[theme.breakpoints.up('md')]: {
+			height: 220,
+			width: 200
+		},
+		position: 'relative'
+	},
 	cardContent: {
 		textAlign: 'center',
 		padding: theme.spacing(2)
@@ -71,7 +84,9 @@ export default function Result(props) {
 
 	return (
 		<Card component="article" className={styles.productTile} onClick={props.clicked}>
-			<CardMedia className={styles.cardMedia} component="img" image={props.image} />
+			<Box className={styles.cardMediaPlaceholder}>
+				<CardMedia className={styles.cardMedia} component="img" image={props.image} />
+			</Box>
 			<CardContent className={styles.cardContent}>
 				<Typography className={styles.productName} component="h2" variant="body1">
 					<Typography
