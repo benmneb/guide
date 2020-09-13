@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { loadCSS } from 'fg-loadcss';
@@ -7,8 +7,9 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import { Dialog, Button, Icon, IconButton, Typography, Box } from '@material-ui/core';
-import { CloseRounded, Facebook, Twitter } from '@material-ui/icons';
-import { indigo, red, blue } from '@material-ui/core/colors';
+import { CloseRounded, Facebook, Twitter, MailOutlineRounded } from '@material-ui/icons';
+import { indigo, red, blue, grey } from '@material-ui/core/colors';
+import AuthEmail from './AuthEmail';
 
 const useStyles = makeStyles((theme) => ({
 	dialogPaperWidth: {
@@ -51,6 +52,13 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: blue[700]
 		}
 	},
+	email: {
+		color: theme.palette.getContrastText(grey[700]),
+		backgroundColor: grey[700],
+		'&:hover': {
+			backgroundColor: grey[800]
+		}
+	},
 	dialogContentRoot: {
 		padding: theme.spacing(0, 2, 2, 2),
 		[theme.breakpoints.up('md')]: {
@@ -60,6 +68,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = ({ showAuthModal, onToggleAuthModal }) => {
+	const [isUsingEmail, setIsUsingEmail] = useState(false);
+
 	const styles = useStyles();
 
 	const DialogTitle = withStyles(styles)((props) => {
@@ -97,7 +107,18 @@ const Login = ({ showAuthModal, onToggleAuthModal }) => {
 
 	const onClose = () => {
 		onToggleAuthModal();
+		setTimeout(() => {
+			setIsUsingEmail(false);
+		}, 195);
 	};
+
+	function handleContinueWithEmail() {
+		setIsUsingEmail(true);
+	}
+
+	function handleContinueWithSocial() {
+		setIsUsingEmail(false);
+	}
 
 	return (
 		<Dialog
@@ -110,53 +131,69 @@ const Login = ({ showAuthModal, onToggleAuthModal }) => {
 				Welcome!
 			</DialogTitle>
 			<DialogContent className={styles.dialogContentRoot}>
-				<Box display="flex" justifyContent="center">
-					<Box
-						display="flex"
-						flexDirection="column"
-						justifyContent="center"
-						width="65%"
-						minWidth="260px"
-					>
-						<Button
-							size="large"
-							variant="contained"
-							startIcon={<Facebook />}
-							classes={{
-								label: styles.buttonLabel,
-								root: clsx(styles.facebook, styles.buttonMargin)
-							}}
-							href="https://api.vomad.guide/auth/facebook/guide"
+				{!isUsingEmail ? (
+					<Box display="flex" justifyContent="center">
+						<Box
+							display="flex"
+							flexDirection="column"
+							justifyContent="center"
+							width="65%"
+							minWidth="260px"
 						>
-							Continue with Facebook
-						</Button>
-						<Button
-							size="large"
-							variant="contained"
-							startIcon={
-								<Icon className="fab fa-google" style={{ fontSize: 18, margin: 2 }} />
-							}
-							classes={{
-								label: styles.buttonLabel,
-								root: clsx(styles.google, styles.buttonMargin)
-							}}
-							href="https://api.vomad.guide/auth/google"
-						>
-							Continue with Google
-						</Button>
-						<Button
-							size="large"
-							variant="contained"
-							startIcon={<Twitter />}
-							classes={{
-								label: styles.buttonLabel,
-								root: clsx(styles.twitter, styles.buttonMargin)
-							}}
-						>
-							Continue with Twitter
-						</Button>
+							<Button
+								size="large"
+								variant="contained"
+								startIcon={<Facebook />}
+								classes={{
+									label: styles.buttonLabel,
+									root: clsx(styles.facebook, styles.buttonMargin)
+								}}
+								href="https://api.vomad.guide/auth/facebook/guide"
+							>
+								Continue with Facebook
+							</Button>
+							<Button
+								size="large"
+								variant="contained"
+								startIcon={
+									<Icon className="fab fa-google" style={{ fontSize: 18, margin: 2 }} />
+								}
+								classes={{
+									label: styles.buttonLabel,
+									root: clsx(styles.google, styles.buttonMargin)
+								}}
+								href="https://api.vomad.guide/auth/google"
+							>
+								Continue with Google
+							</Button>
+							<Button
+								size="large"
+								variant="contained"
+								startIcon={<Twitter />}
+								classes={{
+									label: styles.buttonLabel,
+									root: clsx(styles.twitter, styles.buttonMargin)
+								}}
+							>
+								Continue with Twitter
+							</Button>
+							<Button
+								size="large"
+								variant="contained"
+								startIcon={<MailOutlineRounded />}
+								classes={{
+									label: styles.buttonLabel,
+									root: clsx(styles.email, styles.buttonMargin)
+								}}
+								onClick={handleContinueWithEmail}
+							>
+								Continue with Email
+							</Button>
+						</Box>
 					</Box>
-				</Box>
+				) : (
+					<AuthEmail backToSocial={handleContinueWithSocial} />
+				)}
 			</DialogContent>
 		</Dialog>
 	);

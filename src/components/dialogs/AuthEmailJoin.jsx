@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
 import {
@@ -8,13 +9,11 @@ import {
 	IconButton,
 	InputLabel,
 	OutlinedInput,
-	Link,
-	Typography,
 	TextField,
 	Box
 } from '@material-ui/core';
 import {
-	EmailRounded,
+	MailOutlineRounded,
 	VisibilityRounded,
 	VisibilityOffRounded
 } from '@material-ui/icons';
@@ -24,26 +23,21 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center'
 	},
 	email: {
-		marginBottom: theme.spacing()
+		margin: theme.spacing(1, 0)
 	}
 }));
 
-export default function LoginLogin(props) {
+export default function AuthEmailJoin(props) {
 	const styles = useStyles();
 	const [showPassword, setShowPassword] = useState();
 	const { register, handleSubmit, errors, watch } = useForm();
 
 	const onSubmit = (data) => {
 		console.log('join', data);
-		props.showSnack({
-			snackData: {
-				type: 'success',
-				title: 'Welcome!',
-				message: `Thanks for joining us`,
-				emoji: '🤗'
-			}
+		axios.post('https://api.vomad.guide/auth/register', {
+			email: data.email,
+			password: data.password
 		});
-		props.closeModal();
 	};
 
 	const handleClickShowPassword = () => {
@@ -52,6 +46,10 @@ export default function LoginLogin(props) {
 
 	const handleMouseDownPassword = (event) => {
 		event.preventDefault();
+	};
+
+	const handleBackToSocial = () => {
+		props.backToSocial();
 	};
 
 	return (
@@ -151,25 +149,21 @@ export default function LoginLogin(props) {
 							fullWidth
 						/>
 					</FormControl>
+					<Button
+						type="submit"
+						size="large"
+						variant="contained"
+						color="primary"
+						startIcon={<MailOutlineRounded />}
+						className={styles.email}
+						classes={{ label: styles.buttonLabel }}
+					>
+						Join with Email
+					</Button>
 				</Box>
 			</Box>
-			<Button
-				type="submit"
-				size="large"
-				variant="text"
-				color="primary"
-				startIcon={<EmailRounded />}
-				className={styles.email}
-				classes={{ label: styles.buttonLabel }}
-			>
-				Join with Email
-			</Button>
-			<Typography align="center" variant="body2">
-				Already a user?{' '}
-				<Link href="#" onClick={props.login} color="textPrimary" underline="always">
-					Login instead
-				</Link>
-			</Typography>
+
+			<Button onClick={handleBackToSocial}>Join with social account instead</Button>
 		</Box>
 	);
 }
