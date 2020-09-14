@@ -42,7 +42,11 @@ const useStyles = makeStyles((theme) => ({
 		cursor: 'pointer',
 		filter: 'brightness(85%)',
 		transitionProperty: 'filter',
-		transitionDuration: `${theme.transitions.duration.complex}ms`
+		transitionDuration: `${theme.transitions.duration.complex}ms`,
+		height: '100%',
+		width: '100%',
+		objectFit: 'cover',
+		objectPosition: 'center'
 	},
 	titleBar: {
 		position: 'absolute',
@@ -81,7 +85,9 @@ const SubCat1s = () => {
 							className={styles.gridListTile}
 						>
 							<Link to="/food-drink/nut-butters-spreads">
-								<img src={image.img} alt={image.title} className={styles.image} />
+								<Box height="100%" width="auto">
+									<img src={image.img} alt={image.title} className={styles.image} />
+								</Box>
 								<GridListTileBar
 									titlePosition="top"
 									title={image.title}
