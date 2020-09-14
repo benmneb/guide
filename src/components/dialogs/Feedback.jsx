@@ -114,7 +114,7 @@ function Feedback({ onShowSnackbar, onToggleFeedbackModal, showFeedbackModal }) 
 						inputRef={register({
 							required: true,
 							minLength: { value: 20, message: 'Minimum 20 characters' },
-							maxLength: { value: 750, message: 'Maximum length 750 characters' }
+							maxLength: { value: 750, message: 'Maximum 750 characters' }
 						})}
 						error={Boolean(errors.feedback)}
 						helperText={Boolean(errors.feedback) && errors.feedback.message}

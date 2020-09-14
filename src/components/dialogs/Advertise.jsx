@@ -113,8 +113,8 @@ function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal 
 						type="text"
 						variant="outlined"
 						inputRef={register({
-							required: 'Name required',
-							minLength: { value: 2, message: 'Minimum 2 characters' },
+							required: true,
+							minLength: 2,
 							maxLength: { value: 50, message: 'Maximum 50 characters' }
 						})}
 						error={Boolean(errors.name)}
@@ -129,7 +129,7 @@ function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal 
 						type="email"
 						variant="outlined"
 						inputRef={register({
-							required: 'Email required',
+							required: true,
 							pattern: { value: /\S+@\S+\.\S+/, message: 'Please enter a valid email' }
 						})}
 						error={Boolean(errors.email)}
