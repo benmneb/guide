@@ -48,7 +48,13 @@ const useStyles = makeStyles((theme) => ({
 
 const libraries = ['places'];
 
-function WhereToBuy({ onShowSnackbar, currentLocation, setCurrentLocation }) {
+function WhereToBuy({
+	onShowSnackbar,
+	currentLocation,
+	setCurrentLocation,
+	isAuthenticated,
+	setToggleAuthModal
+}) {
 	const styles = useStyles();
 	const [selectedStore, setSelectedStore] = useState(null);
 	const [errMessage, setErrMessage] = useState(null);
@@ -76,7 +82,7 @@ function WhereToBuy({ onShowSnackbar, currentLocation, setCurrentLocation }) {
 				(err) => {
 					if (mounted) {
 						setErrMessage(err.message);
-						console.error(err.message);
+						console.error(err);
 					}
 				}
 			);
@@ -146,8 +152,20 @@ function WhereToBuy({ onShowSnackbar, currentLocation, setCurrentLocation }) {
 	}
 
 	function handleAddStoreFabClick() {
-		setOpenBottomDrawer(true);
-		setShowAddStore(true);
+		if (isAuthenticated) {
+			setOpenBottomDrawer(true);
+			setShowAddStore(true);
+		} else {
+			setToggleAuthModal();
+		}
+	}
+
+	function handleSetShowAddStore() {
+		if (isAuthenticated) {
+			setShowAddStore(!showAddStore);
+		} else {
+			setToggleAuthModal();
+		}
 	}
 
 	function handleGetDirections() {
@@ -222,7 +240,7 @@ function WhereToBuy({ onShowSnackbar, currentLocation, setCurrentLocation }) {
 								>
 									<StoresListSection
 										showAddStore={showAddStore}
-										setShowAddStore={setShowAddStore}
+										setShowAddStore={handleSetShowAddStore}
 										onListItemClick={(store) => handleListItemClick(store)}
 										handleCopyAddress={handleCopyAddress}
 										stores={stores}
@@ -256,7 +274,7 @@ function WhereToBuy({ onShowSnackbar, currentLocation, setCurrentLocation }) {
 								<Box marginTop={0} height={538} overflow="auto">
 									<StoresListSection
 										showAddStore={showAddStore}
-										setShowAddStore={setShowAddStore}
+										setShowAddStore={handleSetShowAddStore}
 										onListItemClick={(store) => handleListItemClick(store)}
 										handleCopyAddress={handleCopyAddress}
 										stores={stores}
@@ -286,7 +304,8 @@ function WhereToBuy({ onShowSnackbar, currentLocation, setCurrentLocation }) {
 
 const mapStateToProps = (state) => {
 	return {
-		currentLocation: state.currentLocation
+		currentLocation: state.currentLocation,
+		isAuthenticated: state.isAuthenticated
 	};
 };
 
@@ -295,7 +314,8 @@ const mapDispatchToProps = (dispatch) => {
 		onShowSnackbar: ({ snackData }) =>
 			dispatch(actionCreators.showSnackbar({ snackData })),
 		setCurrentLocation: (location) =>
-			dispatch(actionCreators.setCurrentLocation(location))
+			dispatch(actionCreators.setCurrentLocation(location)),
+		setToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal())
 	};
 };
 

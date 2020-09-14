@@ -100,7 +100,7 @@ const SideDrawer = (props) => {
 				<img
 					className={styles.logo}
 					src="https://ik.imagekit.io/vomadguide/logo/logo_a_nCYxlAP.png"
-					alt="Vomad Guide: Find Vegan Products Near You"
+					alt="Vomad Guide: Find Vegan Products Near You at The Biggest Free Vegan Product Guide"
 				/>
 			</div>
 			<Divider />
@@ -111,18 +111,21 @@ const SideDrawer = (props) => {
 					</ListItemIcon>
 					<ListItemText primary={'Home'} />
 				</ListItem>
-				<ListItem button onClick={() => openMenuItem('auth')}>
-					<ListItemIcon>
-						<LockOpenRoundedIcon />
-					</ListItemIcon>
-					<ListItemText primary={'Login / Join'} />
-				</ListItem>
-				<ListItem button onClick={() => openMenuItem('userProfile')}>
-					<ListItemIcon>
-						<AccountCircleRounded />
-					</ListItemIcon>
-					<ListItemText primary={'View Profile'} />
-				</ListItem>
+				{props.isAuthenticated ? (
+					<ListItem button onClick={() => openMenuItem('userProfile')}>
+						<ListItemIcon>
+							<AccountCircleRounded />
+						</ListItemIcon>
+						<ListItemText primary={'View Profile'} />
+					</ListItem>
+				) : (
+					<ListItem button onClick={() => openMenuItem('auth')}>
+						<ListItemIcon>
+							<LockOpenRoundedIcon />
+						</ListItemIcon>
+						<ListItemText primary={'Login / Join'} />
+					</ListItem>
+				)}
 				<ListItem button onClick={() => openMenuItem('foodDrink')}>
 					<ListItemIcon>
 						<FastfoodRoundedIcon />
@@ -237,7 +240,8 @@ const SideDrawer = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		showSideDrawer: state.showSideDrawer
+		showSideDrawer: state.showSideDrawer,
+		isAuthenticated: state.isAuthenticated
 	};
 };
 

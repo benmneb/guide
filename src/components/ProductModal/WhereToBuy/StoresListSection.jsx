@@ -25,10 +25,6 @@ const useStyles = makeStyles((theme) => ({
 export default function StoresListSection(props) {
 	const styles = useStyles();
 
-	function toggleAddStore() {
-		props.setShowAddStore(!props.showAddStore);
-	}
-
 	return (
 		<List
 			component="header"
@@ -43,7 +39,7 @@ export default function StoresListSection(props) {
 						<Button
 							size="large"
 							style={{ margin: '8px 0' }}
-							onClick={toggleAddStore}
+							onClick={props.setShowAddStore}
 							variant={props.showAddStore ? 'outlined' : 'contained'}
 							color={props.showAddStore ? 'default' : 'primary'}
 							startIcon={props.showAddStore ? <CancelRounded color="disabled" /> : null}
@@ -56,7 +52,7 @@ export default function StoresListSection(props) {
 			}
 		>
 			<Collapse in={props.showAddStore} timeout="auto" unmountOnExit>
-				<StoresAdd hide={toggleAddStore} />
+				<StoresAdd hide={props.setShowAddStore} />
 			</Collapse>
 			<StoresList
 				stores={props.stores}

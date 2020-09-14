@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
 	Button,
 	Chip,
@@ -18,6 +19,7 @@ import {
 import Skeleton from '@material-ui/lab/Skeleton';
 import { EcoRounded, OpenInNewRounded, LocalOfferRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import * as actionCreators from '../../../store/actions';
 import AboutEdit from './AboutEdit';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,8 +35,7 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: 280
 	},
 	buttonLabel: {
-		color: theme.palette.text.secondary,
-		textTransform: 'none'
+		color: theme.palette.text.secondary
 	},
 	imageSkeleton: {
 		borderRadius: theme.shape.borderRadius,
@@ -48,13 +49,17 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function ProductAbout(props) {
+function About({ isAuthenticated, setToggleAuthModal, ...props }) {
 	const { product } = props;
 	const styles = useStyles();
 	const [showEditModal, setShowEditModal] = useState(false);
 
 	function handleShowEditModal() {
-		setShowEditModal(true);
+		if (isAuthenticated) {
+			setShowEditModal(true);
+		} else {
+			setToggleAuthModal();
+		}
 	}
 
 	function handleCloseEditModal() {
@@ -199,8 +204,8 @@ export default function ProductAbout(props) {
 								</Typography>
 								<Typography>{product[0].allergens}</Typography>
 							</Paper>
-							<Box display="flex" justifyContent="flex-end" marginTop={1}>
-								<Tooltip title="Last edit was by Vomad on 18/08/2020" placement="left">
+							<Box display="flex" justifyContent="center" marginTop={1}>
+								<Tooltip title="Correct any mistakes on this page">
 									<Button
 										onClick={handleShowEditModal}
 										classes={{ label: styles.buttonLabel }}
@@ -230,3 +235,17 @@ export default function ProductAbout(props) {
 		</>
 	);
 }
+
+const mapStateToProps = (state) => {
+	return {
+		isAuthenticated: state.isAuthenticated
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal())
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(About);

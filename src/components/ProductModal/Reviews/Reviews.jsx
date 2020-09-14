@@ -25,7 +25,9 @@ function Reviews({
 	onHideAddReview,
 	showProductModal,
 	selectedProduct,
-	ratingBeforeClickedAddReviewSnackbar
+	ratingBeforeClickedAddReviewSnackbar,
+	isAuthenticated,
+	setToggleAuthModal
 }) {
 	const styles = useStyles();
 	const [reviews, setReviews] = useState(null);
@@ -54,8 +56,12 @@ function Reviews({
 	}, [selectedProduct, showProductModal]);
 
 	function handleAddReviewButtonClick() {
-		if (showAddReview) return onHideAddReview();
-		else return onShowAddReview();
+		if (isAuthenticated) {
+			if (showAddReview) return onHideAddReview();
+			else return onShowAddReview();
+		} else {
+			setToggleAuthModal();
+		}
 	}
 
 	const updateReview = () => {
@@ -130,14 +136,16 @@ const mapStateToProps = (state) => {
 		showAddReview: state.showAddReview,
 		selectedProduct: state.selectedProduct,
 		ratingBeforeClickedAddReviewSnackbar: state.ratingBeforeClickedAddReviewSnackbar,
-		showProductModal: state.showProductModal
+		showProductModal: state.showProductModal,
+		isAuthenticated: state.isAuthenticated
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onShowAddReview: () => dispatch(actionCreators.showAddReview()),
-		onHideAddReview: () => dispatch(actionCreators.hideAddReview())
+		onHideAddReview: () => dispatch(actionCreators.hideAddReview()),
+		setToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal())
 	};
 };
 
