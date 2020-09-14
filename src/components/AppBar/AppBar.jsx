@@ -110,7 +110,7 @@ function TopBar({
 			})
 			.then((user) => {
 				if (mounted) {
-					setCurrentUserData(user, true);
+					setCurrentUserData({ id: user.user_id, username: user.user_name }, true);
 					setShowSnackbar({
 						snackData: {
 							type: 'success',
