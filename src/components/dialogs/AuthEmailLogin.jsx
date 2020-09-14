@@ -37,12 +37,17 @@ export default function AuthEmailLogin(props) {
 	const onSubmit = (data) => {
 		console.log('login', data);
 		axios
-			.post('https://api.vomad.guide/auth/signin', {
-				withCredentials: true,
-				crossorigin: true,
-				email: data.email,
-				password: data.password
-			})
+			.post(
+				'https://api.vomad.guide/auth/signin',
+				{
+					email: data.email,
+					password: data.password
+				},
+				{
+					withCredentials: true,
+					crossorigin: true
+				}
+			)
 			.then((res) => console.info('login success', res))
 			.catch((err) => console.error('login error', err));
 	};

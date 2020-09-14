@@ -37,12 +37,18 @@ export default function AuthEmailJoin(props) {
 	const onSubmit = (data) => {
 		console.log('join', data);
 		axios
-			.post('https://api.vomad.guide/auth/register', {
-				withCredentials: true,
-				crossorigin: true,
-				email: data.email,
-				password: data.password
-			})
+			.post(
+				'https://api.vomad.guide/auth/register',
+				{
+					user_name: data.name,
+					email: data.email,
+					password: data.password
+				},
+				{
+					withCredentials: true,
+					crossorigin: true
+				}
+			)
 			.then((res) => console.info('register success', res))
 			.catch((err) => console.error('register error', err));
 	};
