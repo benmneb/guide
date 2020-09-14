@@ -64,20 +64,18 @@ const useStyles = makeStyles((theme) => ({
 export default function SingleLineGridList() {
 	const styles = useStyles();
 	const width = useWidth();
-	// const location = useLocation();
 	const [cols, setCols] = useState(null);
 	const [cellHeight, setCellHeight] = useState(null);
-	// const [currentTab, setCurrentTab] = useState(null);
 
 	useEffect(() => {
 		switch (width) {
 			case 'xs':
 				setCols(2.3);
-				setCellHeight(200);
+				setCellHeight(220);
 				break;
 			case 'sm':
-				setCols(3.3);
-				setCellHeight(250);
+				setCols(3.5);
+				setCellHeight(275);
 				break;
 			case 'md':
 				setCols(5.3);
