@@ -13,7 +13,8 @@ import AuthEmail from './AuthEmail';
 
 const useStyles = makeStyles((theme) => ({
 	dialogPaperWidth: {
-		minWidth: 291
+		minWidth: 291,
+		maxWidth: 300
 	},
 	titleRoot: {
 		margin: 0,
