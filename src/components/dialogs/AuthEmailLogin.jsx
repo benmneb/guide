@@ -7,9 +7,11 @@ import {
 	IconButton,
 	InputAdornment,
 	FormControl,
+	FormHelperText,
 	InputLabel,
 	OutlinedInput,
 	TextField,
+	Tooltip,
 	Box
 } from '@material-ui/core';
 import {
@@ -29,15 +31,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AuthEmailLogin(props) {
 	const styles = useStyles();
-	const [showPassword, setShowPassword] = useState();
+	const [showPassword, setShowPassword] = useState(false);
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmit = (data) => {
 		console.log('login', data);
-		axios.post('https://api.vomad.guide/auth/signin', {
-			email: data.email,
-			password: data.password
-		});
+		axios
+			.post('https://api.vomad.guide/auth/signin', {
+				withCredentials: true,
+				crossorigin: true,
+				email: data.email,
+				password: data.password
+			})
+			.then((res) => console.info('login success', res))
+			.catch((err) => console.error('login error', err));
 	};
 
 	const handleClickShowPassword = () => {
@@ -66,7 +73,7 @@ export default function AuthEmailLogin(props) {
 				justifyContent="center"
 				alignItems="center"
 			>
-				<Box maxWidth="75%" display="flex" flexDirection="column" justifyContent="center">
+				<Box display="flex" flexDirection="column" justifyContent="center">
 					<TextField
 						margin="dense"
 						id="email"
@@ -74,8 +81,12 @@ export default function AuthEmailLogin(props) {
 						label="Email"
 						type="email"
 						variant="outlined"
-						inputRef={register({ required: true, pattern: /^\S+@\S+$/i })}
+						inputRef={register({
+							required: 'Email required',
+							pattern: { value: /\S+@\S+\.\S+/, message: 'Please enter a valid email' }
+						})}
 						error={Boolean(errors.email)}
+						helperText={Boolean(errors.email) && errors.email.message}
 						fullWidth
 					/>
 					<FormControl variant="outlined" margin="dense">
@@ -88,7 +99,11 @@ export default function AuthEmailLogin(props) {
 							name="password"
 							label="Password"
 							type={showPassword ? 'text' : 'password'}
-							inputRef={register({ required: true, minLength: 6, maxLength: 20 })}
+							inputRef={register({
+								required: 'Password required',
+								minLength: { value: 6, message: 'Minimum 6 characters' },
+								maxLength: { value: 20, message: 'Maximum 20 characters' }
+							})}
 							error={Boolean(errors.password)}
 							endAdornment={
 								<InputAdornment position="end">
@@ -98,12 +113,23 @@ export default function AuthEmailLogin(props) {
 										onMouseDown={handleMouseDownPassword}
 										size="small"
 									>
-										{showPassword ? <VisibilityRounded /> : <VisibilityOffRounded />}
+										{showPassword ? (
+											<Tooltip title="Hide password">
+												<VisibilityRounded />
+											</Tooltip>
+										) : (
+											<Tooltip title="Show password">
+												<VisibilityOffRounded />
+											</Tooltip>
+										)}
 									</IconButton>
 								</InputAdornment>
 							}
 							fullWidth
 						/>
+						{errors.password && (
+							<FormHelperText error>{errors.password.message}</FormHelperText>
+						)}
 					</FormControl>
 					<Button
 						type="submit"

@@ -6,10 +6,12 @@ import {
 	Button,
 	InputAdornment,
 	FormControl,
+	FormHelperText,
 	IconButton,
 	InputLabel,
 	OutlinedInput,
 	TextField,
+	Tooltip,
 	Box
 } from '@material-ui/core';
 import {
@@ -29,15 +31,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AuthEmailJoin(props) {
 	const styles = useStyles();
-	const [showPassword, setShowPassword] = useState();
+	const [showPassword, setShowPassword] = useState(false);
 	const { register, handleSubmit, errors, watch } = useForm();
 
 	const onSubmit = (data) => {
 		console.log('join', data);
-		axios.post('https://api.vomad.guide/auth/register', {
-			email: data.email,
-			password: data.password
-		});
+		axios
+			.post('https://api.vomad.guide/auth/register', {
+				withCredentials: true,
+				crossorigin: true,
+				email: data.email,
+				password: data.password
+			})
+			.then((res) => console.info('register success', res))
+			.catch((err) => console.error('register error', err));
 	};
 
 	const handleClickShowPassword = () => {
@@ -66,16 +73,27 @@ export default function AuthEmailJoin(props) {
 				justifyContent="center"
 				alignItems="center"
 			>
-				<Box maxWidth="75%" display="flex" flexDirection="column" justifyContent="center">
+				<Box display="flex" flexDirection="column" justifyContent="center">
 					<TextField
 						margin="dense"
 						id="name"
 						name="name"
-						label="Name"
+						label="Name or username"
 						type="text"
 						variant="outlined"
-						inputRef={register({ required: true, minLength: 2, maxLength: 20 })}
+						inputRef={register({
+							required: 'Name or username required',
+							minLength: {
+								value: 5,
+								message: 'Minimum 5 characters'
+							},
+							maxLength: {
+								value: 25,
+								message: 'Maximum 25 characters'
+							}
+						})}
 						error={Boolean(errors.name)}
+						helperText={Boolean(errors.name) && errors.name.message}
 						fullWidth
 					/>
 					<TextField
@@ -85,8 +103,15 @@ export default function AuthEmailJoin(props) {
 						label="Email"
 						type="email"
 						variant="outlined"
-						inputRef={register({ required: true, pattern: /^\S+@\S+$/i })}
+						inputRef={register({
+							required: 'Email required',
+							pattern: {
+								value: /\S+@\S+\.\S+/,
+								message: 'Please enter a valid email'
+							}
+						})}
 						error={Boolean(errors.email)}
+						helperText={Boolean(errors.email) && errors.email.message}
 						fullWidth
 					/>
 					<FormControl variant="outlined" margin="dense">
@@ -99,7 +124,17 @@ export default function AuthEmailJoin(props) {
 							name="password"
 							label="Password"
 							type={showPassword ? 'text' : 'password'}
-							inputRef={register({ required: true, minLength: 6, maxLength: 20 })}
+							inputRef={register({
+								required: 'Password required',
+								minLength: {
+									value: 6,
+									message: 'Minimum 6 characters'
+								},
+								maxLength: {
+									value: 20,
+									message: 'Maximum 20 characters'
+								}
+							})}
 							error={Boolean(errors.password)}
 							endAdornment={
 								<InputAdornment position="end">
@@ -109,12 +144,23 @@ export default function AuthEmailJoin(props) {
 										onMouseDown={handleMouseDownPassword}
 										size="small"
 									>
-										{showPassword ? <VisibilityRounded /> : <VisibilityOffRounded />}
+										{showPassword ? (
+											<Tooltip title="Hide passwords">
+												<VisibilityRounded />
+											</Tooltip>
+										) : (
+											<Tooltip title="Show passwords">
+												<VisibilityOffRounded />
+											</Tooltip>
+										)}
 									</IconButton>
 								</InputAdornment>
 							}
 							fullWidth
 						/>
+						{errors.password && (
+							<FormHelperText error>{errors.password.message}</FormHelperText>
+						)}
 					</FormControl>
 					<FormControl variant="outlined" margin="dense">
 						<InputLabel htmlFor="confirmpassword" variant="outlined" margin="dense">
@@ -127,11 +173,16 @@ export default function AuthEmailJoin(props) {
 							label="Confirm Password"
 							type={showPassword ? 'text' : 'password'}
 							inputRef={register({
-								required: true,
-								minLength: 6,
-								maxLength: 20,
-								validate: (value) =>
-									value === watch('password') || 'The passwords do not match!'
+								required: 'Please confirm password',
+								minLength: {
+									value: 6,
+									message: 'Minimum 6 characters'
+								},
+								maxLength: {
+									value: 20,
+									message: 'Maximum 20 characters'
+								},
+								validate: (value) => value === watch('password') || 'Passwords must match'
 							})}
 							error={Boolean(errors.confirmpassword)}
 							endAdornment={
@@ -142,12 +193,23 @@ export default function AuthEmailJoin(props) {
 										onMouseDown={handleMouseDownPassword}
 										size="small"
 									>
-										{showPassword ? <VisibilityRounded /> : <VisibilityOffRounded />}
+										{showPassword ? (
+											<Tooltip title="Hide passwords">
+												<VisibilityRounded />
+											</Tooltip>
+										) : (
+											<Tooltip title="Show passwords">
+												<VisibilityOffRounded />
+											</Tooltip>
+										)}
 									</IconButton>
 								</InputAdornment>
 							}
 							fullWidth
 						/>
+						{errors.confirmpassword && (
+							<FormHelperText error>{errors.confirmpassword.message}</FormHelperText>
+						)}
 					</FormControl>
 					<Button
 						type="submit"
@@ -158,12 +220,12 @@ export default function AuthEmailJoin(props) {
 						className={styles.email}
 						classes={{ label: styles.buttonLabel }}
 					>
-						Join with Email
+						Register with Email
 					</Button>
 				</Box>
 			</Box>
 
-			<Button onClick={handleBackToSocial}>Join with social account instead</Button>
+			<Button onClick={handleBackToSocial}>Register with social account instead</Button>
 		</Box>
 	);
 }

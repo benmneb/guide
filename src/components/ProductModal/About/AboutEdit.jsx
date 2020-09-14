@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import * as actionCreators from '../../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -59,12 +60,12 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 	const styles = useStyles();
 	const [selectedReason, setSelectedReason] = useState(null);
 	const [hasSelected, setHasSelected] = useState(false);
-	const [elaboration, setElaboration] = useState('');
+
+	const { register, handleSubmit, errors } = useForm();
 
 	const handleClose = () => {
 		setHasSelected(false);
 		setSelectedReason(null);
-		setElaboration('');
 		props.onClose();
 	};
 
@@ -73,11 +74,15 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 		setSelectedReason(reason);
 	};
 
-	const handleSubmit = () => {
+	const onSubmit = (data) => {
 		const currentTime = new Date();
 		console.log(
-			`User $userId suggested to edit product ${props.productId} due to ${selectedReason} on ${currentTime}. 
-      "${elaboration}".`
+			`User $userId 
+suggested to edit product ${props.productId} 
+due to ${selectedReason} 
+on ${currentTime}.
+They said: 
+"${data.elaboration}".`
 		);
 		onShowSnackbar({
 			snackData: {
@@ -115,6 +120,8 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 					</ListItem>
 				</List>
 				<Box
+					component="form"
+					onSubmit={handleSubmit(onSubmit)}
 					display="flex"
 					height="100%"
 					flexDirection="column"
@@ -123,18 +130,27 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 					margin={2}
 				>
 					<TextField
+						className={styles.marginBtm}
 						id="suggest-edit-elaboration"
-						label="If you can, please elaboarate"
+						label="Please elaborate"
+						name="elaboration"
+						placeholder="Eg. The correct infomation is XYZ as seen at this link [insert link here]..."
 						multiline
 						rows={11}
 						variant="outlined"
 						autoFocus
-						className={styles.marginBtm}
 						fullWidth
-						value={elaboration}
-						onChange={(e) => setElaboration(e.target.value)}
+						inputRef={register({
+							required: 'Elaboration is required',
+							minLength: {
+								value: 20,
+								message: 'Minimum 20 characters'
+							}
+						})}
+						error={Boolean(errors.elaboration)}
+						helperText={Boolean(errors.elaboration) && errors.elaboration.message}
 					/>
-					<Button color="primary" variant="contained" onClick={handleSubmit}>
+					<Button type="submit" color="primary" variant="contained">
 						Submit
 					</Button>
 				</Box>

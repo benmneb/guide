@@ -112,8 +112,13 @@ function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal 
 						label="Your Name"
 						type="text"
 						variant="outlined"
-						inputRef={register({ required: true, minLength: 2, maxLength: 50 })}
+						inputRef={register({
+							required: 'Name required',
+							minLength: { value: 2, message: 'Minimum 2 characters' },
+							maxLength: { value: 50, message: 'Maximum 50 characters' }
+						})}
 						error={Boolean(errors.name)}
+						helperText={Boolean(errors.name) && errors.name.message}
 						fullWidth
 					/>
 					<TextField
@@ -123,8 +128,12 @@ function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal 
 						label="Business Email"
 						type="email"
 						variant="outlined"
-						inputRef={register({ required: true, pattern: /^\S+@\S+$/i })}
+						inputRef={register({
+							required: 'Email required',
+							pattern: { value: /\S+@\S+\.\S+/, message: 'Please enter a valid email' }
+						})}
 						error={Boolean(errors.email)}
+						helperText={Boolean(errors.email) && errors.email.message}
 						fullWidth
 					/>
 					<TextField
@@ -136,8 +145,11 @@ function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal 
 						multiline
 						rows={4}
 						variant="outlined"
-						inputRef={register({ maxLength: 300 })}
+						inputRef={register({
+							maxLength: { value: 750, message: 'Maximum 750 characters' }
+						})}
 						error={Boolean(errors.message)}
+						helperText={Boolean(errors.message) && errors.message.message}
 						fullWidth
 					/>
 					<Box display="flex" justifyContent="flex-end">

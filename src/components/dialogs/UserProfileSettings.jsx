@@ -21,9 +21,11 @@ import {
 import {
 	CloseRounded,
 	CreateRounded,
+	MailOutlineRounded,
 	ExitToAppRounded,
 	DeleteForeverRounded
 } from '@material-ui/icons';
+import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -46,11 +48,12 @@ const useStyles = makeStyles((theme) => ({
 		top: theme.spacing(1),
 		color: theme.palette.grey[500]
 	},
-	deleteAccountLabel: {
-		color: theme.palette.error.main
-	},
-	deleteAccountBorder: {
-		borderColor: theme.palette.error.main
+	deleteAccount: {
+		color: theme.palette.getContrastText(red[500]),
+		backgroundColor: red[500],
+		'&:hover': {
+			backgroundColor: red[700]
+		}
 	},
 	textFieldRoot: {
 		width: '20ch'
@@ -60,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 function AboutEdit({ onShowSnackbar, ...props }) {
 	const styles = useStyles();
 	const [editUsername, setEditUsername] = useState(false);
+	const [changeEmail, setChangeEmail] = useState(false);
 	const [logOut, setLogOut] = useState(false);
 	const [deleteAccount, setDeleteAccount] = useState(false);
 	const { register, handleSubmit, errors } = useForm();
@@ -75,25 +79,34 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 		switch (setting) {
 			case 'editUsername':
 				setEditUsername(!editUsername);
+				setChangeEmail(false);
+				setLogOut(false);
+				setDeleteAccount(false);
+				break;
+			case 'changeEmail':
+				setChangeEmail(!changeEmail);
+				setEditUsername(false);
 				setLogOut(false);
 				setDeleteAccount(false);
 				break;
 			case 'logOut':
 				setLogOut(!logOut);
 				setEditUsername(false);
+				setChangeEmail(false);
 				setDeleteAccount(false);
 				break;
 			case 'deleteAccount':
 				setDeleteAccount(!deleteAccount);
-				setLogOut(false);
 				setEditUsername(false);
+				setChangeEmail(false);
+				setLogOut(false);
 				break;
 			default:
 				return null;
 		}
 	}
 
-	const onSubmit = (data) => {
+	const onSubmitUsername = (data) => {
 		console.log('new username', data);
 		onShowSnackbar({
 			snackData: {
@@ -102,6 +115,17 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 			}
 		});
 		setEditUsername(false);
+	};
+
+	const onSubmitEmail = (data) => {
+		console.log('new email', data);
+		onShowSnackbar({
+			snackData: {
+				type: 'warning',
+				message: 'Please check your inbox for a confirmation email'
+			}
+		});
+		setChangeEmail(false);
 	};
 
 	return (
@@ -139,7 +163,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 				<Collapse in={editUsername} timeout="auto" unmountOnExit>
 					<Box
 						component="form"
-						onSubmit={handleSubmit(onSubmit)}
+						onSubmit={handleSubmit(onSubmitUsername)}
 						display="flex"
 						direction="column"
 						alignItems="center"
@@ -152,13 +176,63 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 							size="small"
 							type="text"
 							placeholder="New username"
-							inputRef={register({ required: true, minLength: 5, maxLength: 25 })}
+							margin="dense"
+							inputRef={register({
+								required: 'Username required',
+								minLength: { value: 5, message: 'Minimum 5 characters' },
+								maxLength: { value: 25, message: 'Maximum 25 characters' }
+							})}
 							error={Boolean(errors.username)}
+							helperText={Boolean(errors.username) && errors.username.message}
 							autoFocus
 							classes={{ root: styles.textFieldRoot }}
 						/>
 
-						<Button type="submit" variant="outlined" size="small" color="primary">
+						<Button type="submit" variant="contained" size="small" color="primary">
+							Change
+						</Button>
+					</Box>
+				</Collapse>
+				<ListItem
+					button
+					onClick={() => handleSettingClick('changeEmail')}
+					selected={changeEmail}
+				>
+					<ListItemIcon>
+						<MailOutlineRounded />
+					</ListItemIcon>
+					<ListItemText primary="Change email" />
+				</ListItem>
+				<Collapse in={changeEmail} timeout="auto" unmountOnExit>
+					<Box
+						component="form"
+						onSubmit={handleSubmit(onSubmitEmail)}
+						display="flex"
+						direction="column"
+						alignItems="center"
+						justifyContent="space-evenly"
+						marginY={2}
+					>
+						<TextField
+							id="change-email"
+							name="email"
+							size="small"
+							type="email"
+							placeholder="New email"
+							margin="dense"
+							inputRef={register({
+								required: 'Email required',
+								pattern: {
+									value: /\S+@\S+\.\S+/,
+									message: 'Please enter a valid email'
+								}
+							})}
+							error={Boolean(errors.email)}
+							helperText={Boolean(errors.email) && errors.email.message}
+							autoFocus
+							classes={{ root: styles.textFieldRoot }}
+						/>
+						<Button type="submit" variant="contained" size="small" color="primary">
 							Change
 						</Button>
 					</Box>
@@ -175,7 +249,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 							Are you sure you want to log out?
 						</Typography>
 						<Box display="flex">
-							<Button size="small" variant="outlined" color="primary">
+							<Button size="small" variant="contained" color="primary">
 								Log Out
 							</Button>
 						</Box>
@@ -198,14 +272,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 							not be undone.
 						</Typography>
 						<Box display="flex">
-							<Button
-								size="small"
-								variant="outlined"
-								classes={{
-									label: styles.deleteAccountLabel,
-									outlined: styles.deleteAccountBorder
-								}}
-							>
+							<Button size="small" variant="contained" className={styles.deleteAccount}>
 								Delete Account Forever
 							</Button>
 						</Box>

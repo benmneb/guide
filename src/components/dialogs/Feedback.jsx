@@ -111,8 +111,13 @@ function Feedback({ onShowSnackbar, onToggleFeedbackModal, showFeedbackModal }) 
 						label="Your Feedback"
 						type="text"
 						variant="outlined"
-						inputRef={register({ required: true, minLength: 5, maxLength: 750 })}
+						inputRef={register({
+							required: true,
+							minLength: { value: 20, message: 'Minimum 20 characters' },
+							maxLength: { value: 750, message: 'Maximum length 750 characters' }
+						})}
 						error={Boolean(errors.feedback)}
+						helperText={Boolean(errors.feedback) && errors.feedback.message}
 						multiline
 						rows={4}
 						fullWidth
@@ -125,8 +130,11 @@ function Feedback({ onShowSnackbar, onToggleFeedbackModal, showFeedbackModal }) 
 						label="Your Name (optional)"
 						type="text"
 						variant="outlined"
-						inputRef={register({ maxLength: 50 })}
+						inputRef={register({
+							maxLength: { value: 50, message: 'Maximum 50 characters' }
+						})}
 						error={Boolean(errors.name)}
+						helperText={Boolean(errors.name) && errors.name.message}
 						fullWidth
 					/>
 					<TextField
@@ -136,8 +144,11 @@ function Feedback({ onShowSnackbar, onToggleFeedbackModal, showFeedbackModal }) 
 						label="Contact email (optional)"
 						type="email"
 						variant="outlined"
-						inputRef={register({ pattern: /^\S+@\S+$/i })}
+						inputRef={register({
+							pattern: { value: /\S+@\S+\.\S+/, message: 'Please enter a valid email' }
+						})}
 						error={Boolean(errors.email)}
+						helperText={Boolean(errors.email) && errors.email.message}
 						fullWidth
 					/>
 					<Box display="flex" justifyContent="flex-end">

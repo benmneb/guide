@@ -128,8 +128,13 @@ function ReviewsAdd({
 								fullWidth
 								variant="outlined"
 								size="small"
-								inputRef={register({ required: true, minLength: 5, maxLength: 1000 })}
+								inputRef={register({
+									required: true,
+									minLength: { value: 20, message: 'Minimum 20 characters' },
+									maxLength: { value: 1000, message: 'Maximum 1000 characters' }
+								})}
 								error={Boolean(errors.review)}
+								helperText={Boolean(errors.review) && errors.review.message}
 								autoFocus
 							/>
 						</Grid>
