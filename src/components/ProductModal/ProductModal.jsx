@@ -84,7 +84,8 @@ const ProductModal = ({
 	showProductModal,
 	selectedProduct,
 	onToggleProductModal,
-	onHideAddReview
+	onHideAddReview,
+	currentUserData
 }) => {
 	const styles = useStyles();
 	const theme = useTheme();
@@ -126,7 +127,7 @@ const ProductModal = ({
 			.put('https://api.vomad.guide/rating/', {
 				rating: newValue,
 				product_id: item && item[0].productId,
-				user_id: 1
+				user_id: currentUserData.id
 			})
 			.then((response) => {
 				setNewRating(JSON.parse(response.config.data).rating);
@@ -247,7 +248,8 @@ const mapStateToProps = (state) => {
 	return {
 		showProductModal: state.showProductModal,
 		showAddReview: state.showAddReview,
-		selectedProduct: state.selectedProduct
+		selectedProduct: state.selectedProduct,
+		currentUserData: state.currentUserData
 	};
 };
 

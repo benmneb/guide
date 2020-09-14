@@ -25,6 +25,7 @@ function ReviewsAdd({
 	hide,
 	onShowSnackbar,
 	ratingBeforeClickedAddReviewSnackbar,
+	currentUserData,
 	...props
 }) {
 	const styles = useStyles();
@@ -40,7 +41,7 @@ function ReviewsAdd({
 				.post('https://api.vomad.guide/review/', {
 					review: data.review,
 					product_id: props.productId,
-					user_id: 1,
+					user_id: currentUserData.id,
 					rating: rating
 				})
 				.then(() => {
@@ -150,6 +151,12 @@ function ReviewsAdd({
 	);
 }
 
+const mapStateToProps = (state) => {
+	return {
+		currentUserData: state.currentUserData
+	};
+};
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onShowSnackbar: ({ snackData }) =>
@@ -157,4 +164,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(null, mapDispatchToProps)(ReviewsAdd);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewsAdd);

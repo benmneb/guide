@@ -53,7 +53,11 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function ProductModal({ showUserProfileModal, onToggleUserProfileModal }) {
+function ProductModal({
+	showUserProfileModal,
+	onToggleUserProfileModal,
+	currentUserData
+}) {
 	const styles = useStyles();
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
@@ -113,7 +117,7 @@ function ProductModal({ showUserProfileModal, onToggleUserProfileModal }) {
 								{user ? `+${user[0].karma} karma` : <Skeleton width={110} />}
 							</Typography>
 							<Typography component="h1" variant="h4" align="center">
-								{user ? user[0].username : <Skeleton width="30%" />}
+								{currentUserData ? currentUserData.username : <Skeleton width="30%" />}
 							</Typography>
 						</Grid>
 						<Grid
@@ -132,7 +136,7 @@ function ProductModal({ showUserProfileModal, onToggleUserProfileModal }) {
 								{user ? (
 									<Avatar
 										src={user[0].avatar}
-										alt={user[0].username}
+										alt={currentUserData && currentUserData.username}
 										className={styles.avatar}
 										style={{ backgroundColor: color }}
 									/>
@@ -216,7 +220,8 @@ function ProductModal({ showUserProfileModal, onToggleUserProfileModal }) {
 
 const mapStateToProps = (state) => {
 	return {
-		showUserProfileModal: state.showUserProfileModal
+		showUserProfileModal: state.showUserProfileModal,
+		currentUserData: state.currentUserData
 	};
 };
 
