@@ -136,7 +136,9 @@ function ProductModal({
 								{user ? (
 									<Avatar
 										src={user[0].avatar}
-										alt={currentUserData && currentUserData.username}
+										alt={
+											currentUserData && String(currentUserData.username).toUpperCase()
+										}
 										className={styles.avatar}
 										style={{ backgroundColor: color }}
 									/>
