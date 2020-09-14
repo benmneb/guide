@@ -9,7 +9,6 @@ import FiltersBar from '../AppBar/FiltersBar';
 import FiltersPanel from '../FiltersPanel/FiltersPanel';
 import AddProductsFab from './AddProductsFab';
 import * as actionCreators from '../../store/actions';
-import peanuts from '../../assets/images/peanuts.jpg';
 import BottomNav from './BottomNav';
 import ResultSkeleton from './ResultSkeleton';
 
@@ -86,7 +85,7 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 
 	return (
 		<>
-			<Hero bgImage={peanuts} hide={showFiltersPanel}>
+			<Hero hide={showFiltersPanel}>
 				<Heading>Vegan Nut Butters & Spreads</Heading>
 				<SubHeading>
 					There are 64 vegan nut butters & spreads within Australia from brands like
