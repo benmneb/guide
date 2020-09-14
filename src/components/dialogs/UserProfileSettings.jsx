@@ -166,7 +166,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 						onSubmit={handleSubmit(onSubmitUsername)}
 						display="flex"
 						direction="column"
-						alignItems="center"
+						alignItems="baseline"
 						justifyContent="space-evenly"
 						marginY={2}
 					>
@@ -178,7 +178,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 							placeholder="New username"
 							margin="dense"
 							inputRef={register({
-								required: 'Username required',
+								required: 'Enter a new username',
 								minLength: { value: 5, message: 'Minimum 5 characters' },
 								maxLength: { value: 25, message: 'Maximum 25 characters' }
 							})}
@@ -188,7 +188,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 							classes={{ root: styles.textFieldRoot }}
 						/>
 
-						<Button type="submit" variant="contained" size="small" color="primary">
+						<Button type="submit" variant="contained" color="primary">
 							Change
 						</Button>
 					</Box>
@@ -209,7 +209,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 						onSubmit={handleSubmit(onSubmitEmail)}
 						display="flex"
 						direction="column"
-						alignItems="center"
+						alignItems="baseline"
 						justifyContent="space-evenly"
 						marginY={2}
 					>
@@ -217,11 +217,11 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 							id="change-email"
 							name="email"
 							size="small"
-							type="email"
+							type="text"
 							placeholder="New email"
 							margin="dense"
 							inputRef={register({
-								required: 'Email required',
+								required: 'Please enter an email',
 								pattern: {
 									value: /\S+@\S+\.\S+/,
 									message: 'Please enter a valid email'
@@ -232,7 +232,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 							autoFocus
 							classes={{ root: styles.textFieldRoot }}
 						/>
-						<Button type="submit" variant="contained" size="small" color="primary">
+						<Button type="submit" variant="contained" color="primary">
 							Change
 						</Button>
 					</Box>
@@ -248,11 +248,13 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 						<Typography variant="body2" paragraph>
 							Are you sure you want to log out?
 						</Typography>
-						<Box display="flex">
-							<Button size="small" variant="contained" color="primary">
-								Log Out
-							</Button>
-						</Box>
+						<Button
+							variant="contained"
+							color="primary"
+							href="https://api.vomad.guide/auth/logout"
+						>
+							Log Out
+						</Button>
 					</Box>
 				</Collapse>
 				<ListItem
@@ -271,11 +273,9 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 							Do you really want to delete your account? This action is permanent and can
 							not be undone.
 						</Typography>
-						<Box display="flex">
-							<Button size="small" variant="contained" className={styles.deleteAccount}>
-								Delete Account Forever
-							</Button>
-						</Box>
+						<Button variant="contained" className={styles.deleteAccount}>
+							Delete Account Forever
+						</Button>
 					</Box>
 				</Collapse>
 			</List>
