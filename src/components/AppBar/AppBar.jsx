@@ -13,8 +13,6 @@ import Box from '@material-ui/core/Box';
 import SideDrawer from './SideDrawer';
 import * as actionCreators from '../../store/actions';
 
-const drawerWidth = 240;
-
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex'
@@ -22,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
 	appBar: {
 		zIndex: theme.zIndex.appBar + 2,
 		[theme.breakpoints.up('lg')]: {
-			width: `calc(100% - ${drawerWidth}px)`,
-			marginLeft: drawerWidth
+			width: `calc(100% - ${theme.mixins.sideMenu.width}px)`,
+			marginLeft: theme.mixins.sideMenu.width
 		}
 	},
 	menuButton: {

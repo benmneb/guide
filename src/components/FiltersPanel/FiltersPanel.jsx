@@ -7,8 +7,6 @@ import OrderBy from './OrderBy';
 import FilterButton from './FilterButton';
 import { ingredients, allergens, tags } from '../../assets/filters';
 
-const drawerWidth = 395;
-
 const useStyles = makeStyles((theme) => ({
 	drawer: {
 		flexShrink: 0
@@ -16,30 +14,29 @@ const useStyles = makeStyles((theme) => ({
 	drawerPaper: {
 		right: 0,
 		zIndex: theme.zIndex.appBar,
+		...theme.mixins.filtersPanel,
 		[theme.breakpoints.only('xs')]: {
 			display: 'flex',
 			alignItems: 'center',
-			width: '100vw',
-			bottom: 56, // bottomNav height
-			height: `calc(100vh - 56px)`, // bottomNav height
+			height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`, // bottomNav height
 			borderBottom: `1px solid rgba(0, 0, 0, 0.12);`
 		},
 		[theme.breakpoints.only('sm')]: {
-			width: drawerWidth,
-			top: 64,
-			bottom: 56, // bottomNav height
-			height: `calc(100vh - 120px)`, // bottomNav height + theme.mixins.toolbar height
+			top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight,
+			height: `calc(100vh - ${
+				theme.mixins.toolbar['@media (min-width:600px)'].minHeight * 2
+			}px)`, // bottomNav height + filtersBar height
 			borderTop: `1px solid rgba(0, 0, 0, 0.12);`,
 			borderBottom: `1px solid rgba(0, 0, 0, 0.12);`
 		},
 		[theme.breakpoints.up('md')]: {
-			width: drawerWidth,
-			top: 64, // theme.mixins.toolbar min width 600px height
-			height: `calc(100vh - 64px)`, // theme.mixins.toolbar min width 600px height
+			top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight,
+			height: `calc(100vh - ${theme.mixins.toolbar['@media (min-width:600px)'].minHeight}px)`,
 			borderTop: `1px solid rgba(0, 0, 0, 0.12);`
 		}
 	},
 	content: {
+		maxWidth: theme.mixins.filtersPanel.width,
 		[theme.breakpoints.only('xs')]: {
 			margin: theme.spacing(0)
 		},
@@ -68,7 +65,7 @@ const FiltersPanel = (props) => {
 				paper: styles.drawerPaper
 			}}
 		>
-			<Box component="aside" className={styles.content} maxWidth={drawerWidth}>
+			<Box component="aside" className={styles.content}>
 				<Typography align="center" className={styles.filtersSectionTitle}>
 					Tags
 				</Typography>

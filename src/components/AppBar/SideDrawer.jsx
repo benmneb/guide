@@ -23,17 +23,15 @@ import { categories } from '../../assets/categoriesAZ';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as actionCreators from '../../store/actions';
 
-const drawerWidth = 240;
-
 const useStyles = makeStyles((theme) => ({
 	drawer: {
 		[theme.breakpoints.up('lg')]: {
-			width: drawerWidth,
+			width: theme.mixins.sideMenu.width,
 			flexShrink: 0
 		}
 	},
 	drawerPaper: {
-		width: drawerWidth
+		width: theme.mixins.sideMenu.width
 	},
 	toolbar: {
 		display: 'flex',

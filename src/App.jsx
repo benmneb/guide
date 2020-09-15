@@ -24,6 +24,17 @@ let theme = createMuiTheme({
 	palette: {
 		primary: orange
 	},
+	mixins: {
+		filtersPanel: {
+			width: 395,
+			'@media (max-width: 600px)': {
+				width: '100vw'
+			}
+		},
+		sideMenu: {
+			width: 240
+		}
+	},
 	typography: {
 		button: {
 			textTransform: 'none'

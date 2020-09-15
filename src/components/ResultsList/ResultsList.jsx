@@ -12,8 +12,6 @@ import * as actionCreators from '../../store/actions';
 import BottomNav from './BottomNav';
 import ResultSkeleton from './ResultSkeleton';
 
-const drawerWidth = 395;
-
 const useStyles = makeStyles((theme) => ({
 	container: {
 		backgroundColor: theme.palette.background.paper,
@@ -43,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 			easing: theme.transitions.easing.easeOut,
 			duration: theme.transitions.duration.enteringScreen
 		}),
-		marginRight: drawerWidth
+		marginRight: theme.mixins.filtersPanel.width
 	},
 	fab: {
 		position: 'fixed',
