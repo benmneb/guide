@@ -8,6 +8,7 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 	// JSS has to be inside the function because it receives props for the bgImage
 	const useStyles = makeStyles((theme) => ({
 		container: {
+			backgroundColor: theme.palette.background.paper,
 			zIndex: theme.zIndex.appBar + 1,
 			[theme.breakpoints.only('xs')]: {
 				height: 350
