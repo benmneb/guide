@@ -226,12 +226,12 @@ export default function AuthEmailJoin(props) {
 						className={styles.email}
 						classes={{ label: styles.buttonLabel }}
 					>
-						Register with Email
+						Sign up with Email
 					</Button>
 				</Box>
 			</Box>
 
-			<Button onClick={handleBackToSocial}>Register with social account instead</Button>
+			<Button onClick={handleBackToSocial}>Sign up with social account instead</Button>
 		</Box>
 	);
 }

@@ -54,11 +54,15 @@ export default function ReviewCard(props) {
 	};
 
 	const handleLikeClick = () => {
-		axios
-			.put('https://api.vomad.guide/like/', {
-				review_id: review.review_id
-			})
-			.then(() => props.updateReview());
+		if (props.isAuthenticated) {
+			axios
+				.put('https://api.vomad.guide/like/', {
+					review_id: review.review_id
+				})
+				.then(() => props.updateReview());
+		} else {
+			props.showAuthModal();
+		}
 	};
 
 	const color = randomMC.getColor({ text: review.user_name });

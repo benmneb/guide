@@ -13,20 +13,24 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function StoresVoteButtons({ onShowSnackbar }) {
+function StoresVoteButtons({ setShowSnackbar, isAuthenticated, setToggleAuthModal }) {
 	const styles = useStyles();
 	const [selected, setSelected] = useState('');
 
 	function handleVote(vote) {
-		if (vote !== selected) {
-			setSelected(vote);
-			onShowSnackbar({
-				snackData: {
-					type: 'success',
-					message: 'Thank you for helping people find vegan products easier!'
-				}
-			});
-		} else setSelected('');
+		if (isAuthenticated) {
+			if (vote !== selected) {
+				setSelected(vote);
+				setShowSnackbar({
+					snackData: {
+						type: 'success',
+						message: 'Thank you for helping people find vegan products easier!'
+					}
+				});
+			} else setSelected('');
+		} else {
+			setToggleAuthModal();
+		}
 	}
 
 	return (
@@ -56,11 +60,18 @@ function StoresVoteButtons({ onShowSnackbar }) {
 	);
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
 	return {
-		onShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
+		isAuthenticated: state.isAuthenticated
 	};
 };
 
-export default connect(null, mapDispatchToProps)(StoresVoteButtons);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData })),
+		setToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal())
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StoresVoteButtons);

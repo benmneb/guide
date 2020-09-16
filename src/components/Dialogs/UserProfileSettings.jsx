@@ -22,7 +22,6 @@ import {
 	CloseRounded,
 	CreateRounded,
 	MailOutlineRounded,
-	ExitToAppRounded,
 	DeleteForeverRounded
 } from '@material-ui/icons';
 import { red } from '@material-ui/core/colors';
@@ -64,14 +63,12 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 	const styles = useStyles();
 	const [editUsername, setEditUsername] = useState(false);
 	const [changeEmail, setChangeEmail] = useState(false);
-	const [logOut, setLogOut] = useState(false);
 	const [deleteAccount, setDeleteAccount] = useState(false);
 	const { register, handleSubmit, errors } = useForm();
 
 	const handleClose = () => {
 		props.hide();
 		setEditUsername(false);
-		setLogOut(false);
 		setDeleteAccount(false);
 	};
 
@@ -80,26 +77,17 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 			case 'editUsername':
 				setEditUsername(!editUsername);
 				setChangeEmail(false);
-				setLogOut(false);
 				setDeleteAccount(false);
 				break;
 			case 'changeEmail':
 				setChangeEmail(!changeEmail);
 				setEditUsername(false);
-				setLogOut(false);
-				setDeleteAccount(false);
-				break;
-			case 'logOut':
-				setLogOut(!logOut);
-				setEditUsername(false);
-				setChangeEmail(false);
 				setDeleteAccount(false);
 				break;
 			case 'deleteAccount':
 				setDeleteAccount(!deleteAccount);
 				setEditUsername(false);
 				setChangeEmail(false);
-				setLogOut(false);
 				break;
 			default:
 				return null;
@@ -201,7 +189,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 					<ListItemIcon>
 						<MailOutlineRounded />
 					</ListItemIcon>
-					<ListItemText primary="Change email" />
+					<ListItemText primary="Change Email" />
 				</ListItem>
 				<Collapse in={changeEmail} timeout="auto" unmountOnExit>
 					<Box
@@ -234,26 +222,6 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 						/>
 						<Button type="submit" variant="contained" color="primary">
 							Change
-						</Button>
-					</Box>
-				</Collapse>
-				<ListItem button onClick={() => handleSettingClick('logOut')} selected={logOut}>
-					<ListItemIcon>
-						<ExitToAppRounded />
-					</ListItemIcon>
-					<ListItemText primary="Log Out" />
-				</ListItem>
-				<Collapse in={logOut} timeout="auto" unmountOnExit>
-					<Box display="flex" flexDirection="column" alignItems="center" marginY={2}>
-						<Typography variant="body2" paragraph>
-							Are you sure you want to log out?
-						</Typography>
-						<Button
-							variant="contained"
-							color="primary"
-							href="https://api.vomad.guide/auth/logout"
-						>
-							Log Out
 						</Button>
 					</Box>
 				</Collapse>

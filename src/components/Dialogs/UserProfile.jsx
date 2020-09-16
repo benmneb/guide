@@ -15,7 +15,12 @@ import {
 	Grid,
 	Box
 } from '@material-ui/core';
-import { CloseRounded, PhotoCameraRounded, SettingsRounded } from '@material-ui/icons';
+import {
+	CloseRounded,
+	PhotoCameraRounded,
+	SettingsRounded,
+	ExitToAppRounded
+} from '@material-ui/icons';
 import Skeleton from '@material-ui/lab/Skeleton';
 import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
@@ -197,13 +202,21 @@ function ProductModal({
 								</Box>
 							</Typography>
 							{user && user[0].id === currentUserId && (
-								<Box marginTop={2} display="flex" flexDirection="column">
+								<Box marginTop={2} display="flex">
 									<Button
 										variant="outlined"
 										onClick={handleShowSettingsModal}
 										startIcon={<SettingsRounded />}
 									>
 										Settings
+									</Button>
+									<Button
+										variant="outlined"
+										href="https://api.vomad.guide/auth/logout"
+										startIcon={<ExitToAppRounded />}
+										style={{ marginLeft: 8 }}
+									>
+										Logout
 									</Button>
 								</Box>
 							)}

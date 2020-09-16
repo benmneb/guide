@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Tooltip, IconButton } from '@material-ui/core';
 import { ThumbUpAltRounded } from '@material-ui/icons';
 
-export default function LikeButton({
+function LikeButton({
 	tooltip,
 	tooltipPlacement,
 	ariaLabel,
 	size,
+	isAuthenticated,
 	...props
 }) {
 	const [hasBeenClicked, setHasBeenClicked] = useState(false);
 
 	function handleClick() {
-		setHasBeenClicked(!hasBeenClicked);
+		if (isAuthenticated) {
+			setHasBeenClicked(!hasBeenClicked);
+		}
 		props.handleLike();
 	}
 
@@ -52,3 +56,11 @@ LikeButton.defaultProps = {
 	tooltipPlacement: 'bottom',
 	size: 'default'
 };
+
+const mapStateToProps = (state) => {
+	return {
+		isAuthenticated: state.isAuthenticated
+	};
+};
+
+export default connect(mapStateToProps)(LikeButton);

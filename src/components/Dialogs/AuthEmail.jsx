@@ -42,7 +42,7 @@ export default function LoginLogin(props) {
 					Login
 				</ToggleButton>
 				<ToggleButton value="join" aria-label="join" className={styles.toggleButton}>
-					Register
+					Sign up
 				</ToggleButton>
 			</ToggleButtonGroup>
 			{route === 'login' ? (

@@ -112,6 +112,8 @@ function Reviews({
 								key={review.review_id}
 								review={review}
 								updateReview={() => updateReview()}
+								isAuthenticated={isAuthenticated}
+								showAuthModal={() => setToggleAuthModal()}
 							/>
 						))}
 				</MasonryLayout>

@@ -103,12 +103,6 @@ const SideDrawer = (props) => {
 			</div>
 			<Divider />
 			<List component="nav">
-				<ListItem button onClick={() => openMenuItem('home')}>
-					<ListItemIcon>
-						<HomeRounded />
-					</ListItemIcon>
-					<ListItemText primary={'Home'} />
-				</ListItem>
 				{props.isAuthenticated ? (
 					<ListItem button onClick={() => openMenuItem('userProfile')}>
 						<ListItemIcon>
@@ -121,9 +115,15 @@ const SideDrawer = (props) => {
 						<ListItemIcon>
 							<LockOpenRoundedIcon />
 						</ListItemIcon>
-						<ListItemText primary={'Login / Join'} />
+						<ListItemText primary={'Login / Sign up'} />
 					</ListItem>
 				)}
+				<ListItem button onClick={() => openMenuItem('home')}>
+					<ListItemIcon>
+						<HomeRounded />
+					</ListItemIcon>
+					<ListItemText primary={'Home'} />
+				</ListItem>
 				<ListItem button onClick={() => openMenuItem('foodDrink')}>
 					<ListItemIcon>
 						<FastfoodRoundedIcon />
