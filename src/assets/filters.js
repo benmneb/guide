@@ -11,7 +11,7 @@ export const tags = [
 	},
 	{
 		name: '👩‍🦰 For Women',
-		value: '👩‍For Women',
+		value: 'For Women',
 		tooltip: 'Only applies to household items, not food / drink'
 	},
 	{

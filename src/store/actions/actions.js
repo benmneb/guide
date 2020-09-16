@@ -129,3 +129,27 @@ export const setCurrentLocation = (location) => {
 		}
 	};
 };
+
+export const addFilter = (filter) => {
+	return {
+		type: actionTypes.ADD_FILTER,
+		payload: {
+			filter
+		}
+	};
+};
+
+export const removeFilter = (filter) => {
+	return {
+		type: actionTypes.REMOVE_FILTER,
+		payload: {
+			filter
+		}
+	};
+};
+
+export const removeAllFilters = () => {
+	return {
+		type: actionTypes.REMOVE_ALL_FILTERS
+	};
+};

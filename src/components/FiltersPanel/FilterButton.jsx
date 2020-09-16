@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Tooltip, Typography } from '@material-ui/core';
+import * as actionCreators from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	filtersBtn: {
@@ -16,29 +18,50 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function FilterButton(props) {
+function FilterButton({ setAddFilter, setRemoveFilter, appliedFilters, filter }) {
 	const classes = useStyles();
 	const [selected, setSelected] = useState(false);
 
-	let variant = 'outlined';
+	useEffect(() => {
+		setSelected(appliedFilters.includes(filter));
+	}, [appliedFilters, filter]);
 
-	if (selected) {
-		variant = 'contained';
+	let variant = 'outlined';
+	if (selected) variant = 'contained';
+
+	function handleClick() {
+		if (!selected) setAddFilter(filter);
+		else setRemoveFilter(filter);
 	}
 
 	return (
-		<Tooltip title={props.tooltip} arrow enterDelay={1000}>
+		<Tooltip title={filter.tooltip} arrow enterDelay={1000}>
 			<Button
 				className={classes.filtersBtn}
 				variant={variant}
 				color="default"
-				onClick={() => setSelected(!selected)}
+				onClick={handleClick}
 				disableRipple
 			>
 				<Typography component="span" variant="inherit">
-					{props.name}
+					{filter.name}
 				</Typography>
 			</Button>
 		</Tooltip>
 	);
 }
+
+const mapStateToProps = (state) => {
+	return {
+		appliedFilters: state.appliedFilters
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setAddFilter: (filter) => dispatch(actionCreators.addFilter(filter)),
+		setRemoveFilter: (filter) => dispatch(actionCreators.removeFilter(filter))
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterButton);

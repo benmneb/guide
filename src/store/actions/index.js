@@ -17,5 +17,8 @@ export {
 	clickAddReviewAfterRating,
 	showAddReview,
 	hideAddReview,
-	setCurrentLocation
+	setCurrentLocation,
+	addFilter,
+	removeFilter,
+	removeAllFilters
 } from './actions';

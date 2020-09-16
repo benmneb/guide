@@ -1,15 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AppBar } from '@material-ui/core';
-import Toolbar from '@material-ui/core/Toolbar';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+import {
+	AppBar,
+	Toolbar,
+	Box,
+	Typography,
+	Breadcrumbs,
+	Link,
+	Tooltip,
+	useScrollTrigger,
+	Chip
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
-import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNext';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import { NavigateNextRounded, DeleteRounded } from '@material-ui/icons';
 import ShowFiltersButton from './ShowFiltersButton';
+import * as actionCreators from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	zIndex: {
@@ -22,15 +27,32 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('sm')]: {
 			display: 'block'
 		}
+	},
+	filtersToolbar: {
+		display: 'flex',
+		alignItems: 'baseline',
+		marginLeft: theme.spacing(-0.5)
+	},
+	filtersChipBox: {
+		display: 'flex',
+		overflow: 'scroll',
+		width: `calc(100% - ${theme.spacing(6)}px)`,
+		position: 'absolute',
+		msOverflowStyle: 'none',
+		scrollbarWidth: 'none',
+		'&::-webkit-scrollbar': {
+			display: 'none'
+		}
+	},
+	chip: {
+		margin: theme.spacing(0, 0.5)
 	}
 }));
 
-function ElevationScroll(props) {
-	const { children } = props;
-
+function ElevationScroll({ showFiltersPanel, children }) {
 	const trigger = useScrollTrigger({
 		disableHysteresis: true,
-		threshold: props.showFiltersPanel ? -1 : 290
+		threshold: showFiltersPanel ? -1 : 290
 	});
 
 	return React.cloneElement(children, {
@@ -38,8 +60,12 @@ function ElevationScroll(props) {
 	});
 }
 
-function FiltersBar(props) {
+function FiltersBar({ appliedFilters, setRemoveFilter, setRemoveAllFilters, ...props }) {
 	const styles = useStyles();
+
+	function removeAllFilters() {
+		setRemoveAllFilters();
+	}
 
 	return (
 		<Box
@@ -59,7 +85,7 @@ function FiltersBar(props) {
 					<Toolbar>
 						<Box className={styles.breadcrumbs}>
 							<Breadcrumbs
-								separator={<NavigateNextRoundedIcon fontSize="small" />}
+								separator={<NavigateNextRounded fontSize="small" />}
 								aria-label="breadcrumb"
 								maxItems={6}
 								itemsBeforeCollapse={0}
@@ -80,6 +106,36 @@ function FiltersBar(props) {
 							<ShowFiltersButton />
 						</Box>
 					</Toolbar>
+					{appliedFilters.length > 0 && (
+						<Toolbar variant="dense" className={styles.filtersToolbar}>
+							<Box className={styles.filtersChipBox}>
+								{appliedFilters.map((filter) => (
+									<Tooltip
+										key={filter.value}
+										title={filter.tooltip}
+										placement="bottom"
+										arrow
+									>
+										<Chip
+											className={styles.chip}
+											label={filter.value}
+											onClick={() => setRemoveFilter(filter)}
+											onDelete={() => setRemoveFilter(filter)}
+										/>
+									</Tooltip>
+								))}
+								<Box className={styles.chip}>
+									<Chip
+										label={'Remove All'}
+										variant="outlined"
+										deleteIcon={<DeleteRounded />}
+										onClick={removeAllFilters}
+										onDelete={removeAllFilters}
+									/>
+								</Box>
+							</Box>
+						</Toolbar>
+					)}
 				</AppBar>
 			</ElevationScroll>
 		</Box>
@@ -88,8 +144,16 @@ function FiltersBar(props) {
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel
+		showFiltersPanel: state.showFiltersPanel,
+		appliedFilters: state.appliedFilters
 	};
 };
 
-export default connect(mapStateToProps)(FiltersBar);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setRemoveFilter: (filter) => dispatch(actionCreators.removeFilter(filter)),
+		setRemoveAllFilters: () => dispatch(actionCreators.removeAllFilters())
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FiltersBar);

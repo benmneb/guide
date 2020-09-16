@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Drawer, Typography, Grid, Box } from '@material-ui/core';
 import SortBy from './SortBy';
@@ -35,6 +36,20 @@ const useStyles = makeStyles((theme) => ({
 			borderTop: `1px solid rgba(0, 0, 0, 0.12);`
 		}
 	},
+	filtersApplied: {
+		[theme.breakpoints.only('sm')]: {
+			top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48,
+			height: `calc(100vh - ${
+				theme.mixins.toolbar['@media (min-width:600px)'].minHeight * 2 + 48
+			}px)` // bottomNav height * 2 + chips toolbar height
+		},
+		[theme.breakpoints.up('md')]: {
+			top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48,
+			height: `calc(100vh - ${
+				theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48
+			}px)`
+		}
+	},
 	content: {
 		maxWidth: theme.mixins.filtersPanel.width,
 		[theme.breakpoints.only('xs')]: {
@@ -52,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const FiltersPanel = (props) => {
+const FiltersPanel = ({ showFiltersPanel, appliedFilters }) => {
 	const styles = useStyles();
 
 	return (
@@ -60,9 +75,11 @@ const FiltersPanel = (props) => {
 			className={styles.drawer}
 			variant="persistent"
 			anchor="right"
-			open={props.showFiltersPanel}
+			open={showFiltersPanel}
 			classes={{
-				paper: styles.drawerPaper
+				paper: clsx(styles.drawerPaper, {
+					[styles.filtersApplied]: appliedFilters.length > 0
+				})
 			}}
 		>
 			<Box component="aside" className={styles.content}>
@@ -71,7 +88,7 @@ const FiltersPanel = (props) => {
 				</Typography>
 				<Grid container justify="space-evenly">
 					{tags.map((tag) => (
-						<FilterButton name={tag.name} tooltip={tag.tooltip} key={tag.name} />
+						<FilterButton key={tag.name} filter={tag} />
 					))}
 				</Grid>
 				<Typography align="center" className={styles.filtersSectionTitle}>
@@ -79,7 +96,7 @@ const FiltersPanel = (props) => {
 				</Typography>
 				<Grid container justify="space-evenly">
 					{ingredients.map((ing) => (
-						<FilterButton name={ing.name} tooltip={ing.tooltip} key={ing.name} />
+						<FilterButton key={ing.name} filter={ing} />
 					))}
 				</Grid>
 				<Typography align="center" className={styles.filtersSectionTitle}>
@@ -87,11 +104,7 @@ const FiltersPanel = (props) => {
 				</Typography>
 				<Grid container justify="space-evenly">
 					{allergens.map((allergen) => (
-						<FilterButton
-							name={allergen.name}
-							tooltip={allergen.tooltip}
-							key={allergen.name}
-						/>
+						<FilterButton key={allergen.name} filter={allergen} />
 					))}
 				</Grid>
 				<Typography align="center" className={styles.filtersSectionTitle}>
@@ -128,7 +141,8 @@ const FiltersPanel = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel
+		showFiltersPanel: state.showFiltersPanel,
+		appliedFilters: state.appliedFilters
 	};
 };
 

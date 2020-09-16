@@ -18,7 +18,8 @@ const initialState = {
 	showAddReview: false,
 	ratingBeforeClickedAddReviewSnackbar: null,
 	selectedProduct: null,
-	currentLocation: null
+	currentLocation: null,
+	appliedFilters: []
 };
 
 export default function Reducers(state = initialState, action) {
@@ -100,8 +101,7 @@ export default function Reducers(state = initialState, action) {
 		case actionTypes.HIDE_SNACKBAR:
 			return {
 				...state,
-				showSnackbar: false,
-				snackData: {}
+				showSnackbar: false
 			};
 		case actionTypes.CLICK_ADD_REVIEW_AFTER_RATING:
 			return {
@@ -122,6 +122,23 @@ export default function Reducers(state = initialState, action) {
 			return {
 				...state,
 				currentLocation: action.payload.location
+			};
+		case actionTypes.ADD_FILTER:
+			return {
+				...state,
+				appliedFilters: [...state.appliedFilters, action.payload.filter]
+			};
+		case actionTypes.REMOVE_FILTER:
+			return {
+				...state,
+				appliedFilters: state.appliedFilters.filter(
+					(filter) => filter !== action.payload.filter
+				)
+			};
+		case actionTypes.REMOVE_ALL_FILTERS:
+			return {
+				...state,
+				appliedFilters: []
 			};
 		default:
 			return state;
