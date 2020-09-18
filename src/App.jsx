@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { ConfirmProvider } from 'material-ui-confirm';
 import {
 	createMuiTheme,
 	responsiveFontSizes,
@@ -60,7 +61,7 @@ theme = responsiveFontSizes(theme);
 export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
-			<>
+			<ConfirmProvider>
 				<CssBaseline />
 				<AppBar>
 					<Switch>
@@ -80,7 +81,7 @@ export default function App() {
 				<Auth />
 				<UserProfile />
 				<Snackbars />
-			</>
+			</ConfirmProvider>
 		</ThemeProvider>
 	);
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useConfirm } from 'material-ui-confirm';
 import * as actionCreators from '../../store/actions';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -65,6 +66,7 @@ function ProductModal({
 }) {
 	const styles = useStyles();
 	const theme = useTheme();
+	const confirm = useConfirm();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
 
@@ -80,6 +82,18 @@ function ProductModal({
 
 	function handleHideSettingsModal() {
 		setShowSettingsModal(false);
+	}
+
+	function handleLogoutClick() {
+		confirm({
+			title: 'Log Out',
+			description: 'Are you sure you want to log out?',
+			confirmationText: 'Log out',
+			confirmationButtonProps: { variant: 'contained', color: 'primary' },
+			cancellationButtonProps: { autoFocus: true }
+		})
+			.then(() => (window.location.href = 'https://api.vomad.guide/auth/logout'))
+			.catch(() => null);
 	}
 
 	const color = randomMC.getColor({ text: user[0].username });
@@ -212,7 +226,7 @@ function ProductModal({
 									</Button>
 									<Button
 										variant="outlined"
-										href="https://api.vomad.guide/auth/logout"
+										onClick={handleLogoutClick}
 										startIcon={<ExitToAppRounded />}
 										style={{ marginLeft: 8 }}
 									>

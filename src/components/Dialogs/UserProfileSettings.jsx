@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import { useForm } from 'react-hook-form';
+import { useConfirm } from 'material-ui-confirm';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import {
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 function AboutEdit({ onShowSnackbar, ...props }) {
 	const styles = useStyles();
+	const confirm = useConfirm();
 	const [editUsername, setEditUsername] = useState(false);
 	const [changeEmail, setChangeEmail] = useState(false);
 	const [deleteAccount, setDeleteAccount] = useState(false);
@@ -114,6 +116,18 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 			}
 		});
 		setChangeEmail(false);
+	};
+
+	const handleDeleteAccountClick = () => {
+		confirm({
+			title: 'Delete Account?',
+			description: 'Please confirm you want to delete your account.',
+			confirmationText: 'Delete Account',
+			confirmationButtonProps: { className: styles.deleteAccount },
+			cancellationButtonProps: { autoFocus: true }
+		})
+			.then(() => console.info('TODO: DELETE ACCOUNT PLZZ HESHAM'))
+			.catch(() => null);
 	};
 
 	return (
@@ -241,7 +255,11 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 							Do you really want to delete your account? This action is permanent and can
 							not be undone.
 						</Typography>
-						<Button variant="contained" className={styles.deleteAccount}>
+						<Button
+							variant="contained"
+							onClick={handleDeleteAccountClick}
+							className={styles.deleteAccount}
+						>
 							Delete Account Forever
 						</Button>
 					</Box>
