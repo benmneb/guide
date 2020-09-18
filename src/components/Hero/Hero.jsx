@@ -136,11 +136,9 @@ Heading.defaultProps = {
 
 export function SubHeading({ children, textAlign }) {
 	return (
-		<Box>
-			<Typography align={textAlign} component="p" variant="h5" paragraph>
-				{children}
-			</Typography>
-		</Box>
+		<Typography align={textAlign} component="p" variant="h5" paragraph>
+			{children}
+		</Typography>
 	);
 }
 

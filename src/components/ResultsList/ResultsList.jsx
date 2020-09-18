@@ -12,6 +12,7 @@ import AddProductsFab from './AddProductsFab';
 import * as actionCreators from '../../store/actions';
 import BottomNav from './BottomNav';
 import ResultSkeleton from './ResultSkeleton';
+import HeroSkeleton from '../Hero/HeroSkeleton';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -65,6 +66,8 @@ const ResultsList = ({
 
 	const displayedResults = filteredResults ? filteredResults : fetchedResults;
 
+	const loading = !fetchedResults.length > 0;
+
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
@@ -98,7 +101,7 @@ const ResultsList = ({
 
 	// fucked filters :'(
 	useEffect(() => {
-		if (appliedFilters.length > 0) {
+		if (!loading) {
 			setFilteredResults(
 				fetchedResults.filter(
 					(result) =>
@@ -108,25 +111,29 @@ const ResultsList = ({
 		} else {
 			setFilteredResults(null);
 		}
-	}, [appliedFilters, fetchedResults]);
+	}, [appliedFilters, fetchedResults, loading]);
 
 	return (
 		<>
-			<Hero hide={showFiltersPanel}>
-				<Heading>Vegan {categoryName && categoryName}</Heading>
-				<SubHeading>
-					There are XX vegan {categoryName && categoryName.toLowerCase()} products within
-					Australia from XX brands.
-				</SubHeading>
-				<Footer forCategory />
-			</Hero>
+			{!loading ? (
+				<Hero hide={showFiltersPanel}>
+					<Heading>Vegan {categoryName}</Heading>
+					<SubHeading>
+						There are XX vegan {categoryName.toLowerCase()} products within Australia from
+						XX brands.
+					</SubHeading>
+					<Footer forCategory />
+				</Hero>
+			) : (
+				<HeroSkeleton hide={showFiltersPanel} />
+			)}
 			<FiltersBar />
 			<section
 				className={clsx(styles.container, {
 					[styles.containerShift]: showFiltersPanel
 				})}
 			>
-				{fetchedResults.length > 0
+				{!loading
 					? displayedResults.map((result) => (
 							<Result
 								key={Number(result.productId)}
