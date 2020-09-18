@@ -86,8 +86,8 @@ function ProductModal({
 
 	function handleLogoutClick() {
 		confirm({
-			title: 'Log Out',
-			description: 'Are you sure you want to log out?',
+			title: 'Log Out?',
+			description: 'Please confirm you want to log out of your account.',
 			confirmationText: 'Log out',
 			confirmationButtonProps: { variant: 'contained', color: 'primary' },
 			cancellationButtonProps: { autoFocus: true }
