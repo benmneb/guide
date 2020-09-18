@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function Result({ result, ...props }) {
+export default function ResultCard({ result, ...props }) {
 	const styles = useStyles();
 	const upMd = useMediaQuery((theme) => theme.breakpoints.up('md'));
 	const ratingSize = upMd ? 'medium' : 'small';

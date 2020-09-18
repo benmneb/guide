@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Result from './Result';
+import ResultCard from './ResultCard';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import FiltersBar from './FiltersBar';
 import FiltersPanel from '../FiltersPanel/FiltersPanel';
@@ -135,7 +135,7 @@ const ResultsList = ({
 			>
 				{!loading
 					? displayedResults.map((result) => (
-							<Result
+							<ResultCard
 								key={Number(result.productId)}
 								result={result}
 								clicked={() => onToggleProductModal(Number(result.productId))}
