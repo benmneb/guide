@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import * as actionCreators from '../../store/actions';
 import { useForm } from 'react-hook-form';
+import { useConfirm } from 'material-ui-confirm';
 
 const styles = (theme) => ({
 	closeButton: {
@@ -51,8 +52,9 @@ const DialogTitle = withStyles(styles)((props) => {
 
 function Feedback({ onShowSnackbar, onToggleFeedbackModal, showFeedbackModal }) {
 	const theme = useTheme();
+	const confirm = useConfirm();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
-	const { register, handleSubmit, errors } = useForm();
+	const { register, handleSubmit, errors, getValues } = useForm();
 
 	const onSubmit = (data) => {
 		console.log('data', data);
@@ -65,11 +67,22 @@ function Feedback({ onShowSnackbar, onToggleFeedbackModal, showFeedbackModal }) 
 				emoji: '👌'
 			}
 		});
-		onClose();
+		onToggleFeedbackModal();
 	};
 
 	const onClose = () => {
-		onToggleFeedbackModal();
+		if (getValues('feedback')) {
+			confirm({
+				title: 'Confirm Close',
+				description:
+					'You have started entering feedback, if you close this modal you will lose what you have entered.',
+				confirmationText: 'Close',
+				confirmationButtonProps: { variant: 'contained', color: 'primary' },
+				cancellationButtonProps: { autoFocus: true }
+			})
+				.then(() => onToggleFeedbackModal())
+				.catch(() => null);
+		} else onToggleFeedbackModal();
 	};
 
 	return (

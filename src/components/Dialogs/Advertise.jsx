@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import * as actionCreators from '../../store/actions';
 import { useForm } from 'react-hook-form';
+import { useConfirm } from 'material-ui-confirm';
 
 const styles = (theme) => ({
 	closeButton: {
@@ -52,8 +53,8 @@ const DialogTitle = withStyles(styles)((props) => {
 function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal }) {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
-
-	const { register, handleSubmit, errors } = useForm();
+	const { register, handleSubmit, errors, getValues } = useForm();
+	const confirm = useConfirm();
 
 	const onSubmit = (data) => {
 		console.log('data', data);
@@ -65,11 +66,22 @@ function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal 
 				emoji: '🤝'
 			}
 		});
-		onClose();
+		onToggleAdvertiseModal();
 	};
 
 	const onClose = () => {
-		onToggleAdvertiseModal();
+		if (getValues('name') || getValues('email') || getValues('message')) {
+			confirm({
+				title: 'Confirm Close',
+				description:
+					'If you close before submitting you will lose everything you have entered in the advertising form.',
+				confirmationText: 'Close',
+				confirmationButtonProps: { variant: 'contained', color: 'primary' },
+				cancellationButtonProps: { autoFocus: true }
+			})
+				.then(() => onToggleAdvertiseModal())
+				.catch(() => null);
+		} else onToggleAdvertiseModal();
 	};
 
 	return (
