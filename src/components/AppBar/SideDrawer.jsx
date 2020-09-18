@@ -105,21 +105,6 @@ const SideDrawer = (props) => {
 			</div>
 			<Divider />
 			<List component="nav">
-				{props.isAuthenticated ? (
-					<ListItem button onClick={() => openMenuItem('userProfile')}>
-						<ListItemIcon>
-							<AccountCircleRounded />
-						</ListItemIcon>
-						<ListItemText primary={'View Profile'} />
-					</ListItem>
-				) : (
-					<ListItem button onClick={() => openMenuItem('auth')}>
-						<ListItemIcon>
-							<LockOpenRoundedIcon />
-						</ListItemIcon>
-						<ListItemText primary={'Login / Sign up'} />
-					</ListItem>
-				)}
 				<ListItem button onClick={() => openMenuItem('home')}>
 					<ListItemIcon>
 						<HomeRounded />
@@ -161,6 +146,24 @@ const SideDrawer = (props) => {
 						))}
 					</List>
 				</Collapse>
+			</List>
+			<Divider />
+			<List component="nav">
+				{props.isAuthenticated ? (
+					<ListItem button onClick={() => openMenuItem('userProfile')}>
+						<ListItemIcon>
+							<AccountCircleRounded />
+						</ListItemIcon>
+						<ListItemText primary={'View Profile'} />
+					</ListItem>
+				) : (
+					<ListItem button onClick={() => openMenuItem('auth')}>
+						<ListItemIcon>
+							<LockOpenRoundedIcon />
+						</ListItemIcon>
+						<ListItemText primary={'Login / Sign up'} />
+					</ListItem>
+				)}
 				<ListItem button onClick={() => openMenuItem('addProducts')}>
 					<ListItemIcon>
 						<AddCircleRoundedIcon />
