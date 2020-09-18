@@ -62,7 +62,7 @@ const ResultsList = ({
 	const location = useLocation();
 	const [fetchedResults, setFetchedResults] = useState([]);
 	const [filteredResults, setFilteredResults] = useState([]);
-	const [categoryName, setCategoryName] = useState('');
+	const [categoryData, setCategoryData] = useState({});
 
 	const displayedResults = filteredResults ? filteredResults : fetchedResults;
 
@@ -79,8 +79,13 @@ const ResultsList = ({
 			})
 			.then((response) => {
 				if (mounted) {
+					setCategoryData({
+						name: response.data[0].categoryName,
+						totalProducts: response.data[0].totalProducts,
+						totalBrands: response.data[0].totalBrands,
+						breadcrumbs: response.data[0].breadcrumbs
+					});
 					setFetchedResults(response.data[0].productList);
-					setCategoryName(response.data[0].categoryName);
 				}
 			})
 			.catch((err) => {
@@ -101,7 +106,7 @@ const ResultsList = ({
 
 	// fucked filters :'(
 	useEffect(() => {
-		if (!loading) {
+		if (appliedFilters.length > 0) {
 			setFilteredResults(
 				fetchedResults.filter(
 					(result) =>
@@ -111,23 +116,23 @@ const ResultsList = ({
 		} else {
 			setFilteredResults(null);
 		}
-	}, [appliedFilters, fetchedResults, loading]);
+	}, [appliedFilters, fetchedResults]);
 
 	return (
 		<>
 			{!loading ? (
 				<Hero hide={showFiltersPanel}>
-					<Heading>Vegan {categoryName}</Heading>
+					<Heading>Vegan {categoryData.name}</Heading>
 					<SubHeading>
-						There are XX vegan {categoryName.toLowerCase()} products within Australia from
-						XX brands.
+						There are {categoryData.totalProducts} vegan {categoryData.name.toLowerCase()}{' '}
+						products within Australia from {categoryData.totalBrands} brands.
 					</SubHeading>
 					<Footer forCategory />
 				</Hero>
 			) : (
 				<HeroSkeleton hide={showFiltersPanel} />
 			)}
-			<FiltersBar loading={loading} />
+			<FiltersBar loading={loading} breadcrumbs={categoryData.breadcrumbs} />
 			<section
 				className={clsx(styles.container, {
 					[styles.containerShift]: showFiltersPanel
