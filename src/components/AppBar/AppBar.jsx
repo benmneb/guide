@@ -81,10 +81,8 @@ const useStyles = makeStyles((theme) => ({
 	displayNone: {
 		display: 'none'
 	},
-	avatar: {
-		height: 30,
-		width: 30,
-		fontSize: '1rem'
+	profileButton: {
+		padding: theme.spacing(1)
 	}
 }));
 
@@ -97,6 +95,8 @@ function TopBar({
 	isAuthenticated,
 	setToggleUserProfileModal,
 	setToggleAuthModal,
+	setToggleAdvertiseModal,
+	setToggleSupportModal,
 	...props
 }) {
 	const styles = useStyles();
@@ -182,11 +182,19 @@ function TopBar({
 							inputProps={{ 'aria-label': 'search' }}
 						/>
 					</Box>
+					<Box display={{ xs: 'none', md: 'inline-flex' }} marginLeft={1}>
+						<Button onClick={() => setToggleAdvertiseModal()}>Advertise</Button>
+						<Button onClick={() => setToggleSupportModal()}>Support Us</Button>
+					</Box>
 					<Box display={{ xs: 'none', sm: 'inline-flex' }}>
 						{isAuthenticated ? (
 							<Box marginLeft={0}>
 								<Tooltip title="View your profile and settings">
-									<IconButton edge="end" onClick={() => setToggleUserProfileModal()}>
+									<IconButton
+										edge="end"
+										onClick={() => setToggleUserProfileModal()}
+										classes={{ root: styles.profileButton }}
+									>
 										<AccountCircleRounded fontSize="large" />
 									</IconButton>
 								</Tooltip>
@@ -237,7 +245,9 @@ const mapDispatchToProps = (dispatch) => {
 		setShowSnackbar: ({ snackData }) =>
 			dispatch(actionCreators.showSnackbar({ snackData })),
 		setToggleUserProfileModal: () => dispatch(actionCreators.toggleUserProfileModal()),
-		setToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal())
+		setToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal()),
+		setToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
+		setToggleSupportModal: () => dispatch(actionCreators.toggleSupportModal())
 	};
 };
 

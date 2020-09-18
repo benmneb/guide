@@ -19,6 +19,7 @@ import Snackbars from './components/Dialogs/Snackbars';
 import Auth from './components/Dialogs/Auth';
 import UserProfile from './components/Dialogs/UserProfile';
 import Categories from './components/categories/Categories';
+import SupportUs from './components/Dialogs/SupportUs';
 
 let theme = createMuiTheme({
 	palette: {
@@ -71,6 +72,7 @@ export default function App() {
 				</AppBar>
 				<ProductModal />
 				<AddProducts />
+				<SupportUs />
 				<Advertise />
 				<Feedback />
 				<Privacy />

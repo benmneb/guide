@@ -75,6 +75,12 @@ export const toggleUserProfileModal = () => {
 	};
 };
 
+export const toggleSupportModal = () => {
+	return {
+		type: actionTypes.TOGGLE_SUPPORT_MODAL
+	};
+};
+
 export const setCurrentUserData = (user, isAuth) => {
 	return {
 		type: actionTypes.SET_CURRENT_USER_DATA,

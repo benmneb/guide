@@ -11,6 +11,7 @@ export {
 	toggleFeedbackModal,
 	toggleAuthModal,
 	toggleUserProfileModal,
+	toggleSupportModal,
 	setCurrentUserData,
 	showSnackbar,
 	hideSnackbar,
