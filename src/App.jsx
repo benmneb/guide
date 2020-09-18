@@ -47,6 +47,13 @@ let theme = createMuiTheme({
 			containedPrimary: {
 				color: 'white'
 			}
+		},
+		MuiCssBaseline: {
+			'@global': {
+				html: {
+					backgroundColor: '#fff'
+				}
+			}
 		}
 	},
 	props: {
