@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Result from './Result';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
-import FiltersBar from '../AppBar/FiltersBar';
+import FiltersBar from './FiltersBar';
 import FiltersPanel from '../FiltersPanel/FiltersPanel';
 import AddProductsFab from './AddProductsFab';
 import * as actionCreators from '../../store/actions';
