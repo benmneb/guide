@@ -84,9 +84,9 @@ const SubCat1s = () => {
 							cols={1}
 							className={styles.gridListTile}
 						>
-							<Link to="/food-drink/nut-butters-spreads">
+							<Link to={'/' + image.prodType + '/' + image.url}>
 								<Box height="100%" width="auto">
-									<img src={image.img} alt={image.title} className={styles.image} />
+									<img src={image.img} alt={''} className={styles.image} />
 								</Box>
 								<GridListTileBar
 									titlePosition="top"

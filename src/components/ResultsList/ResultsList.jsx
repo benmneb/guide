@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Result from './Result';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
@@ -50,20 +51,34 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPanel }) => {
+const ResultsList = ({
+	showFiltersPanel,
+	onToggleProductModal,
+	onHideFiltersPanel,
+	appliedFilters
+}) => {
 	const styles = useStyles();
-	const [results, setResults] = useState([]);
+	const location = useLocation();
+	const [fetchedResults, setFetchedResults] = useState([]);
+	const [filteredResults, setFilteredResults] = useState([]);
+	const [categoryName, setCategoryName] = useState('');
+
+	const displayedResults = filteredResults ? filteredResults : fetchedResults;
 
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
+		const category = location.pathname;
 
 		axios
-			.get('https://api.vomad.guide/', {
+			.get('https://api.vomad.guide/category' + category, {
 				cancelToken: source.token
 			})
 			.then((response) => {
-				if (mounted) setResults(response.data);
+				if (mounted) {
+					setFetchedResults(response.data[0].productList);
+					setCategoryName(response.data[0].categoryName);
+				}
 			})
 			.catch((err) => {
 				if (mounted) console.error(err);
@@ -73,7 +88,7 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 			mounted = false;
 			source.cancel('Results list cancelled during clean-up');
 		};
-	}, []);
+	}, [location.pathname]);
 
 	useEffect(() => {
 		return () => {
@@ -81,13 +96,27 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 		};
 	}, [showFiltersPanel, onHideFiltersPanel]);
 
+	// fucked filters :'(
+	useEffect(() => {
+		if (appliedFilters.length > 0) {
+			setFilteredResults(
+				fetchedResults.filter(
+					(result) =>
+						result.tags !== null && result.tags.includes(appliedFilters[0].value)
+				)
+			);
+		} else {
+			setFilteredResults(null);
+		}
+	}, [appliedFilters, fetchedResults]);
+
 	return (
 		<>
 			<Hero hide={showFiltersPanel}>
-				<Heading>Vegan Nut Butters & Spreads</Heading>
+				<Heading>Vegan {categoryName && categoryName}</Heading>
 				<SubHeading>
-					There are 64 vegan nut butters & spreads within Australia from brands like
-					Kraft, Pics, Bega and 14 more.
+					There are XX vegan {categoryName && categoryName.toLowerCase()} products within
+					Australia from XX brands.
 				</SubHeading>
 				<Footer forCategory />
 			</Hero>
@@ -97,17 +126,12 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 					[styles.containerShift]: showFiltersPanel
 				})}
 			>
-				{results.length > 0
-					? results.map((result) => (
+				{fetchedResults.length > 0
+					? displayedResults.map((result) => (
 							<Result
-								key={Number(result.product_id)}
-								image={result.image_src}
-								brand={result.brand_name}
-								name={result.product_name}
-								avgRating={Number(result.average_rating)}
-								amtRatings={Number(result.rating_count)}
-								productId={Number(result.product_id)}
-								clicked={() => onToggleProductModal(Number(result.product_id))}
+								key={Number(result.productId)}
+								result={result}
+								clicked={() => onToggleProductModal(Number(result.productId))}
 							/>
 					  ))
 					: [1, 2, 3, 4, 5, 6, 7, 8].map((skel) => <ResultSkeleton key={skel} />)}
@@ -121,7 +145,8 @@ const ResultsList = ({ showFiltersPanel, onToggleProductModal, onHideFiltersPane
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel
+		showFiltersPanel: state.showFiltersPanel,
+		appliedFilters: state.appliedFilters
 	};
 };
 

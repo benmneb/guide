@@ -16,7 +16,7 @@ import FastfoodRoundedIcon from '@material-ui/icons/Fastfood';
 import BathtubRoundedIcon from '@material-ui/icons/Bathtub';
 import AllInclusiveRoundedIcon from '@material-ui/icons/AllInclusive';
 import FavoriteRoundedIcon from '@material-ui/icons/Favorite';
-import VisibilityRoundedIcon from '@material-ui/icons/Visibility';
+import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import FeedbackRoundedIcon from '@material-ui/icons/Feedback';
 import GetAppRoundedIcon from '@material-ui/icons/GetApp';
 import { categories } from '../../assets/categoriesAZ';
@@ -61,11 +61,11 @@ const SideDrawer = (props) => {
 	};
 
 	const handleCloseSideDrawer = () => {
-		props.onHideSideDrawer();
+		if (props.showSideDrawer) props.onHideSideDrawer();
 	};
 
 	const openMenuItem = (clickedItem) => {
-		if (props.showSideDrawer) handleCloseSideDrawer();
+		handleCloseSideDrawer();
 		switch (clickedItem) {
 			case 'home':
 				return history.push('/');
@@ -77,6 +77,8 @@ const SideDrawer = (props) => {
 				return history.push('/food-drink');
 			case 'addProducts':
 				return props.onToggleAddProductsModal();
+			case 'supportUs':
+				return props.onToggleSupportModal();
 			case 'advertise':
 				return props.onToggleAdvertiseModal();
 			case 'feedback':
@@ -147,11 +149,12 @@ const SideDrawer = (props) => {
 						{categories.map((category) => (
 							<ListItem
 								component={Link}
-								to="/food-drink/nut-butters-spreads"
+								to={'/' + category.prodType + '/' + category.url}
 								dense
 								button
 								key={category.id}
 								className={styles.nested}
+								onClick={handleCloseSideDrawer}
 							>
 								<ListItemText primary={category.name} />
 							</ListItem>
@@ -164,7 +167,7 @@ const SideDrawer = (props) => {
 					</ListItemIcon>
 					<ListItemText primary={'Add Products'} />
 				</ListItem>
-				<ListItem button>
+				<ListItem button onClick={() => openMenuItem('supportUs')}>
 					<ListItemIcon>
 						<FavoriteRoundedIcon />
 					</ListItemIcon>
@@ -172,7 +175,7 @@ const SideDrawer = (props) => {
 				</ListItem>
 				<ListItem button onClick={() => openMenuItem('advertise')}>
 					<ListItemIcon>
-						<VisibilityRoundedIcon />
+						<TrendingUpRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Advertise'} />
 				</ListItem>
@@ -252,7 +255,8 @@ const mapDispatchToProps = (dispatch) => {
 		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal()),
 		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal()),
 		onToggleFeedbackModal: () => dispatch(actionCreators.toggleFeedbackModal()),
-		onToggleUserProfileModal: () => dispatch(actionCreators.toggleUserProfileModal())
+		onToggleUserProfileModal: () => dispatch(actionCreators.toggleUserProfileModal()),
+		onToggleSupportModal: () => dispatch(actionCreators.toggleSupportModal())
 	};
 };
 

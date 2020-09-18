@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function Result(props) {
+export default function Result({ result, ...props }) {
 	const styles = useStyles();
 	const upMd = useMediaQuery((theme) => theme.breakpoints.up('md'));
 	const ratingSize = upMd ? 'medium' : 'small';
@@ -85,7 +85,7 @@ export default function Result(props) {
 	return (
 		<Card component="article" className={styles.productTile} onClick={props.clicked}>
 			<Box className={styles.cardMediaPlaceholder}>
-				<CardMedia className={styles.cardMedia} component="img" image={props.image} />
+				<CardMedia className={styles.cardMedia} component="img" image={result.imageSrc} />
 			</Box>
 			<CardContent className={styles.cardContent}>
 				<Typography className={styles.productName} component="h2" variant="body1">
@@ -95,15 +95,20 @@ export default function Result(props) {
 						variant="overline"
 						display="block"
 					>
-						{props.brand}
+						{result.brandName}
 					</Typography>
-					{props.name}
+					{result.productName}
 				</Typography>
 			</CardContent>
 			<CardActions className={styles.cardActions}>
-				<Rating value={props.avgRating} precision={0.1} size={ratingSize} readOnly />
-				{props.amtRatings > 0 ? (
-					<Typography variant="body2"> x {props.amtRatings}</Typography>
+				<Rating
+					value={Number(result.averageRating)}
+					precision={0.1}
+					size={ratingSize}
+					readOnly
+				/>
+				{Number(result.ratingCount) > 0 ? (
+					<Typography variant="body2"> x {Number(result.ratingCount)}</Typography>
 				) : null}
 			</CardActions>
 		</Card>
