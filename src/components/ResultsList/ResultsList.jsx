@@ -127,7 +127,7 @@ const ResultsList = ({
 			) : (
 				<HeroSkeleton hide={showFiltersPanel} />
 			)}
-			<FiltersBar />
+			<FiltersBar loading={loading} />
 			<section
 				className={clsx(styles.container, {
 					[styles.containerShift]: showFiltersPanel
@@ -141,7 +141,7 @@ const ResultsList = ({
 								clicked={() => onToggleProductModal(Number(result.productId))}
 							/>
 					  ))
-					: [1, 2, 3, 4, 5, 6, 7, 8].map((skel) => <ResultSkeleton key={skel} />)}
+					: [...Array(12)].map((_, skel) => <ResultSkeleton key={skel} />)}
 			</section>
 			<AddProductsFab />
 			<FiltersPanel />

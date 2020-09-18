@@ -11,6 +11,7 @@ import {
 	useScrollTrigger,
 	Chip
 } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import { NavigateNextRounded, DeleteRounded } from '@material-ui/icons';
 import ShowFiltersButton from './ShowFiltersButton';
@@ -84,23 +85,29 @@ function FiltersBar({ appliedFilters, setRemoveFilter, setRemoveAllFilters, ...p
 				>
 					<Toolbar>
 						<Box className={styles.breadcrumbs}>
-							<Breadcrumbs
-								separator={<NavigateNextRounded fontSize="small" />}
-								aria-label="breadcrumb"
-								maxItems={6}
-								itemsBeforeCollapse={0}
-							>
-								<Link color="inherit" href="#">
-									Food & Drink
-								</Link>
-								<Link color="inherit" href="#">
-									Pantry
-								</Link>
-								<Link color="inherit" href="#">
-									Breakfasts & Spreads
-								</Link>
-								<Typography color="textPrimary">Nut Butters & Spreads</Typography>
-							</Breadcrumbs>
+							{props.loading ? (
+								<Breadcrumbs>
+									<Skeleton width={400} />
+								</Breadcrumbs>
+							) : (
+								<Breadcrumbs
+									separator={<NavigateNextRounded fontSize="small" />}
+									aria-label="breadcrumb"
+									maxItems={6}
+									itemsBeforeCollapse={0}
+								>
+									<Link color="inherit" href="#">
+										Food & Drink
+									</Link>
+									<Link color="inherit" href="#">
+										Pantry
+									</Link>
+									<Link color="inherit" href="#">
+										Breakfasts & Spreads
+									</Link>
+									<Typography color="textPrimary">Nut Butters & Spreads</Typography>
+								</Breadcrumbs>
+							)}
 						</Box>
 						<Box display={{ xs: 'none', md: 'flex' }}>
 							<ShowFiltersButton />
