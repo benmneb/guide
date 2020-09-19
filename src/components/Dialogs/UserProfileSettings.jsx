@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import {
 	IconButton,
@@ -63,15 +63,19 @@ const useStyles = makeStyles((theme) => ({
 function AboutEdit({ onShowSnackbar, ...props }) {
 	const styles = useStyles();
 	const confirm = useConfirm();
+	const theme = useTheme();
 	const [editUsername, setEditUsername] = useState(false);
 	const [changeEmail, setChangeEmail] = useState(false);
 	const [deleteAccount, setDeleteAccount] = useState(false);
 	const { register, handleSubmit, errors } = useForm();
 
 	const handleClose = () => {
+		setTimeout(() => {
+			setEditUsername(false);
+			setDeleteAccount(false);
+			setChangeEmail(false);
+		}, theme.transitions.duration.leavingScreen);
 		props.hide();
-		setEditUsername(false);
-		setDeleteAccount(false);
 	};
 
 	function handleSettingClick(setting) {
