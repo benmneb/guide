@@ -115,12 +115,7 @@ const ProductModal = ({
 			mounted = false;
 			source.cancel('Product modal call cancelled during clean-up');
 		};
-	}, [
-		selectedProduct,
-		newRating,
-		showProductModal,
-		theme.transitions.duration.leavingScreen
-	]);
+	}, [selectedProduct, newRating, showProductModal]);
 
 	const handleStarRating = (newValue) => {
 		axios
@@ -136,9 +131,11 @@ const ProductModal = ({
 
 	const onCloseModal = () => {
 		onToggleProductModal();
-		if (showAddReview) onHideAddReview();
-		if (currentTab !== 0) setCurrentTab(0);
-		setItem(null);
+		setTimeout(() => {
+			if (showAddReview) onHideAddReview();
+			if (currentTab !== 0) setCurrentTab(0);
+			setItem(null);
+		}, theme.transitions.duration.leavingScreen);
 	};
 
 	const handleChangeCurrentTab = (event, newValue) => {
