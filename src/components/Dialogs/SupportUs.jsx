@@ -104,11 +104,12 @@ function SupportUs({
 						<Box component="li" data-icon="✏️">
 							<Typography component="div">
 								<Typography component="span" className={styles.heading}>
-									Rate, review and tag.
+									Rate, review, tag and add.
 								</Typography>{' '}
-								Leave reviews and ratings for products you've bought, and tag the stores
-								you've bought them in, so that together we can help the community at large
-								easily find the best vegan products.
+								Leave reviews and ratings for products you've bought, tag the stores
+								you've bought them in, and add any missing products to the Guide. Together
+								we can help the community at large easily find all the best vegan
+								products.
 								{!isAuthenticated && (
 									<Box marginTop={2}>
 										<Button
