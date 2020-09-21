@@ -293,15 +293,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer()),
-		onToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal()),
-		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
-		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
-		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal()),
-		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal()),
-		onToggleFeedbackModal: () => dispatch(actionCreators.toggleFeedbackModal()),
-		onToggleUserProfileModal: () => dispatch(actionCreators.toggleUserProfileModal()),
-		onToggleSupportModal: () => dispatch(actionCreators.toggleSupportModal())
+		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer())
 	};
 };
 
