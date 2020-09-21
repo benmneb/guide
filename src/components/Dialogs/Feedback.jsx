@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import DialogTitle from '../../utils/DialogTitle';
 import SendRoundedIcon from '@material-ui/icons/Send';
 import {
@@ -19,6 +19,7 @@ import { useConfirm } from 'material-ui-confirm';
 
 function Feedback({ onShowSnackbar, isOpened }) {
 	const history = useHistory();
+	const location = useLocation();
 	const confirm = useConfirm();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const { register, handleSubmit, errors, getValues } = useForm();
@@ -34,8 +35,12 @@ function Feedback({ onShowSnackbar, isOpened }) {
 				emoji: '👌'
 			}
 		});
-		history.goBack();
+		goBack();
 	};
+
+	const goBack = useCallback(() => {
+		history.push(location.pathname);
+	}, [history, location.pathname]);
 
 	const onClose = () => {
 		if (getValues('feedback')) {
@@ -47,9 +52,9 @@ function Feedback({ onShowSnackbar, isOpened }) {
 				confirmationButtonProps: { variant: 'contained', color: 'primary' },
 				cancellationButtonProps: { autoFocus: true }
 			})
-				.then(() => history.goBack())
+				.then(() => goBack())
 				.catch(() => null);
-		} else history.goBack();
+		} else goBack();
 	};
 
 	return (

@@ -1,5 +1,5 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import DialogTitle from '../../utils/DialogTitle';
 import {
 	Dialog,
@@ -11,10 +11,15 @@ import {
 
 export default function Privacy({ isOpened }) {
 	const history = useHistory();
+	const location = useLocation();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 
+	const goBack = useCallback(() => {
+		history.push(location.pathname);
+	}, [history, location.pathname]);
+
 	const onClose = () => {
-		history.goBack();
+		goBack();
 	};
 
 	return (

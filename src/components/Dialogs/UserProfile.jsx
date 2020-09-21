@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
+import { useHistory, useLocation } from 'react-router';
 import { useConfirm } from 'material-ui-confirm';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
@@ -25,7 +26,6 @@ import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
 import { user as fakeUser } from '../../assets/user';
 import randomMC from 'random-material-color';
-import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
 	dialogContentRoot: {
@@ -51,12 +51,17 @@ const useStyles = makeStyles((theme) => ({
 function UserProfile({ isOpened, currentUserData }) {
 	const styles = useStyles();
 	const history = useHistory();
+	const location = useLocation();
 	const confirm = useConfirm();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
 
+	const goBack = useCallback(() => {
+		history.push(location.pathname);
+	}, [history, location.pathname]);
+
 	const onClose = () => {
-		history.goBack();
+		goBack();
 	};
 
 	function handleShowSettingsModal() {

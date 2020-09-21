@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
 import {
@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 function SupportUs({ isOpened, isAuthenticated }) {
 	const styles = useStyles();
 	const history = useHistory();
+	const location = useLocation();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 
 	const actionType = useGetParameter(GET_PARAMS.action);
@@ -57,8 +58,12 @@ function SupportUs({ isOpened, isAuthenticated }) {
 	}, [actionType]);
 
 	const onClose = () => {
-		history.goBack();
+		goBack();
 	};
+
+	const goBack = useCallback(() => {
+		history.push(location.pathname);
+	}, [history, location.pathname]);
 
 	const advertiseLink = usePrepareLink({
 		query: {

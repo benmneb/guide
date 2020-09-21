@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { loadCSS } from 'fg-loadcss';
 import { makeStyles } from '@material-ui/core/styles';
@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Auth({ isOpened }) {
 	const styles = useStyles();
+	const location = useLocation();
 	const [isUsingEmail, setIsUsingEmail] = useState(false);
 	const history = useHistory();
 
@@ -85,8 +86,14 @@ export default function Auth({ isOpened }) {
 		setIsUsingEmail(false);
 	}
 
+	const goBack = useCallback(() => {
+		if (location.search.includes('&')) {
+			history.push(location.pathname + location.search.split('&')[0]);
+		} else history.push(location.pathname);
+	}, [history, location.pathname, location.search]);
+
 	function onClose() {
-		history.goBack();
+		goBack();
 	}
 
 	return (

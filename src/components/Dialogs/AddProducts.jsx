@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import * as actionCreators from '../../store/actions';
 import {
 	Button,
@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
 function AddProducts({ onShowSnackbar, isOpened }) {
 	const styles = useStyles();
 	const history = useHistory();
+	const location = useLocation();
 	const theme = useTheme();
 	const steps = getSteps();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
@@ -105,11 +106,15 @@ function AddProducts({ onShowSnackbar, isOpened }) {
 		setInputValue('');
 	};
 
+	const goBack = useCallback(() => {
+		history.push(location.pathname);
+	}, [history, location.pathname]);
+
 	const onClose = () => {
 		setTimeout(() => {
 			handleReset();
 		}, theme.transitions.duration.leavingScreen);
-		history.goBack();
+		goBack();
 	};
 
 	const categoriesMapped = categories.map((category) => {
