@@ -22,6 +22,7 @@ import UserProfile from './components/Dialogs/UserProfile';
 import Categories from './components/categories/Categories';
 import SupportUs from './components/Dialogs/SupportUs';
 import GetParameterPopups from './utils/routing/getParamaterPopups';
+import ScrollToTop from './utils/ScrollToTop';
 
 let theme = createMuiTheme({
 	palette: {
@@ -71,6 +72,7 @@ export default function App() {
 		<ThemeProvider theme={theme}>
 			<ConfirmProvider>
 				<CssBaseline />
+				<ScrollToTop />
 				<AppBar>
 					<Switch>
 						<Route exact path="/">
