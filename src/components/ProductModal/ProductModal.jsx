@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import * as actionCreators from '../../store/actions';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '../../utils/DialogTitle';
 import {
 	Dialog,
-	IconButton,
+	DialogContent,
 	Typography,
 	useMediaQuery,
 	Tabs,
@@ -16,7 +15,6 @@ import {
 	Grid,
 	Box
 } from '@material-ui/core';
-import CloseRoundedIcon from '@material-ui/icons/Close';
 import Skeleton from '@material-ui/lab/Skeleton';
 import About from './About/About';
 import Reviews from './Reviews/Reviews';
@@ -25,16 +23,6 @@ import BottomNav from './BottomNav';
 import StarRating from './StarRating';
 
 const useStyles = makeStyles((theme) => ({
-	closeBtnContainer: {
-		margin: 0,
-		padding: 0
-	},
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	},
 	dialogContentRoot: {
 		padding: theme.spacing(2),
 		marginBottom: 56, // height of bottomNav bar
@@ -56,16 +44,14 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function TabPanel(props) {
-	const { children, value, index, ...other } = props;
-
+function TabPanel({ children, value, index, ...props }) {
 	return (
 		<div
 			role="tabpanel"
 			hidden={value !== index}
 			id={`simple-tabpanel-${index}`}
 			aria-labelledby={`simple-tab-${index}`}
-			{...other}
+			{...props}
 		>
 			{value === index && <Box>{children}</Box>}
 		</div>
@@ -129,7 +115,7 @@ const ProductModal = ({
 			});
 	};
 
-	const onCloseModal = () => {
+	const onClose = () => {
 		onToggleProductModal();
 		setTimeout(() => {
 			if (showAddReview) onHideAddReview();
@@ -149,7 +135,7 @@ const ProductModal = ({
 
 	return (
 		<Dialog
-			onClose={onCloseModal}
+			onClose={onClose}
 			fullScreen={fullScreen}
 			aria-labelledby="product-dialog-title"
 			open={showProductModal}
@@ -157,15 +143,7 @@ const ProductModal = ({
 			fullWidth
 			classes={{ paperScrollPaper: styles.modalMaxHeight }}
 		>
-			<MuiDialogTitle disableTypography className={styles.closeBtnContainer}>
-				<IconButton
-					aria-label="close"
-					className={styles.closeButton}
-					onClick={onCloseModal}
-				>
-					<CloseRoundedIcon />
-				</IconButton>
-			</MuiDialogTitle>
+			<DialogTitle noTitle onClose={onClose} />
 			<DialogContent className={styles.dialogContentRoot}>
 				<Grid
 					component="header"

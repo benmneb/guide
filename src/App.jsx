@@ -21,6 +21,7 @@ import Auth from './components/Dialogs/Auth';
 import UserProfile from './components/Dialogs/UserProfile';
 import Categories from './components/categories/Categories';
 import SupportUs from './components/Dialogs/SupportUs';
+import GetParameterPopups from './utils/routing/getParamaterPopups';
 
 let theme = createMuiTheme({
 	palette: {
@@ -72,13 +73,23 @@ export default function App() {
 				<CssBaseline />
 				<AppBar>
 					<Switch>
-						<Route exact path="/" component={Categories} />
-						<Route exact path="/food-drink" component={Categories} />
-						<Route exact path="/household" component={Categories} />
-						<Route exact path="/:productType/:category" component={ResultsList} />
+						<Route exact path="/">
+							<Categories />
+						</Route>
+						<Route path="/:productType/:category">
+							<ResultsList />
+						</Route>
+						<Route path="/food-drink">
+							<Categories />
+						</Route>
+						<Route path="/household">
+							<Categories />
+						</Route>
 					</Switch>
 				</AppBar>
+				<GetParameterPopups />
 				<ProductModal />
+				<UserProfile />
 				<AddProducts />
 				<SupportUs />
 				<Advertise />
@@ -86,7 +97,6 @@ export default function App() {
 				<Privacy />
 				<Terms />
 				<Auth />
-				<UserProfile />
 				<Snackbars />
 			</ConfirmProvider>
 		</ThemeProvider>

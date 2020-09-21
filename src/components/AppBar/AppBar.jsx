@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import axios from 'axios';
+import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
 	AppBar,
@@ -15,6 +16,8 @@ import { MenuRounded, SearchRounded, AccountCircleRounded } from '@material-ui/i
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SideDrawer from './SideDrawer';
 import * as actionCreators from '../../store/actions';
+import usePrepareLink from '../../utils/routing/usePrepareLink';
+import { GET_PARAMS, GET_ENUMS } from '../../utils/routing/router';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -100,6 +103,7 @@ function TopBar({
 	...props
 }) {
 	const styles = useStyles();
+	const history = useHistory();
 
 	useEffect(() => {
 		let mounted = true;
@@ -145,8 +149,29 @@ function TopBar({
 	};
 
 	function handleLoginSignUpClick() {
-		setToggleAuthModal();
+		history.push(authLink);
 	}
+
+	const advertiseLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.advertise
+		}
+	});
+	const supportUsLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.supportUs
+		}
+	});
+	const authLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+		}
+	});
+	const userProfileLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.userProfile
+		}
+	});
 
 	return (
 		<div className={styles.root}>
@@ -183,8 +208,12 @@ function TopBar({
 						/>
 					</Box>
 					<Box display={{ xs: 'none', md: 'inline-flex' }} marginLeft={1}>
-						<Button onClick={() => setToggleAdvertiseModal()}>Advertise</Button>
-						<Button onClick={() => setToggleSupportModal()}>Support Us</Button>
+						<Button component={Link} to={advertiseLink}>
+							Advertise
+						</Button>
+						<Button component={Link} to={supportUsLink}>
+							Support Us
+						</Button>
 					</Box>
 					<Box display={{ xs: 'none', sm: 'inline-flex' }}>
 						{isAuthenticated ? (
@@ -192,7 +221,8 @@ function TopBar({
 								<Tooltip title="View your profile and settings">
 									<IconButton
 										edge="end"
-										onClick={() => setToggleUserProfileModal()}
+										component={Link}
+										to={userProfileLink}
 										classes={{ root: styles.profileButton }}
 									>
 										<AccountCircleRounded fontSize="large" />
@@ -243,11 +273,7 @@ const mapDispatchToProps = (dispatch) => {
 		setCurrentUserData: (user, isAuth) =>
 			dispatch(actionCreators.setCurrentUserData(user, isAuth)),
 		setShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData })),
-		setToggleUserProfileModal: () => dispatch(actionCreators.toggleUserProfileModal()),
-		setToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal()),
-		setToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
-		setToggleSupportModal: () => dispatch(actionCreators.toggleSupportModal())
+			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 

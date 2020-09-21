@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseRoundedIcon from '@material-ui/icons/Close';
+import { useHistory, useLocation } from 'react-router-dom';
+import DialogTitle from '../../utils/DialogTitle';
 import SendRoundedIcon from '@material-ui/icons/Send';
-import { useTheme, withStyles } from '@material-ui/core/styles';
 import {
 	Dialog,
 	DialogContent,
@@ -11,7 +10,6 @@ import {
 	Button,
 	TextField,
 	Typography,
-	IconButton,
 	useMediaQuery,
 	Box
 } from '@material-ui/core';
@@ -19,40 +17,10 @@ import * as actionCreators from '../../store/actions';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
 
-const styles = (theme) => ({
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	}
-});
-
-const DialogTitle = withStyles(styles)((props) => {
-	const { children, classes, onClose, ...other } = props;
-	return (
-		<MuiDialogTitle disableTypography {...other}>
-			<Box component="header">
-				<Typography variant="h6" component="h1">
-					{children}
-				</Typography>
-				{onClose ? (
-					<IconButton
-						aria-label="close"
-						className={classes.closeButton}
-						onClick={onClose}
-					>
-						<CloseRoundedIcon />
-					</IconButton>
-				) : null}
-			</Box>
-		</MuiDialogTitle>
-	);
-});
-
-function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal }) {
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+function Advertise({ onShowSnackbar, isOpened }) {
+	const history = useHistory();
+	const location = useLocation();
+	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const { register, handleSubmit, errors, getValues } = useForm();
 	const confirm = useConfirm();
 
@@ -66,8 +34,14 @@ function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal 
 				emoji: '🤝'
 			}
 		});
-		onToggleAdvertiseModal();
+		goBack();
 	};
+
+	const goBack = useCallback(() => {
+		if (location.search.includes('&')) {
+			history.push(location.pathname + location.search.split('&')[0]);
+		} else history.push(location.pathname);
+	}, [history, location.pathname, location.search]);
 
 	const onClose = () => {
 		if (getValues('name') || getValues('email') || getValues('message')) {
@@ -79,19 +53,19 @@ function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal 
 				confirmationButtonProps: { variant: 'contained', color: 'primary' },
 				cancellationButtonProps: { autoFocus: true }
 			})
-				.then(() => onToggleAdvertiseModal())
+				.then(() => goBack())
 				.catch(() => null);
-		} else onToggleAdvertiseModal();
+		} else goBack();
 	};
 
 	return (
 		<Dialog
-			open={showAdvertiseModal}
+			open={Boolean(isOpened)}
 			onClose={onClose}
-			aria-labelledby="form-dialog-title"
+			aria-labelledby="advertise-form"
 			fullScreen={fullScreen}
 		>
-			<DialogTitle id="form-dialog-title" onClose={onClose}>
+			<DialogTitle id="advertise-form" onClose={onClose}>
 				Advertise on The Guide
 			</DialogTitle>
 			<DialogContent>
@@ -180,18 +154,11 @@ function Advertise({ onShowSnackbar, showAdvertiseModal, onToggleAdvertiseModal 
 	);
 }
 
-const mapStateToProps = (state) => {
-	return {
-		showAdvertiseModal: state.showAdvertiseModal
-	};
-};
-
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
 		onShowSnackbar: ({ snackData }) =>
 			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Advertise);
+export default connect(null, mapDispatchToProps)(Advertise);

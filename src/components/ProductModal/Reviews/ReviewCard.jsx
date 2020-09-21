@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { getTimeAgo } from '../../../utils/timeAgo';
 import Rating from '@material-ui/lab/Rating';
 import axios from 'axios';
@@ -16,6 +17,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import ReviewReport from './ReviewReport';
 import LikeButton from '../LikeButton';
 import randomMC from 'random-material-color';
+import usePrepareLink from '../../../utils/routing/usePrepareLink';
+import { GET_PARAMS, GET_ENUMS } from '../../../utils/routing/router';
 
 const useStyles = makeStyles((theme) => ({
 	largeAvatar: {
@@ -30,9 +33,10 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function ReviewCard(props) {
+export default function ReviewCard({ isAuthenticated, ...props }) {
 	const { review } = props;
 	const styles = useStyles();
+	const history = useHistory();
 	const [showMoreMenu, setShowMoreMenu] = useState(null);
 	const [showReportModal, setShowReportModal] = useState(false);
 
@@ -53,15 +57,21 @@ export default function ReviewCard(props) {
 		setShowReportModal(false);
 	};
 
+	const authLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+		}
+	});
+
 	const handleLikeClick = () => {
-		if (props.isAuthenticated) {
+		if (isAuthenticated) {
 			axios
 				.put('https://api.vomad.guide/like/', {
 					review_id: review.review_id
 				})
 				.then(() => props.updateReview());
 		} else {
-			props.showAuthModal();
+			history.push(authLink);
 		}
 	};
 

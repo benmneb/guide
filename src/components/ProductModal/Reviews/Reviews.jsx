@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import * as actionCreators from '../../../store/actions';
 import { Typography, Button, Collapse, Grid, Box } from '@material-ui/core';
@@ -9,6 +10,8 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import ReviewCard from './ReviewCard';
 import ReviewsAdd from './ReviewsAdd';
 import MasonryLayout from '../../../utils/MasonryLayout';
+import usePrepareLink from '../../../utils/routing/usePrepareLink';
+import { GET_PARAMS, GET_ENUMS } from '../../../utils/routing/router';
 
 const useStyles = makeStyles((theme) => ({
 	bold: {
@@ -26,10 +29,10 @@ function Reviews({
 	showProductModal,
 	selectedProduct,
 	ratingBeforeClickedAddReviewSnackbar,
-	isAuthenticated,
-	setToggleAuthModal
+	isAuthenticated
 }) {
 	const styles = useStyles();
+	const history = useHistory();
 	const [reviews, setReviews] = useState(null);
 
 	useEffect(() => {
@@ -55,12 +58,18 @@ function Reviews({
 		};
 	}, [selectedProduct, showProductModal]);
 
+	const authLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+		}
+	});
+
 	function handleAddReviewButtonClick() {
 		if (isAuthenticated) {
 			if (showAddReview) return onHideAddReview();
 			else return onShowAddReview();
 		} else {
-			setToggleAuthModal();
+			history.push(authLink);
 		}
 	}
 
@@ -113,7 +122,6 @@ function Reviews({
 								review={review}
 								updateReview={() => updateReview()}
 								isAuthenticated={isAuthenticated}
-								showAuthModal={() => setToggleAuthModal()}
 							/>
 						))}
 				</MasonryLayout>
@@ -146,8 +154,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onShowAddReview: () => dispatch(actionCreators.showAddReview()),
-		onHideAddReview: () => dispatch(actionCreators.hideAddReview()),
-		setToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal())
+		onHideAddReview: () => dispatch(actionCreators.hideAddReview())
 	};
 };
 

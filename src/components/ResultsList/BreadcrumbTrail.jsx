@@ -10,55 +10,53 @@ function toKebabCase(str) {
 }
 
 export default function BreadcrumbsTrail({ breadcrumbs }) {
-	if (breadcrumbs.subCategory1 === null) {
+	if (breadcrumbs.length === 4) {
 		return (
 			<Breadcrumbs
 				separator={<NavigateNextRounded fontSize="small" />}
 				aria-label="breadcrumb"
-				maxItems={4}
-				itemsBeforeCollapse={0}
 			>
-				<Link color="inherit" href={'/' + toKebabCase(breadcrumbs.productType)}>
-					{breadcrumbs.productType}
+				<Link color="inherit" href={'/' + toKebabCase(breadcrumbs[0])}>
+					{breadcrumbs[0]}
 				</Link>
-				<Typography color="textPrimary">{breadcrumbs.category}</Typography>
+				<Link color="inherit" href={toKebabCase(breadcrumbs[1])}>
+					{breadcrumbs[1]}
+				</Link>
+				<Link color="inherit" href={toKebabCase(breadcrumbs[2])}>
+					{breadcrumbs[2]}
+				</Link>
+				<Typography color="textPrimary">{breadcrumbs[3]}</Typography>
 			</Breadcrumbs>
 		);
-	} else if (breadcrumbs.subCategory2 === null) {
+	}
+
+	if (breadcrumbs.length === 3) {
 		return (
 			<Breadcrumbs
 				separator={<NavigateNextRounded fontSize="small" />}
 				aria-label="breadcrumb"
-				maxItems={4}
-				itemsBeforeCollapse={0}
 			>
-				<Link color="inherit" href={'/' + toKebabCase(breadcrumbs.productType)}>
-					{breadcrumbs.productType}
+				<Link color="inherit" href={'/' + toKebabCase(breadcrumbs[0])}>
+					{breadcrumbs[0]}
 				</Link>
-				<Link color="inherit" href={toKebabCase(breadcrumbs.category)}>
-					{breadcrumbs.category}
+				<Link color="inherit" href={toKebabCase(breadcrumbs[1])}>
+					{breadcrumbs[1]}
 				</Link>
-				<Typography color="textPrimary">{breadcrumbs.subCategory1}</Typography>
+				<Typography color="textPrimary">{breadcrumbs[2]}</Typography>
 			</Breadcrumbs>
 		);
-	} else {
+	}
+
+	if (breadcrumbs.length === 2) {
 		return (
 			<Breadcrumbs
 				separator={<NavigateNextRounded fontSize="small" />}
 				aria-label="breadcrumb"
-				maxItems={4}
-				itemsBeforeCollapse={0}
 			>
-				<Link color="inherit" href={'/' + toKebabCase(breadcrumbs.productType)}>
-					{breadcrumbs.productType}
+				<Link color="inherit" href={'/' + toKebabCase(breadcrumbs[0])}>
+					{breadcrumbs[0]}
 				</Link>
-				<Link color="inherit" href={toKebabCase(breadcrumbs.category)}>
-					{breadcrumbs.category}
-				</Link>
-				<Link color="inherit" href={toKebabCase(breadcrumbs.subCategory1)}>
-					{breadcrumbs.subCategory1}
-				</Link>
-				<Typography color="textPrimary">{breadcrumbs.subCategory2}</Typography>
+				<Typography color="textPrimary">{breadcrumbs[1]}</Typography>
 			</Breadcrumbs>
 		);
 	}

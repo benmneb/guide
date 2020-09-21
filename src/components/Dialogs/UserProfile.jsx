@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useConfirm } from 'material-ui-confirm';
-import * as actionCreators from '../../store/actions';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import { makeStyles } from '@material-ui/core/styles';
+import DialogTitle from '../../utils/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import {
 	Avatar,
@@ -17,7 +16,6 @@ import {
 	Box
 } from '@material-ui/core';
 import {
-	CloseRounded,
 	PhotoCameraRounded,
 	SettingsRounded,
 	ExitToAppRounded
@@ -25,20 +23,11 @@ import {
 import Skeleton from '@material-ui/lab/Skeleton';
 import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
-import { user } from '../../assets/user';
+import { user as fakeUser } from '../../assets/user';
 import randomMC from 'random-material-color';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
-	closeBtnContainer: {
-		margin: 0,
-		padding: 0
-	},
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	},
 	dialogContentRoot: {
 		padding: theme.spacing(2)
 	},
@@ -59,21 +48,15 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function ProductModal({
-	showUserProfileModal,
-	onToggleUserProfileModal,
-	currentUserData
-}) {
+function UserProfile({ isOpened, currentUserData }) {
 	const styles = useStyles();
-	const theme = useTheme();
+	const history = useHistory();
 	const confirm = useConfirm();
-	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
 
-	const currentUserId = 4; // 4 is what the user.js is
-
-	const onCloseModal = () => {
-		onToggleUserProfileModal();
+	const onClose = () => {
+		history.goBack();
 	};
 
 	function handleShowSettingsModal() {
@@ -96,27 +79,19 @@ function ProductModal({
 			.catch(() => null);
 	}
 
-	const color = randomMC.getColor({ text: user[0].username });
+	const color = randomMC.getColor({ text: fakeUser[0].username });
 
 	return (
 		<>
 			<Dialog
-				onClose={onCloseModal}
+				onClose={onClose}
 				fullScreen={fullScreen}
 				aria-labelledby="product-dialog-title"
-				open={showUserProfileModal}
+				open={Boolean(isOpened)}
 				maxWidth="xs"
 				fullWidth
 			>
-				<MuiDialogTitle disableTypography className={styles.closeBtnContainer}>
-					<IconButton
-						aria-label="close"
-						className={styles.closeButton}
-						onClick={onCloseModal}
-					>
-						<CloseRounded />
-					</IconButton>
-				</MuiDialogTitle>
+				<DialogTitle noTitle onClose={onClose} />
 				<DialogContent className={styles.dialogContentRoot}>
 					<Grid
 						component="header"
@@ -133,7 +108,11 @@ function ProductModal({
 								display="block"
 								align="center"
 							>
-								{user ? `+${user[0].karma} karma` : <Skeleton width={110} />}
+								{currentUserData ? (
+									`+${fakeUser[0].karma} karma`
+								) : (
+									<Skeleton width={110} />
+								)}
 							</Typography>
 							<Typography component="h1" variant="h4" align="center">
 								{currentUserData ? currentUserData.username : <Skeleton width="30%" />}
@@ -150,21 +129,21 @@ function ProductModal({
 							<Box
 								display="flex"
 								justifyContent="center"
-								marginLeft={user && user[0].id === currentUserId ? 3 : 0}
+								marginLeft={
+									currentUserData && fakeUser[0].id === currentUserData.id ? 3 : 0
+								}
 							>
-								{user ? (
+								{currentUserData ? (
 									<Avatar
-										src={user[0].avatar}
-										alt={
-											currentUserData && String(currentUserData.username).toUpperCase()
-										}
+										src={fakeUser[0].avatar}
+										alt={String(currentUserData.username).toUpperCase()}
 										className={styles.avatar}
 										style={{ backgroundColor: color }}
 									/>
 								) : (
 									<Skeleton variant="circle" className={styles.avatar} />
 								)}
-								{user && user[0].id === currentUserId && (
+								{currentUserData && fakeUser[0].id === currentUserData.id && (
 									<Box display="flex" flexDirection="column-reverse" marginLeft={-3}>
 										<input
 											accept="image/*"
@@ -194,28 +173,28 @@ function ProductModal({
 							<Typography>
 								Ratings:{' '}
 								<Box component="span" fontWeight="fontWeightBold">
-									{user[0].ratings.length}
+									{fakeUser[0].ratings.length}
 								</Box>
 							</Typography>
 							<Typography>
 								Reviews:{' '}
 								<Box component="span" fontWeight="fontWeightBold">
-									{user[0].reviews.length}
+									{fakeUser[0].reviews.length}
 								</Box>
 							</Typography>
 							<Typography>
 								Stores tagged:{' '}
 								<Box component="span" fontWeight="fontWeightBold">
-									{user[0].storesTagged.length}
+									{fakeUser[0].storesTagged.length}
 								</Box>
 							</Typography>
 							<Typography>
 								Joined{' '}
 								<Box component="span" fontWeight="fontWeightBold">
-									{getTimeAgo(user[0].joinedDate)}
+									{getTimeAgo(fakeUser[0].joinedDate)}
 								</Box>
 							</Typography>
-							{user && user[0].id === currentUserId && (
+							{currentUserData && fakeUser[0].id === currentUserData.id && (
 								<Box marginTop={2} display="flex">
 									<Button
 										variant="outlined"
@@ -241,7 +220,7 @@ function ProductModal({
 			<UserProfileSettings
 				show={showSettingsModal}
 				hide={handleHideSettingsModal}
-				userId={currentUserId}
+				userId={currentUserData && currentUserData.id}
 			/>
 		</>
 	);
@@ -249,15 +228,7 @@ function ProductModal({
 
 const mapStateToProps = (state) => {
 	return {
-		showUserProfileModal: state.showUserProfileModal,
 		currentUserData: state.currentUserData
 	};
 };
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onToggleUserProfileModal: () => dispatch(actionCreators.toggleUserProfileModal())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductModal);
+export default connect(mapStateToProps)(UserProfile);

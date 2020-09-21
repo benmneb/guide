@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
 	Grid,
 	Fab,
@@ -17,6 +18,8 @@ import * as actionCreators from '../../../store/actions';
 import { stores } from '../../../assets/stores';
 import StoresListSection from './StoresListSection';
 import StoresMap from './StoresMap';
+import usePrepareLink from '../../../utils/routing/usePrepareLink';
+import { GET_PARAMS, GET_ENUMS } from '../../../utils/routing/router';
 
 const useStyles = makeStyles((theme) => ({
 	mapBox: {
@@ -52,10 +55,10 @@ function WhereToBuy({
 	onShowSnackbar,
 	currentLocation,
 	setCurrentLocation,
-	isAuthenticated,
-	setToggleAuthModal
+	isAuthenticated
 }) {
 	const styles = useStyles();
+	const history = useHistory();
 	const [selectedStore, setSelectedStore] = useState(null);
 	const [errMessage, setErrMessage] = useState(null);
 	const [openBottomDrawer, setOpenBottomDrawer] = useState(false);
@@ -151,12 +154,18 @@ function WhereToBuy({
 		}
 	}
 
+	const authLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+		}
+	});
+
 	function handleAddStoreFabClick() {
 		if (isAuthenticated) {
 			setOpenBottomDrawer(true);
 			setShowAddStore(true);
 		} else {
-			setToggleAuthModal();
+			history.push(authLink);
 		}
 	}
 
@@ -164,7 +173,7 @@ function WhereToBuy({
 		if (isAuthenticated) {
 			setShowAddStore(!showAddStore);
 		} else {
-			setToggleAuthModal();
+			history.push(authLink);
 		}
 	}
 
@@ -314,8 +323,7 @@ const mapDispatchToProps = (dispatch) => {
 		onShowSnackbar: ({ snackData }) =>
 			dispatch(actionCreators.showSnackbar({ snackData })),
 		setCurrentLocation: (location) =>
-			dispatch(actionCreators.setCurrentLocation(location)),
-		setToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal())
+			dispatch(actionCreators.setCurrentLocation(location))
 	};
 };
 

@@ -79,11 +79,14 @@ const ResultsList = ({
 			})
 			.then((response) => {
 				if (mounted) {
+					const breadcrumbsArr = Array(
+						String(response.data[0].breadcrumbs).split(',')
+					)[0];
 					setCategoryData({
-						name: response.data[0].categoryName,
-						totalProducts: response.data[0].totalProducts,
-						totalBrands: response.data[0].totalBrands,
-						breadcrumbs: response.data[0].breadcrumbs
+						name: String(breadcrumbsArr[breadcrumbsArr.length - 1]),
+						totalProducts: response.data[0].totalproducts,
+						totalBrands: response.data[0].totalbrands,
+						breadcrumbs: breadcrumbsArr
 					});
 					setFetchedResults(response.data[0].productList);
 				}

@@ -1,11 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
-import { Fab, Tooltip, Grow, Box } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import { Fab, Tooltip, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddRoundedIcon from '@material-ui/icons/Add';
-import * as actionCreators from '../../store/actions';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import ShowOnScroll from '../../utils/ShowOnScroll';
+import usePrepareLink from '../../utils/routing/usePrepareLink';
+import { GET_PARAMS, GET_ENUMS } from '../../utils/routing/router';
 
 const useStyles = makeStyles((theme) => ({
 	fab: {
@@ -19,33 +21,25 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function ShowOnScroll(props) {
-	const { children } = props;
+function AddProductsFab({ showFiltersPanel }) {
+	const styles = useStyles();
 
-	const triggerShow = useScrollTrigger({
-		disableHysteresis: true,
-		threshold: 300
+	const addProductLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.addProducts
+		}
 	});
 
 	return (
-		<Grow appear={false} in={triggerShow}>
-			{children}
-		</Grow>
-	);
-}
-
-const AddProductsFab = (props) => {
-	const styles = useStyles();
-
-	return (
 		<Box display={{ xs: 'none', md: 'block' }}>
-			<ShowOnScroll>
-				<Tooltip title="Add Products" aria-label="add products" placement="left">
+			<ShowOnScroll threshold={300}>
+				<Tooltip title="Add product(s) here" aria-label="add products" placement="left">
 					<Fab
 						color="primary"
 						aria-label="add products"
-						className={clsx(styles.fab, { [styles.displayNone]: props.showFiltersPanel })}
-						onClick={() => props.onToggleAddProductsModal()}
+						className={clsx(styles.fab, { [styles.displayNone]: showFiltersPanel })}
+						component={Link}
+						to={addProductLink}
 					>
 						<AddRoundedIcon />
 					</Fab>
@@ -53,7 +47,7 @@ const AddProductsFab = (props) => {
 			</ShowOnScroll>
 		</Box>
 	);
-};
+}
 
 const mapStateToProps = (state) => {
 	return {
@@ -61,10 +55,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddProductsFab);
+export default connect(mapStateToProps)(AddProductsFab);

@@ -22,6 +22,8 @@ import GetAppRoundedIcon from '@material-ui/icons/GetApp';
 import { categories } from '../../assets/categoriesAZ';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as actionCreators from '../../store/actions';
+import usePrepareLink from '../../utils/routing/usePrepareLink';
+import { GET_PARAMS, GET_ENUMS } from '../../utils/routing/router';
 
 const useStyles = makeStyles((theme) => ({
 	drawer: {
@@ -70,27 +72,68 @@ const SideDrawer = (props) => {
 			case 'home':
 				return history.push('/');
 			case 'auth':
-				return props.onToggleAuthModal();
+				return history.push(authLink);
 			case 'userProfile':
-				return props.onToggleUserProfileModal();
+				return history.push(userProfileLink);
 			case 'foodDrink':
 				return history.push('/food-drink');
 			case 'addProducts':
-				return props.onToggleAddProductsModal();
+				return history.push(addProductsLink);
 			case 'supportUs':
-				return props.onToggleSupportModal();
+				return history.push(supportUsLink);
 			case 'advertise':
-				return props.onToggleAdvertiseModal();
+				return history.push(advertiseLink);
 			case 'feedback':
-				return props.onToggleFeedbackModal();
+				return history.push(feedbackLink);
 			case 'terms':
-				return props.onToggleTermsModal();
+				return history.push(termsLink);
 			case 'privacy':
-				return props.onTogglePrivacyModal();
+				return history.push(privacyLink);
 			default:
 				return;
 		}
 	};
+
+	const authLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+		}
+	});
+	const advertiseLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.advertise
+		}
+	});
+	const supportUsLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.supportUs
+		}
+	});
+	const feedbackLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.feedback
+		}
+	});
+	const addProductsLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.addProducts
+		}
+	});
+	const termsLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.terms
+		}
+	});
+	const privacyLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.privacy
+		}
+	});
+	const userProfileLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.userProfile
+		}
+	});
 
 	const container = window !== undefined ? () => window().document.body : undefined;
 

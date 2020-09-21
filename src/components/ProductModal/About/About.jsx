@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
 	Button,
@@ -19,8 +20,9 @@ import {
 import Skeleton from '@material-ui/lab/Skeleton';
 import { EcoRounded, OpenInNewRounded, LocalOfferRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-import * as actionCreators from '../../../store/actions';
 import AboutEdit from './AboutEdit';
+import usePrepareLink from '../../../utils/routing/usePrepareLink';
+import { GET_PARAMS, GET_ENUMS } from '../../../utils/routing/router';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -49,16 +51,23 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function About({ isAuthenticated, setToggleAuthModal, ...props }) {
+function About({ isAuthenticated, ...props }) {
 	const { product } = props;
 	const styles = useStyles();
+	const history = useHistory();
 	const [showEditModal, setShowEditModal] = useState(false);
+
+	const authLink = usePrepareLink({
+		query: {
+			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+		}
+	});
 
 	function handleShowEditModal() {
 		if (isAuthenticated) {
 			setShowEditModal(true);
 		} else {
-			setToggleAuthModal();
+			history.push(authLink);
 		}
 	}
 
@@ -242,10 +251,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(About);
+export default connect(mapStateToProps)(About);
