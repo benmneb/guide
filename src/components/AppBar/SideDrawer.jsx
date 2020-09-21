@@ -22,8 +22,7 @@ import GetAppRoundedIcon from '@material-ui/icons/GetApp';
 import { categories } from '../../assets/categoriesAZ';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as actionCreators from '../../store/actions';
-import usePrepareLink from '../../utils/routing/usePrepareLink';
-import { GET_PARAMS, GET_ENUMS } from '../../utils/routing/router';
+import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	drawer: {
@@ -96,42 +95,42 @@ const SideDrawer = (props) => {
 
 	const authLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+			[getParams.popup]: getEnums.popup.signIn
 		}
 	});
 	const advertiseLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.advertise
+			[getParams.popup]: getEnums.popup.advertise
 		}
 	});
 	const supportUsLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.supportUs
+			[getParams.popup]: getEnums.popup.supportUs
 		}
 	});
 	const feedbackLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.feedback
+			[getParams.popup]: getEnums.popup.feedback
 		}
 	});
 	const addProductsLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.addProducts
+			[getParams.popup]: getEnums.popup.addProducts
 		}
 	});
 	const termsLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.terms
+			[getParams.popup]: getEnums.popup.terms
 		}
 	});
 	const privacyLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.privacy
+			[getParams.popup]: getEnums.popup.privacy
 		}
 	});
 	const userProfileLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.userProfile
+			[getParams.popup]: getEnums.popup.userProfile
 		}
 	});
 

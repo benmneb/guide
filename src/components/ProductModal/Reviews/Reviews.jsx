@@ -10,8 +10,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import ReviewCard from './ReviewCard';
 import ReviewsAdd from './ReviewsAdd';
 import MasonryLayout from '../../../utils/MasonryLayout';
-import usePrepareLink from '../../../utils/routing/usePrepareLink';
-import { GET_PARAMS, GET_ENUMS } from '../../../utils/routing/router';
+import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	bold: {
@@ -60,7 +59,7 @@ function Reviews({
 
 	const authLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+			[getParams.popup]: getEnums.popup.signIn
 		}
 	});
 

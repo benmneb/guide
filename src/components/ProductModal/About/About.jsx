@@ -21,8 +21,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { EcoRounded, OpenInNewRounded, LocalOfferRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import AboutEdit from './AboutEdit';
-import usePrepareLink from '../../../utils/routing/usePrepareLink';
-import { GET_PARAMS, GET_ENUMS } from '../../../utils/routing/router';
+import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -59,7 +58,7 @@ function About({ isAuthenticated, ...props }) {
 
 	const authLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+			[getParams.popup]: getEnums.popup.signIn
 		}
 	});
 

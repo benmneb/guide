@@ -17,8 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ReviewReport from './ReviewReport';
 import LikeButton from '../LikeButton';
 import randomMC from 'random-material-color';
-import usePrepareLink from '../../../utils/routing/usePrepareLink';
-import { GET_PARAMS, GET_ENUMS } from '../../../utils/routing/router';
+import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	largeAvatar: {
@@ -59,7 +58,7 @@ export default function ReviewCard({ isAuthenticated, ...props }) {
 
 	const authLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+			[getParams.popup]: getEnums.popup.signIn
 		}
 	});
 

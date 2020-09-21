@@ -6,8 +6,7 @@ import { Fab, Tooltip, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddRoundedIcon from '@material-ui/icons/Add';
 import ShowOnScroll from '../../utils/ShowOnScroll';
-import usePrepareLink from '../../utils/routing/usePrepareLink';
-import { GET_PARAMS, GET_ENUMS } from '../../utils/routing/router';
+import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	fab: {
@@ -26,7 +25,7 @@ function AddProductsFab({ showFiltersPanel }) {
 
 	const addProductLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.addProducts
+			[getParams.popup]: getEnums.popup.addProducts
 		}
 	});
 

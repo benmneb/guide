@@ -12,9 +12,12 @@ import {
 	useMediaQuery,
 	Box
 } from '@material-ui/core';
-import usePrepareLink from '../../utils/routing/usePrepareLink';
-import { GET_PARAMS, GET_ENUMS } from '../../utils/routing/router';
-import useGetParameter from '../../utils/routing/useGetParamater';
+import {
+	usePrepareLink,
+	useGetParameter,
+	getParams,
+	getEnums
+} from '../../utils/routing';
 import Advertise from './Advertise';
 import Auth from './Auth';
 
@@ -48,7 +51,7 @@ function SupportUs({ isOpened, isAuthenticated }) {
 	const location = useLocation();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 
-	const actionType = useGetParameter(GET_PARAMS.action);
+	const actionType = useGetParameter(getParams.action);
 	const [action, setAction] = useState(actionType);
 
 	useEffect(() => {
@@ -67,13 +70,13 @@ function SupportUs({ isOpened, isAuthenticated }) {
 
 	const advertiseLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.action]: GET_ENUMS.action.advertise
+			[getParams.action]: getEnums.action.advertise
 		},
 		keepOldQuery: true
 	});
 	const authLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.action]: GET_ENUMS.action.login
+			[getParams.action]: getEnums.action.login
 		},
 		keepOldQuery: true
 	});
