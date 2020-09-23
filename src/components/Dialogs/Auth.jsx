@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
 import clsx from 'clsx';
 import { loadCSS } from 'fg-loadcss';
 import { makeStyles } from '@material-ui/core/styles';
@@ -61,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function Auth({ isOpened }) {
+function Auth({ isOpened, isAuthenticated }) {
 	const styles = useStyles();
 	const location = useLocation();
 	const [isUsingEmail, setIsUsingEmail] = useState(false);
@@ -96,6 +97,22 @@ export default function Auth({ isOpened }) {
 		goBack();
 	}
 
+	useEffect(() => {
+		if (isAuthenticated && isOpened) goBack();
+	}, [isAuthenticated, goBack, isOpened]);
+
+	const handleFacebookLogin = () => {
+		const url = 'https://api.vomad.guide/auth/facebook/guide';
+		const name = '_blank';
+		window.open(url, name);
+	};
+
+	const handleGoodleLogin = () => {
+		const url = 'https://api.vomad.guide/auth/google';
+		const name = '_blank';
+		window.open(url, name);
+	};
+
 	return (
 		<Dialog
 			onClose={onClose}
@@ -124,7 +141,7 @@ export default function Auth({ isOpened }) {
 									label: styles.buttonLabel,
 									root: clsx(styles.facebook, styles.buttonMargin)
 								}}
-								href="https://api.vomad.guide/auth/facebook/guide"
+								onClick={handleFacebookLogin}
 							>
 								Continue with Facebook
 							</Button>
@@ -138,7 +155,7 @@ export default function Auth({ isOpened }) {
 									label: styles.buttonLabel,
 									root: clsx(styles.google, styles.buttonMargin)
 								}}
-								href="https://api.vomad.guide/auth/google"
+								onClick={handleGoodleLogin}
 							>
 								Continue with Google
 							</Button>
@@ -174,3 +191,11 @@ export default function Auth({ isOpened }) {
 		</Dialog>
 	);
 }
+
+const mapStateToProps = (state) => {
+	return {
+		isAuthenticated: state.isAuthenticated
+	};
+};
+
+export default connect(mapStateToProps, null)(Auth);

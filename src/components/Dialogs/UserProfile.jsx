@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions';
 import { useHistory, useLocation } from 'react-router';
 import { useConfirm } from 'material-ui-confirm';
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,6 +27,7 @@ import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
 import { user as fakeUser } from '../../assets/user';
 import randomMC from 'random-material-color';
+import { setCurrentUserData } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	dialogContentRoot: {
@@ -48,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function UserProfile({ isOpened, currentUserData }) {
+function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const location = useLocation();
@@ -80,6 +82,7 @@ function UserProfile({ isOpened, currentUserData }) {
 			confirmationButtonProps: { variant: 'contained', color: 'primary' },
 			cancellationButtonProps: { autoFocus: true }
 		})
+			.then(() => setCurrentUserData(null, false))
 			.then(() => (window.location.href = 'https://api.vomad.guide/auth/logout'))
 			.catch(() => null);
 	}
@@ -236,4 +239,11 @@ const mapStateToProps = (state) => {
 		currentUserData: state.currentUserData
 	};
 };
-export default connect(mapStateToProps)(UserProfile);
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setCurrentUserData: (user, isAuth) =>
+			dispatch(actionCreators.setCurrentUserData(user, isAuth))
+	};
+};
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

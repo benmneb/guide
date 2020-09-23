@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
-import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -106,43 +105,15 @@ function TopBar({
 	const history = useHistory();
 
 	useEffect(() => {
-		let mounted = true;
-		const source = axios.CancelToken.source();
-
-		axios
-			.get('https://api.vomad.guide/auth/login/success', {
-				withCredentials: true,
-				crossorigin: true,
-				cancelToken: source.token
-			})
-			.then((response) => {
-				if (mounted) {
-					if (response.status === 200) return response.data.user;
-					else throw new Error('failed to authenticate user');
-				}
-			})
-			.then((user) => {
-				if (mounted) {
-					setCurrentUserData({ id: user.user_id, username: user.user_name }, true);
-					setShowSnackbar({
-						snackData: {
-							type: 'success',
-							message: 'Welcome back, ' + user.user_name
-						}
-					});
-				}
-			})
-			.catch((error) => {
-				if (mounted) {
-					setCurrentUserData(null, false);
+		if (isAuthenticated) {
+			setShowSnackbar({
+				snackData: {
+					type: 'success',
+					message: 'Welcome back, ' + currentUserData.username
 				}
 			});
-
-		return () => {
-			mounted = false;
-			source.cancel('Auth call cancelled during clean-up');
-		};
-	}, [setCurrentUserData, setShowSnackbar]);
+		}
+	}, [isAuthenticated, setShowSnackbar, currentUserData]);
 
 	const handleDrawerToggle = () => {
 		setShowSideDrawer();

@@ -191,7 +191,7 @@ function SupportUs({ isOpened, isAuthenticated }) {
 				</DialogContent>
 			</Dialog>
 			{action === 'advertise' && <Advertise isOpened />}
-			{action === 'login' && <Auth isOpened />}z
+			{action === 'login' && <Auth isOpened />}
 		</>
 	);
 }
