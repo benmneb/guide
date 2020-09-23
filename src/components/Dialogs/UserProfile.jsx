@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions';
 import { useHistory, useLocation } from 'react-router';
 import axios from 'axios';
 import { useConfirm } from 'material-ui-confirm';
@@ -26,6 +27,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
 import randomMC from 'random-material-color';
+import { setCurrentUserData } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	dialogContentRoot: {
@@ -48,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function UserProfile({ isOpened, currentUserData }) {
+function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const location = useLocation();
@@ -114,6 +116,7 @@ function UserProfile({ isOpened, currentUserData }) {
 			confirmationButtonProps: { variant: 'contained', color: 'primary' },
 			cancellationButtonProps: { autoFocus: true }
 		})
+			.then(() => setCurrentUserData(null, false))
 			.then(() => (window.location.href = 'https://api.vomad.guide/auth/logout'))
 			.catch(() => null);
 	}

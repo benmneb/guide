@@ -21,6 +21,7 @@ import UserProfile from './components/Dialogs/UserProfile';
 import Categories from './components/categories/Categories';
 import SupportUs from './components/Dialogs/SupportUs';
 import GetParameterPopups from './utils/routing/getParamaterPopups';
+import AuthSuccess from './components/Dialogs/AuthSuccess';
 import LoadingBar from './utils/LoadingBar';
 
 let theme = createMuiTheme({
@@ -76,6 +77,9 @@ export default function App() {
 					<Switch>
 						<Route exact path="/">
 							<Categories />
+						</Route>
+						<Route exact path="/auth/success">
+							<AuthSuccess />
 						</Route>
 						<Route path="/:productType/:category">
 							<ResultsList />

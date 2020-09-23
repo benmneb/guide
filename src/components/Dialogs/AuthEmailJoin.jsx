@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
+import { useHistory, useLocation } from 'react-router';
 import {
 	Button,
 	InputAdornment,
@@ -29,13 +32,18 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function AuthEmailJoin(props) {
+function AuthEmailJoin({ setCurrentUserData, setShowSnackbar, ...props }) {
 	const styles = useStyles();
 	const [showPassword, setShowPassword] = useState(false);
 	const { register, handleSubmit, errors, watch } = useForm();
+	const history = useHistory();
+	const location = useLocation();
+
+	const goBack = useCallback(() => {
+		history.push(location.pathname);
+	}, [history, location.pathname]);
 
 	const onSubmit = (data) => {
-		console.log('join', data);
 		axios
 			.post(
 				'https://api.vomad.guide/auth/register',
@@ -49,8 +57,39 @@ export default function AuthEmailJoin(props) {
 					crossorigin: true
 				}
 			)
-			.then((res) => console.info('register success', res))
-			.catch((err) => console.error('register error', err));
+			.then((auth) => {
+				if (auth.data) {
+					return axios.get('https://api.vomad.guide/auth/login/success', {
+						withCredentials: true,
+						crossorigin: true
+					});
+				}
+			})
+			.then((response) => {
+				if (response.status === 200) return response.data.user;
+				else throw new Error('failed to authenticate user');
+			})
+			.then((user) => {
+				setCurrentUserData({ id: user.user_id, username: user.user_name }, true);
+			})
+			.then(() => {
+				goBack();
+			})
+			.catch((error) => {
+				console.error(error.response.data);
+				setCurrentUserData(null, false);
+				if (error.response.data === 'email already taken') {
+					setShowSnackbar({
+						snackData: {
+							type: 'error',
+							title: "can't sign up",
+							message: 'Email already exist'
+						}
+					});
+				} else {
+					return error;
+				}
+			});
 	};
 
 	const handleClickShowPassword = () => {
@@ -234,3 +273,20 @@ export default function AuthEmailJoin(props) {
 		</Box>
 	);
 }
+
+const mapStateToProps = (state) => {
+	return {
+		currentUserData: state.currentUserData
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setCurrentUserData: (user, isAuth) =>
+			dispatch(actionCreators.setCurrentUserData(user, isAuth)),
+		setShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthEmailJoin);
