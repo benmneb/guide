@@ -404,6 +404,7 @@ function AddProducts({ onShowSnackbar, isOpened }) {
 			</DialogContent>
 		</Dialog>
 	);
+}
 
 const mapDispatchToProps = (dispatch) => {
 	return {
