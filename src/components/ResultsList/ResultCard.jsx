@@ -77,13 +77,13 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function ResultCard({ result, ...props }) {
+export default function ResultCard({ result }) {
 	const styles = useStyles();
 	const upMd = useMediaQuery((theme) => theme.breakpoints.up('md'));
 	const ratingSize = upMd ? 'medium' : 'small';
 
 	return (
-		<Card component="article" className={styles.productTile} onClick={props.clicked}>
+		<Card component="article" className={styles.productTile}>
 			<Box className={styles.cardMediaPlaceholder}>
 				<CardMedia className={styles.cardMedia} component="img" image={result.imageSrc} />
 			</Box>

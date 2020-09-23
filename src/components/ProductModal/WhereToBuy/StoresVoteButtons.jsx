@@ -23,7 +23,8 @@ function StoresVoteButtons({ setShowSnackbar, isAuthenticated }) {
 	const authLink = usePrepareLink({
 		query: {
 			[getParams.popup]: getEnums.popup.signIn
-		}
+		},
+		keepOldQuery: true
 	});
 
 	function handleVote(vote) {

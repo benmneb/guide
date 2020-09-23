@@ -50,19 +50,25 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const SideDrawer = (props) => {
-	const { window } = props;
+const SideDrawer = ({
+	isAuthenticated,
+	showSideDrawer,
+	onHideSideDrawer,
+	currentUserData,
+	window
+}) => {
 	const styles = useStyles();
 	const history = useHistory();
 	const theme = useTheme();
 	const [expandCategories, setExpandCategories] = useState(false);
+	const container = window !== undefined ? () => window().document.body : undefined;
 
 	const handleExpandCategories = () => {
 		setExpandCategories(!expandCategories);
 	};
 
 	const handleCloseSideDrawer = () => {
-		if (props.showSideDrawer) props.onHideSideDrawer();
+		if (showSideDrawer) onHideSideDrawer();
 	};
 
 	const openMenuItem = (clickedItem) => {
@@ -128,13 +134,16 @@ const SideDrawer = (props) => {
 			[getParams.popup]: getEnums.popup.privacy
 		}
 	});
-	const userProfileLink = usePrepareLink({
-		query: {
-			[getParams.popup]: getEnums.popup.userProfile
+	const userProfileLink = usePrepareLink(
+		isAuthenticated && {
+			query: {
+				[getParams.popup]: getEnums.popup.userProfile
+			},
+			pushToQuery: {
+				[getParams.userId]: currentUserData.id
+			}
 		}
-	});
-
-	const container = window !== undefined ? () => window().document.body : undefined;
+	);
 
 	const drawer = (
 		<div>
@@ -191,7 +200,7 @@ const SideDrawer = (props) => {
 			</List>
 			<Divider />
 			<List component="nav">
-				{props.isAuthenticated ? (
+				{isAuthenticated ? (
 					<ListItem button onClick={() => openMenuItem('userProfile')}>
 						<ListItemIcon>
 							<AccountCircleRounded />
@@ -257,7 +266,7 @@ const SideDrawer = (props) => {
 					container={container}
 					variant="temporary"
 					anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-					open={props.showSideDrawer}
+					open={showSideDrawer}
 					onClose={handleCloseSideDrawer}
 					classes={{
 						paper: styles.drawerPaper
@@ -287,7 +296,8 @@ const SideDrawer = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		showSideDrawer: state.showSideDrawer,
-		isAuthenticated: state.isAuthenticated
+		isAuthenticated: state.isAuthenticated,
+		currentUserData: state.currentUserData
 	};
 };
 

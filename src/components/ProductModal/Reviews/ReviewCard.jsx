@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-import { getTimeAgo } from '../../../utils/timeAgo';
-import Rating from '@material-ui/lab/Rating';
 import axios from 'axios';
-import { MoreVertRounded, ReportRounded } from '@material-ui/icons';
+import clsx from 'clsx';
 import {
 	Avatar,
 	Typography,
@@ -11,12 +10,16 @@ import {
 	IconButton,
 	Menu,
 	MenuItem,
+	Link,
 	Box
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { MoreVertRounded, ReportRounded } from '@material-ui/icons';
+import Rating from '@material-ui/lab/Rating';
 import ReviewReport from './ReviewReport';
 import LikeButton from '../LikeButton';
 import randomMC from 'random-material-color';
+import { getTimeAgo } from '../../../utils/timeAgo';
 import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	author: {
 		fontWeight: theme.typography.fontWeightMedium
+	},
+	link: {
+		textDecoration: 'none'
 	}
 }));
 
@@ -38,6 +44,23 @@ export default function ReviewCard({ isAuthenticated, ...props }) {
 	const history = useHistory();
 	const [showMoreMenu, setShowMoreMenu] = useState(null);
 	const [showReportModal, setShowReportModal] = useState(false);
+	const color = randomMC.getColor({ text: review.user_name });
+
+	const authLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.signIn
+		},
+		keepOldQuery: true
+	});
+	const userProfileLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.userProfile
+		},
+		pushToQuery: {
+			[getParams.userId]: review.user_id
+		},
+		keepOldQuery: true
+	});
 
 	const handleMoreMenuClick = (e) => {
 		setShowMoreMenu(e.currentTarget);
@@ -56,12 +79,6 @@ export default function ReviewCard({ isAuthenticated, ...props }) {
 		setShowReportModal(false);
 	};
 
-	const authLink = usePrepareLink({
-		query: {
-			[getParams.popup]: getEnums.popup.signIn
-		}
-	});
-
 	const handleLikeClick = () => {
 		if (isAuthenticated) {
 			axios
@@ -74,8 +91,6 @@ export default function ReviewCard({ isAuthenticated, ...props }) {
 		}
 	};
 
-	const color = randomMC.getColor({ text: review.user_name });
-
 	return (
 		<>
 			<Box key={review.review_id} marginTop={2} marginBottom={2}>
@@ -84,9 +99,11 @@ export default function ReviewCard({ isAuthenticated, ...props }) {
 						<Box display="flex" marginBottom={2}>
 							<Box marginRight={2}>
 								<Avatar
+									component={RouterLink}
+									to={userProfileLink}
 									alt={review.user_name}
 									src={review.avatar}
-									className={styles.largeAvatar}
+									className={clsx(styles.largeAvatar, styles.link)}
 									style={{ backgroundColor: color }}
 								>
 									{review.user_name.charAt(0).toUpperCase()}
@@ -98,8 +115,16 @@ export default function ReviewCard({ isAuthenticated, ...props }) {
 								flexDirection="column"
 								justifyContent="center"
 							>
-								<Typography className={styles.author}>{review.user_name}</Typography>
-								<Typography variant="body2">+{review.authorPoints}</Typography>
+								<Link
+									className={clsx(styles.author, styles.link)}
+									color="textPrimary"
+									variant="body1"
+									component={RouterLink}
+									to={userProfileLink}
+								>
+									{review.user_name}
+								</Link>
+								<Typography variant="body2">+ {review.authorPoints}</Typography>
 							</Box>
 							<Box
 								flexGrow="1"

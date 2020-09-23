@@ -110,7 +110,7 @@ function SupportUs({ isOpened, isAuthenticated }) {
 									Together we can help the community at large easily find all the best
 									vegan products.
 									{!isAuthenticated && (
-										<Box marginTop={2}>
+										<Box marginTop={1.5}>
 											<Button
 												variant="contained"
 												color="primary"
@@ -128,13 +128,9 @@ function SupportUs({ isOpened, isAuthenticated }) {
 									<Typography component="span" className={styles.bold}>
 										Mention us.
 									</Typography>{' '}
-									Recommend the Guide to your friends and family and show them how easy it
-									is to find vegan products. A lot of people still do not realise that
-									there are thousands of vegan products in the same supermarkets they
-									already shop at. They may not even realise a lot of the products they
-									currently purchase are already vegan. A quick browse of the Guide can
-									open their eyes to how easy and convenient being vegan is in{' '}
-									{new Date().getFullYear()}.
+									Recommend the Guide to your friends and family. Show them how easy it is
+									to find vegan products. A quick browse of the Guide can open their eyes
+									to how convenient being vegan is in {new Date().getFullYear()}.
 								</Typography>
 							</Box>
 							<Box component="li" data-icon="🎁">
@@ -144,9 +140,7 @@ function SupportUs({ isOpened, isAuthenticated }) {
 									</Typography>{' '}
 									If you see someone on social media asking about vegan products, or
 									enquiring if a specific vegan product is any good, then post a link to
-									the Guide. This will not only enable them to see the reviews other users
-									have left for that specific product but could potentially introduce them
-									to thousands of other new vegan products as well.
+									the Guide.
 								</Typography>
 							</Box>
 							<Box component="li" data-icon="📈">
@@ -156,7 +150,7 @@ function SupportUs({ isOpened, isAuthenticated }) {
 									</Typography>{' '}
 									If you have a brand that would benefit from being exposed to visitors of
 									the Guide then get in touch and let's start an advertising relationship.
-									<Box marginTop={2}>
+									<Box marginTop={1.5}>
 										<Button
 											variant="contained"
 											color="primary"
@@ -176,7 +170,7 @@ function SupportUs({ isOpened, isAuthenticated }) {
 									Pledge a monthly amount you are comfortable with to help cover the
 									expenses associated with creating and maintaining a large-scale web-app
 									like this. Every little bit helps.
-									<Box marginTop={2}>
+									<Box marginTop={1.5}>
 										<Button
 											variant="contained"
 											color="primary"

@@ -2,13 +2,7 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Typography, Breadcrumbs, Link } from '@material-ui/core';
 import { NavigateNextRounded } from '@material-ui/icons';
-
-function toKebabCase(str) {
-	return str
-		.toLowerCase()
-		.replace(/[^a-zA-Z]/g, '-')
-		.replace(/(-){2,}/g, '-');
-}
+import { toKebabCase } from '../../utils/changeCase';
 
 export default function BreadcrumbsTrail({ breadcrumbs }) {
 	if (breadcrumbs.length === 4) {

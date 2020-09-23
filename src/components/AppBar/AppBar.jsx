@@ -95,10 +95,6 @@ function TopBar({
 	showFiltersPanel,
 	setShowSnackbar,
 	isAuthenticated,
-	setToggleUserProfileModal,
-	setToggleAuthModal,
-	setToggleAdvertiseModal,
-	setToggleSupportModal,
 	...props
 }) {
 	const styles = useStyles();
@@ -166,11 +162,16 @@ function TopBar({
 			[getParams.popup]: getEnums.popup.signIn
 		}
 	});
-	const userProfileLink = usePrepareLink({
-		query: {
-			[getParams.popup]: getEnums.popup.userProfile
+	const userProfileLink = usePrepareLink(
+		isAuthenticated && {
+			query: {
+				[getParams.popup]: getEnums.popup.userProfile
+			},
+			pushToQuery: {
+				[getParams.userId]: currentUserData.id
+			}
 		}
-	});
+	);
 
 	return (
 		<div className={styles.root}>

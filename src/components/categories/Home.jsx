@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { GridListTile, GridListTileBar, Box } from '@material-ui/core';
 import { subCat1s } from '../../assets/subCat1s';
 import Hero, { Heading, SubHeading } from '../Hero/Hero';
+import ScrollToTopOnMount from '../../utils/ScrollToTop';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -67,6 +68,7 @@ const SubCat1s = () => {
 
 	return (
 		<>
+			<ScrollToTopOnMount />
 			<Hero>
 				<Heading>Find Vegan Products</Heading>
 				<SubHeading>

@@ -156,7 +156,8 @@ function WhereToBuy({
 	const authLink = usePrepareLink({
 		query: {
 			[getParams.popup]: getEnums.popup.signIn
-		}
+		},
+		keepOldQuery: true
 	});
 
 	function handleAddStoreFabClick() {
