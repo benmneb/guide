@@ -269,7 +269,6 @@ function AuthEmailJoin({ setCurrentUserData, setShowSnackbar, ...props }) {
 					</Button>
 				</Box>
 			</Box>
-
 			<Button onClick={handleBackToSocial}>Sign up with social account instead</Button>
 		</Box>
 	);

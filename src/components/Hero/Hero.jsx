@@ -1,8 +1,10 @@
 import React, { Children, cloneElement } from 'react';
 import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import { Typography, Link, Box } from '@material-ui/core';
 import { makeStyles, fade } from '@material-ui/core/styles';
+import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 export default function Hero({ children, textAlign, bgImage, hide }) {
 	// JSS has to be inside the function because it receives props for the bgImage
@@ -154,13 +156,19 @@ SubHeading.defaultProps = {
 ///////// FOOTER
 
 export function Footer({ textAlign, forCategory }) {
+	const addProductsLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.addProducts
+		}
+	});
+
 	let footerContent;
 
 	if (forCategory) {
 		footerContent = (
 			<Typography align={textAlign} paragraph>
 				You can{' '}
-				<Link href="#" underline="hover">
+				<Link underline="hover" component={RouterLink} to={addProductsLink}>
 					add any missing products
 				</Link>
 				.

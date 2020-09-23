@@ -22,8 +22,7 @@ import GetAppRoundedIcon from '@material-ui/icons/GetApp';
 import { categories } from '../../assets/categoriesAZ';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as actionCreators from '../../store/actions';
-import usePrepareLink from '../../utils/routing/usePrepareLink';
-import { GET_PARAMS, GET_ENUMS } from '../../utils/routing/router';
+import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	drawer: {
@@ -51,19 +50,25 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const SideDrawer = (props) => {
-	const { window } = props;
+const SideDrawer = ({
+	isAuthenticated,
+	showSideDrawer,
+	onHideSideDrawer,
+	currentUserData,
+	window
+}) => {
 	const styles = useStyles();
 	const history = useHistory();
 	const theme = useTheme();
 	const [expandCategories, setExpandCategories] = useState(false);
+	const container = window !== undefined ? () => window().document.body : undefined;
 
 	const handleExpandCategories = () => {
 		setExpandCategories(!expandCategories);
 	};
 
 	const handleCloseSideDrawer = () => {
-		if (props.showSideDrawer) props.onHideSideDrawer();
+		if (showSideDrawer) onHideSideDrawer();
 	};
 
 	const openMenuItem = (clickedItem) => {
@@ -96,46 +101,49 @@ const SideDrawer = (props) => {
 
 	const authLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+			[getParams.popup]: getEnums.popup.signIn
 		}
 	});
 	const advertiseLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.advertise
+			[getParams.popup]: getEnums.popup.advertise
 		}
 	});
 	const supportUsLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.supportUs
+			[getParams.popup]: getEnums.popup.supportUs
 		}
 	});
 	const feedbackLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.feedback
+			[getParams.popup]: getEnums.popup.feedback
 		}
 	});
 	const addProductsLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.addProducts
+			[getParams.popup]: getEnums.popup.addProducts
 		}
 	});
 	const termsLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.terms
+			[getParams.popup]: getEnums.popup.terms
 		}
 	});
 	const privacyLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.privacy
+			[getParams.popup]: getEnums.popup.privacy
 		}
 	});
-	const userProfileLink = usePrepareLink({
-		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.userProfile
+	const userProfileLink = usePrepareLink(
+		isAuthenticated && {
+			query: {
+				[getParams.popup]: getEnums.popup.userProfile
+			},
+			pushToQuery: {
+				[getParams.userId]: currentUserData.id
+			}
 		}
-	});
-
-	const container = window !== undefined ? () => window().document.body : undefined;
+	);
 
 	const drawer = (
 		<div>
@@ -192,7 +200,7 @@ const SideDrawer = (props) => {
 			</List>
 			<Divider />
 			<List component="nav">
-				{props.isAuthenticated ? (
+				{isAuthenticated ? (
 					<ListItem button onClick={() => openMenuItem('userProfile')}>
 						<ListItemIcon>
 							<AccountCircleRounded />
@@ -258,7 +266,7 @@ const SideDrawer = (props) => {
 					container={container}
 					variant="temporary"
 					anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-					open={props.showSideDrawer}
+					open={showSideDrawer}
 					onClose={handleCloseSideDrawer}
 					classes={{
 						paper: styles.drawerPaper
@@ -288,21 +296,14 @@ const SideDrawer = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		showSideDrawer: state.showSideDrawer,
-		isAuthenticated: state.isAuthenticated
+		isAuthenticated: state.isAuthenticated,
+		currentUserData: state.currentUserData
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer()),
-		onToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal()),
-		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
-		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
-		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal()),
-		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal()),
-		onToggleFeedbackModal: () => dispatch(actionCreators.toggleFeedbackModal()),
-		onToggleUserProfileModal: () => dispatch(actionCreators.toggleUserProfileModal()),
-		onToggleSupportModal: () => dispatch(actionCreators.toggleSupportModal())
+		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer())
 	};
 };
 

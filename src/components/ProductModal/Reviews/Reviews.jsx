@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import * as actionCreators from '../../../store/actions';
-import { Typography, Button, Collapse, Grid, Box } from '@material-ui/core';
+import { Typography, Button, Collapse, Grid, Link, Box } from '@material-ui/core';
 import { CancelRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 import ReviewCard from './ReviewCard';
 import ReviewsAdd from './ReviewsAdd';
 import MasonryLayout from '../../../utils/MasonryLayout';
-import usePrepareLink from '../../../utils/routing/usePrepareLink';
-import { GET_PARAMS, GET_ENUMS } from '../../../utils/routing/router';
+import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	bold: {
@@ -19,6 +18,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	cancelButton: {
 		color: theme.palette.text.secondary
+	},
+	link: {
+		'&:hover': {
+			cursor: 'pointer'
+		}
 	}
 }));
 
@@ -26,8 +30,7 @@ function Reviews({
 	showAddReview,
 	onShowAddReview,
 	onHideAddReview,
-	showProductModal,
-	selectedProduct,
+	selectedProductId,
 	ratingBeforeClickedAddReviewSnackbar,
 	isAuthenticated
 }) {
@@ -39,9 +42,9 @@ function Reviews({
 		let mounted = true;
 		const source = axios.CancelToken.source();
 
-		if (showProductModal) {
+		if (selectedProductId) {
 			axios
-				.get(`https://api.vomad.guide/review/${selectedProduct}`, {
+				.get(`https://api.vomad.guide/review/${selectedProductId}`, {
 					cancelToken: source.token
 				})
 				.then((response) => {
@@ -56,12 +59,13 @@ function Reviews({
 			mounted = false;
 			source.cancel('Reviews fetch cancelled during clean-up');
 		};
-	}, [selectedProduct, showProductModal]);
+	}, [selectedProductId]);
 
 	const authLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
-		}
+			[getParams.popup]: getEnums.popup.signIn
+		},
+		keepOldQuery: true
 	});
 
 	function handleAddReviewButtonClick() {
@@ -74,12 +78,10 @@ function Reviews({
 	}
 
 	const updateReview = () => {
-		if (showProductModal) {
-			axios
-				.get(`https://api.vomad.guide/review/${selectedProduct}`)
-				.then((response) => setReviews(response.data))
-				.catch((err) => console.error(err));
-		}
+		axios
+			.get(`https://api.vomad.guide/review/${selectedProductId}`)
+			.then((response) => setReviews(response.data))
+			.catch((err) => console.error(err));
 	};
 
 	return (
@@ -108,7 +110,7 @@ function Reviews({
 			<Collapse in={showAddReview} timeout="auto" unmountOnExit>
 				<ReviewsAdd
 					ratingBeforeClickedAddReviewSnackbar={ratingBeforeClickedAddReviewSnackbar}
-					productId={selectedProduct}
+					productId={selectedProductId}
 					updateReviews={() => updateReview()}
 					hide={onHideAddReview}
 				/>
@@ -132,7 +134,10 @@ function Reviews({
 							Have you tried this product?
 						</Typography>
 						<Typography color="textSecondary" paragraph>
-							Leave the first review so everyone else knows what it's like!
+							<Link onClick={handleAddReviewButtonClick} className={styles.link}>
+								Leave the first review
+							</Link>{' '}
+							so everyone else knows what it's like.
 						</Typography>
 					</Box>
 				)
@@ -144,7 +149,7 @@ function Reviews({
 const mapStateToProps = (state) => {
 	return {
 		showAddReview: state.showAddReview,
-		selectedProduct: state.selectedProduct,
+		selectedProductId: state.selectedProduct.productId,
 		ratingBeforeClickedAddReviewSnackbar: state.ratingBeforeClickedAddReviewSnackbar,
 		showProductModal: state.showProductModal,
 		isAuthenticated: state.isAuthenticated

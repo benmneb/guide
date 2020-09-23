@@ -70,11 +70,6 @@ function ReviewsAdd({
 		}
 	}, [ratingBeforeClickedAddReviewSnackbar, rating]);
 
-	useEffect(() => {
-		console.log('MOUNT');
-		return () => console.log('UNMOUNT');
-	}, []);
-
 	let ratingHelperText;
 
 	if ((rating === 0 && hover === -1) || (rating === null && hover === -1)) {

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -39,11 +39,13 @@ function BottomNav({
 }) {
 	const styles = useStyles();
 	const history = useHistory();
+	const location = useLocation();
 	const [value, setValue] = useState(1);
 
-	function handleCategoriesClick() {
-		history.goBack();
-	}
+	const handleCategoriesClick = useCallback(() => {
+		const releventPath = location.pathname.match(/^([^/]*\/){2}/)[0].slice(0, -1); // cuts off everything after the category
+		history.push(releventPath);
+	}, [history, location.pathname]);
 
 	function handleResultsClick() {
 		if (showFiltersPanel) {

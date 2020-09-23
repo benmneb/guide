@@ -15,8 +15,7 @@ import { MenuRounded, SearchRounded, AccountCircleRounded } from '@material-ui/i
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SideDrawer from './SideDrawer';
 import * as actionCreators from '../../store/actions';
-import usePrepareLink from '../../utils/routing/usePrepareLink';
-import { GET_PARAMS, GET_ENUMS } from '../../utils/routing/router';
+import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -95,10 +94,6 @@ function TopBar({
 	showFiltersPanel,
 	setShowSnackbar,
 	isAuthenticated,
-	setToggleUserProfileModal,
-	setToggleAuthModal,
-	setToggleAdvertiseModal,
-	setToggleSupportModal,
 	...props
 }) {
 	const styles = useStyles();
@@ -125,24 +120,29 @@ function TopBar({
 
 	const advertiseLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.advertise
+			[getParams.popup]: getEnums.popup.advertise
 		}
 	});
 	const supportUsLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.supportUs
+			[getParams.popup]: getEnums.popup.supportUs
 		}
 	});
 	const authLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.signIn
+			[getParams.popup]: getEnums.popup.signIn
 		}
 	});
-	const userProfileLink = usePrepareLink({
-		query: {
-			[GET_PARAMS.popup]: GET_ENUMS.popup.userProfile
+	const userProfileLink = usePrepareLink(
+		isAuthenticated && {
+			query: {
+				[getParams.popup]: getEnums.popup.userProfile
+			},
+			pushToQuery: {
+				[getParams.userId]: currentUserData.id
+			}
 		}
-	});
+	);
 
 	return (
 		<div className={styles.root}>

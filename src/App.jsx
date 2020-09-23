@@ -10,7 +10,6 @@ import { orange } from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from './components/AppBar/AppBar';
 import ResultsList from './components/ResultsList/ResultsList';
-import ProductModal from './components/ProductModal/ProductModal';
 import AddProducts from './components/Dialogs/AddProducts';
 import Advertise from './components/Dialogs/Advertise';
 import Privacy from './components/Dialogs/Privacy';
@@ -23,6 +22,7 @@ import Categories from './components/categories/Categories';
 import SupportUs from './components/Dialogs/SupportUs';
 import GetParameterPopups from './utils/routing/getParamaterPopups';
 import AuthSuccess from './components/Dialogs/AuthSuccess';
+import LoadingBar from './utils/LoadingBar';
 
 let theme = createMuiTheme({
 	palette: {
@@ -72,6 +72,7 @@ export default function App() {
 		<ThemeProvider theme={theme}>
 			<ConfirmProvider>
 				<CssBaseline />
+				<LoadingBar />
 				<AppBar>
 					<Switch>
 						<Route exact path="/">
@@ -92,7 +93,6 @@ export default function App() {
 					</Switch>
 				</AppBar>
 				<GetParameterPopups />
-				<ProductModal />
 				<UserProfile />
 				<AddProducts />
 				<SupportUs />

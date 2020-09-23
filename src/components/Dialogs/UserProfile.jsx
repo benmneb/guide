@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import { useHistory, useLocation } from 'react-router';
+import axios from 'axios';
 import { useConfirm } from 'material-ui-confirm';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
@@ -25,7 +26,6 @@ import {
 import Skeleton from '@material-ui/lab/Skeleton';
 import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
-import { user as fakeUser } from '../../assets/user';
 import randomMC from 'random-material-color';
 import { setCurrentUserData } from '../../store/actions';
 
@@ -56,11 +56,45 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 	const location = useLocation();
 	const confirm = useConfirm();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
+	const urlSearchParamsId = new URLSearchParams(location.search).get('id');
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
+	const [selectedUser, setSelectedUser] = useState(null);
+	const [isOwnProfile, setIsOwnProfile] = useState(false);
+
+	useEffect(() => {
+		let mounted = true;
+		const source = axios.CancelToken.source();
+
+		if (isOpened) {
+			axios
+				.get(`https://api.vomad.guide/user/${urlSearchParamsId}`, {
+					cancelToken: source.token
+				})
+				.then((response) => {
+					if (mounted) setSelectedUser(response.data[0]);
+				})
+				.then(() => {
+					if (mounted && currentUserData)
+						setIsOwnProfile(currentUserData.id === Number(urlSearchParamsId));
+				})
+				.catch((err) => {
+					if (mounted) console.error(err);
+				});
+		}
+
+		return () => {
+			mounted = false;
+			source.cancel('User modal call cancelled during clean-up');
+		};
+	}, [urlSearchParamsId, setSelectedUser, isOpened, currentUserData]);
 
 	const goBack = useCallback(() => {
-		history.push(location.pathname);
-	}, [history, location.pathname]);
+		if (location.search.includes('?view=user')) {
+			history.push(location.pathname + location.search.split('?view=user')[0]);
+		} else if (location.search.includes('&view=user')) {
+			history.push(location.pathname + location.search.split('&view=user')[0]);
+		} else history.push(location.pathname);
+	}, [history, location.pathname, location.search]);
 
 	const onClose = () => {
 		goBack();
@@ -87,7 +121,7 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 			.catch(() => null);
 	}
 
-	const color = randomMC.getColor({ text: fakeUser[0].username });
+	const color = selectedUser && randomMC.getColor({ text: selectedUser.user_name });
 
 	return (
 		<>
@@ -109,22 +143,31 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 						alignItems="center"
 					>
 						<Grid item container xs={12} direction="column" alignItems="center">
-							<Typography
-								className={styles.karma}
-								variant="overline"
-								component="span"
-								display="block"
-								align="center"
-							>
-								{currentUserData ? (
-									`+${fakeUser[0].karma} karma`
-								) : (
-									<Skeleton width={110} />
-								)}
-							</Typography>
-							<Typography component="h1" variant="h4" align="center">
-								{currentUserData ? currentUserData.username : <Skeleton width="30%" />}
-							</Typography>
+							{selectedUser ? (
+								<>
+									<Typography
+										className={styles.karma}
+										variant="overline"
+										component="span"
+										display="block"
+										align="center"
+									>
+										+ TODO: karma
+									</Typography>
+									<Typography component="h1" variant="h4" align="center">
+										{selectedUser.user_name}
+									</Typography>
+								</>
+							) : (
+								<Box display="flex" flexDirection="column" alignItems="center">
+									<Typography variant="overline">
+										<Skeleton width={110} />
+									</Typography>
+									<Typography variant="h4">
+										<Skeleton width={220} />
+									</Typography>
+								</Box>
+							)}
 						</Grid>
 						<Grid
 							item
@@ -137,21 +180,21 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 							<Box
 								display="flex"
 								justifyContent="center"
-								marginLeft={
-									currentUserData && fakeUser[0].id === currentUserData.id ? 3 : 0
-								}
+								marginLeft={isOwnProfile ? 3 : 0}
 							>
-								{currentUserData ? (
+								{selectedUser ? (
 									<Avatar
-										src={fakeUser[0].avatar}
-										alt={String(currentUserData.username).toUpperCase()}
+										src={selectedUser.avatar}
+										alt={selectedUser.user_name.toUpperCase()}
 										className={styles.avatar}
 										style={{ backgroundColor: color }}
-									/>
+									>
+										{selectedUser.user_name.charAt(0).toUpperCase()}
+									</Avatar>
 								) : (
 									<Skeleton variant="circle" className={styles.avatar} />
 								)}
-								{currentUserData && fakeUser[0].id === currentUserData.id && (
+								{isOwnProfile && (
 									<Box display="flex" flexDirection="column-reverse" marginLeft={-3}>
 										<input
 											accept="image/*"
@@ -161,7 +204,7 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 										/>
 										<label htmlFor="icon-button-file">
 											<Tooltip title="Upload a new avatar" enterDelay={1000}>
-												<IconButton aria-label="upload avatar" component="span">
+												<IconButton aria-label="upload a new avatar" component="span">
 													<PhotoCameraRounded />
 												</IconButton>
 											</Tooltip>
@@ -178,31 +221,54 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 							justify="center"
 							alignItems="center"
 						>
-							<Typography>
-								Ratings:{' '}
-								<Box component="span" fontWeight="fontWeightBold">
-									{fakeUser[0].ratings.length}
+							{selectedUser ? (
+								<>
+									<Typography>
+										Ratings:{' '}
+										<Box component="span" fontWeight="fontWeightBold">
+											{selectedUser.total_ratings !== null
+												? selectedUser.total_ratings
+												: '0'}
+										</Box>
+									</Typography>
+									<Typography>
+										Reviews:{' '}
+										<Box component="span" fontWeight="fontWeightBold">
+											{selectedUser.total_reviews !== null
+												? selectedUser.total_reviews
+												: '0'}
+										</Box>
+									</Typography>
+									<Typography>
+										Stores tagged:{' '}
+										<Box component="span" fontWeight="fontWeightBold">
+											TODO:
+										</Box>
+									</Typography>
+									<Typography>
+										Joined{' '}
+										<Box component="span" fontWeight="fontWeightBold">
+											{getTimeAgo(new Date(selectedUser.joined_date)).toLowerCase()}
+										</Box>
+									</Typography>
+								</>
+							) : (
+								<Box display="flex" flexDirection="column" alignItems="center">
+									<Typography>
+										<Skeleton width={100} />
+									</Typography>
+									<Typography>
+										<Skeleton width={130} />
+									</Typography>
+									<Typography>
+										<Skeleton width={200} />
+									</Typography>
+									<Typography>
+										<Skeleton width={180} />
+									</Typography>
 								</Box>
-							</Typography>
-							<Typography>
-								Reviews:{' '}
-								<Box component="span" fontWeight="fontWeightBold">
-									{fakeUser[0].reviews.length}
-								</Box>
-							</Typography>
-							<Typography>
-								Stores tagged:{' '}
-								<Box component="span" fontWeight="fontWeightBold">
-									{fakeUser[0].storesTagged.length}
-								</Box>
-							</Typography>
-							<Typography>
-								Joined{' '}
-								<Box component="span" fontWeight="fontWeightBold">
-									{getTimeAgo(fakeUser[0].joinedDate)}
-								</Box>
-							</Typography>
-							{currentUserData && fakeUser[0].id === currentUserData.id && (
+							)}
+							{isOwnProfile && (
 								<Box marginTop={2} display="flex">
 									<Button
 										variant="outlined"
@@ -225,11 +291,7 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 					</Grid>
 				</DialogContent>
 			</Dialog>
-			<UserProfileSettings
-				show={showSettingsModal}
-				hide={handleHideSettingsModal}
-				userId={currentUserData && currentUserData.id}
-			/>
+			<UserProfileSettings show={showSettingsModal} hide={handleHideSettingsModal} />
 		</>
 	);
 }
@@ -240,10 +302,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setCurrentUserData: (user, isAuth) =>
-			dispatch(actionCreators.setCurrentUserData(user, isAuth))
-	};
-};
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+export default connect(mapStateToProps)(UserProfile);

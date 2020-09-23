@@ -12,9 +12,12 @@ import {
 	useMediaQuery,
 	Box
 } from '@material-ui/core';
-import usePrepareLink from '../../utils/routing/usePrepareLink';
-import { GET_PARAMS, GET_ENUMS } from '../../utils/routing/router';
-import useGetParameter from '../../utils/routing/useGetParamater';
+import {
+	usePrepareLink,
+	useGetParameter,
+	getParams,
+	getEnums
+} from '../../utils/routing';
 import Advertise from './Advertise';
 import Auth from './Auth';
 
@@ -48,7 +51,7 @@ function SupportUs({ isOpened, isAuthenticated }) {
 	const location = useLocation();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 
-	const actionType = useGetParameter(GET_PARAMS.action);
+	const actionType = useGetParameter(getParams.action);
 	const [action, setAction] = useState(actionType);
 
 	useEffect(() => {
@@ -67,13 +70,13 @@ function SupportUs({ isOpened, isAuthenticated }) {
 
 	const advertiseLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.action]: GET_ENUMS.action.advertise
+			[getParams.action]: getEnums.action.advertise
 		},
 		keepOldQuery: true
 	});
 	const authLink = usePrepareLink({
 		query: {
-			[GET_PARAMS.action]: GET_ENUMS.action.login
+			[getParams.action]: getEnums.action.login
 		},
 		keepOldQuery: true
 	});
@@ -107,7 +110,7 @@ function SupportUs({ isOpened, isAuthenticated }) {
 									Together we can help the community at large easily find all the best
 									vegan products.
 									{!isAuthenticated && (
-										<Box marginTop={2}>
+										<Box marginTop={1.5}>
 											<Button
 												variant="contained"
 												color="primary"
@@ -125,13 +128,9 @@ function SupportUs({ isOpened, isAuthenticated }) {
 									<Typography component="span" className={styles.bold}>
 										Mention us.
 									</Typography>{' '}
-									Recommend the Guide to your friends and family and show them how easy it
-									is to find vegan products. A lot of people still do not realise that
-									there are thousands of vegan products in the same supermarkets they
-									already shop at. They may not even realise a lot of the products they
-									currently purchase are already vegan. A quick browse of the Guide can
-									open their eyes to how easy and convenient being vegan is in{' '}
-									{new Date().getFullYear()}.
+									Recommend the Guide to your friends and family. Show them how easy it is
+									to find vegan products. A quick browse of the Guide can open their eyes
+									to how convenient being vegan is in {new Date().getFullYear()}.
 								</Typography>
 							</Box>
 							<Box component="li" data-icon="🎁">
@@ -141,9 +140,7 @@ function SupportUs({ isOpened, isAuthenticated }) {
 									</Typography>{' '}
 									If you see someone on social media asking about vegan products, or
 									enquiring if a specific vegan product is any good, then post a link to
-									the Guide. This will not only enable them to see the reviews other users
-									have left for that specific product but could potentially introduce them
-									to thousands of other new vegan products as well.
+									the Guide.
 								</Typography>
 							</Box>
 							<Box component="li" data-icon="📈">
@@ -153,7 +150,7 @@ function SupportUs({ isOpened, isAuthenticated }) {
 									</Typography>{' '}
 									If you have a brand that would benefit from being exposed to visitors of
 									the Guide then get in touch and let's start an advertising relationship.
-									<Box marginTop={2}>
+									<Box marginTop={1.5}>
 										<Button
 											variant="contained"
 											color="primary"
@@ -173,7 +170,7 @@ function SupportUs({ isOpened, isAuthenticated }) {
 									Pledge a monthly amount you are comfortable with to help cover the
 									expenses associated with creating and maintaining a large-scale web-app
 									like this. Every little bit helps.
-									<Box marginTop={2}>
+									<Box marginTop={1.5}>
 										<Button
 											variant="contained"
 											color="primary"
