@@ -4,15 +4,7 @@ const initialState = {
 	showFiltersPanel: false,
 	showSideDrawer: false,
 	showProductModal: false,
-	showAddProductsModal: false,
-	showAdvertiseModal: false,
-	showTermsModal: false,
-	showPrivacyModal: false,
-	showFeedbackModal: false,
-	showAuthModal: false,
-	showUserProfileModal: false,
-	showSupportModal: false,
-	currentUserData: {},
+	currentUserData: null,
 	isAuthenticated: false,
 	showSnackbar: false,
 	snackData: {},
@@ -20,7 +12,8 @@ const initialState = {
 	ratingBeforeClickedAddReviewSnackbar: null,
 	selectedProduct: null,
 	currentLocation: null,
-	appliedFilters: []
+	appliedFilters: [],
+	isLoading: false
 };
 
 export default function Reducers(state = initialState, action) {
@@ -45,52 +38,11 @@ export default function Reducers(state = initialState, action) {
 				...state,
 				showSideDrawer: false
 			};
-		case actionTypes.TOGGLE_PRODUCT_MODAL:
+		case actionTypes.SET_SELECTED_PRODUCT:
 			return {
 				...state,
-				showProductModal: !state.showProductModal,
 				selectedProduct: action.payload.id,
 				ratingBeforeClickedAddReviewSnackbar: null
-			};
-		case actionTypes.TOGGLE_ADD_PRODUCTS_MODAL:
-			return {
-				...state,
-				showAddProductsModal: !state.showAddProductsModal
-			};
-		case actionTypes.TOGGLE_ADVERTISE_MODAL:
-			return {
-				...state,
-				showAdvertiseModal: !state.showAdvertiseModal
-			};
-		case actionTypes.TOGGLE_TERMS_MODAL:
-			return {
-				...state,
-				showTermsModal: !state.showTermsModal
-			};
-		case actionTypes.TOGGLE_PRIVACY_MODAL:
-			return {
-				...state,
-				showPrivacyModal: !state.showPrivacyModal
-			};
-		case actionTypes.TOGGLE_FEEDBACK_MODAL:
-			return {
-				...state,
-				showFeedbackModal: !state.showFeedbackModal
-			};
-		case actionTypes.TOGGLE_AUTH_MODAL:
-			return {
-				...state,
-				showAuthModal: !state.showAuthModal
-			};
-		case actionTypes.TOGGLE_USER_PROFILE_MODAL:
-			return {
-				...state,
-				showUserProfileModal: !state.showUserProfileModal
-			};
-		case actionTypes.TOGGLE_SUPPORT_MODAL:
-			return {
-				...state,
-				showSupportModal: !state.showSupportModal
 			};
 		case actionTypes.SET_CURRENT_USER_DATA:
 			return {
@@ -145,6 +97,11 @@ export default function Reducers(state = initialState, action) {
 			return {
 				...state,
 				appliedFilters: []
+			};
+		case actionTypes.SET_LOADING:
+			return {
+				...state,
+				isLoading: action.payload.state
 			};
 		default:
 			return state;

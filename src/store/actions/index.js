@@ -3,15 +3,7 @@ export {
 	hideFiltersPanel,
 	showSideDrawer,
 	hideSideDrawer,
-	toggleProductModal,
-	toggleAddProductsModal,
-	toggleAdvertiseModal,
-	toggleTermsModal,
-	togglePrivacyModal,
-	toggleFeedbackModal,
-	toggleAuthModal,
-	toggleUserProfileModal,
-	toggleSupportModal,
+	setSelectedProduct,
 	setCurrentUserData,
 	showSnackbar,
 	hideSnackbar,
@@ -21,5 +13,6 @@ export {
 	setCurrentLocation,
 	addFilter,
 	removeFilter,
-	removeAllFilters
+	removeAllFilters,
+	setLoading
 } from './actions';
