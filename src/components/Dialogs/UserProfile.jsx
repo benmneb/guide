@@ -298,4 +298,5 @@ const mapStateToProps = (state) => {
 		currentUserData: state.currentUserData
 	};
 };
+
 export default connect(mapStateToProps)(UserProfile);

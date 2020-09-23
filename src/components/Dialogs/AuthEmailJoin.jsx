@@ -230,7 +230,6 @@ export default function AuthEmailJoin(props) {
 					</Button>
 				</Box>
 			</Box>
-
 			<Button onClick={handleBackToSocial}>Sign up with social account instead</Button>
 		</Box>
 	);
