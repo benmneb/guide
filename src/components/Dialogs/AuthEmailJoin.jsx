@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function AuthEmailJoin({ setCurrentUserData, ...props }) {
+function AuthEmailJoin({ setCurrentUserData, setShowSnackbar, ...props }) {
 	const styles = useStyles();
 	const [showPassword, setShowPassword] = useState(false);
 	const { register, handleSubmit, errors, watch } = useForm();
@@ -76,7 +76,19 @@ function AuthEmailJoin({ setCurrentUserData, ...props }) {
 				goBack();
 			})
 			.catch((error) => {
+				console.error(error.response.data);
 				setCurrentUserData(null, false);
+				if (error.response.data === 'email already taken') {
+					setShowSnackbar({
+						snackData: {
+							type: 'error',
+							title: "can't sign up",
+							message: 'Email already exist'
+						}
+					});
+				} else {
+					return error;
+				}
 			});
 	};
 
@@ -272,7 +284,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setCurrentUserData: (user, isAuth) =>
-			dispatch(actionCreators.setCurrentUserData(user, isAuth))
+			dispatch(actionCreators.setCurrentUserData(user, isAuth)),
+		setShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 

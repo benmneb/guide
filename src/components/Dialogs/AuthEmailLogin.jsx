@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function AuthEmailLogin({ setCurrentUserData, ...props }) {
+function AuthEmailLogin({ setCurrentUserData, setShowSnackbar, ...props }) {
 	const styles = useStyles();
 	const [showPassword, setShowPassword] = useState(false);
 	const { register, handleSubmit, errors } = useForm();
@@ -76,6 +76,34 @@ function AuthEmailLogin({ setCurrentUserData, ...props }) {
 			})
 			.catch((error) => {
 				setCurrentUserData(null, false);
+				if (error.response.data === 'no user found') {
+					setShowSnackbar({
+						snackData: {
+							type: 'error',
+							title: "couldn't login",
+							message: 'no user matching this email found'
+						}
+					});
+				} else if (error.response.data === 'incorrect password') {
+					setShowSnackbar({
+						snackData: {
+							type: 'error',
+							title: "couldn't login",
+							message: 'incorrect password'
+						}
+					});
+				} else if (error.response.data === 'Login with social media account') {
+					setShowSnackbar({
+						snackData: {
+							type: 'error',
+							title: "couldn't login",
+							message:
+								'You have previously signed in with this email using a social media account, try to log in again using the correct account'
+						}
+					});
+				} else {
+					return error;
+				}
 			});
 	};
 
@@ -191,7 +219,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setCurrentUserData: (user, isAuth) =>
-			dispatch(actionCreators.setCurrentUserData(user, isAuth))
+			dispatch(actionCreators.setCurrentUserData(user, isAuth)),
+		setShowSnackbar: ({ snackData }) =>
+			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 
