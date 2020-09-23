@@ -48,7 +48,7 @@ function ReviewsAdd({
 					onShowSnackbar({
 						snackData: {
 							type: 'success',
-							title: 'Review Added',
+							title: 'Review added',
 							message: 'Thank you for helping people find vegan products easier',
 							emoji: '💪'
 						}

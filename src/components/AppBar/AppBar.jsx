@@ -1,19 +1,22 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import axios from 'axios';
+import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuRoundedIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
+import {
+	AppBar,
+	Toolbar,
+	IconButton,
+	InputBase,
+	Button,
+	Tooltip,
+	Box
+} from '@material-ui/core';
+import { MenuRounded, SearchRounded, AccountCircleRounded } from '@material-ui/icons';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import SearchRoundedIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
-import Box from '@material-ui/core/Box';
 import SideDrawer from './SideDrawer';
 import * as actionCreators from '../../store/actions';
-
-const drawerWidth = 240;
+import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -22,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
 	appBar: {
 		zIndex: theme.zIndex.appBar + 2,
 		[theme.breakpoints.up('lg')]: {
-			width: `calc(100% - ${drawerWidth}px)`,
-			marginLeft: drawerWidth
+			width: `calc(100% - ${theme.mixins.sideMenu.width}px)`,
+			marginLeft: theme.mixins.sideMenu.width
 		}
 	},
 	menuButton: {
@@ -35,9 +38,9 @@ const useStyles = makeStyles((theme) => ({
 	search: {
 		position: 'relative',
 		borderRadius: theme.shape.borderRadius,
-		backgroundColor: fade(theme.palette.common.black, 0.15), // was black 0.15
+		backgroundColor: fade(theme.palette.common.black, 0.15),
 		'&:hover': {
-			backgroundColor: fade(theme.palette.common.black, 0.25) // was black 0.25
+			backgroundColor: fade(theme.palette.common.black, 0.25)
 		},
 		backgroundBlendMode: 'darken',
 		marginLeft: 0,
@@ -79,6 +82,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	displayNone: {
 		display: 'none'
+	},
+	profileButton: {
+		padding: theme.spacing(1)
 	}
 }));
 
@@ -88,9 +94,11 @@ function TopBar({
 	setShowSideDrawer,
 	showFiltersPanel,
 	setShowSnackbar,
+	isAuthenticated,
 	...props
 }) {
-	const classes = useStyles();
+	const styles = useStyles();
+	const history = useHistory();
 
 	useEffect(() => {
 		let mounted = true;
@@ -135,13 +143,43 @@ function TopBar({
 		setShowSideDrawer();
 	};
 
+	function handleLoginSignUpClick() {
+		history.push(authLink);
+	}
+
+	const advertiseLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.advertise
+		}
+	});
+	const supportUsLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.supportUs
+		}
+	});
+	const authLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.signIn
+		}
+	});
+	const userProfileLink = usePrepareLink(
+		isAuthenticated && {
+			query: {
+				[getParams.popup]: getEnums.popup.userProfile
+			},
+			pushToQuery: {
+				[getParams.userId]: currentUserData.id
+			}
+		}
+	);
+
 	return (
-		<div className={classes.root}>
+		<div className={styles.root}>
 			<AppBar
 				position="absolute"
 				color="transparent"
-				className={clsx(classes.appBar, {
-					[classes.displayNone]: showFiltersPanel
+				className={clsx(styles.appBar, {
+					[styles.displayNone]: showFiltersPanel
 				})}
 				elevation={0}
 			>
@@ -151,30 +189,71 @@ function TopBar({
 						aria-label="open drawer"
 						edge="start"
 						onClick={handleDrawerToggle}
-						className={classes.menuButton}
+						className={styles.menuButton}
 					>
-						<MenuRoundedIcon />
+						<MenuRounded />
 					</IconButton>
 					<Box flexGrow="1" justifyContent="flex-start"></Box>
-					<div className={classes.search}>
-						<div className={classes.searchIcon}>
-							<SearchRoundedIcon />
-						</div>
+					<Box className={styles.search}>
+						<Box className={styles.searchIcon}>
+							<SearchRounded />
+						</Box>
 						<InputBase
 							placeholder="Search…"
 							classes={{
-								root: classes.inputRoot,
-								input: classes.inputInput
+								root: styles.inputRoot,
+								input: styles.inputInput
 							}}
 							inputProps={{ 'aria-label': 'search' }}
 						/>
-					</div>
+					</Box>
+					<Box display={{ xs: 'none', md: 'inline-flex' }} marginLeft={1}>
+						<Button component={Link} to={advertiseLink}>
+							Advertise
+						</Button>
+						<Button component={Link} to={supportUsLink}>
+							Support Us
+						</Button>
+					</Box>
+					<Box display={{ xs: 'none', sm: 'inline-flex' }}>
+						{isAuthenticated ? (
+							<Box marginLeft={0}>
+								<Tooltip title="View your profile and settings">
+									<IconButton
+										edge="end"
+										component={Link}
+										to={userProfileLink}
+										classes={{ root: styles.profileButton }}
+									>
+										<AccountCircleRounded fontSize="large" />
+									</IconButton>
+								</Tooltip>
+							</Box>
+						) : (
+							<>
+								<Box marginLeft={1}>
+									<Button variant="outlined" onClick={handleLoginSignUpClick}>
+										Login
+									</Button>
+								</Box>
+								<Box marginLeft={1}>
+									<Button
+										variant="contained"
+										color="primary"
+										onClick={handleLoginSignUpClick}
+									>
+										Sign up
+									</Button>
+								</Box>
+							</>
+						)}
+					</Box>
 				</Toolbar>
 			</AppBar>
 
 			<SideDrawer />
 
-			<main className={classes.content}>{props.children}</main>
+			<main className={styles.content}>{props.children}</main>
 		</div>
 	);
 }
@@ -183,7 +262,8 @@ const mapStateToProps = (state) => {
 	return {
 		showFiltersPanel: state.showFiltersPanel,
 		showSideDrawer: state.showSideDrawer,
-		currentUserData: state.currentUserData
+		currentUserData: state.currentUserData,
+		isAuthenticated: state.isAuthenticated
 	};
 };
 

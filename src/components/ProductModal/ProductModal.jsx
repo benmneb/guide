@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import * as actionCreators from '../../store/actions';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '../../utils/DialogTitle';
 import {
 	Dialog,
-	IconButton,
+	DialogContent,
 	Typography,
 	useMediaQuery,
 	Tabs,
@@ -16,25 +16,16 @@ import {
 	Grid,
 	Box
 } from '@material-ui/core';
-import CloseRoundedIcon from '@material-ui/icons/Close';
 import Skeleton from '@material-ui/lab/Skeleton';
+import TabPanel, { a11yProps } from '../../utils/TabPanel';
 import About from './About/About';
 import Reviews from './Reviews/Reviews';
 import WhereToBuy from './WhereToBuy/WhereToBuy';
 import BottomNav from './BottomNav';
 import StarRating from './StarRating';
+import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
-	closeBtnContainer: {
-		margin: 0,
-		padding: 0
-	},
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	},
 	dialogContentRoot: {
 		padding: theme.spacing(2),
 		marginBottom: 56, // height of bottomNav bar
@@ -56,55 +47,36 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function TabPanel(props) {
-	const { children, value, index, ...other } = props;
-
-	return (
-		<div
-			role="tabpanel"
-			hidden={value !== index}
-			id={`simple-tabpanel-${index}`}
-			aria-labelledby={`simple-tab-${index}`}
-			{...other}
-		>
-			{value === index && <Box>{children}</Box>}
-		</div>
-	);
-}
-
-function a11yProps(index) {
-	return {
-		id: `simple-tab-${index}`,
-		'aria-controls': `simple-tabpanel-${index}`
-	};
-}
-
 const ProductModal = ({
 	showAddReview,
-	showProductModal,
-	selectedProduct,
-	onToggleProductModal,
 	onHideAddReview,
-	currentUserData
+	currentUserData,
+	setSelectedProduct,
+	selectedProduct,
+	show
 }) => {
 	const styles = useStyles();
 	const theme = useTheme();
+	const history = useHistory();
+	const location = useLocation();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-	const [currentTab, setCurrentTab] = useState(0);
-	const [item, setItem] = useState(null);
+	const [currentTab, setCurrentTab] = useState('about');
 	const [newRating, setNewRating] = useState(null);
+	const { id } = useParams();
+	const urlSearchParamsTab = new URLSearchParams(location.search).get('tab');
+	const [currentUrlSearchParams, setCurrentUrlSearchParams] = useState(null);
 
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
 
-		if (showProductModal) {
+		if (show) {
 			axios
-				.get(`https://api.vomad.guide/product/${selectedProduct}`, {
+				.get(`https://api.vomad.guide/product/${id}`, {
 					cancelToken: source.token
 				})
 				.then((response) => {
-					if (mounted) setItem(response.data);
+					if (mounted) setSelectedProduct(response.data[0]);
 				})
 				.catch((err) => {
 					if (mounted) console.error(err);
@@ -115,18 +87,13 @@ const ProductModal = ({
 			mounted = false;
 			source.cancel('Product modal call cancelled during clean-up');
 		};
-	}, [
-		selectedProduct,
-		newRating,
-		showProductModal,
-		theme.transitions.duration.leavingScreen
-	]);
+	}, [newRating, id, show, setSelectedProduct]);
 
 	const handleStarRating = (newValue) => {
 		axios
 			.put('https://api.vomad.guide/rating/', {
 				rating: newValue,
-				product_id: item && item[0].productId,
+				product_id: selectedProduct && selectedProduct.productId,
 				user_id: currentUserData.id
 			})
 			.then((response) => {
@@ -134,41 +101,87 @@ const ProductModal = ({
 			});
 	};
 
-	const onCloseModal = () => {
-		onToggleProductModal();
-		if (showAddReview) onHideAddReview();
-		if (currentTab !== 0) setCurrentTab(0);
-		setItem(null);
+	const goBack = useCallback(() => {
+		const releventPath = location.pathname.match(/^([^/]*\/){3}/)[0].slice(0, -1); // cuts off everything after the category
+		history.push(releventPath);
+	}, [history, location.pathname]);
+
+	const onClose = () => {
+		goBack();
+		setTimeout(() => {
+			if (showAddReview) onHideAddReview();
+			if (currentTab !== 'about') setCurrentTab('about');
+			setSelectedProduct(null);
+		}, theme.transitions.duration.leavingScreen);
 	};
 
-	const handleChangeCurrentTab = (event, newValue) => {
-		if (newValue !== 1 && showAddReview) onHideAddReview();
-		setCurrentTab(newValue);
-	};
+	const aboutLink = usePrepareLink({
+		query: {
+			[getParams.productTab]: getEnums.productTab.about
+		},
+		keepOldQuery: true
+	});
+	const reviewsLink = usePrepareLink({
+		query: {
+			[getParams.productTab]: getEnums.productTab.reviews
+		},
+		keepOldQuery: true
+	});
+	const whereToBuyLink = usePrepareLink({
+		query: {
+			[getParams.productTab]: getEnums.productTab.whereToBuy
+		},
+		keepOldQuery: true
+	});
+
+	const handleChangeCurrentTab = useCallback(
+		(event, newValue) => {
+			// if (newValue !== 1 && showAddReview) onHideAddReview();
+			setCurrentTab(newValue);
+			setCurrentUrlSearchParams(newValue);
+			switch (newValue) {
+				case 'about':
+					return history.replace(aboutLink);
+				case 'reviews':
+					return history.replace(reviewsLink);
+				case 'where-to-buy':
+					return history.replace(whereToBuyLink);
+				default:
+					return history.replace(aboutLink);
+			}
+		},
+		[aboutLink, history, reviewsLink, whereToBuyLink]
+	);
 
 	useEffect(() => {
-		if (showAddReview && currentTab !== 1) setCurrentTab(1);
+		if (show && urlSearchParamsTab !== currentUrlSearchParams)
+			switch (urlSearchParamsTab) {
+				case 'about':
+					return handleChangeCurrentTab(null, 'about');
+				case 'reviews':
+					return handleChangeCurrentTab(null, 'reviews');
+				case 'where-to-buy':
+					return handleChangeCurrentTab(null, 'where-to-buy');
+				default:
+					return handleChangeCurrentTab(null, 'about');
+			}
+	}, [urlSearchParamsTab, handleChangeCurrentTab, show, currentUrlSearchParams]);
+
+	useEffect(() => {
+		if (showAddReview && currentTab !== 'reviews') setCurrentTab('reviews');
 	}, [showAddReview, currentTab]);
 
 	return (
 		<Dialog
-			onClose={onCloseModal}
+			onClose={onClose}
 			fullScreen={fullScreen}
 			aria-labelledby="product-dialog-title"
-			open={showProductModal}
+			open={show}
 			maxWidth="md"
 			fullWidth
 			classes={{ paperScrollPaper: styles.modalMaxHeight }}
 		>
-			<MuiDialogTitle disableTypography className={styles.closeBtnContainer}>
-				<IconButton
-					aria-label="close"
-					className={styles.closeButton}
-					onClick={onCloseModal}
-				>
-					<CloseRoundedIcon />
-				</IconButton>
-			</MuiDialogTitle>
+			<DialogTitle noTitle onClose={onClose} />
 			<DialogContent className={styles.dialogContentRoot}>
 				<Grid
 					component="header"
@@ -178,7 +191,7 @@ const ProductModal = ({
 					alignItems="center"
 				>
 					<Grid item xs={12}>
-						{item ? (
+						{selectedProduct ? (
 							<Typography component="h1" variant="h4" align="center">
 								<Typography
 									className={styles.brandName}
@@ -186,9 +199,9 @@ const ProductModal = ({
 									component="span"
 									display="block"
 								>
-									{item[0].brandName}
+									{selectedProduct.brandName}
 								</Typography>
-								{item[0].productName}
+								{selectedProduct.productName}
 							</Typography>
 						) : (
 							<Box display="flex" flexDirection="column" alignItems="center">
@@ -201,10 +214,10 @@ const ProductModal = ({
 					</Grid>
 					<Grid item xs={12}>
 						<StarRating
-							product={item}
-							averageRating={item && Number(item[0].rating)}
-							amountOfRatings={item && Number(item[0].ratingcount)}
-							productId={item && item[0].productId}
+							product={selectedProduct}
+							averageRating={selectedProduct && Number(selectedProduct.rating)}
+							amountOfRatings={selectedProduct && Number(selectedProduct.ratingcount)}
+							productId={selectedProduct && selectedProduct.productId}
 							onRate={(newValue) => handleStarRating(newValue)}
 						/>
 					</Grid>
@@ -214,27 +227,31 @@ const ProductModal = ({
 								<Tabs
 									component="nav"
 									value={currentTab}
-									onChange={handleChangeCurrentTab}
+									onChange={selectedProduct && handleChangeCurrentTab}
 									indicatorColor="primary"
 									textColor="inherit"
 									centered
 								>
-									<Tab label="About" {...a11yProps(0)} />
-									<Tab label="Reviews" {...a11yProps(1)} />
-									<Tab label="Where To Buy" {...a11yProps(2)} />
+									<Tab label="About" {...a11yProps('about')} value="about" />
+									<Tab label="Reviews" {...a11yProps('reviews')} value="reviews" />
+									<Tab
+										label="Where To Buy"
+										{...a11yProps('where-to-buy')}
+										value="where-to-buy"
+									/>
 								</Tabs>
 							</Paper>
 						</Grid>
 					</Box>
 				</Grid>
 				<Box marginTop={2}>
-					<TabPanel value={currentTab} index={0}>
-						<About product={item} />
+					<TabPanel value={currentTab} index="about">
+						<About />
 					</TabPanel>
-					<TabPanel value={currentTab} index={1}>
-						<Reviews />
+					<TabPanel value={currentTab} index="reviews">
+						{selectedProduct && <Reviews />}
 					</TabPanel>
-					<TabPanel value={currentTab} index={2}>
+					<TabPanel value={currentTab} index="where-to-buy">
 						<WhereToBuy />
 					</TabPanel>
 				</Box>
@@ -246,17 +263,16 @@ const ProductModal = ({
 
 const mapStateToProps = (state) => {
 	return {
-		showProductModal: state.showProductModal,
 		showAddReview: state.showAddReview,
-		selectedProduct: state.selectedProduct,
-		currentUserData: state.currentUserData
+		currentUserData: state.currentUserData,
+		selectedProduct: state.selectedProduct
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onToggleProductModal: () => dispatch(actionCreators.toggleProductModal()),
-		onHideAddReview: () => dispatch(actionCreators.hideAddReview())
+		onHideAddReview: () => dispatch(actionCreators.hideAddReview()),
+		setSelectedProduct: (id) => dispatch(actionCreators.setSelectedProduct(id))
 	};
 };
 

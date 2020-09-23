@@ -1,72 +1,40 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { useTheme, withStyles } from '@material-ui/core/styles';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseRoundedIcon from '@material-ui/icons/Close';
+import React, { useCallback } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import DialogTitle from '../../utils/DialogTitle';
 import {
 	Dialog,
 	DialogContent,
 	DialogContentText,
 	Typography,
-	IconButton,
-	useMediaQuery,
-	Box
+	useMediaQuery
 } from '@material-ui/core';
-import * as actionCreators from '../../store/actions';
 
-const styles = (theme) => ({
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	}
-});
+export default function Terms({ isOpened }) {
+	const history = useHistory();
+	const location = useLocation();
+	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 
-const DialogTitle = withStyles(styles)((props) => {
-	const { children, classes, onClose, ...other } = props;
-	return (
-		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Box component="header">
-				<Typography variant="h6" component="h1">
-					{children}
-				</Typography>
-				{onClose ? (
-					<IconButton
-						aria-label="close"
-						className={classes.closeButton}
-						onClick={onClose}
-						autoFocus
-					>
-						<CloseRoundedIcon />
-					</IconButton>
-				) : null}
-			</Box>
-		</MuiDialogTitle>
-	);
-});
-
-const Terms = (props) => {
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+	const goBack = useCallback(() => {
+		history.push(location.pathname);
+	}, [history, location.pathname]);
 
 	const onClose = () => {
-		props.onToggleTermsModal();
+		goBack();
 	};
 
 	return (
 		<Dialog
-			open={props.showTermsModal}
+			open={Boolean(isOpened)}
 			onClose={onClose}
-			aria-labelledby="terms-dialog-title"
-			aria-describedby="terms-dialog-description"
+			aria-labelledby="terms-of-use-title"
+			aria-describedby="terms-of-use-description"
 			fullScreen={fullScreen}
 		>
-			<DialogTitle id="terms-dialog-title" onClose={onClose}>
+			<DialogTitle id="terms-of-use-title" onClose={onClose}>
 				{'Terms of Use'}
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText component="article" id="terms-dialog-description">
+				<DialogContentText component="article" id="terms-of-use-description">
 					<Typography variant="body1" gutterBottom>
 						This website and mobile application (The Vomad Guide or VOMADguide) is
 						operated by VOMAD (we, our or us). &nbsp;It is available at:
@@ -408,18 +376,4 @@ const Terms = (props) => {
 			</DialogContent>
 		</Dialog>
 	);
-};
-
-const mapStateToProps = (state) => {
-	return {
-		showTermsModal: state.showTermsModal
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Terms);
+}

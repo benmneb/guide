@@ -16,24 +16,23 @@ import FastfoodRoundedIcon from '@material-ui/icons/Fastfood';
 import BathtubRoundedIcon from '@material-ui/icons/Bathtub';
 import AllInclusiveRoundedIcon from '@material-ui/icons/AllInclusive';
 import FavoriteRoundedIcon from '@material-ui/icons/Favorite';
-import VisibilityRoundedIcon from '@material-ui/icons/Visibility';
+import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import FeedbackRoundedIcon from '@material-ui/icons/Feedback';
 import GetAppRoundedIcon from '@material-ui/icons/GetApp';
 import { categories } from '../../assets/categoriesAZ';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as actionCreators from '../../store/actions';
-
-const drawerWidth = 240;
+import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	drawer: {
 		[theme.breakpoints.up('lg')]: {
-			width: drawerWidth,
+			width: theme.mixins.sideMenu.width,
 			flexShrink: 0
 		}
 	},
 	drawerPaper: {
-		width: drawerWidth
+		width: theme.mixins.sideMenu.width
 	},
 	toolbar: {
 		display: 'flex',
@@ -51,48 +50,100 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const SideDrawer = (props) => {
-	const { window } = props;
+const SideDrawer = ({
+	isAuthenticated,
+	showSideDrawer,
+	onHideSideDrawer,
+	currentUserData,
+	window
+}) => {
 	const styles = useStyles();
 	const history = useHistory();
 	const theme = useTheme();
 	const [expandCategories, setExpandCategories] = useState(false);
+	const container = window !== undefined ? () => window().document.body : undefined;
 
 	const handleExpandCategories = () => {
 		setExpandCategories(!expandCategories);
 	};
 
 	const handleCloseSideDrawer = () => {
-		props.onHideSideDrawer();
+		if (showSideDrawer) onHideSideDrawer();
 	};
 
 	const openMenuItem = (clickedItem) => {
-		if (props.showSideDrawer) handleCloseSideDrawer();
+		handleCloseSideDrawer();
 		switch (clickedItem) {
 			case 'home':
 				return history.push('/');
 			case 'auth':
-				return props.onToggleAuthModal();
+				return history.push(authLink);
 			case 'userProfile':
-				return props.onToggleUserProfileModal();
+				return history.push(userProfileLink);
 			case 'foodDrink':
 				return history.push('/food-drink');
 			case 'addProducts':
-				return props.onToggleAddProductsModal();
+				return history.push(addProductsLink);
+			case 'supportUs':
+				return history.push(supportUsLink);
 			case 'advertise':
-				return props.onToggleAdvertiseModal();
+				return history.push(advertiseLink);
 			case 'feedback':
-				return props.onToggleFeedbackModal();
+				return history.push(feedbackLink);
 			case 'terms':
-				return props.onToggleTermsModal();
+				return history.push(termsLink);
 			case 'privacy':
-				return props.onTogglePrivacyModal();
+				return history.push(privacyLink);
 			default:
 				return;
 		}
 	};
 
-	const container = window !== undefined ? () => window().document.body : undefined;
+	const authLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.signIn
+		}
+	});
+	const advertiseLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.advertise
+		}
+	});
+	const supportUsLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.supportUs
+		}
+	});
+	const feedbackLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.feedback
+		}
+	});
+	const addProductsLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.addProducts
+		}
+	});
+	const termsLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.terms
+		}
+	});
+	const privacyLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.privacy
+		}
+	});
+	const userProfileLink = usePrepareLink(
+		isAuthenticated && {
+			query: {
+				[getParams.popup]: getEnums.popup.userProfile
+			},
+			pushToQuery: {
+				[getParams.userId]: currentUserData.id
+			}
+		}
+	);
 
 	const drawer = (
 		<div>
@@ -111,21 +162,6 @@ const SideDrawer = (props) => {
 					</ListItemIcon>
 					<ListItemText primary={'Home'} />
 				</ListItem>
-				{props.isAuthenticated ? (
-					<ListItem button onClick={() => openMenuItem('userProfile')}>
-						<ListItemIcon>
-							<AccountCircleRounded />
-						</ListItemIcon>
-						<ListItemText primary={'View Profile'} />
-					</ListItem>
-				) : (
-					<ListItem button onClick={() => openMenuItem('auth')}>
-						<ListItemIcon>
-							<LockOpenRoundedIcon />
-						</ListItemIcon>
-						<ListItemText primary={'Login / Join'} />
-					</ListItem>
-				)}
 				<ListItem button onClick={() => openMenuItem('foodDrink')}>
 					<ListItemIcon>
 						<FastfoodRoundedIcon />
@@ -149,24 +185,43 @@ const SideDrawer = (props) => {
 						{categories.map((category) => (
 							<ListItem
 								component={Link}
-								to="/food-drink/nut-butters-spreads"
+								to={'/' + category.prodType + '/' + category.url}
 								dense
 								button
 								key={category.id}
 								className={styles.nested}
+								onClick={handleCloseSideDrawer}
 							>
 								<ListItemText primary={category.name} />
 							</ListItem>
 						))}
 					</List>
 				</Collapse>
+			</List>
+			<Divider />
+			<List component="nav">
+				{isAuthenticated ? (
+					<ListItem button onClick={() => openMenuItem('userProfile')}>
+						<ListItemIcon>
+							<AccountCircleRounded />
+						</ListItemIcon>
+						<ListItemText primary={'View Profile'} />
+					</ListItem>
+				) : (
+					<ListItem button onClick={() => openMenuItem('auth')}>
+						<ListItemIcon>
+							<LockOpenRoundedIcon />
+						</ListItemIcon>
+						<ListItemText primary={'Login / Sign up'} />
+					</ListItem>
+				)}
 				<ListItem button onClick={() => openMenuItem('addProducts')}>
 					<ListItemIcon>
 						<AddCircleRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Add Products'} />
 				</ListItem>
-				<ListItem button>
+				<ListItem button onClick={() => openMenuItem('supportUs')}>
 					<ListItemIcon>
 						<FavoriteRoundedIcon />
 					</ListItemIcon>
@@ -174,7 +229,7 @@ const SideDrawer = (props) => {
 				</ListItem>
 				<ListItem button onClick={() => openMenuItem('advertise')}>
 					<ListItemIcon>
-						<VisibilityRoundedIcon />
+						<TrendingUpRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Advertise'} />
 				</ListItem>
@@ -211,7 +266,7 @@ const SideDrawer = (props) => {
 					container={container}
 					variant="temporary"
 					anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-					open={props.showSideDrawer}
+					open={showSideDrawer}
 					onClose={handleCloseSideDrawer}
 					classes={{
 						paper: styles.drawerPaper
@@ -241,20 +296,14 @@ const SideDrawer = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		showSideDrawer: state.showSideDrawer,
-		isAuthenticated: state.isAuthenticated
+		isAuthenticated: state.isAuthenticated,
+		currentUserData: state.currentUserData
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer()),
-		onToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal()),
-		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
-		onToggleAdvertiseModal: () => dispatch(actionCreators.toggleAdvertiseModal()),
-		onToggleTermsModal: () => dispatch(actionCreators.toggleTermsModal()),
-		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal()),
-		onToggleFeedbackModal: () => dispatch(actionCreators.toggleFeedbackModal()),
-		onToggleUserProfileModal: () => dispatch(actionCreators.toggleUserProfileModal())
+		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer())
 	};
 };
 

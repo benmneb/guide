@@ -24,54 +24,12 @@ export const hideSideDrawer = () => {
 	};
 };
 
-export const toggleProductModal = (id) => {
+export const setSelectedProduct = (id) => {
 	return {
-		type: actionTypes.TOGGLE_PRODUCT_MODAL,
+		type: actionTypes.SET_SELECTED_PRODUCT,
 		payload: {
 			id
 		}
-	};
-};
-
-export const toggleAddProductsModal = () => {
-	return {
-		type: actionTypes.TOGGLE_ADD_PRODUCTS_MODAL
-	};
-};
-
-export const toggleAdvertiseModal = () => {
-	return {
-		type: actionTypes.TOGGLE_ADVERTISE_MODAL
-	};
-};
-
-export const toggleTermsModal = () => {
-	return {
-		type: actionTypes.TOGGLE_TERMS_MODAL
-	};
-};
-
-export const togglePrivacyModal = () => {
-	return {
-		type: actionTypes.TOGGLE_PRIVACY_MODAL
-	};
-};
-
-export const toggleFeedbackModal = () => {
-	return {
-		type: actionTypes.TOGGLE_FEEDBACK_MODAL
-	};
-};
-
-export const toggleAuthModal = () => {
-	return {
-		type: actionTypes.TOGGLE_AUTH_MODAL
-	};
-};
-
-export const toggleUserProfileModal = () => {
-	return {
-		type: actionTypes.TOGGLE_USER_PROFILE_MODAL
 	};
 };
 
@@ -126,6 +84,39 @@ export const setCurrentLocation = (location) => {
 		type: actionTypes.SET_CURRENT_LOCATION,
 		payload: {
 			location
+		}
+	};
+};
+
+export const addFilter = (filter) => {
+	return {
+		type: actionTypes.ADD_FILTER,
+		payload: {
+			filter
+		}
+	};
+};
+
+export const removeFilter = (filter) => {
+	return {
+		type: actionTypes.REMOVE_FILTER,
+		payload: {
+			filter
+		}
+	};
+};
+
+export const removeAllFilters = () => {
+	return {
+		type: actionTypes.REMOVE_ALL_FILTERS
+	};
+};
+
+export const setLoading = (state) => {
+	return {
+		type: actionTypes.SET_LOADING,
+		payload: {
+			state
 		}
 	};
 };

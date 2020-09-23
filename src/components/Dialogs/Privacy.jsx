@@ -1,62 +1,30 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { useTheme, withStyles } from '@material-ui/core/styles';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseRoundedIcon from '@material-ui/icons/Close';
+import React, { useCallback } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import DialogTitle from '../../utils/DialogTitle';
 import {
 	Dialog,
 	DialogContent,
 	DialogContentText,
 	Typography,
-	IconButton,
-	useMediaQuery,
-	Box
+	useMediaQuery
 } from '@material-ui/core';
-import * as actionCreators from '../../store/actions';
 
-const styles = (theme) => ({
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	}
-});
+export default function Privacy({ isOpened }) {
+	const history = useHistory();
+	const location = useLocation();
+	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 
-const DialogTitle = withStyles(styles)((props) => {
-	const { children, classes, onClose, ...other } = props;
-	return (
-		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Box component="header">
-				<Typography variant="h6" component="h1">
-					{children}
-				</Typography>
-				{onClose ? (
-					<IconButton
-						aria-label="close"
-						className={classes.closeButton}
-						onClick={onClose}
-						autoFocus
-					>
-						<CloseRoundedIcon />
-					</IconButton>
-				) : null}
-			</Box>
-		</MuiDialogTitle>
-	);
-});
-
-const Privacy = (props) => {
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+	const goBack = useCallback(() => {
+		history.push(location.pathname);
+	}, [history, location.pathname]);
 
 	const onClose = () => {
-		props.onTogglePrivacyModal();
+		goBack();
 	};
 
 	return (
 		<Dialog
-			open={props.showPrivacyModal}
+			open={Boolean(isOpened)}
 			onClose={onClose}
 			aria-labelledby="privacy-dialog-title"
 			aria-describedby="privacy-dialog-description"
@@ -541,18 +509,4 @@ const Privacy = (props) => {
 			</DialogContent>
 		</Dialog>
 	);
-};
-
-const mapStateToProps = (state) => {
-	return {
-		showPrivacyModal: state.showPrivacyModal
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onTogglePrivacyModal: () => dispatch(actionCreators.togglePrivacyModal())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Privacy);
+}

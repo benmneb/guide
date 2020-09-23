@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function SingleLineGridList() {
+export default function ProductType() {
 	const styles = useStyles();
 	const width = useWidth();
 	const [cols, setCols] = useState(null);

@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import * as actionCreators from '../../store/actions';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseRoundedIcon from '@material-ui/icons/Close';
 import {
 	Button,
 	Checkbox,
@@ -10,7 +9,6 @@ import {
 	DialogContent,
 	FormControlLabel,
 	FormGroup,
-	IconButton,
 	Stepper,
 	Step,
 	StepLabel,
@@ -21,7 +19,8 @@ import {
 	Box
 } from '@material-ui/core';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
-import { useTheme, withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import DialogTitle from '../../utils/DialogTitle';
 import { categories } from '../../assets/categories';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,44 +48,11 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const styles = (theme) => ({
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	}
-});
-
-const DialogTitle = withStyles(styles)((props) => {
-	const { children, classes, onClose, ...other } = props;
-	return (
-		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Box component="header">
-				<Typography variant="h6" component="h1">
-					{children}
-				</Typography>
-				{onClose ? (
-					<IconButton
-						aria-label="close"
-						className={classes.closeButton}
-						onClick={onClose}
-					>
-						<CloseRoundedIcon />
-					</IconButton>
-				) : null}
-			</Box>
-		</MuiDialogTitle>
-	);
-});
-
-const AddProducts = ({
-	onToggleAddProductsModal,
-	onShowSnackbar,
-	showAddProductsModal
-}) => {
+function AddProducts({ onShowSnackbar, isOpened }) {
+	const styles = useStyles();
+	const history = useHistory();
+	const location = useLocation();
 	const theme = useTheme();
-	const classes = useStyles();
 	const steps = getSteps();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
@@ -140,9 +106,15 @@ const AddProducts = ({
 		setInputValue('');
 	};
 
+	const goBack = useCallback(() => {
+		history.push(location.pathname);
+	}, [history, location.pathname]);
+
 	const onClose = () => {
-		handleReset();
-		onToggleAddProductsModal();
+		setTimeout(() => {
+			handleReset();
+		}, theme.transitions.duration.leavingScreen);
+		goBack();
 	};
 
 	const categoriesMapped = categories.map((category) => {
@@ -368,13 +340,13 @@ const AddProducts = ({
 
 	return (
 		<Dialog
-			open={showAddProductsModal}
+			open={Boolean(isOpened)}
 			onClose={onClose}
 			aria-labelledby="form-dialog-title"
 			fullScreen={fullScreen}
 			maxWidth="sm"
 			fullWidth
-			classes={{ paperFullWidth: classes.modalMaxHeight }}
+			classes={{ paperFullWidth: styles.modalMaxHeight }}
 		>
 			<DialogTitle id="form-dialog-title" onClose={onClose}>
 				Add a Product to the Guide
@@ -384,17 +356,17 @@ const AddProducts = ({
 					<Stepper activeStep={activeStep} orientation="vertical">
 						{steps.map((label, index) => (
 							<Step key={label}>
-								<StepLabel classes={{ iconContainer: classes.stepIconTextFill }}>
+								<StepLabel classes={{ iconContainer: styles.stepIconTextFill }}>
 									{label}
 								</StepLabel>
 								<StepContent>
 									<Box component="section">{getStepContent(index)}</Box>
-									<div className={classes.actionsContainer}>
+									<div className={styles.actionsContainer}>
 										<div>
 											<Button
 												disabled={activeStep === 0}
 												onClick={handleBack}
-												className={classes.button}
+												className={styles.button}
 											>
 												Back
 											</Button>
@@ -403,7 +375,7 @@ const AddProducts = ({
 												color="primary"
 												disabled={!confirmItsVegan}
 												onClick={handleNext}
-												className={classes.button}
+												className={styles.button}
 											>
 												{activeStep === steps.length - 1 ? 'Submit' : 'Next'}
 											</Button>
@@ -432,20 +404,12 @@ const AddProducts = ({
 			</DialogContent>
 		</Dialog>
 	);
-};
-
-const mapStateToProps = (state) => {
-	return {
-		showAddProductsModal: state.showAddProductsModal
-	};
-};
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onToggleAddProductsModal: () => dispatch(actionCreators.toggleAddProductsModal()),
 		onShowSnackbar: ({ snackData }) =>
 			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddProducts);
+export default connect(null, mapDispatchToProps)(AddProducts);

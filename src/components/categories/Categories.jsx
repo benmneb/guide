@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Home from './Home';
 import ProductType from './ProductType';
 import BottomNav from './BottomNav';
+import ScrollToTopOnMount from '../../utils/ScrollToTop';
 
 export default function Categories() {
 	const location = useLocation();
@@ -34,6 +35,7 @@ export default function Categories() {
 
 	return (
 		<>
+			<ScrollToTopOnMount />
 			{category}
 			<BottomNav currentTab={currentTab} onChange={handleChangeCurrentTab} />
 		</>

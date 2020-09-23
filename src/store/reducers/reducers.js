@@ -4,21 +4,16 @@ const initialState = {
 	showFiltersPanel: false,
 	showSideDrawer: false,
 	showProductModal: false,
-	showAddProductsModal: false,
-	showAdvertiseModal: false,
-	showTermsModal: false,
-	showPrivacyModal: false,
-	showFeedbackModal: false,
-	showAuthModal: false,
-	showUserProfileModal: false,
-	currentUserData: {},
+	currentUserData: null,
 	isAuthenticated: false,
 	showSnackbar: false,
 	snackData: {},
 	showAddReview: false,
 	ratingBeforeClickedAddReviewSnackbar: null,
 	selectedProduct: null,
-	currentLocation: null
+	currentLocation: null,
+	appliedFilters: [],
+	isLoading: false
 };
 
 export default function Reducers(state = initialState, action) {
@@ -43,47 +38,11 @@ export default function Reducers(state = initialState, action) {
 				...state,
 				showSideDrawer: false
 			};
-		case actionTypes.TOGGLE_PRODUCT_MODAL:
+		case actionTypes.SET_SELECTED_PRODUCT:
 			return {
 				...state,
-				showProductModal: !state.showProductModal,
 				selectedProduct: action.payload.id,
 				ratingBeforeClickedAddReviewSnackbar: null
-			};
-		case actionTypes.TOGGLE_ADD_PRODUCTS_MODAL:
-			return {
-				...state,
-				showAddProductsModal: !state.showAddProductsModal
-			};
-		case actionTypes.TOGGLE_ADVERTISE_MODAL:
-			return {
-				...state,
-				showAdvertiseModal: !state.showAdvertiseModal
-			};
-		case actionTypes.TOGGLE_TERMS_MODAL:
-			return {
-				...state,
-				showTermsModal: !state.showTermsModal
-			};
-		case actionTypes.TOGGLE_PRIVACY_MODAL:
-			return {
-				...state,
-				showPrivacyModal: !state.showPrivacyModal
-			};
-		case actionTypes.TOGGLE_FEEDBACK_MODAL:
-			return {
-				...state,
-				showFeedbackModal: !state.showFeedbackModal
-			};
-		case actionTypes.TOGGLE_AUTH_MODAL:
-			return {
-				...state,
-				showAuthModal: !state.showAuthModal
-			};
-		case actionTypes.TOGGLE_USER_PROFILE_MODAL:
-			return {
-				...state,
-				showUserProfileModal: !state.showUserProfileModal
 			};
 		case actionTypes.SET_CURRENT_USER_DATA:
 			return {
@@ -100,8 +59,7 @@ export default function Reducers(state = initialState, action) {
 		case actionTypes.HIDE_SNACKBAR:
 			return {
 				...state,
-				showSnackbar: false,
-				snackData: {}
+				showSnackbar: false
 			};
 		case actionTypes.CLICK_ADD_REVIEW_AFTER_RATING:
 			return {
@@ -122,6 +80,28 @@ export default function Reducers(state = initialState, action) {
 			return {
 				...state,
 				currentLocation: action.payload.location
+			};
+		case actionTypes.ADD_FILTER:
+			return {
+				...state,
+				appliedFilters: [...state.appliedFilters, action.payload.filter]
+			};
+		case actionTypes.REMOVE_FILTER:
+			return {
+				...state,
+				appliedFilters: state.appliedFilters.filter(
+					(filter) => filter !== action.payload.filter
+				)
+			};
+		case actionTypes.REMOVE_ALL_FILTERS:
+			return {
+				...state,
+				appliedFilters: []
+			};
+		case actionTypes.SET_LOADING:
+			return {
+				...state,
+				isLoading: action.payload.state
 			};
 		default:
 			return state;

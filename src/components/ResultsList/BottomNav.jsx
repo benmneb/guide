@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import Box from '@material-ui/core/Box';
+import {
+	BottomNavigation,
+	BottomNavigationAction,
+	Badge,
+	Hidden,
+	Box
+} from '@material-ui/core';
 import { ArrowBackIosRounded, FilterListRounded, AppsRounded } from '@material-ui/icons';
 import * as actionCreators from '../../store/actions';
 
@@ -18,17 +22,30 @@ const useStyles = makeStyles((theme) => ({
 	},
 	bottomNav: {
 		...theme.mixins.toolbar
+	},
+	badge: {
+		color: theme.palette.background.paper,
+		border: `2px solid ${theme.palette.background.paper}`,
+		padding: theme.spacing(0, 0.5),
+		top: 2
 	}
 }));
 
-function BottomNav({ showFiltersPanel, onShowFiltersPanel, onHideFiltersPanel }) {
+function BottomNav({
+	showFiltersPanel,
+	onShowFiltersPanel,
+	onHideFiltersPanel,
+	appliedFilters
+}) {
 	const styles = useStyles();
 	const history = useHistory();
+	const location = useLocation();
 	const [value, setValue] = useState(1);
 
-	function handleCategoriesClick() {
-		history.goBack();
-	}
+	const handleCategoriesClick = useCallback(() => {
+		const releventPath = location.pathname.match(/^([^/]*\/){2}/)[0].slice(0, -1); // cuts off everything after the category
+		history.push(releventPath);
+	}, [history, location.pathname]);
 
 	function handleResultsClick() {
 		if (showFiltersPanel) {
@@ -68,7 +85,22 @@ function BottomNav({ showFiltersPanel, onShowFiltersPanel, onHideFiltersPanel })
 				/>
 				<BottomNavigationAction
 					label="Filters"
-					icon={<FilterListRounded />}
+					icon={
+						<>
+							<Hidden smUp>
+								<Badge
+									color="primary"
+									badgeContent={appliedFilters.length}
+									classes={{ badge: styles.badge }}
+								>
+									<FilterListRounded />
+								</Badge>
+							</Hidden>
+							<Hidden xsDown>
+								<FilterListRounded />
+							</Hidden>
+						</>
+					}
 					onClick={handleFiltersClick}
 				/>
 			</BottomNavigation>
@@ -78,7 +110,8 @@ function BottomNav({ showFiltersPanel, onShowFiltersPanel, onHideFiltersPanel })
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel
+		showFiltersPanel: state.showFiltersPanel,
+		appliedFilters: state.appliedFilters
 	};
 };
 

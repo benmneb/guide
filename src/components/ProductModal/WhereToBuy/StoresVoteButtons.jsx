@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import * as actionCreators from '../../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import { IconButton } from '@material-ui/core';
 import { ThumbUpRounded, ThumbDownRounded } from '@material-ui/icons';
+import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	iconButton: {
@@ -13,20 +15,33 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function StoresVoteButtons({ onShowSnackbar }) {
+function StoresVoteButtons({ setShowSnackbar, isAuthenticated }) {
 	const styles = useStyles();
+	const history = useHistory();
 	const [selected, setSelected] = useState('');
 
+	const authLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.signIn
+		},
+		keepOldQuery: true
+	});
+
 	function handleVote(vote) {
-		if (vote !== selected) {
-			setSelected(vote);
-			onShowSnackbar({
-				snackData: {
-					type: 'success',
-					message: 'Thank you for helping people find vegan products easier!'
-				}
-			});
-		} else setSelected('');
+		if (isAuthenticated) {
+			if (vote !== selected) {
+				setSelected(vote);
+				setShowSnackbar({
+					snackData: {
+						type: 'success',
+						message: 'Thank you for helping people find vegan products easier',
+						emoji: '💪'
+					}
+				});
+			} else setSelected('');
+		} else {
+			history.push(authLink);
+		}
 	}
 
 	return (
@@ -56,11 +71,17 @@ function StoresVoteButtons({ onShowSnackbar }) {
 	);
 }
 
+const mapStateToProps = (state) => {
+	return {
+		isAuthenticated: state.isAuthenticated
+	};
+};
+
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onShowSnackbar: ({ snackData }) =>
+		setShowSnackbar: ({ snackData }) =>
 			dispatch(actionCreators.showSnackbar({ snackData }))
 	};
 };
 
-export default connect(null, mapDispatchToProps)(StoresVoteButtons);
+export default connect(mapStateToProps, mapDispatchToProps)(StoresVoteButtons);

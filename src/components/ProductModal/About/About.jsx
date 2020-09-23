@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
 	Button,
@@ -19,8 +20,8 @@ import {
 import Skeleton from '@material-ui/lab/Skeleton';
 import { EcoRounded, OpenInNewRounded, LocalOfferRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-import * as actionCreators from '../../../store/actions';
 import AboutEdit from './AboutEdit';
+import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -49,16 +50,24 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function About({ isAuthenticated, setToggleAuthModal, ...props }) {
-	const { product } = props;
+function About({ isAuthenticated, selectedProduct }) {
+	const product = selectedProduct;
 	const styles = useStyles();
+	const history = useHistory();
 	const [showEditModal, setShowEditModal] = useState(false);
+
+	const authLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.signIn
+		},
+		keepOldQuery: true
+	});
 
 	function handleShowEditModal() {
 		if (isAuthenticated) {
 			setShowEditModal(true);
 		} else {
-			setToggleAuthModal();
+			history.push(authLink);
 		}
 	}
 
@@ -71,14 +80,14 @@ function About({ isAuthenticated, setToggleAuthModal, ...props }) {
 	}
 
 	const rows = product && [
-		createData('Energy', product[0].energy1, product[0].energy2),
-		createData('Protein', product[0].protein1, product[0].protein2),
-		createData('Fat, total', product[0].totalfat1, product[0].totalfat2),
-		createData('- saturated', product[0].satfat1, product[0].satfat2),
-		createData('Carbohydrate', product[0].carb1, product[0].carb2),
-		createData('- sugars', product[0].sugar1, product[0].sugar2),
-		createData('Dietary fibre', product[0].fibre1, product[0].fibre2),
-		createData('Sodium', product[0].sodium1, product[0].sodium2)
+		createData('Energy', product.energy1, product.energy2),
+		createData('Protein', product.protein1, product.protein2),
+		createData('Fat, total', product.totalfat1, product.totalfat2),
+		createData('- saturated', product.satfat1, product.satfat2),
+		createData('Carbohydrate', product.carb1, product.carb2),
+		createData('- sugars', product.sugar1, product.sugar2),
+		createData('Dietary fibre', product.fibre1, product.fibre2),
+		createData('Sodium', product.sodium1, product.sodium2)
 	];
 
 	return (
@@ -96,8 +105,8 @@ function About({ isAuthenticated, setToggleAuthModal, ...props }) {
 										className={styles.chipBox}
 									>
 										<Chip icon={<EcoRounded fontSize="small" />} label="Vegan" />
-										{product[0].tags !== null &&
-											product[0].tags
+										{product.tags !== null &&
+											product.tags
 												.filter((tag) => tag !== 'Men' && tag !== 'Women')
 												.map((tag) => (
 													<Chip
@@ -111,9 +120,9 @@ function About({ isAuthenticated, setToggleAuthModal, ...props }) {
 										<Box maxWidth={300}>
 											<CardMedia
 												component="img"
-												alt={product[0].productName}
-												image={product[0].imageSrc}
-												title={product[0].productName}
+												alt={product.productName}
+												image={product.imageSrc}
+												title={product.productName}
 											/>
 										</Box>
 									</Box>
@@ -132,13 +141,13 @@ function About({ isAuthenticated, setToggleAuthModal, ...props }) {
 						</Grid>
 					</Grid>
 					<Grid container spacing={1} direction="column" alignItems="center">
-						{product && product[0].storeLinks.length > 0 && (
+						{product && product.storeLinks.length > 0 && (
 							<Grid item xs={12}>
 								<Typography className={styles.heading}>Buy Now Online</Typography>
 							</Grid>
 						)}
 						{product &&
-							product[0].storeLinks.map((store) => (
+							product.storeLinks.map((store) => (
 								<Grid key={store.linkId} item xs={12}>
 									<Button
 										variant="contained"
@@ -163,12 +172,12 @@ function About({ isAuthenticated, setToggleAuthModal, ...props }) {
 								<Typography gutterBottom className={styles.heading}>
 									Ingredients
 								</Typography>
-								<Typography paragraph>{product[0].ingredients}</Typography>
+								<Typography paragraph>{product.ingredients}</Typography>
 								<Typography gutterBottom className={styles.heading}>
 									Nutritional Info
 								</Typography>
-								<Typography>Servings per package: {product[0].serve1}</Typography>
-								<Typography gutterBottom>Serving size: {product[0].serve2}</Typography>
+								<Typography>Servings per package: {product.serve1}</Typography>
+								<Typography gutterBottom>Serving size: {product.serve2}</Typography>
 								<TableContainer>
 									<Table
 										className={styles.table}
@@ -202,7 +211,7 @@ function About({ isAuthenticated, setToggleAuthModal, ...props }) {
 								<Typography gutterBottom className={styles.heading}>
 									Allergens
 								</Typography>
-								<Typography>{product[0].allergens}</Typography>
+								<Typography>{product.allergens}</Typography>
 							</Paper>
 							<Box display="flex" justifyContent="center" marginTop={1}>
 								<Tooltip title="Correct any mistakes on this page">
@@ -229,7 +238,7 @@ function About({ isAuthenticated, setToggleAuthModal, ...props }) {
 			</Grid>
 			<AboutEdit
 				show={showEditModal}
-				productId={product && product[0].productId}
+				productId={product && product.productId}
 				onClose={handleCloseEditModal}
 			/>
 		</>
@@ -238,14 +247,9 @@ function About({ isAuthenticated, setToggleAuthModal, ...props }) {
 
 const mapStateToProps = (state) => {
 	return {
-		isAuthenticated: state.isAuthenticated
+		isAuthenticated: state.isAuthenticated,
+		selectedProduct: state.selectedProduct
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setToggleAuthModal: () => dispatch(actionCreators.toggleAuthModal())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(About);
+export default connect(mapStateToProps)(About);

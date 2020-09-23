@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Drawer, Typography, Grid, Box } from '@material-ui/core';
 import SortBy from './SortBy';
 import OrderBy from './OrderBy';
 import FilterButton from './FilterButton';
 import { ingredients, allergens, tags } from '../../assets/filters';
-
-const drawerWidth = 395;
 
 const useStyles = makeStyles((theme) => ({
 	drawer: {
@@ -16,30 +15,43 @@ const useStyles = makeStyles((theme) => ({
 	drawerPaper: {
 		right: 0,
 		zIndex: theme.zIndex.appBar,
+		...theme.mixins.filtersPanel,
 		[theme.breakpoints.only('xs')]: {
 			display: 'flex',
 			alignItems: 'center',
-			width: '100vw',
-			bottom: 56, // bottomNav height
-			height: `calc(100vh - 56px)`, // bottomNav height
+			height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`, // bottomNav height
 			borderBottom: `1px solid rgba(0, 0, 0, 0.12);`
 		},
 		[theme.breakpoints.only('sm')]: {
-			width: drawerWidth,
-			top: 64,
-			bottom: 56, // bottomNav height
-			height: `calc(100vh - 120px)`, // bottomNav height + theme.mixins.toolbar height
+			top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight,
+			height: `calc(100vh - ${
+				theme.mixins.toolbar['@media (min-width:600px)'].minHeight * 2
+			}px)`, // bottomNav height + filtersBar height
 			borderTop: `1px solid rgba(0, 0, 0, 0.12);`,
 			borderBottom: `1px solid rgba(0, 0, 0, 0.12);`
 		},
 		[theme.breakpoints.up('md')]: {
-			width: drawerWidth,
-			top: 64, // theme.mixins.toolbar min width 600px height
-			height: `calc(100vh - 64px)`, // theme.mixins.toolbar min width 600px height
+			top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight,
+			height: `calc(100vh - ${theme.mixins.toolbar['@media (min-width:600px)'].minHeight}px)`,
 			borderTop: `1px solid rgba(0, 0, 0, 0.12);`
 		}
 	},
+	filtersApplied: {
+		[theme.breakpoints.only('sm')]: {
+			top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48,
+			height: `calc(100vh - ${
+				theme.mixins.toolbar['@media (min-width:600px)'].minHeight * 2 + 48
+			}px)` // bottomNav height * 2 + chips toolbar height
+		},
+		[theme.breakpoints.up('md')]: {
+			top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48,
+			height: `calc(100vh - ${
+				theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48
+			}px)`
+		}
+	},
 	content: {
+		maxWidth: theme.mixins.filtersPanel.width,
 		[theme.breakpoints.only('xs')]: {
 			margin: theme.spacing(0)
 		},
@@ -55,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const FiltersPanel = (props) => {
+const FiltersPanel = ({ showFiltersPanel, appliedFilters }) => {
 	const styles = useStyles();
 
 	return (
@@ -63,18 +75,20 @@ const FiltersPanel = (props) => {
 			className={styles.drawer}
 			variant="persistent"
 			anchor="right"
-			open={props.showFiltersPanel}
+			open={showFiltersPanel}
 			classes={{
-				paper: styles.drawerPaper
+				paper: clsx(styles.drawerPaper, {
+					[styles.filtersApplied]: appliedFilters.length > 0
+				})
 			}}
 		>
-			<Box component="aside" className={styles.content} maxWidth={drawerWidth}>
+			<Box component="aside" className={styles.content}>
 				<Typography align="center" className={styles.filtersSectionTitle}>
 					Tags
 				</Typography>
 				<Grid container justify="space-evenly">
 					{tags.map((tag) => (
-						<FilterButton name={tag.name} tooltip={tag.tooltip} key={tag.name} />
+						<FilterButton key={tag.name} filter={tag} />
 					))}
 				</Grid>
 				<Typography align="center" className={styles.filtersSectionTitle}>
@@ -82,7 +96,7 @@ const FiltersPanel = (props) => {
 				</Typography>
 				<Grid container justify="space-evenly">
 					{ingredients.map((ing) => (
-						<FilterButton name={ing.name} tooltip={ing.tooltip} key={ing.name} />
+						<FilterButton key={ing.name} filter={ing} />
 					))}
 				</Grid>
 				<Typography align="center" className={styles.filtersSectionTitle}>
@@ -90,11 +104,7 @@ const FiltersPanel = (props) => {
 				</Typography>
 				<Grid container justify="space-evenly">
 					{allergens.map((allergen) => (
-						<FilterButton
-							name={allergen.name}
-							tooltip={allergen.tooltip}
-							key={allergen.name}
-						/>
+						<FilterButton key={allergen.name} filter={allergen} />
 					))}
 				</Grid>
 				<Typography align="center" className={styles.filtersSectionTitle}>
@@ -131,7 +141,8 @@ const FiltersPanel = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel
+		showFiltersPanel: state.showFiltersPanel,
+		appliedFilters: state.appliedFilters
 	};
 };
 

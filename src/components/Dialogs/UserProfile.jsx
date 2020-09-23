@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../store/actions';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import { useHistory, useLocation } from 'react-router';
+import axios from 'axios';
+import { useConfirm } from 'material-ui-confirm';
+import { makeStyles } from '@material-ui/core/styles';
+import DialogTitle from '../../utils/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import {
 	Avatar,
@@ -15,24 +17,17 @@ import {
 	Grid,
 	Box
 } from '@material-ui/core';
-import { CloseRounded, PhotoCameraRounded, SettingsRounded } from '@material-ui/icons';
+import {
+	PhotoCameraRounded,
+	SettingsRounded,
+	ExitToAppRounded
+} from '@material-ui/icons';
 import Skeleton from '@material-ui/lab/Skeleton';
 import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
-import { user } from '../../assets/user';
 import randomMC from 'random-material-color';
 
 const useStyles = makeStyles((theme) => ({
-	closeBtnContainer: {
-		margin: 0,
-		padding: 0
-	},
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	},
 	dialogContentRoot: {
 		padding: theme.spacing(2)
 	},
@@ -53,20 +48,54 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function ProductModal({
-	showUserProfileModal,
-	onToggleUserProfileModal,
-	currentUserData
-}) {
+function UserProfile({ isOpened, currentUserData }) {
 	const styles = useStyles();
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+	const history = useHistory();
+	const location = useLocation();
+	const confirm = useConfirm();
+	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
+	const urlSearchParamsId = new URLSearchParams(location.search).get('id');
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
+	const [selectedUser, setSelectedUser] = useState(null);
+	const [isOwnProfile, setIsOwnProfile] = useState(false);
 
-	const currentUserId = 4; // 4 is what the user.js is
+	useEffect(() => {
+		let mounted = true;
+		const source = axios.CancelToken.source();
 
-	const onCloseModal = () => {
-		onToggleUserProfileModal();
+		if (isOpened) {
+			axios
+				.get(`https://api.vomad.guide/user/${urlSearchParamsId}`, {
+					cancelToken: source.token
+				})
+				.then((response) => {
+					if (mounted) setSelectedUser(response.data[0]);
+				})
+				.then(() => {
+					if (mounted && currentUserData)
+						setIsOwnProfile(currentUserData.id === Number(urlSearchParamsId));
+				})
+				.catch((err) => {
+					if (mounted) console.error(err);
+				});
+		}
+
+		return () => {
+			mounted = false;
+			source.cancel('User modal call cancelled during clean-up');
+		};
+	}, [urlSearchParamsId, setSelectedUser, isOpened, currentUserData]);
+
+	const goBack = useCallback(() => {
+		if (location.search.includes('?view=user')) {
+			history.push(location.pathname + location.search.split('?view=user')[0]);
+		} else if (location.search.includes('&view=user')) {
+			history.push(location.pathname + location.search.split('&view=user')[0]);
+		} else history.push(location.pathname);
+	}, [history, location.pathname, location.search]);
+
+	const onClose = () => {
+		goBack();
 	};
 
 	function handleShowSettingsModal() {
@@ -77,27 +106,31 @@ function ProductModal({
 		setShowSettingsModal(false);
 	}
 
-	const color = randomMC.getColor({ text: user[0].username });
+	function handleLogoutClick() {
+		confirm({
+			title: 'Log Out?',
+			description: 'Please confirm you want to log out of your account.',
+			confirmationText: 'Log out',
+			confirmationButtonProps: { variant: 'contained', color: 'primary' },
+			cancellationButtonProps: { autoFocus: true }
+		})
+			.then(() => (window.location.href = 'https://api.vomad.guide/auth/logout'))
+			.catch(() => null);
+	}
+
+	const color = selectedUser && randomMC.getColor({ text: selectedUser.user_name });
 
 	return (
 		<>
 			<Dialog
-				onClose={onCloseModal}
+				onClose={onClose}
 				fullScreen={fullScreen}
 				aria-labelledby="product-dialog-title"
-				open={showUserProfileModal}
+				open={Boolean(isOpened)}
 				maxWidth="xs"
 				fullWidth
 			>
-				<MuiDialogTitle disableTypography className={styles.closeBtnContainer}>
-					<IconButton
-						aria-label="close"
-						className={styles.closeButton}
-						onClick={onCloseModal}
-					>
-						<CloseRounded />
-					</IconButton>
-				</MuiDialogTitle>
+				<DialogTitle noTitle onClose={onClose} />
 				<DialogContent className={styles.dialogContentRoot}>
 					<Grid
 						component="header"
@@ -107,18 +140,31 @@ function ProductModal({
 						alignItems="center"
 					>
 						<Grid item container xs={12} direction="column" alignItems="center">
-							<Typography
-								className={styles.karma}
-								variant="overline"
-								component="span"
-								display="block"
-								align="center"
-							>
-								{user ? `+${user[0].karma} karma` : <Skeleton width={110} />}
-							</Typography>
-							<Typography component="h1" variant="h4" align="center">
-								{currentUserData ? currentUserData.username : <Skeleton width="30%" />}
-							</Typography>
+							{selectedUser ? (
+								<>
+									<Typography
+										className={styles.karma}
+										variant="overline"
+										component="span"
+										display="block"
+										align="center"
+									>
+										+ TODO: karma
+									</Typography>
+									<Typography component="h1" variant="h4" align="center">
+										{selectedUser.user_name}
+									</Typography>
+								</>
+							) : (
+								<Box display="flex" flexDirection="column" alignItems="center">
+									<Typography variant="overline">
+										<Skeleton width={110} />
+									</Typography>
+									<Typography variant="h4">
+										<Skeleton width={220} />
+									</Typography>
+								</Box>
+							)}
 						</Grid>
 						<Grid
 							item
@@ -131,21 +177,21 @@ function ProductModal({
 							<Box
 								display="flex"
 								justifyContent="center"
-								marginLeft={user && user[0].id === currentUserId ? 3 : 0}
+								marginLeft={isOwnProfile ? 3 : 0}
 							>
-								{user ? (
+								{selectedUser ? (
 									<Avatar
-										src={user[0].avatar}
-										alt={
-											currentUserData && String(currentUserData.username).toUpperCase()
-										}
+										src={selectedUser.avatar}
+										alt={selectedUser.user_name.toUpperCase()}
 										className={styles.avatar}
 										style={{ backgroundColor: color }}
-									/>
+									>
+										{selectedUser.user_name.charAt(0).toUpperCase()}
+									</Avatar>
 								) : (
 									<Skeleton variant="circle" className={styles.avatar} />
 								)}
-								{user && user[0].id === currentUserId && (
+								{isOwnProfile && (
 									<Box display="flex" flexDirection="column-reverse" marginLeft={-3}>
 										<input
 											accept="image/*"
@@ -155,7 +201,7 @@ function ProductModal({
 										/>
 										<label htmlFor="icon-button-file">
 											<Tooltip title="Upload a new avatar" enterDelay={1000}>
-												<IconButton aria-label="upload avatar" component="span">
+												<IconButton aria-label="upload a new avatar" component="span">
 													<PhotoCameraRounded />
 												</IconButton>
 											</Tooltip>
@@ -172,32 +218,55 @@ function ProductModal({
 							justify="center"
 							alignItems="center"
 						>
-							<Typography>
-								Ratings:{' '}
-								<Box component="span" fontWeight="fontWeightBold">
-									{user[0].ratings.length}
+							{selectedUser ? (
+								<>
+									<Typography>
+										Ratings:{' '}
+										<Box component="span" fontWeight="fontWeightBold">
+											{selectedUser.total_ratings !== null
+												? selectedUser.total_ratings
+												: '0'}
+										</Box>
+									</Typography>
+									<Typography>
+										Reviews:{' '}
+										<Box component="span" fontWeight="fontWeightBold">
+											{selectedUser.total_reviews !== null
+												? selectedUser.total_reviews
+												: '0'}
+										</Box>
+									</Typography>
+									<Typography>
+										Stores tagged:{' '}
+										<Box component="span" fontWeight="fontWeightBold">
+											TODO:
+										</Box>
+									</Typography>
+									<Typography>
+										Joined{' '}
+										<Box component="span" fontWeight="fontWeightBold">
+											{getTimeAgo(new Date(selectedUser.joined_date)).toLowerCase()}
+										</Box>
+									</Typography>
+								</>
+							) : (
+								<Box display="flex" flexDirection="column" alignItems="center">
+									<Typography>
+										<Skeleton width={100} />
+									</Typography>
+									<Typography>
+										<Skeleton width={130} />
+									</Typography>
+									<Typography>
+										<Skeleton width={200} />
+									</Typography>
+									<Typography>
+										<Skeleton width={180} />
+									</Typography>
 								</Box>
-							</Typography>
-							<Typography>
-								Reviews:{' '}
-								<Box component="span" fontWeight="fontWeightBold">
-									{user[0].reviews.length}
-								</Box>
-							</Typography>
-							<Typography>
-								Stores tagged:{' '}
-								<Box component="span" fontWeight="fontWeightBold">
-									{user[0].storesTagged.length}
-								</Box>
-							</Typography>
-							<Typography>
-								Joined{' '}
-								<Box component="span" fontWeight="fontWeightBold">
-									{getTimeAgo(user[0].joinedDate)}
-								</Box>
-							</Typography>
-							{user && user[0].id === currentUserId && (
-								<Box marginTop={2} display="flex" flexDirection="column">
+							)}
+							{isOwnProfile && (
+								<Box marginTop={2} display="flex">
 									<Button
 										variant="outlined"
 										onClick={handleShowSettingsModal}
@@ -205,32 +274,29 @@ function ProductModal({
 									>
 										Settings
 									</Button>
+									<Button
+										variant="outlined"
+										onClick={handleLogoutClick}
+										startIcon={<ExitToAppRounded />}
+										style={{ marginLeft: 8 }}
+									>
+										Logout
+									</Button>
 								</Box>
 							)}
 						</Grid>
 					</Grid>
 				</DialogContent>
 			</Dialog>
-			<UserProfileSettings
-				show={showSettingsModal}
-				hide={handleHideSettingsModal}
-				userId={currentUserId}
-			/>
+			<UserProfileSettings show={showSettingsModal} hide={handleHideSettingsModal} />
 		</>
 	);
 }
 
 const mapStateToProps = (state) => {
 	return {
-		showUserProfileModal: state.showUserProfileModal,
 		currentUserData: state.currentUserData
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onToggleUserProfileModal: () => dispatch(actionCreators.toggleUserProfileModal())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductModal);
+export default connect(mapStateToProps)(UserProfile);
