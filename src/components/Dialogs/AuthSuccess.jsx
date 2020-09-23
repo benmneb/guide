@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import axios from 'axios';

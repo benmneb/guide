@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../store/actions';
 import { useHistory, useLocation } from 'react-router';
 import axios from 'axios';
 import { useConfirm } from 'material-ui-confirm';
@@ -27,7 +26,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
 import randomMC from 'random-material-color';
-import { setCurrentUserData } from '../../store/actions';
+import * as actionCreators from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	dialogContentRoot: {
@@ -302,4 +301,11 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(UserProfile);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setCurrentUserData: (user, isAuth) =>
+			dispatch(actionCreators.setCurrentUserData(user, isAuth))
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
