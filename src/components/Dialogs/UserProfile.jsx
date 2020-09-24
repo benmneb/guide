@@ -115,8 +115,10 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 			confirmationButtonProps: { variant: 'contained', color: 'primary' },
 			cancellationButtonProps: { autoFocus: true }
 		})
-			.then(() => setCurrentUserData(null, false))
-			.then(() => (window.location.href = 'https://api.vomad.guide/auth/logout'))
+			.then(() => {
+				setCurrentUserData(null, false);
+				return (window.location.href = 'https://api.vomad.guide/auth/logout');
+			})
 			.catch(() => null);
 	}
 
