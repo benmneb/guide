@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsUsingEmailAuthRoute } from '../../store/actions';
 import { Box } from '@material-ui/core';
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
-
 import AuthEmailLogin from './AuthEmailLogin';
 import AuthEmailJoin from './AuthEmailJoin';
 
@@ -16,17 +17,14 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function LoginLogin(props) {
+export default function AuthEmail() {
 	const styles = useStyles();
-	const [route, setRoute] = useState('login');
+	const dispatch = useDispatch();
+	const route = useSelector((state) => state.isUsingEmailAuthRoute);
 
 	const handleChangeRoute = (event, newRoute) => {
-		if (newRoute !== null) setRoute(newRoute);
+		if (newRoute !== null) dispatch(setIsUsingEmailAuthRoute(newRoute));
 	};
-
-	function handleBackToSocial() {
-		props.backToSocial();
-	}
 
 	return (
 		<Box display="flex" flexDirection="column" alignItems="center">
@@ -45,11 +43,7 @@ export default function LoginLogin(props) {
 					Sign up
 				</ToggleButton>
 			</ToggleButtonGroup>
-			{route === 'login' ? (
-				<AuthEmailLogin backToSocial={handleBackToSocial} />
-			) : (
-				<AuthEmailJoin backToSocial={handleBackToSocial} />
-			)}
+			{route === 'login' ? <AuthEmailLogin /> : <AuthEmailJoin />}
 		</Box>
 	);
 }

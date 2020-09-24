@@ -1,7 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import * as actionCreators from '../../store/actions';
+import { useDispatch } from 'react-redux';
+import {
+	setIsUsingEmailAuth,
+	setCurrentUserData,
+	showSnackbar
+} from '../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
 import { useHistory, useLocation } from 'react-router';
@@ -22,6 +26,7 @@ import {
 	VisibilityRounded,
 	VisibilityOffRounded
 } from '@material-ui/icons';
+import LoadingButton from '../../utils/LoadingButton';
 
 const useStyles = makeStyles((theme) => ({
 	buttonLabel: {
@@ -32,12 +37,14 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function AuthEmailLogin({ setCurrentUserData, setShowSnackbar, ...props }) {
+export default function AuthEmailLogin(props) {
 	const styles = useStyles();
-	const [showPassword, setShowPassword] = useState(false);
-	const { register, handleSubmit, errors } = useForm();
 	const history = useHistory();
 	const location = useLocation();
+	const dispatch = useDispatch();
+	const { register, handleSubmit, errors } = useForm();
+	const [showPassword, setShowPassword] = useState(false);
+	const [pending, setPending] = useState(false);
 
 	const goBack = useCallback(() => {
 		history.push(location.pathname);
@@ -56,6 +63,7 @@ function AuthEmailLogin({ setCurrentUserData, setShowSnackbar, ...props }) {
 					crossorigin: true
 				}
 			)
+			.then(setPending(true))
 			.then((auth) => {
 				if (auth.data) {
 					return axios.get('https://api.vomad.guide/auth/login/success', {
@@ -69,40 +77,57 @@ function AuthEmailLogin({ setCurrentUserData, setShowSnackbar, ...props }) {
 				else throw new Error('failed to authenticate user');
 			})
 			.then((user) => {
-				setCurrentUserData({ id: user.user_id, username: user.user_name }, true);
+				dispatch(
+					setCurrentUserData({ id: user.user_id, username: user.user_name }, true)
+				);
+				setPending(false);
 			})
 			.then(() => {
 				goBack();
 			})
 			.catch((error) => {
-				setCurrentUserData(null, false);
+				dispatch(setCurrentUserData(null, false));
+				setPending(false);
 				if (error.response.data === 'no user found') {
-					setShowSnackbar({
-						snackData: {
-							type: 'error',
-							title: "couldn't login",
-							message: 'no user matching this email found'
-						}
-					});
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								title: 'Email not found',
+								message:
+									'Please check spelling or use the sign up form to create an account.'
+							}
+						})
+					);
 				} else if (error.response.data === 'incorrect password') {
-					setShowSnackbar({
-						snackData: {
-							type: 'error',
-							title: "couldn't login",
-							message: 'incorrect password'
-						}
-					});
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								title: 'Incorrect password',
+								message: 'Please check spelling and try again.'
+							}
+						})
+					);
 				} else if (error.response.data === 'Login with social media account') {
-					setShowSnackbar({
-						snackData: {
-							type: 'error',
-							title: "couldn't login",
-							message:
-								'You have previously signed in with this email using a social media account, try to log in again using the correct account'
-						}
-					});
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								title: "Couldn't login",
+								message:
+									'Please login with the social account connected to this email, then you may add a password if you wish.',
+								duration: 10000,
+								action: {
+									text: 'Login with social',
+									clicked: () => dispatch(setIsUsingEmailAuth(false))
+								}
+							}
+						})
+					);
 				} else {
-					return error;
+					setPending(false);
+					return console.error(error);
 				}
 			});
 	};
@@ -116,7 +141,7 @@ function AuthEmailLogin({ setCurrentUserData, setShowSnackbar, ...props }) {
 	};
 
 	const handleBackToSocial = () => {
-		props.backToSocial();
+		dispatch(setIsUsingEmailAuth(false));
 	};
 
 	return (
@@ -191,17 +216,19 @@ function AuthEmailLogin({ setCurrentUserData, setShowSnackbar, ...props }) {
 							<FormHelperText error>{errors.password.message}</FormHelperText>
 						)}
 					</FormControl>
-					<Button
+					<LoadingButton
 						type="submit"
 						size="large"
 						variant="contained"
 						color="primary"
+						pending={pending}
+						pendingText="Logging in..."
 						startIcon={<MailOutlineRounded />}
 						className={styles.email}
 						classes={{ label: styles.buttonLabel }}
 					>
 						Login with Email
-					</Button>
+					</LoadingButton>
 				</Box>
 			</Box>
 			<Button>Reset password</Button>
@@ -209,20 +236,3 @@ function AuthEmailLogin({ setCurrentUserData, setShowSnackbar, ...props }) {
 		</Box>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		currentUserData: state.currentUserData
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setCurrentUserData: (user, isAuth) =>
-			dispatch(actionCreators.setCurrentUserData(user, isAuth)),
-		setShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AuthEmailLogin);

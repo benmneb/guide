@@ -1,7 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import * as actionCreators from '../../store/actions';
+import { useDispatch } from 'react-redux';
+import {
+	setIsUsingEmailAuth,
+	setCurrentUserData,
+	showSnackbar
+} from '../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
 import { useHistory, useLocation } from 'react-router';
@@ -22,6 +26,7 @@ import {
 	VisibilityRounded,
 	VisibilityOffRounded
 } from '@material-ui/icons';
+import LoadingButton from '../../utils/LoadingButton';
 
 const useStyles = makeStyles((theme) => ({
 	buttonLabel: {
@@ -32,12 +37,14 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function AuthEmailJoin({ setCurrentUserData, setShowSnackbar, ...props }) {
+export default function AuthEmailJoin() {
 	const styles = useStyles();
-	const [showPassword, setShowPassword] = useState(false);
-	const { register, handleSubmit, errors, watch } = useForm();
 	const history = useHistory();
 	const location = useLocation();
+	const dispatch = useDispatch();
+	const { register, handleSubmit, errors, watch } = useForm();
+	const [showPassword, setShowPassword] = useState(false);
+	const [pending, setPending] = useState(false);
 
 	const goBack = useCallback(() => {
 		history.push(location.pathname);
@@ -57,6 +64,7 @@ function AuthEmailJoin({ setCurrentUserData, setShowSnackbar, ...props }) {
 					crossorigin: true
 				}
 			)
+			.then(setPending(true))
 			.then((auth) => {
 				if (auth.data) {
 					return axios.get('https://api.vomad.guide/auth/login/success', {
@@ -70,24 +78,31 @@ function AuthEmailJoin({ setCurrentUserData, setShowSnackbar, ...props }) {
 				else throw new Error('failed to authenticate user');
 			})
 			.then((user) => {
-				setCurrentUserData({ id: user.user_id, username: user.user_name }, true);
+				dispatch(
+					setCurrentUserData({ id: user.user_id, username: user.user_name }, true)
+				);
+				setPending(false);
 			})
 			.then(() => {
 				goBack();
 			})
 			.catch((error) => {
 				console.error(error.response.data);
-				setCurrentUserData(null, false);
+				setPending(false);
+				dispatch(setCurrentUserData(null, false));
 				if (error.response.data === 'email already taken') {
-					setShowSnackbar({
-						snackData: {
-							type: 'error',
-							title: "can't sign up",
-							message: 'Email already exist'
-						}
-					});
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								title: 'Email already exists',
+								message: 'Please login instead, or reset your password if you forgot it.'
+							}
+						})
+					);
 				} else {
-					return error;
+					setPending(false);
+					return console.error(error);
 				}
 			});
 	};
@@ -101,7 +116,7 @@ function AuthEmailJoin({ setCurrentUserData, setShowSnackbar, ...props }) {
 	};
 
 	const handleBackToSocial = () => {
-		props.backToSocial();
+		dispatch(setIsUsingEmailAuth(false));
 	};
 
 	return (
@@ -256,37 +271,22 @@ function AuthEmailJoin({ setCurrentUserData, setShowSnackbar, ...props }) {
 							<FormHelperText error>{errors.confirmpassword.message}</FormHelperText>
 						)}
 					</FormControl>
-					<Button
+					<LoadingButton
 						type="submit"
 						size="large"
 						variant="contained"
 						color="primary"
+						pending={pending}
+						pendingText="Signing up..."
 						startIcon={<MailOutlineRounded />}
 						className={styles.email}
 						classes={{ label: styles.buttonLabel }}
 					>
 						Sign up with Email
-					</Button>
+					</LoadingButton>
 				</Box>
 			</Box>
 			<Button onClick={handleBackToSocial}>Sign up with social account instead</Button>
 		</Box>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		currentUserData: state.currentUserData
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setCurrentUserData: (user, isAuth) =>
-			dispatch(actionCreators.setCurrentUserData(user, isAuth)),
-		setShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AuthEmailJoin);

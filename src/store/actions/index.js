@@ -14,5 +14,7 @@ export {
 	addFilter,
 	removeFilter,
 	removeAllFilters,
-	setLoading
+	setLoading,
+	setIsUsingEmailAuth,
+	setIsUsingEmailAuthRoute
 } from './actions';

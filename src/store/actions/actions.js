@@ -120,3 +120,21 @@ export const setLoading = (state) => {
 		}
 	};
 };
+
+export const setIsUsingEmailAuth = (state) => {
+	return {
+		type: actionTypes.SET_IS_USING_EMAIL_AUTH,
+		payload: {
+			state
+		}
+	};
+};
+
+export const setIsUsingEmailAuthRoute = (route) => {
+	return {
+		type: actionTypes.SET_IS_USING_EMAIL_AUTH_ROUTE,
+		payload: {
+			route
+		}
+	};
+};

@@ -13,7 +13,9 @@ const initialState = {
 	selectedProduct: null,
 	currentLocation: null,
 	appliedFilters: [],
-	isLoading: false
+	isLoading: false,
+	isUsingEmailAuth: false,
+	isUsingEmailAuthRoute: 'login'
 };
 
 export default function Reducers(state = initialState, action) {
@@ -102,6 +104,16 @@ export default function Reducers(state = initialState, action) {
 			return {
 				...state,
 				isLoading: action.payload.state
+			};
+		case actionTypes.SET_IS_USING_EMAIL_AUTH:
+			return {
+				...state,
+				isUsingEmailAuth: action.payload.state
+			};
+		case actionTypes.SET_IS_USING_EMAIL_AUTH_ROUTE:
+			return {
+				...state,
+				isUsingEmailAuthRoute: action.payload.route
 			};
 		default:
 			return state;

@@ -35,11 +35,12 @@ function Snackbars({ snackData, showSnackbar, onHideSnackbar }) {
 			</IconButton>
 		</>
 	) : null;
+	const duration = snackData.duration ? snackData.duration : 6000;
 
 	return (
 		<Snackbar
 			open={showSnackbar}
-			autoHideDuration={6000}
+			autoHideDuration={duration}
 			onClose={handleCloseSnack}
 			anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
 		>
@@ -65,6 +66,7 @@ Snackbars.propTypes = {
 		title: PropTypes.string,
 		message: PropTypes.string,
 		emoji: PropTypes.string,
+		duration: PropTypes.number,
 		action: PropTypes.exact({
 			text: PropTypes.string,
 			clicked: PropTypes.func

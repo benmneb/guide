@@ -1,12 +1,13 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsUsingEmailAuth } from '../../store/actions';
 import clsx from 'clsx';
 import { loadCSS } from 'fg-loadcss';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import { Dialog, Button, Icon, Box } from '@material-ui/core';
+import { Dialog, Button, Icon, Box, useTheme } from '@material-ui/core';
 import { Facebook, Twitter, MailOutlineRounded } from '@material-ui/icons';
 import { indigo, red, blue, grey } from '@material-ui/core/colors';
 import AuthEmail from './AuthEmail';
@@ -62,11 +63,14 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Auth({ isOpened, isAuthenticated }) {
+export default function Auth({ isOpened }) {
+	const theme = useTheme();
 	const styles = useStyles();
 	const location = useLocation();
-	const [isUsingEmail, setIsUsingEmail] = useState(false);
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const isAuthenticated = useSelector((state) => state.isAuthenticated);
+	const isUsingEmailAuth = useSelector((state) => state.isUsingEmailAuth);
 
 	useEffect(() => {
 		const node = loadCSS(
@@ -80,11 +84,7 @@ function Auth({ isOpened, isAuthenticated }) {
 	}, []);
 
 	function handleContinueWithEmail() {
-		setIsUsingEmail(true);
-	}
-
-	function handleContinueWithSocial() {
-		setIsUsingEmail(false);
+		dispatch(setIsUsingEmailAuth(true));
 	}
 
 	const goBack = useCallback(() => {
@@ -94,6 +94,9 @@ function Auth({ isOpened, isAuthenticated }) {
 	}, [history, location.pathname, location.search]);
 
 	function onClose() {
+		setTimeout(() => {
+			dispatch(setIsUsingEmailAuth(false));
+		}, theme.transitions.duration.leavingScreen);
 		goBack();
 	}
 
@@ -107,7 +110,7 @@ function Auth({ isOpened, isAuthenticated }) {
 		window.open(url, name);
 	};
 
-	const handleGoodleLogin = () => {
+	const handleGoogleLogin = () => {
 		const url = 'https://api.vomad.guide/auth/google';
 		const name = '_blank';
 		window.open(url, name);
@@ -124,7 +127,7 @@ function Auth({ isOpened, isAuthenticated }) {
 				Welcome!
 			</DialogTitle>
 			<DialogContent className={styles.dialogContentRoot}>
-				{!isUsingEmail ? (
+				{!isUsingEmailAuth ? (
 					<Box display="flex" justifyContent="center">
 						<Box
 							display="flex"
@@ -155,7 +158,7 @@ function Auth({ isOpened, isAuthenticated }) {
 									label: styles.buttonLabel,
 									root: clsx(styles.google, styles.buttonMargin)
 								}}
-								onClick={handleGoodleLogin}
+								onClick={handleGoogleLogin}
 							>
 								Continue with Google
 							</Button>
@@ -185,17 +188,9 @@ function Auth({ isOpened, isAuthenticated }) {
 						</Box>
 					</Box>
 				) : (
-					<AuthEmail backToSocial={handleContinueWithSocial} />
+					<AuthEmail />
 				)}
 			</DialogContent>
 		</Dialog>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		isAuthenticated: state.isAuthenticated
-	};
-};
-
-export default connect(mapStateToProps, null)(Auth);
