@@ -29,10 +29,14 @@ const useStyles = makeStyles((theme) => ({
 		}
 	},
 	menuButton: {
-		marginRight: theme.spacing(2),
+		marginRight: theme.spacing(1),
 		[theme.breakpoints.up('lg')]: {
 			display: 'none'
 		}
+	},
+	logo: {
+		height: 25,
+		marginTop: theme.spacing(0.5)
 	},
 	search: {
 		position: 'relative',
@@ -73,6 +77,9 @@ const useStyles = makeStyles((theme) => ({
 			}
 		}
 	},
+	profileButton: {
+		padding: theme.spacing(1)
+	},
 	// necessary for content to be below app bar
 	content: {
 		flexGrow: 1,
@@ -81,9 +88,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	displayNone: {
 		display: 'none'
-	},
-	profileButton: {
-		padding: theme.spacing(1)
 	}
 }));
 
@@ -145,7 +149,7 @@ function TopBar({
 	);
 
 	return (
-		<div className={styles.root}>
+		<Box className={styles.root}>
 			<AppBar
 				position="absolute"
 				color="transparent"
@@ -164,6 +168,13 @@ function TopBar({
 					>
 						<MenuRounded />
 					</IconButton>
+					<Box display={{ xs: 'none', sm: 'inherit', lg: 'none' }}>
+						<img
+							className={styles.logo}
+							src="https://ik.imagekit.io/vomadguide/logo/logo_a_nCYxlAP.png"
+							alt="Vomad Guide: The Vegan Product Guide"
+						/>
+					</Box>
 					<Box flexGrow="1" justifyContent="flex-start"></Box>
 					<Box className={styles.search}>
 						<Box className={styles.searchIcon}>
@@ -224,8 +235,10 @@ function TopBar({
 
 			<SideDrawer />
 
-			<main className={styles.content}>{props.children}</main>
-		</div>
+			<Box component="main" className={styles.content}>
+				{props.children}
+			</Box>
+		</Box>
 	);
 }
 

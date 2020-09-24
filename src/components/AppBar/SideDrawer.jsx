@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	drawerPaper: {
 		width: theme.mixins.sideMenu.width
 	},
-	toolbar: {
+	imageBox: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -146,14 +147,14 @@ const SideDrawer = ({
 	);
 
 	const drawer = (
-		<div>
-			<div className={styles.toolbar}>
+		<Box>
+			<Box className={styles.imageBox}>
 				<img
 					className={styles.logo}
 					src="https://ik.imagekit.io/vomadguide/logo/logo_a_nCYxlAP.png"
-					alt="Vomad Guide: Find Vegan Products Near You at The Biggest Free Vegan Product Guide"
+					alt="Vomad Guide: Find Vegan Products Near You"
 				/>
-			</div>
+			</Box>
 			<Divider />
 			<List component="nav">
 				<ListItem button onClick={() => openMenuItem('home')}>
@@ -255,11 +256,11 @@ const SideDrawer = ({
 					<ListItemText primary="Privacy Policy" />
 				</ListItem>
 			</List>
-		</div>
+		</Box>
 	);
 
 	return (
-		<nav className={styles.drawer} aria-label="main menu">
+		<Box component="nav" className={styles.drawer} aria-label="main menu">
 			{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
 			<Hidden lgUp implementation="js">
 				<Drawer
@@ -289,7 +290,7 @@ const SideDrawer = ({
 					{drawer}
 				</Drawer>
 			</Hidden>
-		</nav>
+		</Box>
 	);
 };
 
