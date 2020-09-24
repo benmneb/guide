@@ -4,11 +4,9 @@ import * as actionCreators from '../../store/actions';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import DialogTitle from '../../utils/DialogTitle';
 import {
-	IconButton,
 	Collapse,
-	DialogTitle,
 	Dialog,
 	List,
 	ListItem,
@@ -20,7 +18,6 @@ import {
 	Box
 } from '@material-ui/core';
 import {
-	CloseRounded,
 	CreateRounded,
 	MailOutlineRounded,
 	DeleteForeverRounded
@@ -142,19 +139,13 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 			maxWidth="sm"
 			classes={{ paperWidthSm: styles.modal }}
 		>
-			<MuiDialogTitle disableTypography className={styles.titleRoot}>
-				<IconButton
-					aria-label="close"
-					className={styles.closeButton}
-					onClick={handleClose}
-				>
-					<CloseRounded />
-				</IconButton>
-			</MuiDialogTitle>
-			<DialogTitle id="simple-dialog-title" className={styles.dialogTitle}>
+			<DialogTitle
+				id="user-profile-setting-title"
+				className={styles.dialogTitle}
+				onClose={handleClose}
+			>
 				Profile Settings
 			</DialogTitle>
-
 			<List>
 				<ListItem
 					button
