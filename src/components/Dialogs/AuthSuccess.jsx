@@ -28,6 +28,7 @@ const AuthSuccess = ({ setCurrentUserData, isAuthenticated }) => {
 			.catch((error) => {
 				if (mounted) {
 					setCurrentUserData(null, false);
+					throw new Error('failed to authenticate user', error);
 				}
 			});
 
@@ -39,8 +40,8 @@ const AuthSuccess = ({ setCurrentUserData, isAuthenticated }) => {
 
 	if (isAuthenticated) {
 		setTimeout(() => {
-			window.opener.open('', '_self');
-			window.opener.focus();
+			// window.opener.open('', '_self');
+			// window.opener.focus();
 			window.close();
 		}, 1000);
 	}
@@ -50,7 +51,6 @@ const AuthSuccess = ({ setCurrentUserData, isAuthenticated }) => {
 
 const mapStateToProps = (state) => {
 	return {
-		currentUserData: state.currentUserData,
 		isAuthenticated: state.isAuthenticated
 	};
 };
