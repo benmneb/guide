@@ -93,7 +93,6 @@ function Advertise({ onShowSnackbar, isOpened }) {
 					<TextField
 						autoFocus
 						margin="dense"
-						id="name"
 						name="name"
 						label="Your Name"
 						type="text"
@@ -109,7 +108,6 @@ function Advertise({ onShowSnackbar, isOpened }) {
 					/>
 					<TextField
 						margin="dense"
-						id="email"
 						name="email"
 						label="Business Email"
 						type="email"
@@ -124,7 +122,6 @@ function Advertise({ onShowSnackbar, isOpened }) {
 					/>
 					<TextField
 						margin="dense"
-						id="message"
 						name="message"
 						label="Your Message (optional)"
 						type="text"

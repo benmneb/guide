@@ -91,7 +91,6 @@ function Feedback({ onShowSnackbar, isOpened }) {
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<TextField
 						margin="dense"
-						id="feedback"
 						name="feedback"
 						label="Your Feedback"
 						type="text"
@@ -110,7 +109,6 @@ function Feedback({ onShowSnackbar, isOpened }) {
 					/>
 					<TextField
 						margin="dense"
-						id="name"
 						name="name"
 						label="Your Name (optional)"
 						type="text"
@@ -124,7 +122,6 @@ function Feedback({ onShowSnackbar, isOpened }) {
 					/>
 					<TextField
 						margin="dense"
-						id="email"
 						name="email"
 						label="Contact email (optional)"
 						type="email"

@@ -136,7 +136,6 @@ export default function AuthEmailJoin() {
 				<Box display="flex" flexDirection="column" justifyContent="center">
 					<TextField
 						margin="dense"
-						id="name"
 						name="name"
 						label="Name or username"
 						type="text"
@@ -158,7 +157,6 @@ export default function AuthEmailJoin() {
 					/>
 					<TextField
 						margin="dense"
-						id="email"
 						name="email"
 						label="Email"
 						type="email"
@@ -180,7 +178,6 @@ export default function AuthEmailJoin() {
 						</InputLabel>
 						<OutlinedInput
 							margin="dense"
-							id="password"
 							name="password"
 							label="Password"
 							type={showPassword ? 'text' : 'password'}
@@ -228,7 +225,6 @@ export default function AuthEmailJoin() {
 						</InputLabel>
 						<OutlinedInput
 							margin="dense"
-							id="confirm-password"
 							name="confirmpassword"
 							label="Confirm Password"
 							type={showPassword ? 'text' : 'password'}
