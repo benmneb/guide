@@ -27,6 +27,7 @@ import {
 	VisibilityOffRounded
 } from '@material-ui/icons';
 import LoadingButton from '../../utils/LoadingButton';
+import AuthForgotPassword from './AuthForgotPassword';
 
 const useStyles = makeStyles((theme) => ({
 	buttonLabel: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function AuthEmailLogin(props) {
+export default function AuthEmailLogin() {
 	const styles = useStyles();
 	const history = useHistory();
 	const location = useLocation();
@@ -45,6 +46,7 @@ export default function AuthEmailLogin(props) {
 	const { register, handleSubmit, errors } = useForm();
 	const [showPassword, setShowPassword] = useState(false);
 	const [pending, setPending] = useState(false);
+	const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
 
 	const goBack = useCallback(() => {
 		history.push(location.pathname);
@@ -140,99 +142,106 @@ export default function AuthEmailLogin(props) {
 		event.preventDefault();
 	};
 
+	const toggleForgotPasswordModal = () => {
+		setForgotPasswordModal(!forgotPasswordModal);
+	};
+
 	const handleBackToSocial = () => {
 		dispatch(setIsUsingEmailAuth(false));
 	};
 
 	return (
-		<Box
-			component="form"
-			onSubmit={handleSubmit(onSubmit)}
-			display="flex"
-			flexDirection="column"
-			justifyContent="center"
-		>
+		<>
 			<Box
+				component="form"
+				onSubmit={handleSubmit(onSubmit)}
 				display="flex"
 				flexDirection="column"
 				justifyContent="center"
-				alignItems="center"
 			>
-				<Box display="flex" flexDirection="column" justifyContent="center">
-					<TextField
-						margin="dense"
-						id="email"
-						name="email"
-						label="Email"
-						type="email"
-						variant="outlined"
-						inputRef={register({
-							required: 'Email required',
-							pattern: { value: /\S+@\S+\.\S+/, message: 'Please enter a valid email' }
-						})}
-						error={Boolean(errors.email)}
-						helperText={Boolean(errors.email) && errors.email.message}
-						fullWidth
-					/>
-					<FormControl variant="outlined" margin="dense">
-						<InputLabel htmlFor="password" variant="outlined" margin="dense">
-							Password
-						</InputLabel>
-						<OutlinedInput
+				<Box
+					display="flex"
+					flexDirection="column"
+					justifyContent="center"
+					alignItems="center"
+				>
+					<Box display="flex" flexDirection="column" justifyContent="center">
+						<TextField
 							margin="dense"
-							id="password"
-							name="password"
-							label="Password"
-							type={showPassword ? 'text' : 'password'}
+							id="email"
+							name="email"
+							label="Email"
+							type="email"
+							variant="outlined"
 							inputRef={register({
-								required: 'Password required',
-								minLength: { value: 6, message: 'Minimum 6 characters' },
-								maxLength: { value: 20, message: 'Maximum 20 characters' }
+								required: 'Email required',
+								pattern: { value: /\S+@\S+\.\S+/, message: 'Please enter a valid email' }
 							})}
-							error={Boolean(errors.password)}
-							endAdornment={
-								<InputAdornment position="end">
-									<IconButton
-										aria-label="toggle password visibility"
-										onClick={handleClickShowPassword}
-										onMouseDown={handleMouseDownPassword}
-										size="small"
-									>
-										{showPassword ? (
-											<Tooltip title="Hide password">
-												<VisibilityRounded />
-											</Tooltip>
-										) : (
-											<Tooltip title="Show password">
-												<VisibilityOffRounded />
-											</Tooltip>
-										)}
-									</IconButton>
-								</InputAdornment>
-							}
+							error={Boolean(errors.email)}
+							helperText={Boolean(errors.email) && errors.email.message}
 							fullWidth
 						/>
-						{errors.password && (
-							<FormHelperText error>{errors.password.message}</FormHelperText>
-						)}
-					</FormControl>
-					<LoadingButton
-						type="submit"
-						size="large"
-						variant="contained"
-						color="primary"
-						pending={pending}
-						pendingText="Logging in..."
-						startIcon={<MailOutlineRounded />}
-						className={styles.email}
-						classes={{ label: styles.buttonLabel }}
-					>
-						Login with Email
-					</LoadingButton>
+						<FormControl variant="outlined" margin="dense">
+							<InputLabel htmlFor="password" variant="outlined" margin="dense">
+								Password
+							</InputLabel>
+							<OutlinedInput
+								margin="dense"
+								id="password"
+								name="password"
+								label="Password"
+								type={showPassword ? 'text' : 'password'}
+								inputRef={register({
+									required: 'Password required',
+									minLength: { value: 6, message: 'Minimum 6 characters' },
+									maxLength: { value: 20, message: 'Maximum 20 characters' }
+								})}
+								error={Boolean(errors.password)}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}
+											size="small"
+										>
+											{showPassword ? (
+												<Tooltip title="Hide password">
+													<VisibilityRounded />
+												</Tooltip>
+											) : (
+												<Tooltip title="Show password">
+													<VisibilityOffRounded />
+												</Tooltip>
+											)}
+										</IconButton>
+									</InputAdornment>
+								}
+								fullWidth
+							/>
+							{errors.password && (
+								<FormHelperText error>{errors.password.message}</FormHelperText>
+							)}
+						</FormControl>
+						<LoadingButton
+							type="submit"
+							size="large"
+							variant="contained"
+							color="primary"
+							pending={pending}
+							pendingText="Logging in..."
+							startIcon={<MailOutlineRounded />}
+							className={styles.email}
+							classes={{ label: styles.buttonLabel }}
+						>
+							Login with Email
+						</LoadingButton>
+					</Box>
 				</Box>
+				<Button onClick={toggleForgotPasswordModal}>Reset lost password</Button>
+				<Button onClick={handleBackToSocial}>Login with social account instead</Button>
 			</Box>
-			<Button>Reset password</Button>
-			<Button onClick={handleBackToSocial}>Login with social account instead</Button>
-		</Box>
+			<AuthForgotPassword show={forgotPasswordModal} hide={toggleForgotPasswordModal} />
+		</>
 	);
 }

@@ -14,7 +14,8 @@ export const GET_ENUMS = {
 		addProducts: 'add-products',
 		terms: 'terms-of-use',
 		privacy: 'privacy-policy',
-		userProfile: 'user'
+		userProfile: 'user',
+		resetPassword: 'reset-password'
 	},
 	action: {
 		advertise: 'advertise',
