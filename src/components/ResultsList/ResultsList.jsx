@@ -112,6 +112,7 @@ const ResultsList = ({
 		return () => {
 			mounted = false;
 			source.cancel('Results list cancelled during clean-up');
+			setLoading(false);
 		};
 	}, [location.pathname, currentPathname, setLoading]);
 
