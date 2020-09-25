@@ -73,7 +73,9 @@ export default function AboutEdit({ hide, show }) {
 	const confirm = useConfirm();
 	const theme = useTheme();
 	const dispatch = useDispatch();
-	const currentUserId = useSelector((state) => state.currentUserData.id);
+	const currentUserId = useSelector(
+		(state) => state.currentUserData && state.currentUserData.id
+	);
 	const { register, handleSubmit, errors, watch } = useForm();
 	const [editUsername, setEditUsername] = useState(false);
 	const [changeEmail, setChangeEmail] = useState(false);
