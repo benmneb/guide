@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import * as actionCreators from '../../store/actions';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { showSnackbar } from '../../store/actions';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -67,15 +68,17 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function AboutEdit({ onShowSnackbar, ...props }) {
+export default function AboutEdit({ hide, show }) {
 	const styles = useStyles();
 	const confirm = useConfirm();
 	const theme = useTheme();
+	const dispatch = useDispatch();
+	const currentUserId = useSelector((state) => state.currentUserData.id);
+	const { register, handleSubmit, errors, watch } = useForm();
 	const [editUsername, setEditUsername] = useState(false);
 	const [changeEmail, setChangeEmail] = useState(false);
 	const [updatePassword, setUpdatePassword] = useState(false);
 	const [deleteAccount, setDeleteAccount] = useState(false);
-	const { register, handleSubmit, errors, watch } = useForm();
 	const [showPasswords, setShowPasswords] = useState(false);
 
 	const handleClose = () => {
@@ -84,7 +87,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 			setDeleteAccount(false);
 			setChangeEmail(false);
 		}, theme.transitions.duration.leavingScreen);
-		props.hide();
+		hide();
 	};
 
 	function handleSettingClick(setting) {
@@ -119,36 +122,90 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 	}
 
 	const onSubmitUsername = (data) => {
-		console.log('new username', data);
-		onShowSnackbar({
-			snackData: {
-				type: 'success',
-				message: 'Username changed'
-			}
-		});
-		setEditUsername(false);
+		axios
+			.put(`https://api.vomad.guide/auth/update-username/${currentUserId}`, {
+				user_name: data.username
+			})
+			.then(() => {
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'success',
+							message: 'Username changed successfully'
+						}
+					})
+				);
+				setEditUsername(false);
+			})
+			.catch((err) => {
+				console.error('Error changing password', err);
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'error',
+							message: 'Could not update username, please try again soon.'
+						}
+					})
+				);
+			});
 	};
 
 	const onSubmitEmail = (data) => {
-		console.log('new email', data);
-		onShowSnackbar({
-			snackData: {
-				type: 'warning',
-				message: 'Please check your inbox for a confirmation email'
-			}
-		});
-		setChangeEmail(false);
+		axios
+			.put(`https://api.vomad.guide/auth/update-email/${currentUserId}`, {
+				email: data.email
+			})
+			.then(() => {
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'warning',
+							message: 'Please check your inbox for a confirmation email'
+						}
+					})
+				);
+				setChangeEmail(false);
+			})
+			.catch((err) => {
+				console.error('Error changing email', err);
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'error',
+							message: 'Could not change email, please try again soon.'
+						}
+					})
+				);
+			});
 	};
 
 	const onSubmitPassword = (data) => {
-		console.log('new password', data);
-		onShowSnackbar({
-			snackData: {
-				type: 'success',
-				message: 'Password successfully updated'
-			}
-		});
-		setUpdatePassword(false);
+		axios
+			.post(`https://api.vomad.guide/auth/update-password/${currentUserId}`, {
+				password: data.password
+			})
+			.then(() => {
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'success',
+							message: 'Password successfully updated'
+						}
+					})
+				);
+				setUpdatePassword(false);
+			})
+			.catch((err) => {
+				console.error('Error changing password', err);
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'error',
+							message: 'Could not update password, please try again soon.'
+						}
+					})
+				);
+			});
 	};
 
 	const handleClickShowPassword = () => {
@@ -175,7 +232,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 		<Dialog
 			onClose={handleClose}
 			aria-labelledby="simple-dialog-title"
-			open={props.show}
+			open={show}
 			maxWidth="sm"
 			classes={{ paperWidthSm: styles.modal }}
 		>
@@ -224,7 +281,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 							classes={{ root: styles.textFieldRoot }}
 						/>
 						<Button type="submit" variant="contained" color="primary">
-							Change
+							Edit
 						</Button>
 					</Box>
 				</Collapse>
@@ -279,7 +336,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 					<ListItemIcon>
 						<LockRounded />
 					</ListItemIcon>
-					<ListItemText primary="Update password" />
+					<ListItemText primary="Update Password" />
 				</ListItem>
 				<Collapse in={updatePassword} timeout="auto" unmountOnExit>
 					<Box
@@ -422,12 +479,3 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 		</Dialog>
 	);
 }
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
-	};
-};
-
-export default connect(null, mapDispatchToProps)(AboutEdit);
