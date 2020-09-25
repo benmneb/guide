@@ -105,7 +105,7 @@ export default function Auth({ isOpened }) {
 	}, [isAuthenticated, goBack, isOpened]);
 
 	const handleFacebookLogin = () => {
-		const url = 'https://api.vomad.guide/auth/facebook/guide';
+		const url = 'https://api.vomad.guide/auth/facebook';
 		const name = '_blank';
 		window.open(url, name);
 	};
