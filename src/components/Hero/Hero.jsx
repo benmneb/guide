@@ -155,38 +155,48 @@ SubHeading.defaultProps = {
 
 ///////// FOOTER
 
-export function Footer({ textAlign, forCategory }) {
+export function Footer({ textAlign, forPage }) {
 	const addProductsLink = usePrepareLink({
 		query: {
 			[getParams.popup]: getEnums.popup.addProducts
 		}
 	});
 
-	let footerContent;
-
-	if (forCategory) {
-		footerContent = (
-			<Typography align={textAlign} paragraph>
-				You can{' '}
-				<Link underline="hover" component={RouterLink} to={addProductsLink}>
-					add any missing products
-				</Link>
-				.
-			</Typography>
+	if (forPage === 'category') {
+		return (
+			<Box display={{ xs: 'none', md: 'block' }}>
+				<Typography align={textAlign} paragraph>
+					You can{' '}
+					<Link underline="hover" component={RouterLink} to={addProductsLink}>
+						add any missing products
+					</Link>
+					.
+				</Typography>
+			</Box>
 		);
 	}
 
-	return <Box display={{ xs: 'none', md: 'block' }}>{footerContent}</Box>;
+	if (forPage === '404') {
+		return (
+			<Box>
+				<Typography align={textAlign} paragraph>
+					Seems like a good time to{' '}
+					<Link underline="hover" component={RouterLink} to="/">
+						browse vegan products
+					</Link>
+					.
+				</Typography>
+			</Box>
+		);
+	}
 }
 
 Footer.propTypes = {
-	forHome: PropTypes.bool,
-	forCategory: PropTypes.bool,
+	forPage: PropTypes.oneOf(['category', '404']),
 	textAlign: PropTypes.oneOf(['left', 'center'])
 };
 
 Footer.defaultProps = {
-	forHome: false,
-	forCategory: false,
+	forPage: 'category',
 	textAlign: 'left'
 };

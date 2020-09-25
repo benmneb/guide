@@ -19,6 +19,7 @@ import Snackbars from './components/Dialogs/Snackbars';
 import Auth from './components/Dialogs/Auth';
 import UserProfile from './components/Dialogs/UserProfile';
 import Categories from './components/categories/Categories';
+import PageNotFound from './components/categories/PageNotFound';
 import SupportUs from './components/Dialogs/SupportUs';
 import GetParameterPopups from './utils/routing/getParamaterPopups';
 import AuthSuccess from './components/Dialogs/AuthSuccess';
@@ -89,6 +90,9 @@ export default function App() {
 						</Route>
 						<Route path="/household">
 							<Categories />
+						</Route>
+						<Route>
+							<PageNotFound />
 						</Route>
 					</Switch>
 				</AppBar>

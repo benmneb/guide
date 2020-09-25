@@ -102,7 +102,7 @@ export default function ProductType() {
 					There are 5,147 vegan food & drink products in 103 categories within Australia
 					from brands like Gardein, Tofurky, Linda McCartney and 285 more.
 				</SubHeading>
-				<Footer forCategory />
+				<Footer />
 			</Hero>
 			<Box className={styles.container}>
 				{['Baby', 'Bakery', 'Drinks', 'Fridge & Freezer', 'Pantry', 'Pet Food'].map(
