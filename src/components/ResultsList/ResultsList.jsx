@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import axios from 'axios';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Link, Route, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import ResultCard from './ResultCard';
@@ -10,6 +10,7 @@ import FiltersBar from './FiltersBar';
 import FiltersPanel from '../FiltersPanel/FiltersPanel';
 import AddProductsFab from './AddProductsFab';
 import * as actionCreators from '../../store/actions';
+import { showSnackbar } from '../../store/actions';
 import BottomNav from './BottomNav';
 import ResultSkeleton from './ResultSkeleton';
 import HeroSkeleton from '../Hero/HeroSkeleton';
@@ -67,6 +68,7 @@ const ResultsList = ({
 	setLoading
 }) => {
 	const styles = useStyles();
+	const dispatch = useDispatch();
 	const location = useLocation();
 	const [fetchedResults, setFetchedResults] = useState([]);
 	const [filteredResults, setFilteredResults] = useState([]);
@@ -87,8 +89,22 @@ const ResultsList = ({
 					cancelToken: source.token
 				})
 				.then(mounted && setLoading(true))
-				.then((response) => {
+				.then((response, rejection) => {
 					if (mounted) {
+						if (rejection) {
+							setLoading(false);
+							dispatch(
+								showSnackbar({
+									snackData: {
+										type: 'error',
+										title: 'Could not load products',
+										message: `${rejection.message}. Please try again soon.`,
+										duration: 12000
+									}
+								})
+							);
+							return console.warn('Loading results was rejected:', rejection.message);
+						}
 						const breadcrumbsArr = Array(
 							String(response.data[0].breadcrumbs).split(',')
 						)[0];
@@ -105,16 +121,29 @@ const ResultsList = ({
 					}
 				})
 				.catch((err) => {
-					if (mounted) console.error(err);
+					if (mounted) {
+						setLoading(false);
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'error',
+									title: 'Could not load products',
+									message: `${err.message}. Please try again soon.`,
+									duration: 12000
+								}
+							})
+						);
+						return console.error('Error loading products:', err.message);
+					}
 				});
 		}
 
 		return () => {
 			mounted = false;
-			source.cancel('Results list cancelled during clean-up');
 			setLoading(false);
+			source.cancel('Results list cancelled during clean-up');
 		};
-	}, [location.pathname, currentPathname, setLoading]);
+	}, [location.pathname, currentPathname, setLoading, dispatch]);
 
 	useEffect(() => {
 		return () => {
@@ -151,7 +180,7 @@ const ResultsList = ({
 						There are {categoryData.totalProducts} vegan {categoryData.name.toLowerCase()}{' '}
 						products within Australia from {categoryData.totalBrands} brands.
 					</SubHeading>
-					<Footer forCategory />
+					<Footer />
 				</Hero>
 			) : (
 				<HeroSkeleton hide={showFiltersPanel} />

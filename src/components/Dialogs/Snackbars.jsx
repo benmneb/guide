@@ -35,7 +35,7 @@ function Snackbars({ snackData, showSnackbar, onHideSnackbar }) {
 			</IconButton>
 		</>
 	) : null;
-	const duration = snackData.duration ? snackData.duration : 6000;
+	const duration = snackData.duration !== undefined ? snackData.duration : 6000;
 
 	return (
 		<Snackbar
