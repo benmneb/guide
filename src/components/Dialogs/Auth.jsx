@@ -17,10 +17,6 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: 291,
 		maxWidth: 300
 	},
-	titleRoot: {
-		margin: 0,
-		padding: 0
-	},
 	buttonLabel: {
 		justifyContent: 'flex-start'
 	},
@@ -119,7 +115,7 @@ export default function Auth({ isOpened }) {
 	return (
 		<Dialog
 			onClose={onClose}
-			aria-labelledby="product-dialog-title"
+			aria-labelledby="login-title"
 			open={Boolean(isOpened)}
 			classes={{ paperWidthSm: styles.dialogPaperWidth }}
 		>
