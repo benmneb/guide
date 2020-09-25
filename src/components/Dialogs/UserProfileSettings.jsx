@@ -8,11 +8,18 @@ import DialogTitle from '../../utils/DialogTitle';
 import {
 	Collapse,
 	Dialog,
+	FormControl,
+	FormHelperText,
+	Input,
+	InputAdornment,
+	InputLabel,
+	IconButton,
 	List,
 	ListItem,
 	ListItemIcon,
 	ListItemText,
 	TextField,
+	Tooltip,
 	Typography,
 	Button,
 	Box
@@ -20,7 +27,10 @@ import {
 import {
 	CreateRounded,
 	MailOutlineRounded,
-	DeleteForeverRounded
+	DeleteForeverRounded,
+	LockRounded,
+	VisibilityRounded,
+	VisibilityOffRounded
 } from '@material-ui/icons';
 import { red } from '@material-ui/core/colors';
 
@@ -63,8 +73,10 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 	const theme = useTheme();
 	const [editUsername, setEditUsername] = useState(false);
 	const [changeEmail, setChangeEmail] = useState(false);
+	const [updatePassword, setUpdatePassword] = useState(false);
 	const [deleteAccount, setDeleteAccount] = useState(false);
-	const { register, handleSubmit, errors } = useForm();
+	const { register, handleSubmit, errors, watch } = useForm();
+	const [showPasswords, setShowPasswords] = useState(false);
 
 	const handleClose = () => {
 		setTimeout(() => {
@@ -81,9 +93,17 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 				setEditUsername(!editUsername);
 				setChangeEmail(false);
 				setDeleteAccount(false);
+				setUpdatePassword(false);
 				break;
 			case 'changeEmail':
 				setChangeEmail(!changeEmail);
+				setEditUsername(false);
+				setDeleteAccount(false);
+				setUpdatePassword(false);
+				break;
+			case 'updatePassword':
+				setUpdatePassword(!updatePassword);
+				setChangeEmail(false);
 				setEditUsername(false);
 				setDeleteAccount(false);
 				break;
@@ -91,6 +111,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 				setDeleteAccount(!deleteAccount);
 				setEditUsername(false);
 				setChangeEmail(false);
+				setUpdatePassword(false);
 				break;
 			default:
 				return null;
@@ -117,6 +138,25 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 			}
 		});
 		setChangeEmail(false);
+	};
+
+	const onSubmitPassword = (data) => {
+		console.log('new password', data);
+		onShowSnackbar({
+			snackData: {
+				type: 'success',
+				message: 'Password successfully updated'
+			}
+		});
+		setUpdatePassword(false);
+	};
+
+	const handleClickShowPassword = () => {
+		setShowPasswords(!showPasswords);
+	};
+
+	const handleMouseDownPassword = (event) => {
+		event.preventDefault();
 	};
 
 	const handleDeleteAccountClick = () => {
@@ -162,7 +202,6 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 						component="form"
 						onSubmit={handleSubmit(onSubmitUsername)}
 						display="flex"
-						direction="column"
 						alignItems="baseline"
 						justifyContent="space-evenly"
 						marginY={2}
@@ -184,7 +223,6 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 							autoFocus
 							classes={{ root: styles.textFieldRoot }}
 						/>
-
 						<Button type="submit" variant="contained" color="primary">
 							Change
 						</Button>
@@ -205,7 +243,6 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 						component="form"
 						onSubmit={handleSubmit(onSubmitEmail)}
 						display="flex"
-						direction="column"
 						alignItems="baseline"
 						justifyContent="space-evenly"
 						marginY={2}
@@ -232,6 +269,128 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 						<Button type="submit" variant="contained" color="primary">
 							Change
 						</Button>
+					</Box>
+				</Collapse>
+				<ListItem
+					button
+					onClick={() => handleSettingClick('updatePassword')}
+					selected={updatePassword}
+				>
+					<ListItemIcon>
+						<LockRounded />
+					</ListItemIcon>
+					<ListItemText primary="Update password" />
+				</ListItem>
+				<Collapse in={updatePassword} timeout="auto" unmountOnExit>
+					<Box
+						component="form"
+						onSubmit={handleSubmit(onSubmitPassword)}
+						display="flex"
+						flexDirection="column"
+						alignItems="center"
+					>
+						<FormControl margin="dense">
+							<InputLabel htmlFor="password" margin="dense">
+								New password
+							</InputLabel>
+							<Input
+								autoFocus
+								margin="dense"
+								name="password"
+								label="New password"
+								type={showPasswords ? 'text' : 'password'}
+								inputRef={register({
+									required: 'Password required',
+									minLength: {
+										value: 6,
+										message: 'Minimum 6 characters'
+									},
+									maxLength: {
+										value: 20,
+										message: 'Maximum 20 characters'
+									}
+								})}
+								error={Boolean(errors.password)}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}
+											size="small"
+										>
+											{showPasswords ? (
+												<Tooltip title="Hide passwords">
+													<VisibilityRounded />
+												</Tooltip>
+											) : (
+												<Tooltip title="Show passwords">
+													<VisibilityOffRounded />
+												</Tooltip>
+											)}
+										</IconButton>
+									</InputAdornment>
+								}
+								fullWidth
+							/>
+							{errors.password && (
+								<FormHelperText error>{errors.password.message}</FormHelperText>
+							)}
+						</FormControl>
+						<FormControl margin="dense">
+							<InputLabel htmlFor="confirmpassword" margin="dense">
+								Confirm new password
+							</InputLabel>
+							<Input
+								margin="dense"
+								name="confirmpassword"
+								label="Confirm new password"
+								type={showPasswords ? 'text' : 'password'}
+								inputRef={register({
+									required: 'Please confirm password',
+									minLength: {
+										value: 6,
+										message: 'Minimum 6 characters'
+									},
+									maxLength: {
+										value: 20,
+										message: 'Maximum 20 characters'
+									},
+									validate: (value) =>
+										value === watch('password') || 'Passwords must match'
+								})}
+								error={Boolean(errors.confirmpassword)}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}
+											size="small"
+										>
+											{showPasswords ? (
+												<Tooltip title="Hide passwords">
+													<VisibilityRounded />
+												</Tooltip>
+											) : (
+												<Tooltip title="Show passwords">
+													<VisibilityOffRounded />
+												</Tooltip>
+											)}
+										</IconButton>
+									</InputAdornment>
+								}
+								fullWidth
+							/>
+							{errors.confirmpassword && (
+								<FormHelperText error>{errors.confirmpassword.message}</FormHelperText>
+							)}
+						</FormControl>
+						<Box marginY={1.5}>
+							<Button type="submit" variant="contained" color="primary">
+								Update
+							</Button>
+						</Box>
 					</Box>
 				</Collapse>
 				<ListItem
