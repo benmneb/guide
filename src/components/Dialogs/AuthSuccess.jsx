@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
-import { connect } from 'react-redux';
-import * as actionCreators from '../../store/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentUserData } from '../../store/actions';
 import axios from 'axios';
 
-const AuthSuccess = ({ setCurrentUserData, isAuthenticated }) => {
+export default function AuthSuccess() {
+	const dispatch = useDispatch();
+	const isAuthenticated = useSelector((state) => state.isAuthenticated);
+
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
@@ -22,13 +25,15 @@ const AuthSuccess = ({ setCurrentUserData, isAuthenticated }) => {
 			})
 			.then((user) => {
 				if (mounted) {
-					setCurrentUserData({ id: user.user_id, username: user.user_name }, true);
+					dispatch(
+						setCurrentUserData({ id: user.user_id, username: user.user_name }, true)
+					);
 				}
 			})
 			.catch((error) => {
 				if (mounted) {
-					setCurrentUserData(null, false);
-					throw new Error('failed to authenticate user', error);
+					dispatch(setCurrentUserData(null, false));
+					console.error('failed to authenticate user', error);
 				}
 			});
 
@@ -36,30 +41,13 @@ const AuthSuccess = ({ setCurrentUserData, isAuthenticated }) => {
 			mounted = false;
 			source.cancel('Auth call cancelled during clean-up');
 		};
-	}, [setCurrentUserData]);
+	}, [dispatch]);
 
 	if (isAuthenticated) {
 		setTimeout(() => {
-			// window.opener.open('', '_self');
-			// window.opener.focus();
 			window.close();
 		}, 1000);
 	}
 
 	return null;
-};
-
-const mapStateToProps = (state) => {
-	return {
-		isAuthenticated: state.isAuthenticated
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setCurrentUserData: (user, isAuth) =>
-			dispatch(actionCreators.setCurrentUserData(user, isAuth))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AuthSuccess);
+}
