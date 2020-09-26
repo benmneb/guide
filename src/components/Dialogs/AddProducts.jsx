@@ -22,7 +22,7 @@ import {
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
-import { categories } from '../../assets/categories';
+import { categories } from '../../assets/categoriesAZ';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
