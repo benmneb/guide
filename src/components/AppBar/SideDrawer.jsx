@@ -44,7 +44,10 @@ const useStyles = makeStyles((theme) => ({
 	logo: {
 		height: 30,
 		marginTop: 5,
-		marginLeft: -5
+		marginLeft: -5,
+		'&:hover': {
+			cursor: 'pointer'
+		}
 	},
 	nested: {
 		paddingLeft: theme.spacing(4)
@@ -151,6 +154,7 @@ const SideDrawer = ({
 			<Box className={styles.imageBox}>
 				<img
 					className={styles.logo}
+					onClick={() => openMenuItem('home')}
 					src="https://ik.imagekit.io/vomadguide/logo/logo_a_nCYxlAP.png"
 					alt="Vomad Guide: Find Vegan Products Near You"
 				/>

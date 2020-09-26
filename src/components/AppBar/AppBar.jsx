@@ -36,7 +36,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logo: {
 		height: 25,
-		marginTop: theme.spacing(0.5)
+		marginTop: theme.spacing(0.5),
+		'&:hover': {
+			cursor: 'pointer'
+		}
 	},
 	search: {
 		position: 'relative',
@@ -168,7 +171,10 @@ function TopBar({
 					>
 						<MenuRounded />
 					</IconButton>
-					<Box display={{ xs: 'none', sm: 'inherit', lg: 'none' }}>
+					<Box
+						display={{ xs: 'none', sm: 'inherit', lg: 'none' }}
+						onClick={handleDrawerToggle}
+					>
 						<img
 							className={styles.logo}
 							src="https://ik.imagekit.io/vomadguide/logo/logo_a_nCYxlAP.png"
