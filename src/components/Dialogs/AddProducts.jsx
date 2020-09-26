@@ -141,12 +141,12 @@ export default function AddProducts({ isOpened }) {
 			case 0:
 				return (
 					<>
-						<Typography paragraph>
-							Vegan means it contains no animal ingredients (or ingredients derived from
-							animals) and that the item was not tested on animals. Ingredients like
-							honey, whey powder and fish stock are not vegan.
+						<Typography paragraph color="textSecondary">
+							Vegan means it contains no animal/insect ingredients and that the item was
+							not tested on animals. Ingredients like honey, shellac, gelatin and fish
+							stock are not vegan.
 						</Typography>
-						<Typography>Please tick the box to confirm:</Typography>
+						<Typography color="textSecondary">Please tick the box to confirm:</Typography>
 						<FormGroup row>
 							<FormControlLabel
 								control={
@@ -165,7 +165,7 @@ export default function AddProducts({ isOpened }) {
 			case 1:
 				return (
 					<>
-						<Typography paragraph>
+						<Typography paragraph color="textSecondary">
 							Please include details as they appear on the packaging.
 						</Typography>
 						<Box margin={1}>
@@ -288,7 +288,9 @@ export default function AddProducts({ isOpened }) {
 			case 2:
 				return (
 					<>
-						<Typography paragraph>Select the most appropriate category.</Typography>
+						<Typography paragraph color="textSecondary">
+							Select the most appropriate category.
+						</Typography>
 						<Box margin={1}>
 							<Autocomplete
 								id="grouped-demo"
@@ -396,7 +398,7 @@ export default function AddProducts({ isOpened }) {
 						<Typography paragraph>
 							Thank you for helping people find vegan products easier.
 						</Typography>
-						<Typography paragraph>
+						<Typography paragraph color="textSecondary">
 							Please note that for quality assurance we manually review all submissions
 							before they appear on the Guide.
 						</Typography>
