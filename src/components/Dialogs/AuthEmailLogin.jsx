@@ -119,7 +119,7 @@ export default function AuthEmailLogin() {
 								title: "Couldn't login",
 								message:
 									'Please login with the social account connected to this email, then you may add a password if you wish.',
-								duration: 10000,
+								duration: 12000,
 								action: {
 									text: 'Login with social',
 									clicked: () => dispatch(setIsUsingEmailAuth(false))
@@ -129,6 +129,16 @@ export default function AuthEmailLogin() {
 					);
 				} else {
 					setPending(false);
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								title: "Couldn't login",
+								message:
+									'Something went wrong on our end. Sorry about that, please try again soon.'
+							}
+						})
+					);
 					return console.error(error);
 				}
 			});
