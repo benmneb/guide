@@ -51,9 +51,7 @@ function Advertise({ onShowSnackbar, isOpened }) {
 				title: 'Confirm Close',
 				description:
 					'If you close before submitting you will lose everything you have entered in the advertising form.',
-				confirmationText: 'Close',
-				confirmationButtonProps: { variant: 'contained', color: 'primary' },
-				cancellationButtonProps: { autoFocus: true }
+				confirmationText: 'Close'
 			})
 				.then(() => goBack())
 				.catch(() => null);

@@ -124,90 +124,133 @@ export default function AboutEdit({ hide, show }) {
 	}
 
 	const onSubmitUsername = (data) => {
-		axios
-			.put(`https://api.vomad.guide/auth/update-username/${currentUserId}`, {
-				user_name: data.username
-			})
+		confirm({
+			title: 'Are you sure?',
+			description: `Please confirm you want to change your username to ${data.username}`
+		})
 			.then(() => {
-				dispatch(
-					showSnackbar({
-						snackData: {
-							type: 'success',
-							message: 'Username changed successfully'
-						}
+				axios
+					.put(`https://api.vomad.guide/auth/update-username/${currentUserId}`, {
+						user_name: data.username
 					})
-				);
-				setEditUsername(false);
+					.then(() => {
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'success',
+									message: 'Username changed successfully'
+								}
+							})
+						);
+						setEditUsername(false);
+					})
+					.catch((err) => {
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'error',
+									message: 'Could not update username, please try again soon.'
+								}
+							})
+						);
+					});
 			})
-			.catch((err) => {
-				console.error('Error changing password', err);
-				dispatch(
-					showSnackbar({
-						snackData: {
-							type: 'error',
-							message: 'Could not update username, please try again soon.'
-						}
-					})
-				);
-			});
+			.catch(() => null);
 	};
 
 	const onSubmitEmail = (data) => {
-		axios
-			.put(`https://api.vomad.guide/auth/update-email/${currentUserId}`, {
-				email: data.email
-			})
+		confirm({
+			title: 'Are you sure?',
+			description: `Please confirm you want to change you email to ${data.email}`
+		})
 			.then(() => {
-				dispatch(
-					showSnackbar({
-						snackData: {
-							type: 'warning',
-							message: 'Please check your inbox for a confirmation email'
-						}
+				axios
+					.put(`https://api.vomad.guide/auth/update-email/${currentUserId}`, {
+						email: data.email
 					})
-				);
-				setChangeEmail(false);
+					.then(() => {
+						setChangeEmail(false);
+						return dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'warning',
+									title: 'Email changed',
+									message: 'Please check your inbox for a confirmation email'
+								}
+							})
+						);
+					})
+					.catch((err) => {
+						if (err.response.data === 'must enter a different email') {
+							return dispatch(
+								showSnackbar({
+									snackData: {
+										type: 'error',
+										title: 'Email must be different',
+										message:
+											'The email you entered is the same as the one you are trying to change!'
+									}
+								})
+							);
+						}
+						if (err.response.data === 'email associated with another account') {
+							return dispatch(
+								showSnackbar({
+									snackData: {
+										type: 'error',
+										title: 'Email exists',
+										message: 'That email is already associated with another account.'
+									}
+								})
+							);
+						}
+						return dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'error',
+									message: 'Could not change email, please try again soon.'
+								}
+							})
+						);
+					});
 			})
-			.catch((err) => {
-				console.error('Error changing email', err);
-				dispatch(
-					showSnackbar({
-						snackData: {
-							type: 'error',
-							message: 'Could not change email, please try again soon.'
-						}
-					})
-				);
-			});
+			.catch(() => null);
 	};
 
 	const onSubmitPassword = (data) => {
-		axios
-			.post(`https://api.vomad.guide/auth/update-password/${currentUserId}`, {
-				password: data.password
-			})
+		confirm({
+			title: 'Are you sure?',
+			description: `Please confirm you want to update your password.`
+		})
 			.then(() => {
-				dispatch(
-					showSnackbar({
-						snackData: {
-							type: 'success',
-							message: 'Password successfully updated'
-						}
+				axios
+					.post(`https://api.vomad.guide/auth/update-password/${currentUserId}`, {
+						password: data.password
 					})
-				);
-				setUpdatePassword(false);
+					.then(() => {
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'success',
+									message: 'Password successfully updated'
+								}
+							})
+						);
+						setUpdatePassword(false);
+					})
+					.catch((err) => {
+						console.error('Error changing password', err);
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'error',
+									message: 'Could not update password, please try again soon.'
+								}
+							})
+						);
+					});
 			})
-			.catch((err) => {
-				console.error('Error changing password', err);
-				dispatch(
-					showSnackbar({
-						snackData: {
-							type: 'error',
-							message: 'Could not update password, please try again soon.'
-						}
-					})
-				);
-			});
+			.catch(() => null);
 	};
 
 	const handleClickShowPassword = () => {
@@ -223,8 +266,7 @@ export default function AboutEdit({ hide, show }) {
 			title: 'Delete Account?',
 			description: 'Please confirm you want to delete your account.',
 			confirmationText: 'Delete Account',
-			confirmationButtonProps: { className: styles.deleteAccount },
-			cancellationButtonProps: { autoFocus: true }
+			confirmationButtonProps: { className: styles.deleteAccount }
 		})
 			.then(() => console.info('TODO: DELETE ACCOUNT PLZZ HESHAM'))
 			.catch(() => null);
@@ -302,9 +344,10 @@ export default function AboutEdit({ hide, show }) {
 						component="form"
 						onSubmit={handleSubmit(onSubmitEmail)}
 						display="flex"
-						alignItems="baseline"
+						flexDirection="column"
+						alignItems="center"
 						justifyContent="space-evenly"
-						marginY={2}
+						marginY={1}
 					>
 						<TextField
 							id="change-email"
@@ -323,11 +366,12 @@ export default function AboutEdit({ hide, show }) {
 							error={Boolean(errors.email)}
 							helperText={Boolean(errors.email) && errors.email.message}
 							autoFocus
-							classes={{ root: styles.textFieldRoot }}
 						/>
-						<Button type="submit" variant="contained" color="primary">
-							Change
-						</Button>
+						<Box marginY={1.5}>
+							<Button type="submit" variant="contained" color="primary">
+								Change
+							</Button>
+						</Box>
 					</Box>
 				</Collapse>
 				<ListItem

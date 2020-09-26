@@ -111,9 +111,7 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 		confirm({
 			title: 'Log Out?',
 			description: 'Please confirm you want to log out of your account.',
-			confirmationText: 'Log out',
-			confirmationButtonProps: { variant: 'contained', color: 'primary' },
-			cancellationButtonProps: { autoFocus: true }
+			confirmationText: 'Log out'
 		})
 			.then(() => {
 				setCurrentUserData(null, false);

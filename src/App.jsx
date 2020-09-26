@@ -68,10 +68,16 @@ let theme = createMuiTheme({
 
 theme = responsiveFontSizes(theme);
 
+const defaultOptions = {
+	confirmationText: 'Confirm',
+	confirmationButtonProps: { variant: 'contained' },
+	cancellationButtonProps: { autoFocus: true }
+};
+
 export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
-			<ConfirmProvider>
+			<ConfirmProvider defaultOptions={defaultOptions}>
 				<CssBaseline />
 				<LoadingBar />
 				<AppBar>

@@ -163,9 +163,7 @@ export default function AuthResetPassword({ isOpened }) {
 		confirm({
 			description:
 				'Do you really want to close this modal before setting a new password?',
-			confirmationText: 'Close',
-			confirmationButtonProps: { variant: 'contained', color: 'primary' },
-			cancellationButtonProps: { autoFocus: true }
+			confirmationText: 'Close'
 		})
 			.then(() => goBack())
 			.catch(() => null);

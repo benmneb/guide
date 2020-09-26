@@ -50,9 +50,7 @@ function Feedback({ onShowSnackbar, isOpened }) {
 				title: 'Confirm Close',
 				description:
 					'You have started entering feedback, if you close this modal you will lose what you have entered.',
-				confirmationText: 'Close',
-				confirmationButtonProps: { variant: 'contained', color: 'primary' },
-				cancellationButtonProps: { autoFocus: true }
+				confirmationText: 'Close'
 			})
 				.then(() => goBack())
 				.catch(() => null);
