@@ -1,15 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Snackbar, Button, IconButton } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import CloseRoundedIcon from '@material-ui/icons/Close';
-import * as actionCreators from '../../store/actions';
+import { hideSnackbar } from '../../store/actions';
 
-function Snackbars({ snackData, showSnackbar, onHideSnackbar }) {
+export default function Snackbars() {
+	const dispatch = useDispatch();
+	const snackData = useSelector((state) => state.snackData);
+	const showSnackbar = useSelector((state) => state.showSnackbar);
+
 	const handleCloseSnack = (event, reason) => {
 		if (reason !== 'clickaway') {
-			onHideSnackbar();
+			dispatch(hideSnackbar());
 		}
 	};
 
@@ -58,35 +61,3 @@ function Snackbars({ snackData, showSnackbar, onHideSnackbar }) {
 		</Snackbar>
 	);
 }
-
-Snackbars.propTypes = {
-	snackData: PropTypes.exact({
-		type: PropTypes.oneOf(['error', 'info', 'success', 'warning']),
-		color: PropTypes.oneOf(['error', 'info', 'success', 'warning']),
-		title: PropTypes.string,
-		message: PropTypes.string,
-		emoji: PropTypes.string,
-		duration: PropTypes.number,
-		action: PropTypes.exact({
-			text: PropTypes.string,
-			clicked: PropTypes.func
-		})
-	}).isRequired,
-	showSnackbar: PropTypes.bool.isRequired,
-	onHideSnackbar: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state) => {
-	return {
-		showSnackbar: state.showSnackbar,
-		snackData: state.snackData
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onHideSnackbar: () => dispatch(actionCreators.hideSnackbar())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Snackbars);
