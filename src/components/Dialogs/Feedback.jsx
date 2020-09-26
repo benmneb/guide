@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import DialogTitle from '../../utils/DialogTitle';
@@ -25,9 +25,14 @@ function Feedback({ onShowSnackbar, isOpened }) {
 	const confirm = useConfirm();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const { register, handleSubmit, errors, getValues } = useForm();
+	const [pending, setPending] = useState(false);
 
 	const onSubmit = (data) => {
 		console.log('data', data);
+		setPending(true);
+		setTimeout(() => {
+			setPending(false);
+		}, 1000);
 		onShowSnackbar({
 			snackData: {
 				type: 'success',
@@ -139,7 +144,7 @@ function Feedback({ onShowSnackbar, isOpened }) {
 							type="submit"
 							variant="contained"
 							color="primary"
-							// pending={pending}
+							pending={pending}
 							endIcon={<SendRoundedIcon />}
 						>
 							Submit

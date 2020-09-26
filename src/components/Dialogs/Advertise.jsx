@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import DialogTitle from '../../utils/DialogTitle';
@@ -22,12 +22,17 @@ import LoadingButton from '../../utils/LoadingButton';
 function Advertise({ onShowSnackbar, isOpened }) {
 	const history = useHistory();
 	const location = useLocation();
+	const confirm = useConfirm();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const { register, handleSubmit, errors, getValues } = useForm();
-	const confirm = useConfirm();
+	const [pending, setPending] = useState(false);
 
 	const onSubmit = (data) => {
 		console.log('data', data);
+		setPending(true);
+		setTimeout(() => {
+			setPending(false);
+		}, 1000);
 		onShowSnackbar({
 			snackData: {
 				type: 'success',
@@ -141,7 +146,7 @@ function Advertise({ onShowSnackbar, isOpened }) {
 							type="submit"
 							variant="contained"
 							color="primary"
-							// pending={pending}
+							pending={pending}
 							endIcon={<SendRoundedIcon />}
 						>
 							Submit
