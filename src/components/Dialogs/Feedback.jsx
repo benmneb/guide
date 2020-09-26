@@ -5,6 +5,7 @@ import DialogTitle from '../../utils/DialogTitle';
 import SendRoundedIcon from '@material-ui/icons/Send';
 import {
 	Dialog,
+	DialogActions,
 	DialogContent,
 	DialogContentText,
 	Button,
@@ -14,6 +15,7 @@ import {
 	Box
 } from '@material-ui/core';
 import * as actionCreators from '../../store/actions';
+import LoadingButton from '../../utils/LoadingButton';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
 
@@ -88,7 +90,7 @@ function Feedback({ onShowSnackbar, isOpened }) {
 						Thank you for helping people find vegan products easier.
 					</Typography>
 				</DialogContentText>
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<Box component="form" onSubmit={handleSubmit(onSubmit)}>
 					<TextField
 						margin="dense"
 						name="feedback"
@@ -133,17 +135,19 @@ function Feedback({ onShowSnackbar, isOpened }) {
 						helperText={Boolean(errors.email) && errors.email.message}
 						fullWidth
 					/>
-					<Box display="flex" justifyContent="flex-end">
-						<Button
+					<DialogActions style={{ paddingRight: 0 }}>
+						<Button onClick={onClose}>Cancel</Button>
+						<LoadingButton
 							type="submit"
-							color="default"
-							size="large"
+							variant="contained"
+							color="primary"
+							// pending={pending}
 							endIcon={<SendRoundedIcon />}
 						>
 							Submit
-						</Button>
-					</Box>
-				</form>
+						</LoadingButton>
+					</DialogActions>
+				</Box>
 			</DialogContent>
 		</Dialog>
 	);

@@ -5,6 +5,7 @@ import DialogTitle from '../../utils/DialogTitle';
 import SendRoundedIcon from '@material-ui/icons/Send';
 import {
 	Dialog,
+	DialogActions,
 	DialogContent,
 	DialogContentText,
 	Button,
@@ -16,6 +17,7 @@ import {
 import * as actionCreators from '../../store/actions';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
+import LoadingButton from '../../utils/LoadingButton';
 
 function Advertise({ onShowSnackbar, isOpened }) {
 	const history = useHistory();
@@ -89,7 +91,7 @@ function Advertise({ onShowSnackbar, isOpened }) {
 						Support an independent vegan start-up.
 					</Typography>
 				</DialogContentText>
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<Box component="form" onSubmit={handleSubmit(onSubmit)}>
 					<TextField
 						autoFocus
 						margin="dense"
@@ -135,17 +137,19 @@ function Advertise({ onShowSnackbar, isOpened }) {
 						helperText={Boolean(errors.message) && errors.message.message}
 						fullWidth
 					/>
-					<Box display="flex" justifyContent="flex-end">
-						<Button
+					<DialogActions style={{ paddingRight: 0 }}>
+						<Button onClick={onClose}>Cancel</Button>
+						<LoadingButton
 							type="submit"
-							color="default"
-							size="large"
+							variant="contained"
+							color="primary"
+							// pending={pending}
 							endIcon={<SendRoundedIcon />}
 						>
 							Submit
-						</Button>
-					</Box>
-				</form>
+						</LoadingButton>
+					</DialogActions>
+				</Box>
 			</DialogContent>
 		</Dialog>
 	);
