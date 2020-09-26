@@ -1,11 +1,12 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import * as actionCreators from '../../store/actions';
+import { showSnackbar } from '../../store/actions';
 import {
 	Button,
 	Checkbox,
 	Dialog,
+	DialogActions,
 	DialogContent,
 	FormControlLabel,
 	FormGroup,
@@ -48,12 +49,13 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function AddProducts({ onShowSnackbar, isOpened }) {
+export default function AddProducts({ isOpened }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const location = useLocation();
 	const theme = useTheme();
 	const steps = getSteps();
+	const dispatch = useDispatch();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
 	const [activeStep, setActiveStep] = useState(0);
@@ -74,14 +76,16 @@ function AddProducts({ onShowSnackbar, isOpened }) {
 			return;
 		}
 		if (activeStep === steps.length - 1) {
-			onShowSnackbar({
-				snackData: {
-					type: 'success',
-					title: 'Submission Received',
-					message: 'Thank you for helping people find vegan products easier',
-					emoji: '💪'
-				}
-			});
+			dispatch(
+				showSnackbar({
+					snackData: {
+						type: 'success',
+						title: 'Submission received',
+						message: 'Thank you for helping people find vegan products easier',
+						emoji: '💪'
+					}
+				})
+			);
 			console.log(
 				`user $userId suggested to add 
 			brand: "${brandname.name}", 
@@ -396,21 +400,15 @@ function AddProducts({ onShowSnackbar, isOpened }) {
 							Please note that for quality assurance we manually review all submissions
 							before they appear on the Guide.
 						</Typography>
-						<Box display="flex" justifyContent="flex-end">
-							<Button onClick={handleReset}>Add another product</Button>
-						</Box>
+						<DialogActions style={{ padding: 0 }}>
+							<Button onClick={onClose}>Close</Button>
+							<Button onClick={handleReset} variant="contained" color="primary">
+								Add another product
+							</Button>
+						</DialogActions>
 					</Box>
 				)}
 			</DialogContent>
 		</Dialog>
 	);
 }
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
-	};
-};
-
-export default connect(null, mapDispatchToProps)(AddProducts);
