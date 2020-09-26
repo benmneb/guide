@@ -23,35 +23,126 @@ import {
 } from '@material-ui/core';
 import { VisibilityOffRounded, VisibilityRounded } from '@material-ui/icons';
 import LoadingButton from '../../utils/LoadingButton';
+import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 export default function AuthResetPassword({ isOpened }) {
 	const history = useHistory();
 	const location = useLocation();
 	const confirm = useConfirm();
 	const dispatch = useDispatch();
+	const token = location.search.split('token=')[1];
 	const { register, handleSubmit, errors, watch } = useForm();
 	const [pending, setPending] = useState(false);
 	const [showPasswords, setShowPasswords] = useState(false);
+
+	const authLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.signIn
+		}
+	});
+
+	const goBack = useCallback(() => {
+		history.push(location.pathname);
+	}, [history, location.pathname]);
+
+	const handleClickShowPassword = () => {
+		setShowPasswords(!showPasswords);
+	};
+
+	const handleMouseDownPassword = (event) => {
+		event.preventDefault();
+	};
+
+	function goToLoginModal() {
+		history.push(authLink);
+	}
+
+	useEffect(() => {
+		let mounted = true;
+		const source = axios.CancelToken.source();
+
+		if (!token) {
+			return goBack();
+		}
+
+		if (mounted) {
+			axios
+				.get(
+					'https://api.vomad.guide/auth/reset-password',
+					{
+						params: {
+							reset_token: token
+						}
+					},
+					{
+						cancelToken: source.token
+					}
+				)
+				.then((response) => {
+					if (response.data.message === 'password reset link a-ok') {
+					}
+				})
+				.catch((error) => {
+					if (mounted) {
+						if (
+							error.response &&
+							error.response.data === 'password reset link is invalid or has expired'
+						) {
+							dispatch(
+								showSnackbar({
+									snackData: {
+										type: 'error',
+										message:
+											'The password reset link you used is invalid or has expired. Please check the link or request a new one.',
+										duration: 12000
+									}
+								})
+							);
+							goBack();
+						} else {
+							dispatch(
+								showSnackbar({
+									snackData: {
+										type: 'error',
+										title: 'Could not load password reset form',
+										message: error.message
+									}
+								})
+							);
+							goBack();
+						}
+					}
+				});
+		}
+
+		return () => {
+			mounted = false;
+			setPending(false);
+			source.cancel('Auth reset cancelled during clean-up');
+		};
+	}, [dispatch, goBack, location.search, token]);
 
 	function onSubmit(data) {
 		console.log(data);
 		setPending(true);
 
 		axios
-			.post('https://api.vomad.guide/reset-password', {
-				password: data.password
+			.put('https://api.vomad.guide/auth/update-reset-password', {
+				password: data.password,
+				reset_token: token
 			})
 			.then(() => {
 				dispatch(
 					showSnackbar({
 						snackData: {
 							type: 'success',
-							message: 'Password succesfully updated.'
+							title: 'Password succesfully updated',
+							message: 'Please login to your account to begin.'
 						}
 					})
 				);
 				setPending(false);
-				onClose();
+				goToLoginModal();
 			})
 			.catch((err) => {
 				console.error(err);
@@ -68,14 +159,6 @@ export default function AuthResetPassword({ isOpened }) {
 			});
 	}
 
-	useEffect(() => {
-		return () => setPending(false);
-	}, []);
-
-	const goBack = useCallback(() => {
-		history.push(location.pathname);
-	}, [history, location.pathname]);
-
 	function onClose() {
 		confirm({
 			description:
@@ -87,14 +170,6 @@ export default function AuthResetPassword({ isOpened }) {
 			.then(() => goBack())
 			.catch(() => null);
 	}
-
-	const handleClickShowPassword = () => {
-		setShowPasswords(!showPasswords);
-	};
-
-	const handleMouseDownPassword = (event) => {
-		event.preventDefault();
-	};
 
 	return (
 		<Dialog
@@ -114,6 +189,7 @@ export default function AuthResetPassword({ isOpened }) {
 								Password
 							</InputLabel>
 							<Input
+								autoFocus
 								margin="dense"
 								name="password"
 								label="Password"
@@ -136,7 +212,6 @@ export default function AuthResetPassword({ isOpened }) {
 											aria-label="toggle password visibility"
 											onClick={handleClickShowPassword}
 											onMouseDown={handleMouseDownPassword}
-											size="small"
 										>
 											{showPasswords ? (
 												<Tooltip title="Hide passwords">
@@ -185,7 +260,6 @@ export default function AuthResetPassword({ isOpened }) {
 											aria-label="toggle password visibility"
 											onClick={handleClickShowPassword}
 											onMouseDown={handleMouseDownPassword}
-											size="small"
 										>
 											{showPasswords ? (
 												<Tooltip title="Hide passwords">
@@ -214,7 +288,7 @@ export default function AuthResetPassword({ isOpened }) {
 							color="primary"
 							pending={pending}
 						>
-							Reset
+							Submit
 						</LoadingButton>
 					</DialogActions>
 				</Box>
