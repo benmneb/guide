@@ -176,6 +176,16 @@ export function Footer({ textAlign, forPage }) {
 		);
 	}
 
+	if (forPage === 'prodType') {
+		return (
+			<Box display={{ xs: 'none', md: 'block' }}>
+				<Typography align={textAlign} paragraph color="textSecondary">
+					Select a category from below to see products, reviews, stores and more.
+				</Typography>
+			</Box>
+		);
+	}
+
 	if (forPage === '404') {
 		return (
 			<Box>
@@ -192,7 +202,7 @@ export function Footer({ textAlign, forPage }) {
 }
 
 Footer.propTypes = {
-	forPage: PropTypes.oneOf(['category', '404']),
+	forPage: PropTypes.oneOf(['category', 'prodType', '404']),
 	textAlign: PropTypes.oneOf(['left', 'center'])
 };
 
