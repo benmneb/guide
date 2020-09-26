@@ -86,6 +86,8 @@ const SideDrawer = ({
 				return history.push(userProfileLink);
 			case 'foodDrink':
 				return history.push('/food-drink');
+			case 'household':
+				return history.push('/household');
 			case 'addProducts':
 				return history.push(addProductsLink);
 			case 'supportUs':
@@ -173,7 +175,7 @@ const SideDrawer = ({
 					</ListItemIcon>
 					<ListItemText primary={'Food & Drink'} />
 				</ListItem>
-				<ListItem button>
+				<ListItem button onClick={() => openMenuItem('household')}>
 					<ListItemIcon>
 						<BathtubRoundedIcon />
 					</ListItemIcon>
