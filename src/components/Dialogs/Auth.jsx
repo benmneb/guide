@@ -7,7 +7,7 @@ import { loadCSS } from 'fg-loadcss';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import { Dialog, Button, Icon, Box, useTheme } from '@material-ui/core';
+import { Dialog, Button, Icon, Box } from '@material-ui/core';
 import { Facebook, Twitter, MailOutlineRounded } from '@material-ui/icons';
 import { indigo, red, blue, grey } from '@material-ui/core/colors';
 import AuthEmail from './AuthEmail';
@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Auth({ isOpened }) {
-	const theme = useTheme();
 	const styles = useStyles();
 	const location = useLocation();
 	const history = useHistory();
@@ -90,10 +89,10 @@ export default function Auth({ isOpened }) {
 	}, [history, location.pathname, location.search]);
 
 	function onClose() {
+		goBack();
 		setTimeout(() => {
 			dispatch(setIsUsingEmailAuth(false));
-		}, theme.transitions.duration.leavingScreen);
-		goBack();
+		}, 300);
 	}
 
 	useEffect(() => {
