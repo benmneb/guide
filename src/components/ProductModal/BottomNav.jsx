@@ -32,9 +32,17 @@ export default function BottomNav(props) {
 				showLabels
 				className={styles.bottomNav}
 			>
-				<BottomNavigationAction label="About" icon={<InfoRoundedIcon />} />
-				<BottomNavigationAction label="Reviews" icon={<RateReviewRoundedIcon />} />
-				<BottomNavigationAction label="Where to Buy" icon={<MapRoundedIcon />} />
+				<BottomNavigationAction label="About" value="about" icon={<InfoRoundedIcon />} />
+				<BottomNavigationAction
+					label="Reviews"
+					value="reviews"
+					icon={<RateReviewRoundedIcon />}
+				/>
+				<BottomNavigationAction
+					label="Where to Buy"
+					value="where-to-buy"
+					icon={<MapRoundedIcon />}
+				/>
 			</BottomNavigation>
 		</Box>
 	);
