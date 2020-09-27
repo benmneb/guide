@@ -3,73 +3,73 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import { Typography, Link, Box } from '@material-ui/core';
-import { makeStyles, fade } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
-export default function Hero({ children, textAlign, bgImage, hide }) {
-	// JSS has to be inside the function because it receives props for the bgImage
-	const useStyles = makeStyles((theme) => ({
-		container: {
-			backgroundColor: theme.palette.background.paper,
-			zIndex: theme.zIndex.appBar + 1,
-			[theme.breakpoints.only('xs')]: {
-				height: 350
-			},
-			[theme.breakpoints.up('sm')]: {
-				height: 300
-			}
+// JSS has to be inside the function if it receives props for the bgImage
+const useStyles = makeStyles((theme) => ({
+	container: {
+		backgroundColor: theme.palette.background.paper,
+		zIndex: theme.zIndex.appBar + 1,
+		[theme.breakpoints.only('xs')]: {
+			height: 375
 		},
-		hasBgImage: {
-			[theme.breakpoints.only('xs')]: {
-				background: `radial-gradient(farthest-corner at ${
-					theme.breakpoints.values.sm
-				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
-					theme.palette.background.paper,
-					1
-				)} 70%), url(${bgImage}) center / cover no-repeat`
-			},
-			[theme.breakpoints.only('sm')]: {
-				background: `radial-gradient(farthest-corner at ${
-					theme.breakpoints.values.md
-				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
-					theme.palette.background.paper,
-					1
-				)} 70%), url(${bgImage}) center / cover no-repeat`
-			},
-			[theme.breakpoints.up('md')]: {
-				background: `radial-gradient(farthest-corner at ${
-					theme.breakpoints.values.lg
-				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
-					theme.palette.background.paper,
-					1
-				)} 70%), url(${bgImage}) center / cover no-repeat`
-			},
-			[theme.breakpoints.up('xl')]: {
-				background: `radial-gradient(farthest-corner at ${
-					theme.breakpoints.values.xl
-				}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
-					theme.palette.background.paper,
-					1
-				)} 70%), url(${bgImage}) center / cover no-repeat`
-			}
-		},
-		content: {
-			top: theme.mixins.toolbar.minHeight / 2,
-			zIndex: theme.zIndex.appBar + 1,
-			[theme.breakpoints.only('xs')]: {
-				width: '85%',
-				margin: theme.spacing(0, 2)
-			},
-			[theme.breakpoints.up('sm')]: {
-				width: '75%',
-				margin: theme.spacing(0, 3)
-			}
-		},
-		displayNone: {
-			display: 'none'
+		[theme.breakpoints.up('sm')]: {
+			height: 350
 		}
-	}));
+	},
+	// hasBgImage: {
+	// 	[theme.breakpoints.only('xs')]: {
+	// 		background: `radial-gradient(farthest-corner at ${
+	// 			theme.breakpoints.values.sm
+	// 		}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+	// 			theme.palette.background.paper,
+	// 			1
+	// 		)} 70%), url(${bgImage}) center / cover no-repeat`
+	// 	},
+	// 	[theme.breakpoints.only('sm')]: {
+	// 		background: `radial-gradient(farthest-corner at ${
+	// 			theme.breakpoints.values.md
+	// 		}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+	// 			theme.palette.background.paper,
+	// 			1
+	// 		)} 70%), url(${bgImage}) center / cover no-repeat`
+	// 	},
+	// 	[theme.breakpoints.up('md')]: {
+	// 		background: `radial-gradient(farthest-corner at ${
+	// 			theme.breakpoints.values.lg
+	// 		}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+	// 			theme.palette.background.paper,
+	// 			1
+	// 		)} 70%), url(${bgImage}) center / cover no-repeat`
+	// 	},
+	// 	[theme.breakpoints.up('xl')]: {
+	// 		background: `radial-gradient(farthest-corner at ${
+	// 			theme.breakpoints.values.xl
+	// 		}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
+	// 			theme.palette.background.paper,
+	// 			1
+	// 		)} 70%), url(${bgImage}) center / cover no-repeat`
+	// 	}
+	// },
+	content: {
+		top: theme.mixins.toolbar.minHeight / 2,
+		zIndex: theme.zIndex.appBar + 1,
+		[theme.breakpoints.only('xs')]: {
+			width: '85%',
+			margin: theme.spacing(0, 2)
+		},
+		[theme.breakpoints.up('sm')]: {
+			width: '75%',
+			margin: theme.spacing(0, 3)
+		}
+	},
+	displayNone: {
+		display: 'none'
+	}
+}));
 
+export default function Hero({ children, textAlign, bgImage, hide }) {
 	const styles = useStyles();
 
 	let justifyContent = 'flex-start';

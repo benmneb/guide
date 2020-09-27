@@ -11,10 +11,10 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.background.paper,
 		zIndex: theme.zIndex.appBar + 1,
 		[theme.breakpoints.only('xs')]: {
-			height: 350
+			height: 375
 		},
 		[theme.breakpoints.up('sm')]: {
-			height: 300
+			height: 350
 		}
 	},
 	content: {
