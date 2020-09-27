@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { Link, useHistory } from 'react-router-dom';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	AppBar,
 	Toolbar,
@@ -14,8 +14,11 @@ import {
 import { MenuRounded, SearchRounded, AccountCircleRounded } from '@material-ui/icons';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SideDrawer from './SideDrawer';
-import * as actionCreators from '../../store/actions';
-import { setIsUsingEmailAuthRoute } from '../../store/actions';
+import {
+	setIsUsingEmailAuthRoute,
+	showSnackbar,
+	showSideDrawer
+} from '../../store/actions';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
@@ -95,32 +98,29 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function TopBar({
-	setCurrentUserData,
-	currentUserData,
-	setShowSideDrawer,
-	showFiltersPanel,
-	setShowSnackbar,
-	isAuthenticated,
-	...props
-}) {
+export default function TopBar({ children }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const dispatch = useDispatch();
+	const currentUserData = useSelector((state) => state.currentUserData);
+	const showFiltersPanel = useSelector((state) => state.showFiltersPanel);
+	const isAuthenticated = useSelector((state) => state.isAuthenticated);
 
 	useEffect(() => {
 		if (isAuthenticated) {
-			setShowSnackbar({
-				snackData: {
-					type: 'success',
-					message: 'Welcome back, ' + currentUserData.username
-				}
-			});
+			dispatch(
+				showSnackbar({
+					snackData: {
+						type: 'success',
+						message: 'Welcome back, ' + currentUserData.username
+					}
+				})
+			);
 		}
-	}, [isAuthenticated, setShowSnackbar, currentUserData]);
+	}, [isAuthenticated, dispatch, currentUserData]);
 
 	const handleDrawerToggle = () => {
-		setShowSideDrawer();
+		dispatch(showSideDrawer());
 	};
 
 	function handleLoginClick() {
@@ -246,29 +246,8 @@ function TopBar({
 			<SideDrawer />
 
 			<Box component="main" className={styles.content}>
-				{props.children}
+				{children}
 			</Box>
 		</Box>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		showFiltersPanel: state.showFiltersPanel,
-		showSideDrawer: state.showSideDrawer,
-		currentUserData: state.currentUserData,
-		isAuthenticated: state.isAuthenticated
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setShowSideDrawer: () => dispatch(actionCreators.showSideDrawer()),
-		setCurrentUserData: (user, isAuth) =>
-			dispatch(actionCreators.setCurrentUserData(user, isAuth)),
-		setShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TopBar);
