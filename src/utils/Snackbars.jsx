@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Snackbar, Button, IconButton } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import CloseRoundedIcon from '@material-ui/icons/Close';
-import { hideSnackbar } from '../../store/actions';
+import { hideSnackbar } from '../store/actions';
 
 export default function Snackbars() {
 	const dispatch = useDispatch();

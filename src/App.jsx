@@ -15,7 +15,7 @@ import Advertise from './components/Dialogs/Advertise';
 import Privacy from './components/Dialogs/Privacy';
 import Terms from './components/Dialogs/Terms';
 import Feedback from './components/Dialogs/Feedback';
-import Snackbars from './components/Dialogs/Snackbars';
+import Snackbars from './utils/Snackbars';
 import Auth from './components/Dialogs/Auth';
 import UserProfile from './components/Dialogs/UserProfile';
 import Categories from './components/categories/Categories';
@@ -91,10 +91,7 @@ export default function App() {
 						<Route path="/:productType/:category">
 							<ResultsList />
 						</Route>
-						<Route path="/food-drink">
-							<Categories />
-						</Route>
-						<Route path="/household">
+						<Route path="/:productType">
 							<Categories />
 						</Route>
 						<Route>
