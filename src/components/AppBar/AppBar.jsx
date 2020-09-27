@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { Link, useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import {
 	AppBar,
 	Toolbar,
@@ -15,6 +15,7 @@ import { MenuRounded, SearchRounded, AccountCircleRounded } from '@material-ui/i
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SideDrawer from './SideDrawer';
 import * as actionCreators from '../../store/actions';
+import { setIsUsingEmailAuthRoute } from '../../store/actions';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
@@ -105,6 +106,7 @@ function TopBar({
 }) {
 	const styles = useStyles();
 	const history = useHistory();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (isAuthenticated) {
@@ -121,7 +123,13 @@ function TopBar({
 		setShowSideDrawer();
 	};
 
-	function handleLoginSignUpClick() {
+	function handleLoginClick() {
+		dispatch(setIsUsingEmailAuthRoute('login'));
+		history.push(authLink);
+	}
+
+	function handleSignUpClick() {
+		dispatch(setIsUsingEmailAuthRoute('join'));
 		history.push(authLink);
 	}
 
@@ -220,16 +228,12 @@ function TopBar({
 						) : (
 							<>
 								<Box marginLeft={1}>
-									<Button variant="outlined" onClick={handleLoginSignUpClick}>
+									<Button variant="outlined" onClick={handleLoginClick}>
 										Login
 									</Button>
 								</Box>
 								<Box marginLeft={1}>
-									<Button
-										variant="contained"
-										color="primary"
-										onClick={handleLoginSignUpClick}
-									>
+									<Button variant="contained" color="primary" onClick={handleSignUpClick}>
 										Sign up
 									</Button>
 								</Box>
