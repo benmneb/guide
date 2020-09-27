@@ -155,17 +155,27 @@ SubHeading.defaultProps = {
 
 ///////// FOOTER
 
-export function Footer({ textAlign, forPage }) {
+export function Footer({ textAlign, forPage, children }) {
 	const addProductsLink = usePrepareLink({
 		query: {
 			[getParams.popup]: getEnums.popup.addProducts
 		}
 	});
 
+	if (children) {
+		return (
+			<Box display={{ xs: 'none', md: 'block' }}>
+				<Typography align={textAlign} paragraph color="textSecondary">
+					{children}
+				</Typography>
+			</Box>
+		);
+	}
+
 	if (forPage === 'category') {
 		return (
 			<Box display={{ xs: 'none', md: 'block' }}>
-				<Typography align={textAlign} paragraph>
+				<Typography align={textAlign} paragraph color="textSecondary">
 					You can{' '}
 					<Link underline="hover" component={RouterLink} to={addProductsLink}>
 						add any missing products
@@ -203,7 +213,8 @@ export function Footer({ textAlign, forPage }) {
 
 Footer.propTypes = {
 	forPage: PropTypes.oneOf(['category', 'prodType', '404']),
-	textAlign: PropTypes.oneOf(['left', 'center'])
+	textAlign: PropTypes.oneOf(['left', 'center']),
+	children: PropTypes.node
 };
 
 Footer.defaultProps = {

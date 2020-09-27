@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { GridListTile, GridListTileBar, Box } from '@material-ui/core';
 import { subCat1s } from '../../assets/subCat1s';
-import Hero, { Heading, SubHeading } from '../Hero/Hero';
+import Hero, { Footer, Heading, SubHeading } from '../Hero/Hero';
 import ScrollToTopOnMount from '../../utils/ScrollToTop';
 
 const useStyles = makeStyles((theme) => ({
@@ -73,9 +73,11 @@ const SubCat1s = () => {
 				<Heading>Find Vegan Products</Heading>
 				<SubHeading>
 					The Vomad Guide is a free crowd-sourced collection of 100% plant-based products.
-					There are 12,815 vegan products in 212 categories in 576 stores and 54 online
-					stores within Australia.
 				</SubHeading>
+				<Footer>
+					There are 12,815 vegan products in 212 categories from 663 brands in 576 stores
+					and 54 online stores within Australia.
+				</Footer>
 			</Hero>
 			<Box className={styles.root}>
 				<Box className={styles.container}>
