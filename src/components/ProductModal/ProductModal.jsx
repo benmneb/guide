@@ -102,8 +102,10 @@ const ProductModal = ({
 	};
 
 	const goBack = useCallback(() => {
-		const releventPath = location.pathname.match(/^([^/]*\/){3}/)[0].slice(0, -1); // cuts off everything after the category
-		history.push(releventPath);
+		if (location.pathname) {
+			const releventPath = location.pathname.match(/^([^/]*\/){3}/)[0].slice(0, -1); // cuts off everything after the category
+			history.push(releventPath);
+		}
 	}, [history, location.pathname]);
 
 	const onClose = () => {
