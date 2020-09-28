@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import debounce from 'lodash.debounce';
 import * as actionCreators from '../../store/actions';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
@@ -101,12 +102,13 @@ const ProductModal = ({
 			});
 	};
 
-	const goBack = useCallback(() => {
-		if (location.pathname) {
+	const goBack = debounce(
+		useCallback(() => {
 			const releventPath = location.pathname.match(/^([^/]*\/){3}/)[0].slice(0, -1); // cuts off everything after the category
 			history.push(releventPath);
-		}
-	}, [history, location.pathname]);
+		}, [history, location.pathname]),
+		300
+	);
 
 	const onClose = () => {
 		goBack();
