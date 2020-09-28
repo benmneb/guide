@@ -12,7 +12,7 @@ import {
 	Hidden
 } from '@material-ui/core';
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRight';
-import { prodType } from '../../assets/prodTypes';
+import { subCat1s } from '../../assets/subCat1s';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import useWidth from '../../utils/useWidth';
 
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function ProductType() {
+export default function Household() {
 	const styles = useStyles();
 	const width = useWidth();
 	const [cols, setCols] = useState(null);
@@ -97,33 +97,39 @@ export default function ProductType() {
 	return (
 		<>
 			<Hero>
-				<Heading>Vegan {prodType.name} Products</Heading>
+				<Heading>Vegan Household Products</Heading>
 				<SubHeading>
-					There are {prodType.totalProducts} vegan {prodType.name.toLowerCase()} products
-					in {prodType.totalCategories} categories within Australia from{' '}
-					{prodType.totalBrands} brands.
+					There are 6,143 vegan household products in 128 categories within Australia from
+					312 brands.
 				</SubHeading>
-				<Footer />
+				<Footer forPage="prodType" />
 			</Hero>
 			<Box className={styles.container}>
-				{prodType.categories.map((category) => (
-					<Box key={category.id} component="section" className={styles.content}>
+				{[
+					'Bath & Body',
+					'Personal Care',
+					'Household Cleaning',
+					'Makeup',
+					'Animal Care',
+					'Candles & Fragrance'
+				].map((category) => (
+					<Box key={category} component="section" className={styles.content}>
 						<Toolbar component="header">
 							<Box flexGrow="1">
 								<Typography component="h2" variant="h5" align="left">
-									{category.name}
+									{category}
 								</Typography>
 							</Box>
 							<Box flexGrow="0">
 								<Button
 									component={Link}
-									to={'/food-drink/' + category.url}
+									to="/food-drink/nut-butters-spreads"
 									variant="text"
 									color="default"
 									endIcon={<ChevronRightRoundedIcon />}
 									classes={{ text: styles.buttonText }}
 								>
-									See all<Hidden only="xs"> {category.name}</Hidden>
+									See all<Hidden only="xs"> {category}</Hidden>
 								</Button>
 							</Box>
 						</Toolbar>
@@ -133,18 +139,18 @@ export default function ProductType() {
 							cellHeight={cellHeight}
 							spacing={0}
 						>
-							{category.subCat1s.map((subCat1) => (
+							{subCat1s.map((image) => (
 								<GridListTile
 									component={Link}
-									to={'/food-drink/' + subCat1.url}
-									key={subCat1.id + subCat1.name}
+									to={image.prodType + '/' + image.url}
+									key={image.img}
 									cols={1}
 									className={styles.gridListTile}
 								>
-									<img src={subCat1.image} alt={subCat1.title} className={styles.image} />
+									<img src={image.img} alt={image.title} className={styles.image} />
 									<GridListTileBar
 										titlePosition="top"
-										title={subCat1.title}
+										title={image.title}
 										className={styles.titleBar}
 										classes={{
 											title: styles.title

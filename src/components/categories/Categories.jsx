@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Home from './Home';
-import ProductType from './ProductType';
+import FoodDrink from './FoodDrink';
+import Household from './Household';
 import BottomNav from './BottomNav';
 import ScrollToTopOnMount from '../../utils/ScrollToTop';
 
@@ -22,11 +23,11 @@ export default function Categories() {
 				break;
 			case '/food-drink':
 				setCurrentTab(1);
-				setCategory(<ProductType />);
+				setCategory(<FoodDrink />);
 				break;
 			case '/household':
 				setCurrentTab(2);
-				setCategory(<ProductType />);
+				setCategory(<Household />);
 				break;
 			default:
 				return;
