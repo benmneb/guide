@@ -123,7 +123,6 @@ export default function AuthResetPassword({ isOpened }) {
 	}, [dispatch, goBack, location.search, token]);
 
 	function onSubmit(data) {
-		console.log(data);
 		setPending(true);
 
 		axios
