@@ -22,7 +22,7 @@ export default function AuthForgotPassword({ show, hide }) {
 
 	function onSubmit(data) {
 		axios
-			.post('https://api.vomad.guide/forgot-password', {
+			.post('https://api.vomad.guide/auth/forgot-password', {
 				email: data.email
 			})
 			.then(setPending(true))
@@ -104,6 +104,7 @@ export default function AuthForgotPassword({ show, hide }) {
 							variant="contained"
 							color="primary"
 							pending={pending}
+							pendingText="Sending..."
 						>
 							Send Link
 						</LoadingButton>
