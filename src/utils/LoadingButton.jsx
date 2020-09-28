@@ -28,6 +28,7 @@ export default function LoadingButton({
 	startIcon,
 	endIcon,
 	children,
+	disabled,
 	pendingText,
 	...props
 }) {
@@ -36,7 +37,7 @@ export default function LoadingButton({
 	if (!startIcon && !endIcon && !pendingText) {
 		return (
 			<Button
-				disabled={pending}
+				disabled={disabled || pending}
 				classes={{ label: clsx({ [styles.hideLabel]: pending }) }}
 				{...props}
 			>
