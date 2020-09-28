@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOn';
 import parse from 'autosuggest-highlight/parse';
-import throttle from 'lodash.throttle';
+import debounce from 'lodash.debounce';
 import LoadingButton from '../../../utils/LoadingButton';
 
 const autocompleteService = { current: null };
@@ -131,9 +131,16 @@ export default function StoresAdd(props) {
 
 	const fetch = useMemo(
 		() =>
-			throttle((request, callback) => {
-				autocompleteService.current.getPlacePredictions(request, callback);
-			}, 2000),
+			debounce(
+				(request, callback) => {
+					autocompleteService.current.getPlacePredictions(request, callback);
+				},
+				1500,
+				{
+					leading: false,
+					trailing: true
+				}
+			),
 		[]
 	);
 
