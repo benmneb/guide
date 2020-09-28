@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { showSnackbar } from '../../../store/actions';
 import { Grid, TextField, Typography, Box } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export default function StoresAdd(props) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
+	const currentUserId = useSelector((state) => state.currentUserData.id);
 	const [value, setValue] = useState(null);
 	const [inputValue, setInputValue] = useState('');
 	const [options, setOptions] = useState([]);
@@ -92,7 +93,7 @@ export default function StoresAdd(props) {
 							},
 							googlePlaceId: placeDetails.id,
 							googlePlaceTypes: results[0].types.join(', '),
-							addedBy: 'PUT CURRENT USER ID HERE',
+							addedBy: currentUserId,
 							addedOn: new Date()
 						});
 						setPending(false);
