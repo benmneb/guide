@@ -1,61 +1,81 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { showSnackbar } from '../../../store/actions';
+import DialogTitle from '../../../utils/DialogTitle';
 import {
-	IconButton,
 	List,
 	ListItem,
 	ListItemIcon,
 	ListItemText,
-	DialogTitle,
-	Dialog
+	Dialog,
+	Backdrop,
+	CircularProgress
 } from '@material-ui/core';
-import { CloseRounded, ReportProblemRounded, ReportRounded } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/core/styles';
+import { ReportProblemRounded, ReportRounded } from '@material-ui/icons';
 import { red, deepOrange } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
-	dialogTitle: {
-		textAlign: 'left'
-	},
-	titleRoot: {
-		margin: 0,
-		padding: 0
-	},
-	closeButton: {
-		position: 'absolute',
-		right: theme.spacing(1),
-		top: theme.spacing(1),
-		color: theme.palette.grey[500]
+	backdrop: {
+		zIndex: theme.zIndex.modal + 1,
+		color: '#fff'
 	}
 }));
 
 export default function ReviewReport(props) {
 	const styles = useStyles();
+	const dispatch = useDispatch();
+	const currentUserId = useSelector((state) => state.currentUserData.id);
+	const [pending, setPending] = useState(false);
 
 	const handleClose = () => {
+		setPending(false);
 		props.onClose();
 	};
 
 	const handleListItemClick = (reason) => {
-		props.onClose();
-		const currentTime = new Date();
-		console.log(
-			`User $userId reported review ${props.reviewId} as "${reason}" at ${currentTime}`
-		);
+		setPending(true);
+		axios
+			.post('https://api.vomad.guide/email/report-review', {
+				body: `<p><strong>New Review Report Received ${new Date()}</strong></p>
+			<p>User <strong>${currentUserId}</strong> reported review <strong>${
+					props.reviewId
+				}</strong> as "${reason}".</p>`
+			})
+			.then(() => {
+				handleClose();
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'success',
+							color: 'info',
+							title: 'Report received',
+							message: "Thank you, we'll take it from here",
+							emoji: '👍'
+						}
+					})
+				);
+			})
+			.catch((err) => {
+				setPending(false);
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'error',
+							title: 'Could not report',
+							message: `${err.message}. Please try again soon.`
+						}
+					})
+				);
+			});
 	};
 
 	return (
-		<Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={props.show}>
-			<MuiDialogTitle disableTypography className={styles.titleRoot}>
-				<IconButton
-					aria-label="close"
-					className={styles.closeButton}
-					onClick={handleClose}
-				>
-					<CloseRounded />
-				</IconButton>
-			</MuiDialogTitle>
-			<DialogTitle id="simple-dialog-title">Report as...</DialogTitle>
+		<Dialog onClose={handleClose} aria-labelledby="report-review-title" open={props.show}>
+			<DialogTitle id="report-review-title" onClose={handleClose}>
+				Report as...
+			</DialogTitle>
 			<List>
 				<ListItem
 					button
@@ -73,6 +93,9 @@ export default function ReviewReport(props) {
 					<ListItemText primary="Advertising or spam" />
 				</ListItem>
 			</List>
+			<Backdrop open={pending} className={styles.backdrop}>
+				<CircularProgress color="inherit" />
+			</Backdrop>
 		</Dialog>
 	);
 }

@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import { useHistory, useLocation } from 'react-router-dom';
 import DialogTitle from '../../utils/DialogTitle';
 import SendRoundedIcon from '@material-ui/icons/Send';
@@ -14,35 +15,55 @@ import {
 	useMediaQuery,
 	Box
 } from '@material-ui/core';
-import * as actionCreators from '../../store/actions';
+import { showSnackbar } from '../../store/actions';
 import LoadingButton from '../../utils/LoadingButton';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
 
-function Feedback({ onShowSnackbar, isOpened }) {
+export default function Feedback({ isOpened }) {
 	const history = useHistory();
 	const location = useLocation();
+	const dispatch = useDispatch();
 	const confirm = useConfirm();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const { register, handleSubmit, errors, getValues } = useForm();
 	const [pending, setPending] = useState(false);
 
 	const onSubmit = (data) => {
-		console.log('data', data);
 		setPending(true);
-		setTimeout(() => {
-			setPending(false);
-		}, 1000);
-		onShowSnackbar({
-			snackData: {
-				type: 'success',
-				color: 'info',
-				title: 'Feedback received',
-				message: 'We appreciate and encourage all suggestions',
-				emoji: '👌'
-			}
-		});
-		goBack();
+		axios
+			.post('https://api.vomad.guide/email/feedback', {
+				body: `<p><strong>New Feedback Received ${new Date()}</strong></p><p>${
+					data.feedback
+				}</p><p>${data.name && `- ${data.name}`}</p><p>${data.email && data.email}</p>`
+			})
+			.then(() => {
+				setPending(false);
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'success',
+							color: 'info',
+							title: 'Feedback received',
+							message: 'We appreciate and encourage all suggestions',
+							emoji: '👌'
+						}
+					})
+				);
+				goBack();
+			})
+			.catch((err) => {
+				setPending(false);
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'error',
+							title: 'Could not send feedback',
+							message: `${err.message}. Please try again soon.`
+						}
+					})
+				);
+			});
 	};
 
 	const goBack = useCallback(() => {
@@ -52,7 +73,6 @@ function Feedback({ onShowSnackbar, isOpened }) {
 	const onClose = () => {
 		if (getValues('feedback')) {
 			confirm({
-				title: 'Confirm Close',
 				description:
 					'You have started entering feedback, if you close this modal you will lose what you have entered.',
 				confirmationText: 'Close'
@@ -76,15 +96,15 @@ function Feedback({ onShowSnackbar, isOpened }) {
 				<DialogContentText component="hgroup">
 					<Typography component="h2">
 						<span role="img" aria-label="">
-							👍
-						</span>{' '}
-						Help us make the Guide better for everyone.
-					</Typography>
-					<Typography component="h2">
-						<span role="img" aria-label="">
 							✏️
 						</span>{' '}
 						Please report bugs and request new features.
+					</Typography>
+					<Typography component="h2">
+						<span role="img" aria-label="">
+							👍
+						</span>{' '}
+						Help us make the Guide better for everyone.
 					</Typography>
 					<Typography component="h2">
 						<span role="img" aria-label="">
@@ -155,12 +175,3 @@ function Feedback({ onShowSnackbar, isOpened }) {
 		</Dialog>
 	);
 }
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
-	};
-};
-
-export default connect(null, mapDispatchToProps)(Feedback);

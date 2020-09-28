@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { showSnackbar } from '../../store/actions';
 import {
@@ -23,6 +24,7 @@ import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
 import { categories } from '../../assets/categoriesAZ';
+import LoadingButton from '../../utils/LoadingButton';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -56,6 +58,7 @@ export default function AddProducts({ isOpened }) {
 	const theme = useTheme();
 	const steps = getSteps();
 	const dispatch = useDispatch();
+	const currentUserId = useSelector((state) => state.currentUserData.id);
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
 	const [activeStep, setActiveStep] = useState(0);
@@ -64,6 +67,7 @@ export default function AddProducts({ isOpened }) {
 	const [productName, setProductName] = useState(null);
 	const [selectedCategory, setSelectedCategory] = useState(null);
 	const [inputValue, setInputValue] = useState('');
+	const [pending, setPending] = useState(false);
 
 	const handleItsVeganChange = (event) => {
 		setConfirmItsVegan(event.target.checked);
@@ -75,26 +79,46 @@ export default function AddProducts({ isOpened }) {
 		if (!formRef.current.checkValidity()) {
 			return;
 		}
-		if (activeStep === steps.length - 1) {
-			dispatch(
-				showSnackbar({
-					snackData: {
-						type: 'success',
-						title: 'Submission received',
-						message: 'Thank you for helping people find vegan products easier',
-						emoji: '💪'
-					}
-				})
-			);
-			console.log(
-				`user $userId suggested to add 
-			brand: "${brandname.name}", 
-			product: "${productName.name}" 
-			category: "${selectedCategory}" 
-			on ${new Date()}`
-			);
+		if (activeStep < steps.length - 1) {
+			return setActiveStep((prevActiveStep) => prevActiveStep + 1);
 		}
-		setActiveStep((prevActiveStep) => prevActiveStep + 1);
+		if (activeStep === steps.length - 1) {
+			setPending(true);
+			axios
+				.post('https://api.vomad.guide/email/add-product', {
+					body: `<p><strong>New Product Addition Request Received ${new Date()}</strong></p>
+				<p>User <strong>${currentUserId}</strong> suggested to add...</p>
+				<p>Brand: <strong> ${brandname.name}</strong>
+				<br>Product: <strong>${productName.name}</strong>
+				<br>in category: <strong>${selectedCategory}</p>`
+				})
+				.then(() => {
+					setPending(false);
+					setActiveStep((prevActiveStep) => prevActiveStep + 1);
+					return dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'success',
+								title: 'Submission received',
+								message: 'Thank you for helping people find vegan products easier',
+								emoji: '💪'
+							}
+						})
+					);
+				})
+				.catch((err) => {
+					setPending(false);
+					return dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								title: 'Something went wrong',
+								message: `${err.message}. Please try again soon.`
+							}
+						})
+					);
+				});
+		}
 	};
 
 	const handleBack = () => {
@@ -376,15 +400,16 @@ export default function AddProducts({ isOpened }) {
 											>
 												Back
 											</Button>
-											<Button
+											<LoadingButton
 												variant="contained"
 												color="primary"
 												disabled={!confirmItsVegan}
+												pending={pending}
 												onClick={handleNext}
 												className={styles.button}
 											>
 												{activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-											</Button>
+											</LoadingButton>
 										</div>
 									</div>
 								</StepContent>

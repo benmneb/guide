@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { showSnackbar } from '../../../store/actions';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -59,6 +60,7 @@ const reasons = [
 export default function AboutEdit(props) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
+	const currentUserId = useSelector((state) => state.currentUserData.id);
 	const [selectedReason, setSelectedReason] = useState(null);
 	const [hasSelected, setHasSelected] = useState(false);
 	const [pending, setPending] = useState(false);
@@ -66,9 +68,11 @@ export default function AboutEdit(props) {
 	const { register, handleSubmit, errors } = useForm();
 
 	const handleClose = () => {
-		setHasSelected(false);
-		setSelectedReason(null);
 		props.onClose();
+		setTimeout(() => {
+			setHasSelected(false);
+			setSelectedReason(null);
+		}, 195);
 	};
 
 	const handleListItemClick = (reason) => {
@@ -78,28 +82,41 @@ export default function AboutEdit(props) {
 
 	const onSubmit = (data) => {
 		setPending(true);
-		const currentTime = new Date();
-		console.log(
-			`User $userId 
-suggested to edit product ${props.productId} 
-due to ${selectedReason} 
-on ${currentTime}.
-They said: 
-"${data.elaboration}".`
-		);
-		dispatch(
-			showSnackbar({
-				snackData: {
-					type: 'success',
-					color: 'info',
-					title: 'Suggestion received',
-					message: 'Thank you for helping people find vegan products easier',
-					emoji: '💪'
-				}
+		axios
+			.post('https://api.vomad.guide/email/edit-product', {
+				body: `<p><strong>New Edit Product Request Received ${new Date()}</strong></p><p>User <strong>${currentUserId}</strong><br>suggested to edit product <strong>${
+					props.productId
+				}</strong><br>due to <strong>${selectedReason}</strong>.</p><p>They said "${
+					data.elaboration
+				}"</p>`
 			})
-		);
-		setPending(false);
-		handleClose();
+			.then(() => {
+				setPending(false);
+				handleClose();
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'success',
+							color: 'info',
+							title: 'Suggestion received',
+							message: 'Thank you for helping people find vegan products easier',
+							emoji: '💪'
+						}
+					})
+				);
+			})
+			.catch((err) => {
+				setPending(false);
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'error',
+							title: 'Sorry, could not send',
+							message: `${err.message}. Please try again.`
+						}
+					})
+				);
+			});
 	};
 
 	let content = (

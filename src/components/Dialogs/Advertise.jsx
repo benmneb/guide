@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { connect } from 'react-redux';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import DialogTitle from '../../utils/DialogTitle';
 import SendRoundedIcon from '@material-ui/icons/Send';
@@ -14,34 +15,54 @@ import {
 	useMediaQuery,
 	Box
 } from '@material-ui/core';
-import * as actionCreators from '../../store/actions';
+import { showSnackbar } from '../../store/actions';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
 import LoadingButton from '../../utils/LoadingButton';
 
-function Advertise({ onShowSnackbar, isOpened }) {
+export default function Advertise({ isOpened }) {
 	const history = useHistory();
 	const location = useLocation();
+	const dispatch = useDispatch();
 	const confirm = useConfirm();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const { register, handleSubmit, errors, getValues } = useForm();
 	const [pending, setPending] = useState(false);
 
 	const onSubmit = (data) => {
-		console.log('data', data);
 		setPending(true);
-		setTimeout(() => {
-			setPending(false);
-		}, 1000);
-		onShowSnackbar({
-			snackData: {
-				type: 'success',
-				title: 'Message sent',
-				message: `Thanks for your interest, we'll be in touch`,
-				emoji: '🤝'
-			}
-		});
-		goBack();
+		axios
+			.post('https://api.vomad.guide/email/advertise', {
+				body: `<p><strong>New Advertising Request Received ${new Date()}</strong></p><p>${
+					data.name
+				}</p><p>${data.email}</p><p>${data.message && `${data.message}`}`
+			})
+			.then(() => {
+				setPending(false);
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'success',
+							title: 'Message sent',
+							message: "Thanks for your interest, we'll be in touch",
+							emoji: '🤝'
+						}
+					})
+				);
+				goBack();
+			})
+			.catch((err) => {
+				setPending(false);
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'error',
+							title: 'Something went wrong',
+							message: `${err.message}. Please try again soon.`
+						}
+					})
+				);
+			});
 	};
 
 	const goBack = useCallback(() => {
@@ -157,12 +178,3 @@ function Advertise({ onShowSnackbar, isOpened }) {
 		</Dialog>
 	);
 }
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
-	};
-};
-
-export default connect(null, mapDispatchToProps)(Advertise);
