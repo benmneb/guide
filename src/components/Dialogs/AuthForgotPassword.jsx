@@ -104,7 +104,6 @@ export default function AuthForgotPassword({ show, hide }) {
 							variant="contained"
 							color="primary"
 							pending={pending}
-							pendingText="Sending..."
 						>
 							Send Link
 						</LoadingButton>
