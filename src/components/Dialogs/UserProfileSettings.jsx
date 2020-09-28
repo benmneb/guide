@@ -342,7 +342,6 @@ export default function AboutEdit({ hide, show }) {
 							type="submit"
 							variant="contained"
 							color="primary"
-							size="medium"
 							pending={pending === 'username'}
 						>
 							Edit

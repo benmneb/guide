@@ -161,7 +161,6 @@ export default function ReviewsAdd({ ratingBeforeClickedAddReviewSnackbar, ...pr
 								variant="contained"
 								color="primary"
 								pending={pending}
-								pendingText="Posting..."
 							>
 								Submit
 							</LoadingButton>
