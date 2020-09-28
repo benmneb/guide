@@ -21,11 +21,11 @@ export default function AuthForgotPassword({ show, hide }) {
 	const [pending, setPending] = useState(false);
 
 	function onSubmit(data) {
+		setPending(true);
 		axios
 			.post('https://api.vomad.guide/auth/forgot-password', {
 				email: data.email
 			})
-			.then(setPending(true))
 			.then((response) => {
 				if (response.data === 'recovery email sent') {
 					dispatch(

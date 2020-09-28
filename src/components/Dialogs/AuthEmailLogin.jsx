@@ -53,6 +53,7 @@ export default function AuthEmailLogin() {
 	}, [history, location.pathname]);
 
 	const onSubmit = (data) => {
+		setPending(true);
 		axios
 			.post(
 				'https://api.vomad.guide/auth/signin',
@@ -65,7 +66,6 @@ export default function AuthEmailLogin() {
 					crossorigin: true
 				}
 			)
-			.then(setPending(true))
 			.then((auth) => {
 				if (auth.data) {
 					return axios.get('https://api.vomad.guide/auth/login/success', {
