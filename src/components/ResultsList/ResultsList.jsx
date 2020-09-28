@@ -91,11 +91,11 @@ const ResultsList = ({
 		let mounted = true;
 		const source = axios.CancelToken.source();
 		const categoryArr = location.pathname.split('/');
-		const releventPathname = '/' + categoryArr[1] + '/' + categoryArr[2];
+		const releventPathname = `/${categoryArr[1]}/${categoryArr[2]}`;
 
 		if (releventPathname !== currentPathname) {
 			axios
-				.get('https://api.vomad.guide/category' + releventPathname, {
+				.get(`https://api.vomad.guide/category${releventPathname}`, {
 					cancelToken: source.token
 				})
 				.then(mounted && setLoading(true))
