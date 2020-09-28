@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { orderResultsBy } from '../../store/actions';
 import Typography from '@material-ui/core/Typography';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,11 +26,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function OrderBy() {
 	const styles = useStyles();
-	const [orderBy, setOrderBy] = useState('Descending');
+	const dispatch = useDispatch();
+	const orderBy = useSelector((state) => state.orderResultsBy);
 
 	const handleClick = (event, newOrder) => {
 		if (newOrder !== null) {
-			setOrderBy(newOrder);
+			dispatch(orderResultsBy(newOrder));
 		}
 	};
 

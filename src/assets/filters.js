@@ -113,18 +113,18 @@ export const sortBy = [
 		value: 'Popularity',
 		tooltip: 'Uses a combination of reviews, ratings and views (default)'
 	},
-	{ name: '🔤 Alphabetical', value: 'Alphabetical', tooltip: 'Uses the product name' }
+	{ name: '🔤 Alphabetical', value: 'Alphabetical', tooltip: 'Uses the brand name' }
 ];
 
 export const orderBy = [
 	{
 		name: '↑ Ascending',
 		value: 'Ascending',
-		tooltip: 'Lowest first, or Z to A if alphabetical'
+		tooltip: 'Lowest first, or Z to A'
 	},
 	{
 		name: '↓ Descending',
 		value: 'Descending',
-		tooltip: 'Highest first, or A to Z if alphabetical (default)'
+		tooltip: 'Highest first, or A to Z (default)'
 	}
 ];

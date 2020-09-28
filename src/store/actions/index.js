@@ -16,5 +16,7 @@ export {
 	removeAllFilters,
 	setLoading,
 	setIsUsingEmailAuth,
-	setIsUsingEmailAuthRoute
+	setIsUsingEmailAuthRoute,
+	sortResultsBy,
+	orderResultsBy
 } from './actions';

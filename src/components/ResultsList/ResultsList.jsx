@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import axios from 'axios';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import * as actionCreators from '../../store/actions';
+import { sortResultsBy, orderResultsBy } from '../../store/actions';
 import { Link, Route, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import ResultCard from './ResultCard';
@@ -9,7 +11,6 @@ import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import FiltersBar from './FiltersBar';
 import FiltersPanel from '../FiltersPanel/FiltersPanel';
 import AddProductsFab from './AddProductsFab';
-import * as actionCreators from '../../store/actions';
 import { showSnackbar } from '../../store/actions';
 import BottomNav from './BottomNav';
 import ResultSkeleton from './ResultSkeleton';
@@ -76,7 +77,16 @@ const ResultsList = ({
 	const [categoryData, setCategoryData] = useState({});
 	const loading = !fetchedResults.length > 0;
 	const [currentPathname, setCurrentPathname] = useState('');
+	const [sortResultsFunc, setSortResultsFunc] = useState(null);
+	const sortBy = useSelector((state) => state.sortResultsBy);
+	const orderBy = useSelector((state) => state.orderResultsBy);
 
+	const productLink = usePrepareLink({
+		to: '/:name/:id',
+		isRelativePath: true
+	});
+
+	//axios call to get products
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
@@ -106,7 +116,7 @@ const ResultsList = ({
 							return console.warn('Loading results was rejected:', rejection.message);
 						}
 						const breadcrumbsArr = Array(
-							String(response.data[0].breadcrumbs).split(',')
+							String(response.data[0].breadcrumbs).split('@')
 						)[0];
 						setCategoryData({
 							name: String(breadcrumbsArr[breadcrumbsArr.length - 1]),
@@ -145,6 +155,7 @@ const ResultsList = ({
 		};
 	}, [location.pathname, currentPathname, setLoading, dispatch]);
 
+	// hide filters panel on unmount
 	useEffect(() => {
 		return () => {
 			if (showFiltersPanel) onHideFiltersPanel();
@@ -165,10 +176,55 @@ const ResultsList = ({
 		}
 	}, [appliedFilters, fetchedResults]);
 
-	const productLink = usePrepareLink({
-		to: '/:name/:id',
-		isRelativePath: true
-	});
+	// sort/order by
+	useEffect(() => {
+		if (sortBy === 'Popularity' && orderBy === 'Descending') {
+			setSortResultsFunc(() => (a, b) => b.averageRating - a.averageRating);
+		}
+		if (sortBy === 'Popularity' && orderBy === 'Ascending') {
+			setSortResultsFunc(() => (a, b) => a.averageRating - b.averageRating);
+		}
+		if (sortBy === 'Alphabetical' && orderBy === 'Descending') {
+			setSortResultsFunc(() => (a, b) => {
+				const brandA = a.brandName.toUpperCase();
+				const brandB = b.brandName.toUpperCase();
+				const itemA = a.productName.toUpperCase();
+				const itemB = b.productName.toUpperCase();
+
+				if (brandA < brandB) return -1;
+				if (brandA > brandB) return 1;
+
+				if (brandA === brandB) {
+					if (itemA < itemB) return -1;
+					if (itemA > itemB) return 1;
+				}
+			});
+		}
+		if (sortBy === 'Alphabetical' && orderBy === 'Ascending') {
+			setSortResultsFunc(() => (a, b) => {
+				const brandA = a.brandName.toUpperCase();
+				const brandB = b.brandName.toUpperCase();
+				const itemA = a.productName.toUpperCase();
+				const itemB = b.productName.toUpperCase();
+
+				if (brandA > brandB) return -1;
+				if (brandA < brandB) return 1;
+
+				if (brandA === brandB) {
+					if (itemA > itemB) return -1;
+					if (itemA < itemB) return 1;
+				}
+			});
+		}
+	}, [orderBy, sortBy]);
+
+	// set to default sort/order options on unmount
+	useEffect(() => {
+		return () => {
+			dispatch(sortResultsBy('Popularity'));
+			dispatch(orderResultsBy('Descending'));
+		};
+	}, [dispatch]);
 
 	return (
 		<>
@@ -192,7 +248,7 @@ const ResultsList = ({
 				})}
 			>
 				{!loading
-					? displayedResults.map((result) => (
+					? displayedResults.sort(sortResultsFunc).map((result) => (
 							<Link
 								key={Number(result.productId)}
 								className={styles.productLink}

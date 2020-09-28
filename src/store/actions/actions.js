@@ -138,3 +138,21 @@ export const setIsUsingEmailAuthRoute = (route) => {
 		}
 	};
 };
+
+export const sortResultsBy = (option) => {
+	return {
+		type: actionTypes.SORT_RESULTS_BY,
+		payload: {
+			option
+		}
+	};
+};
+
+export const orderResultsBy = (option) => {
+	return {
+		type: actionTypes.ORDER_RESULTS_BY,
+		payload: {
+			option
+		}
+	};
+};

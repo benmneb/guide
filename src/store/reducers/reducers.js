@@ -15,7 +15,9 @@ const initialState = {
 	appliedFilters: [],
 	isLoading: false,
 	isUsingEmailAuth: false,
-	isUsingEmailAuthRoute: 'login'
+	isUsingEmailAuthRoute: 'login',
+	sortResultsBy: 'Popularity',
+	orderResultsBy: 'Descending'
 };
 
 export default function Reducers(state = initialState, action) {
@@ -114,6 +116,16 @@ export default function Reducers(state = initialState, action) {
 			return {
 				...state,
 				isUsingEmailAuthRoute: action.payload.route
+			};
+		case actionTypes.SORT_RESULTS_BY:
+			return {
+				...state,
+				sortResultsBy: action.payload.option
+			};
+		case actionTypes.ORDER_RESULTS_BY:
+			return {
+				...state,
+				orderResultsBy: action.payload.option
 			};
 		default:
 			return state;

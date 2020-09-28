@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { sortResultsBy } from '../../store/actions';
 import { Typography } from '@material-ui/core';
 import { ToggleButtonGroup } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,11 +26,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SortBy() {
 	const styles = useStyles();
-	const [sortBy, setSortBy] = useState('Popularity');
+	const dispatch = useDispatch();
+	const sortBy = useSelector((state) => state.sortResultsBy);
 
 	const handleClick = (event, newSort) => {
 		if (newSort !== null) {
-			setSortBy(newSort);
+			dispatch(sortResultsBy(newSort));
 		}
 	};
 
