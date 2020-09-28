@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import * as actionCreators from '../../../store/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { showSnackbar } from '../../../store/actions';
 import clsx from 'clsx';
-import { Typography, Button, TextField, Grid, Box } from '@material-ui/core';
+import { Typography, TextField, Grid, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { labels } from '../../../assets/ratingLabels';
+import LoadingButton from '../../../utils/LoadingButton';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -21,22 +22,20 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function ReviewsAdd({
-	hide,
-	onShowSnackbar,
-	ratingBeforeClickedAddReviewSnackbar,
-	currentUserData,
-	...props
-}) {
+export default function ReviewsAdd({ ratingBeforeClickedAddReviewSnackbar, ...props }) {
 	const styles = useStyles();
+	const dispatch = useDispatch();
+	const currentUserData = useSelector((state) => state.currentUserData);
 	const [rating, setRating] = useState(0);
 	const [hover, setHover] = useState(-1);
 	const [ratingError, setRatingError] = useState(false);
+	const [pending, setPending] = useState(false);
 
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmit = (data) => {
 		if (rating > 0) {
+			setPending(true);
 			axios
 				.post('https://api.vomad.guide/review/', {
 					review: data.review,
@@ -45,17 +44,33 @@ function ReviewsAdd({
 					rating: rating
 				})
 				.then(() => {
-					onShowSnackbar({
-						snackData: {
-							type: 'success',
-							title: 'Review added',
-							message: 'Thank you for helping people find vegan products easier',
-							emoji: '💪'
-						}
-					});
+					setPending(false);
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'success',
+								title: 'Review added',
+								message: 'Thank you for helping people find vegan products easier',
+								emoji: '💪'
+							}
+						})
+					);
+					props.hide();
 				})
-				.then(() => hide())
-				.then(() => props.updateReviews());
+				.then(() => props.updateReviews())
+				.catch((err) => {
+					console.log(err);
+					setPending(false);
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								title: 'Could not add review',
+								message: `${err.message}. TODO:`
+							}
+						})
+					);
+				});
 		} else {
 			setRatingError(true);
 		}
@@ -140,9 +155,16 @@ function ReviewsAdd({
 							/>
 						</Grid>
 						<Grid item container xs={12} justify="center">
-							<Button type="submit" size="large" variant="contained" color="primary">
+							<LoadingButton
+								type="submit"
+								size="large"
+								variant="contained"
+								color="primary"
+								pending={pending}
+								pendingText="Posting..."
+							>
 								Submit
-							</Button>
+							</LoadingButton>
 						</Grid>
 					</Grid>
 				</form>
@@ -150,18 +172,3 @@ function ReviewsAdd({
 		</Box>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		currentUserData: state.currentUserData
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ReviewsAdd);

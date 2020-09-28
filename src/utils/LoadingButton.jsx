@@ -10,9 +10,11 @@ export default function LoadingButton({
 	pendingText,
 	...props
 }) {
-	if (startIcon && endIcon) {
-		throw new Error(
-			`Can't have both start and ending icons in a Loading Button, please choose only one.`
+	if (!startIcon && !endIcon) {
+		return (
+			<Button disabled={pending} {...props}>
+				{pending && pendingText ? pendingText : children}
+			</Button>
 		);
 	}
 
@@ -37,6 +39,12 @@ export default function LoadingButton({
 			>
 				{pending && pendingText ? pendingText : children}
 			</Button>
+		);
+	}
+
+	if (startIcon && endIcon) {
+		throw new Error(
+			`Can't have both start and ending icons in a Loading Button, please choose only one.`
 		);
 	}
 }

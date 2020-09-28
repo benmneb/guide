@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { showSnackbar } from '../../../store/actions';
 import { useForm } from 'react-hook-form';
-import * as actionCreators from '../../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import {
@@ -13,7 +13,6 @@ import {
 	DialogTitle,
 	Dialog,
 	TextField,
-	Button,
 	Box
 } from '@material-ui/core';
 import {
@@ -21,6 +20,7 @@ import {
 	RadioButtonCheckedRounded,
 	RadioButtonUncheckedRounded
 } from '@material-ui/icons';
+import LoadingButton from '../../../utils/LoadingButton';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -56,10 +56,12 @@ const reasons = [
 	'Non-vegan product'
 ];
 
-function AboutEdit({ onShowSnackbar, ...props }) {
+export default function AboutEdit(props) {
 	const styles = useStyles();
+	const dispatch = useDispatch();
 	const [selectedReason, setSelectedReason] = useState(null);
 	const [hasSelected, setHasSelected] = useState(false);
+	const [pending, setPending] = useState(false);
 
 	const { register, handleSubmit, errors } = useForm();
 
@@ -75,6 +77,7 @@ function AboutEdit({ onShowSnackbar, ...props }) {
 	};
 
 	const onSubmit = (data) => {
+		setPending(true);
 		const currentTime = new Date();
 		console.log(
 			`User $userId 
@@ -84,15 +87,18 @@ on ${currentTime}.
 They said: 
 "${data.elaboration}".`
 		);
-		onShowSnackbar({
-			snackData: {
-				type: 'success',
-				color: 'info',
-				title: 'Suggestion received',
-				message: 'Thank you for helping people find vegan products easier',
-				emoji: '💪'
-			}
-		});
+		dispatch(
+			showSnackbar({
+				snackData: {
+					type: 'success',
+					color: 'info',
+					title: 'Suggestion received',
+					message: 'Thank you for helping people find vegan products easier',
+					emoji: '💪'
+				}
+			})
+		);
+		setPending(false);
 		handleClose();
 	};
 
@@ -150,9 +156,14 @@ They said:
 						error={Boolean(errors.elaboration)}
 						helperText={Boolean(errors.elaboration) && errors.elaboration.message}
 					/>
-					<Button type="submit" color="primary" variant="contained">
+					<LoadingButton
+						type="submit"
+						color="primary"
+						variant="contained"
+						pending={pending}
+					>
 						Submit
-					</Button>
+					</LoadingButton>
 				</Box>
 			</>
 		);
@@ -182,12 +193,3 @@ They said:
 		</Dialog>
 	);
 }
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
-	};
-};
-
-export default connect(null, mapDispatchToProps)(AboutEdit);

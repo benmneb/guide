@@ -22,7 +22,6 @@ import {
 	TextField,
 	Tooltip,
 	Typography,
-	Button,
 	Box
 } from '@material-ui/core';
 import {
@@ -34,6 +33,7 @@ import {
 	VisibilityOffRounded
 } from '@material-ui/icons';
 import { red } from '@material-ui/core/colors';
+import LoadingButton from '../../utils/LoadingButton';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -82,6 +82,7 @@ export default function AboutEdit({ hide, show }) {
 	const [updatePassword, setUpdatePassword] = useState(false);
 	const [deleteAccount, setDeleteAccount] = useState(false);
 	const [showPasswords, setShowPasswords] = useState(false);
+	const [pending, setPending] = useState(false);
 
 	const handleClose = () => {
 		setTimeout(() => {
@@ -129,12 +130,15 @@ export default function AboutEdit({ hide, show }) {
 			description: `Please confirm you want to change your username to ${data.username}`
 		})
 			.then(() => {
+				setPending('username');
 				axios
 					.put(`https://api.vomad.guide/auth/update-username/${currentUserId}`, {
 						user_name: data.username
 					})
 					.then(() => {
-						dispatch(
+						setEditUsername(false);
+						setPending(false);
+						return dispatch(
 							showSnackbar({
 								snackData: {
 									type: 'success',
@@ -142,10 +146,10 @@ export default function AboutEdit({ hide, show }) {
 								}
 							})
 						);
-						setEditUsername(false);
 					})
-					.catch((err) => {
-						dispatch(
+					.catch(() => {
+						setPending(false);
+						return dispatch(
 							showSnackbar({
 								snackData: {
 									type: 'error',
@@ -155,7 +159,7 @@ export default function AboutEdit({ hide, show }) {
 						);
 					});
 			})
-			.catch(() => null);
+			.catch(() => setPending(false));
 	};
 
 	const onSubmitEmail = (data) => {
@@ -164,12 +168,14 @@ export default function AboutEdit({ hide, show }) {
 			description: `Please confirm you want to change you email to ${data.email}`
 		})
 			.then(() => {
+				setPending('email');
 				axios
 					.put(`https://api.vomad.guide/auth/update-email/${currentUserId}`, {
 						email: data.email
 					})
 					.then(() => {
 						setChangeEmail(false);
+						setPending(false);
 						return dispatch(
 							showSnackbar({
 								snackData: {
@@ -182,6 +188,7 @@ export default function AboutEdit({ hide, show }) {
 					})
 					.catch((err) => {
 						if (err.response.data === 'must enter a different email') {
+							setPending(false);
 							return dispatch(
 								showSnackbar({
 									snackData: {
@@ -194,6 +201,7 @@ export default function AboutEdit({ hide, show }) {
 							);
 						}
 						if (err.response.data === 'email associated with another account') {
+							setPending(false);
 							return dispatch(
 								showSnackbar({
 									snackData: {
@@ -204,6 +212,7 @@ export default function AboutEdit({ hide, show }) {
 								})
 							);
 						}
+						setPending(false);
 						return dispatch(
 							showSnackbar({
 								snackData: {
@@ -214,7 +223,7 @@ export default function AboutEdit({ hide, show }) {
 						);
 					});
 			})
-			.catch(() => null);
+			.catch(() => setPending(false));
 	};
 
 	const onSubmitPassword = (data) => {
@@ -223,12 +232,15 @@ export default function AboutEdit({ hide, show }) {
 			description: `Please confirm you want to update your password.`
 		})
 			.then(() => {
+				setPending('password');
 				axios
 					.post(`https://api.vomad.guide/auth/update-password/${currentUserId}`, {
 						password: data.password
 					})
 					.then(() => {
-						dispatch(
+						setUpdatePassword(false);
+						setPending(false);
+						return dispatch(
 							showSnackbar({
 								snackData: {
 									type: 'success',
@@ -236,11 +248,10 @@ export default function AboutEdit({ hide, show }) {
 								}
 							})
 						);
-						setUpdatePassword(false);
 					})
-					.catch((err) => {
-						console.error('Error changing password', err);
-						dispatch(
+					.catch(() => {
+						setPending(false);
+						return dispatch(
 							showSnackbar({
 								snackData: {
 									type: 'error',
@@ -250,7 +261,7 @@ export default function AboutEdit({ hide, show }) {
 						);
 					});
 			})
-			.catch(() => null);
+			.catch(() => setPending(false));
 	};
 
 	const handleClickShowPassword = () => {
@@ -263,13 +274,16 @@ export default function AboutEdit({ hide, show }) {
 
 	const handleDeleteAccountClick = () => {
 		confirm({
-			title: 'Delete Account?',
 			description: 'Please confirm you want to delete your account.',
 			confirmationText: 'Delete Account',
 			confirmationButtonProps: { className: styles.deleteAccount }
 		})
-			.then(() => console.info('TODO: DELETE ACCOUNT PLZZ HESHAM'))
-			.catch(() => null);
+			.then(() => {
+				setPending('deleteAccount');
+				console.info('TODO: DELETE ACCOUNT PLZZ HESHAM');
+				setPending(false);
+			})
+			.catch(() => setPending(false));
 	};
 
 	return (
@@ -324,9 +338,15 @@ export default function AboutEdit({ hide, show }) {
 							autoFocus
 							classes={{ root: styles.textFieldRoot }}
 						/>
-						<Button type="submit" variant="contained" color="primary">
+						<LoadingButton
+							type="submit"
+							variant="contained"
+							color="primary"
+							size="medium"
+							pending={pending === 'username'}
+						>
 							Edit
-						</Button>
+						</LoadingButton>
 					</Box>
 				</Collapse>
 				<ListItem
@@ -368,9 +388,14 @@ export default function AboutEdit({ hide, show }) {
 							autoFocus
 						/>
 						<Box marginY={1.5}>
-							<Button type="submit" variant="contained" color="primary">
+							<LoadingButton
+								type="submit"
+								variant="contained"
+								color="primary"
+								pending={pending === 'email'}
+							>
 								Change
-							</Button>
+							</LoadingButton>
 						</Box>
 					</Box>
 				</Collapse>
@@ -490,9 +515,14 @@ export default function AboutEdit({ hide, show }) {
 							)}
 						</FormControl>
 						<Box marginY={1.5}>
-							<Button type="submit" variant="contained" color="primary">
+							<LoadingButton
+								type="submit"
+								variant="contained"
+								color="primary"
+								pending={pending === 'password'}
+							>
 								Update
-							</Button>
+							</LoadingButton>
 						</Box>
 					</Box>
 				</Collapse>
@@ -512,13 +542,14 @@ export default function AboutEdit({ hide, show }) {
 							Do you really want to delete your account? This action is permanent and can
 							not be undone.
 						</Typography>
-						<Button
+						<LoadingButton
 							variant="contained"
 							onClick={handleDeleteAccountClick}
 							className={styles.deleteAccount}
+							pending={pending === 'deleteAccount'}
 						>
 							Delete Account Forever
-						</Button>
+						</LoadingButton>
 					</Box>
 				</Collapse>
 			</List>

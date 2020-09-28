@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { connect } from 'react-redux';
-import * as actionCreators from '../../../store/actions';
-import { Button, Grid, TextField, Typography, Box } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { showSnackbar } from '../../../store/actions';
+import { Grid, TextField, Typography, Box } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOn';
 import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash.throttle';
+import LoadingButton from '../../../utils/LoadingButton';
 
 const autocompleteService = { current: null };
 
@@ -18,12 +19,14 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function StoresAdd({ onShowSnackbar, ...props }) {
+export default function StoresAdd(props) {
 	const styles = useStyles();
+	const dispatch = useDispatch();
 	const [value, setValue] = useState(null);
 	const [inputValue, setInputValue] = useState('');
 	const [options, setOptions] = useState([]);
 	const [placeDetails, setPlaceDetails] = useState({});
+	const [pending, setPending] = useState(false);
 
 	const { register, handleSubmit, errors } = useForm({ reValidateMode: 'onBlur' });
 
@@ -75,6 +78,7 @@ function StoresAdd({ onShowSnackbar, ...props }) {
 
 	const onSubmitAddStore = () => {
 		if (window.google) {
+			setPending(true);
 			new window.google.maps.Geocoder().geocode(
 				{ placeId: placeDetails.id },
 				(results, status) => {
@@ -91,27 +95,34 @@ function StoresAdd({ onShowSnackbar, ...props }) {
 							addedBy: 'PUT CURRENT USER ID HERE',
 							addedOn: new Date()
 						});
-						onShowSnackbar({
-							snackData: {
-								type: 'success',
-								title: 'Store added',
-								message: 'Thank you for helping people find vegan products easier',
-								emoji: '💪'
-							}
-						});
+						setPending(false);
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'success',
+									title: 'Store added',
+									message: 'Thank you for helping people find vegan products easier',
+									emoji: '💪'
+								}
+							})
+						);
 						props.hide();
 					} else {
+						setPending(false);
 						console.error(
 							'something went wrong getting the store geocode details from google',
 							status
 						);
-						onShowSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Something went wrong',
-								message: 'An error occured while adding the store, please try again soon'
-							}
-						});
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'error',
+									title: 'Something went wrong',
+									message:
+										'An error occured while adding the store, please try again soon'
+								}
+							})
+						);
 					}
 				}
 			);
@@ -244,18 +255,9 @@ function StoresAdd({ onShowSnackbar, ...props }) {
 					);
 				}}
 			/>
-			<Button type="submit" variant="contained" color="primary">
+			<LoadingButton type="submit" variant="contained" color="primary" pending={pending}>
 				Add
-			</Button>
+			</LoadingButton>
 		</Box>
 	);
 }
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
-	};
-};
-
-export default connect(null, mapDispatchToProps)(StoresAdd);
