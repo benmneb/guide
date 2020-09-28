@@ -59,8 +59,18 @@ export default function ReviewsAdd({ ratingBeforeClickedAddReviewSnackbar, ...pr
 				})
 				.then(() => props.updateReviews())
 				.catch((err) => {
-					console.log(err);
 					setPending(false);
+					if (err.response.data === 'user already reviewed') {
+						return dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'error',
+									title: "Can't leave two reviews",
+									message: 'You have already reviewed this product.'
+								}
+							})
+						);
+					}
 					dispatch(
 						showSnackbar({
 							snackData: {
