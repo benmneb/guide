@@ -102,7 +102,16 @@ export default function AuthEmailJoin() {
 					);
 				} else {
 					setPending(false);
-					return console.error(error);
+					console.error(error);
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								title: 'Could not sign up',
+								message: `${error.message}. Please try again.`
+							}
+						})
+					);
 				}
 			});
 	};
