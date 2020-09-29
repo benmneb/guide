@@ -116,7 +116,7 @@ const ProductModal = ({
 			if (showAddReview) onHideAddReview();
 			if (currentTab !== 'about') setCurrentTab('about');
 			setSelectedProduct(null);
-		}, theme.transitions.duration.leavingScreen);
+		}, 300);
 	};
 
 	const aboutLink = usePrepareLink({
