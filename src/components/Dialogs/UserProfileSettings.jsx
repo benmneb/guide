@@ -89,6 +89,7 @@ export default function AboutEdit({ hide, show }) {
 			setEditUsername(false);
 			setDeleteAccount(false);
 			setChangeEmail(false);
+			setUpdatePassword(false);
 		}, theme.transitions.duration.leavingScreen);
 		hide();
 	};
@@ -264,7 +265,7 @@ export default function AboutEdit({ hide, show }) {
 	const handleDeleteAccountClick = () => {
 		confirm({
 			description:
-				'Please confirm you want to delete your account. This action will also log out you out immediately.',
+				'Please confirm you want to delete your account. This action will also log out you out immediately. There is no going back from this.',
 			confirmationText: 'Delete Account',
 			confirmationButtonProps: { className: styles.deleteAccount }
 		})
