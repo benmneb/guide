@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { showSnackbar, setCurrentUserData } from '../../store/actions';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
@@ -72,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AboutEdit({ hide, show }) {
 	const styles = useStyles();
 	const confirm = useConfirm();
-	const history = useHistory();
 	const theme = useTheme();
 	const dispatch = useDispatch();
 	const currentUserId = useSelector(
@@ -230,7 +228,6 @@ export default function AboutEdit({ hide, show }) {
 
 	const onSubmitPassword = (data) => {
 		confirm({
-			title: 'Are you sure?',
 			description: `Please confirm you want to update your password.`
 		})
 			.then(() => {
@@ -275,23 +272,27 @@ export default function AboutEdit({ hide, show }) {
 		})
 			.then(() => {
 				setPending('deleteAccount');
+				return (window.location.href = 'https://api.vomad.guide/auth/logout-on-delete');
+			})
+			.then(() => {
 				axios
 					.delete(`https://api.vomad.guide/auth/delete-user/${currentUserId}`)
 					.then(() => {
 						setPending(false);
 						dispatch(setCurrentUserData(null, false));
+					})
+					.then(() => {
 						dispatch(
 							showSnackbar({
 								snackData: {
 									type: 'success',
 									color: 'info',
-									message: 'Account deleted. Thanks for coming!',
+									message: 'Account deleted. Sorry to see you go.',
 									emoji: '👋'
 								}
 							})
 						);
 					})
-					.then(() => history.replace('/'))
 					.catch(() => {
 						setPending(false);
 						return dispatch(
