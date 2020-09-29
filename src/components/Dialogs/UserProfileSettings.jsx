@@ -126,7 +126,6 @@ export default function AboutEdit({ hide, show }) {
 
 	const onSubmitUsername = (data) => {
 		confirm({
-			title: 'Are you sure?',
 			description: `Please confirm you want to change your username to ${data.username}`
 		})
 			.then(() => {
@@ -164,7 +163,6 @@ export default function AboutEdit({ hide, show }) {
 
 	const onSubmitEmail = (data) => {
 		confirm({
-			title: 'Are you sure?',
 			description: `Please confirm you want to change you email to ${data.email}`
 		})
 			.then(() => {

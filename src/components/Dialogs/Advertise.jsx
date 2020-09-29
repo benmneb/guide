@@ -74,7 +74,6 @@ export default function Advertise({ isOpened }) {
 	const onClose = () => {
 		if (getValues('name') || getValues('email') || getValues('message')) {
 			confirm({
-				title: 'Confirm Close',
 				description:
 					'If you close before submitting you will lose everything you have entered in the advertising form.',
 				confirmationText: 'Close'
