@@ -60,7 +60,9 @@ const reasons = [
 export default function AboutEdit(props) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const currentUserId = useSelector((state) => state.currentUserData.id);
+	const currentUserId = useSelector(
+		(state) => state.currentUserData && state.currentUserData.id
+	);
 	const [selectedReason, setSelectedReason] = useState(null);
 	const [hasSelected, setHasSelected] = useState(false);
 	const [pending, setPending] = useState(false);

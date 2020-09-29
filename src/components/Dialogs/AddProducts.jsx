@@ -58,7 +58,9 @@ export default function AddProducts({ isOpened }) {
 	const theme = useTheme();
 	const steps = getSteps();
 	const dispatch = useDispatch();
-	const currentUserId = useSelector((state) => state.currentUserData.id);
+	const currentUserId = useSelector(
+		(state) => state.currentUserData && state.currentUserData.id
+	);
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
 	const [activeStep, setActiveStep] = useState(0);
