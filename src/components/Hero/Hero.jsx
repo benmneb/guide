@@ -11,12 +11,7 @@ const useStyles = makeStyles((theme) => ({
 	container: {
 		backgroundColor: theme.palette.background.paper,
 		zIndex: theme.zIndex.appBar + 1,
-		[theme.breakpoints.only('xs')]: {
-			height: 375
-		},
-		[theme.breakpoints.up('sm')]: {
-			height: 350
-		}
+		...theme.mixins.hero // for responsive height
 	},
 	// hasBgImage: {
 	// 	[theme.breakpoints.only('xs')]: {

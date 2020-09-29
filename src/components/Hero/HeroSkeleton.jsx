@@ -10,12 +10,7 @@ const useStyles = makeStyles((theme) => ({
 		overflowX: 'hidden',
 		backgroundColor: theme.palette.background.paper,
 		zIndex: theme.zIndex.appBar + 1,
-		[theme.breakpoints.only('xs')]: {
-			height: 375
-		},
-		[theme.breakpoints.up('sm')]: {
-			height: 350
-		}
+		...theme.mixins.hero // for responsive height
 	},
 	content: {
 		top: theme.mixins.toolbar.minHeight / 2,

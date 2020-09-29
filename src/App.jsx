@@ -38,6 +38,12 @@ let theme = createMuiTheme({
 		},
 		sideMenu: {
 			width: 240
+		},
+		hero: {
+			height: 375,
+			'@media (min-width: 600px)': {
+				height: 350
+			}
 		}
 	},
 	typography: {
