@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { showSnackbar } from '../../store/actions';
+import { useHistory } from 'react-router-dom';
+import { showSnackbar, setCurrentUserData } from '../../store/actions';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -71,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AboutEdit({ hide, show }) {
 	const styles = useStyles();
 	const confirm = useConfirm();
+	const history = useHistory();
 	const theme = useTheme();
 	const dispatch = useDispatch();
 	const currentUserId = useSelector(
@@ -176,7 +178,7 @@ export default function AboutEdit({ hide, show }) {
 					.then(() => {
 						setChangeEmail(false);
 						setPending(false);
-						return dispatch(
+						dispatch(
 							showSnackbar({
 								snackData: {
 									type: 'warning',
@@ -240,7 +242,7 @@ export default function AboutEdit({ hide, show }) {
 					.then(() => {
 						setUpdatePassword(false);
 						setPending(false);
-						return dispatch(
+						dispatch(
 							showSnackbar({
 								snackData: {
 									type: 'success',
@@ -264,26 +266,53 @@ export default function AboutEdit({ hide, show }) {
 			.catch(() => setPending(false));
 	};
 
+	const handleDeleteAccountClick = () => {
+		confirm({
+			description:
+				'Please confirm you want to delete your account. This action will also log out you out immediately.',
+			confirmationText: 'Delete Account',
+			confirmationButtonProps: { className: styles.deleteAccount }
+		})
+			.then(() => {
+				setPending('deleteAccount');
+				axios
+					.delete(`https://api.vomad.guide/auth/delete-user/${currentUserId}`)
+					.then(() => {
+						setPending(false);
+						dispatch(setCurrentUserData(null, false));
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'success',
+									color: 'info',
+									message: 'Account deleted. Thanks for coming!',
+									emoji: '👋'
+								}
+							})
+						);
+					})
+					.then(() => history.replace('/'))
+					.catch(() => {
+						setPending(false);
+						return dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'error',
+									message: 'Could not delete account, please try again.'
+								}
+							})
+						);
+					});
+			})
+			.catch(() => setPending(false));
+	};
+
 	const handleClickShowPassword = () => {
 		setShowPasswords(!showPasswords);
 	};
 
 	const handleMouseDownPassword = (event) => {
 		event.preventDefault();
-	};
-
-	const handleDeleteAccountClick = () => {
-		confirm({
-			description: 'Please confirm you want to delete your account.',
-			confirmationText: 'Delete Account',
-			confirmationButtonProps: { className: styles.deleteAccount }
-		})
-			.then(() => {
-				setPending('deleteAccount');
-				console.info('TODO: DELETE ACCOUNT PLZZ HESHAM');
-				setPending(false);
-			})
-			.catch(() => setPending(false));
 	};
 
 	return (
