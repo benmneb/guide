@@ -203,25 +203,6 @@ export default function AuthResetPassword({ isOpened }) {
 									}
 								})}
 								error={Boolean(errors.password)}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="toggle password visibility"
-											onClick={handleClickShowPassword}
-											onMouseDown={handleMouseDownPassword}
-										>
-											{showPasswords ? (
-												<Tooltip title="Hide passwords">
-													<VisibilityRounded />
-												</Tooltip>
-											) : (
-												<Tooltip title="Show passwords">
-													<VisibilityOffRounded />
-												</Tooltip>
-											)}
-										</IconButton>
-									</InputAdornment>
-								}
 								fullWidth
 							/>
 							<FormHelperText error>

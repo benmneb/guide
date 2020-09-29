@@ -397,33 +397,41 @@ export default function AboutEdit({ hide, show }) {
 						justifyContent="space-evenly"
 						marginY={1}
 					>
-						<TextField
-							id="change-email"
-							name="email"
-							size="small"
-							type="text"
-							placeholder="New email"
-							margin="dense"
-							inputRef={register({
-								required: 'Please enter an email',
-								pattern: {
-									value: /\S+@\S+\.\S+/,
-									message: 'Please enter a valid email'
-								}
-							})}
-							error={Boolean(errors.email)}
-							helperText={Boolean(errors.email) && errors.email.message}
-							autoFocus
-						/>
-						<Box marginY={1.5}>
-							<LoadingButton
-								type="submit"
-								variant="contained"
-								color="primary"
-								pending={pending === 'email'}
-							>
-								Change
-							</LoadingButton>
+						<Box
+							display="flex"
+							flexDirection="column"
+							justifyContent="center"
+							width="80%"
+						>
+							<TextField
+								id="change-email"
+								name="email"
+								size="small"
+								type="text"
+								placeholder="New email"
+								margin="dense"
+								inputRef={register({
+									required: 'Please enter an email',
+									pattern: {
+										value: /\S+@\S+\.\S+/,
+										message: 'Please enter a valid email'
+									}
+								})}
+								error={Boolean(errors.email)}
+								helperText={Boolean(errors.email) && errors.email.message}
+								fullWidth
+								autoFocus
+							/>
+							<Box display="flex" justifyContent="center" marginY={1.5}>
+								<LoadingButton
+									type="submit"
+									variant="contained"
+									color="primary"
+									pending={pending === 'email'}
+								>
+									Change
+								</LoadingButton>
+							</Box>
 						</Box>
 					</Box>
 				</Collapse>
@@ -445,112 +453,94 @@ export default function AboutEdit({ hide, show }) {
 						flexDirection="column"
 						alignItems="center"
 					>
-						<FormControl margin="dense">
-							<InputLabel htmlFor="password" margin="dense">
-								New password
-							</InputLabel>
-							<Input
-								autoFocus
-								margin="dense"
-								name="password"
-								label="New password"
-								type={showPasswords ? 'text' : 'password'}
-								inputRef={register({
-									required: 'Password required',
-									minLength: {
-										value: 6,
-										message: 'Minimum 6 characters'
-									},
-									maxLength: {
-										value: 20,
-										message: 'Maximum 20 characters'
+						<Box display="flex" flexDirection="column" justifyContent="center">
+							<FormControl margin="dense">
+								<InputLabel htmlFor="password" margin="dense">
+									New password
+								</InputLabel>
+								<Input
+									autoFocus
+									margin="dense"
+									name="password"
+									label="New password"
+									type={showPasswords ? 'text' : 'password'}
+									inputRef={register({
+										required: 'Password required',
+										minLength: {
+											value: 6,
+											message: 'Minimum 6 characters'
+										},
+										maxLength: {
+											value: 20,
+											message: 'Maximum 20 characters'
+										}
+									})}
+									error={Boolean(errors.password)}
+									fullWidth
+								/>
+								{errors.password && (
+									<FormHelperText error>{errors.password.message}</FormHelperText>
+								)}
+							</FormControl>
+							<FormControl margin="dense">
+								<InputLabel htmlFor="confirmpassword" margin="dense">
+									Confirm new password
+								</InputLabel>
+								<Input
+									margin="dense"
+									name="confirmpassword"
+									label="Confirm new password"
+									type={showPasswords ? 'text' : 'password'}
+									inputRef={register({
+										required: 'Please confirm password',
+										minLength: {
+											value: 6,
+											message: 'Minimum 6 characters'
+										},
+										maxLength: {
+											value: 20,
+											message: 'Maximum 20 characters'
+										},
+										validate: (value) =>
+											value === watch('password') || 'Passwords must match'
+									})}
+									error={Boolean(errors.confirmpassword)}
+									endAdornment={
+										<InputAdornment position="end">
+											<IconButton
+												aria-label="toggle password visibility"
+												onClick={handleClickShowPassword}
+												onMouseDown={handleMouseDownPassword}
+												size="small"
+											>
+												{showPasswords ? (
+													<Tooltip title="Hide passwords">
+														<VisibilityRounded />
+													</Tooltip>
+												) : (
+													<Tooltip title="Show passwords">
+														<VisibilityOffRounded />
+													</Tooltip>
+												)}
+											</IconButton>
+										</InputAdornment>
 									}
-								})}
-								error={Boolean(errors.password)}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="toggle password visibility"
-											onClick={handleClickShowPassword}
-											onMouseDown={handleMouseDownPassword}
-											size="small"
-										>
-											{showPasswords ? (
-												<Tooltip title="Hide passwords">
-													<VisibilityRounded />
-												</Tooltip>
-											) : (
-												<Tooltip title="Show passwords">
-													<VisibilityOffRounded />
-												</Tooltip>
-											)}
-										</IconButton>
-									</InputAdornment>
-								}
-								fullWidth
-							/>
-							{errors.password && (
-								<FormHelperText error>{errors.password.message}</FormHelperText>
-							)}
-						</FormControl>
-						<FormControl margin="dense">
-							<InputLabel htmlFor="confirmpassword" margin="dense">
-								Confirm new password
-							</InputLabel>
-							<Input
-								margin="dense"
-								name="confirmpassword"
-								label="Confirm new password"
-								type={showPasswords ? 'text' : 'password'}
-								inputRef={register({
-									required: 'Please confirm password',
-									minLength: {
-										value: 6,
-										message: 'Minimum 6 characters'
-									},
-									maxLength: {
-										value: 20,
-										message: 'Maximum 20 characters'
-									},
-									validate: (value) =>
-										value === watch('password') || 'Passwords must match'
-								})}
-								error={Boolean(errors.confirmpassword)}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="toggle password visibility"
-											onClick={handleClickShowPassword}
-											onMouseDown={handleMouseDownPassword}
-											size="small"
-										>
-											{showPasswords ? (
-												<Tooltip title="Hide passwords">
-													<VisibilityRounded />
-												</Tooltip>
-											) : (
-												<Tooltip title="Show passwords">
-													<VisibilityOffRounded />
-												</Tooltip>
-											)}
-										</IconButton>
-									</InputAdornment>
-								}
-								fullWidth
-							/>
-							{errors.confirmpassword && (
-								<FormHelperText error>{errors.confirmpassword.message}</FormHelperText>
-							)}
-						</FormControl>
-						<Box marginY={1.5}>
-							<LoadingButton
-								type="submit"
-								variant="contained"
-								color="primary"
-								pending={pending === 'password'}
-							>
-								Update
-							</LoadingButton>
+									fullWidth
+								/>
+								{errors.confirmpassword && (
+									<FormHelperText error>{errors.confirmpassword.message}</FormHelperText>
+								)}
+							</FormControl>
+							<Box display="flex" justifyContent="center" marginY={1.5}>
+								<LoadingButton
+									type="submit"
+									variant="contained"
+									color="primary"
+									pending={pending === 'password'}
+								>
+									Update
+								</LoadingButton>
+							</Box>
 						</Box>
 					</Box>
 				</Collapse>
