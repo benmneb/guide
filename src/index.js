@@ -10,15 +10,15 @@ import * as serviceWorker from './serviceWorker';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
-import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 import crossBrowserListener from './utils/reduxpersist-listener';
 
 const persistConfig = {
 	key: 'root',
 	storage,
-	stateReconciler: hardSet,
-	whiteList: ['currentUserData']
+	stateReconciler: autoMergeLevel2,
+	whitelist: ['currentUserData', 'isAuthenticated']
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
