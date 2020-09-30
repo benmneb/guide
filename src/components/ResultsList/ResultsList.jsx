@@ -73,7 +73,7 @@ const ResultsList = ({
 	const location = useLocation();
 	const [fetchedResults, setFetchedResults] = useState([]);
 	const [filteredResults, setFilteredResults] = useState([]);
-	const displayedResults = filteredResults ? filteredResults : fetchedResults;
+	const [displayedResults, setDisplayedResults] = useState([]);
 	const [categoryData, setCategoryData] = useState({});
 	const loading = !fetchedResults.length > 0;
 	const [currentPathname, setCurrentPathname] = useState('');
@@ -85,6 +85,11 @@ const ResultsList = ({
 		to: '/:name/:id',
 		isRelativePath: true
 	});
+
+	useEffect(() => {
+		if (appliedFilters.length) setDisplayedResults(filteredResults);
+		else setDisplayedResults(fetchedResults);
+	}, [fetchedResults, filteredResults, appliedFilters]);
 
 	//axios call to get products
 	useEffect(() => {
@@ -173,7 +178,7 @@ const ResultsList = ({
 				)
 			);
 		} else {
-			setFilteredResults(null);
+			setFilteredResults([]);
 		}
 	}, [appliedFilters, fetchedResults]);
 
