@@ -94,11 +94,11 @@ const ResultsList = ({
 		const releventPathname = `/${categoryArr[1]}/${categoryArr[2]}`;
 
 		if (releventPathname !== currentPathname) {
+			setLoading(true);
 			axios
 				.get(`https://api.vomad.guide/category${releventPathname}`, {
 					cancelToken: source.token
 				})
-				.then(mounted && setLoading(true))
 				.then((response, rejection) => {
 					if (mounted) {
 						if (rejection) {
@@ -162,13 +162,14 @@ const ResultsList = ({
 		};
 	}, [showFiltersPanel, onHideFiltersPanel]);
 
-	// fucked filters :'(
+	// filter displayed results by applied filters
 	useEffect(() => {
 		if (appliedFilters.length > 0) {
 			setFilteredResults(
-				fetchedResults.filter(
-					(result) =>
-						result.tags !== null && result.tags.includes(appliedFilters[0].value)
+				fetchedResults.filter((result) =>
+					appliedFilters.every(
+						(filter) => result.tags !== null && result.tags.indexOf(filter.value) >= 0
+					)
 				)
 			);
 		} else {
