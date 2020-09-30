@@ -88,7 +88,7 @@ export default function Reducers(state = initialState, action) {
 		case actionTypes.ADD_FILTER:
 			return {
 				...state,
-				appliedFilters: [...state.appliedFilters, action.payload.filter]
+				appliedFilters: [action.payload.filter, ...state.appliedFilters]
 			};
 		case actionTypes.REMOVE_FILTER:
 			return {
