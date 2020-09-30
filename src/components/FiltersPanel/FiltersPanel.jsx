@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Drawer, Typography, Grid, Box } from '@material-ui/core';
 import SortBy from './SortBy';
@@ -36,20 +35,21 @@ const useStyles = makeStyles((theme) => ({
 			borderTop: `1px solid rgba(0, 0, 0, 0.12);`
 		}
 	},
-	filtersApplied: {
-		[theme.breakpoints.only('sm')]: {
-			top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48,
-			height: `calc(100vh - ${
-				theme.mixins.toolbar['@media (min-width:600px)'].minHeight * 2 + 48
-			}px)` // bottomNav height * 2 + chips toolbar height
-		},
-		[theme.breakpoints.up('md')]: {
-			top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48,
-			height: `calc(100vh - ${
-				theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48
-			}px)`
-		}
-	},
+	// made redundant, keeping "just in case"
+	// filtersApplied: {
+	// 	[theme.breakpoints.only('sm')]: {
+	// 		top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48,
+	// 		height: `calc(100vh - ${
+	// 			theme.mixins.toolbar['@media (min-width:600px)'].minHeight * 2 + 48
+	// 		}px)` // bottomNav height * 2 + chips toolbar height
+	// 	},
+	// 	[theme.breakpoints.up('md')]: {
+	// 		top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48,
+	// 		height: `calc(100vh - ${
+	// 			theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48
+	// 		}px)`
+	// 	}
+	// },
 	content: {
 		maxWidth: theme.mixins.filtersPanel.width,
 		[theme.breakpoints.only('xs')]: {
@@ -77,9 +77,7 @@ const FiltersPanel = ({ showFiltersPanel, appliedFilters }) => {
 			anchor="right"
 			open={showFiltersPanel}
 			classes={{
-				paper: clsx(styles.drawerPaper, {
-					[styles.filtersApplied]: appliedFilters.length > 0
-				})
+				paper: styles.drawerPaper
 			}}
 		>
 			<Box component="aside" className={styles.content}>

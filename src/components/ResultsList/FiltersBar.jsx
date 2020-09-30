@@ -1,55 +1,61 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
 	AppBar,
 	Toolbar,
 	Box,
 	Breadcrumbs,
-	Tooltip,
 	useScrollTrigger,
+	Tooltip,
 	Chip
 } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import { DeleteRounded } from '@material-ui/icons';
+import { removeFilter, removeAllFilters } from '../../store/actions';
 import ShowFiltersButton from './ShowFiltersButton';
 import BreadcrumbTrail from './BreadcrumbTrail';
-import * as actionCreators from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	zIndex: {
 		zIndex: theme.zIndex.appBar - 1
 	},
-	breadcrumbs: {
-		flexGrow: 1,
+	breadcrumbsBox: {
 		overflow: 'scroll',
 		display: 'none',
 		[theme.breakpoints.up('sm')]: {
 			display: 'block'
 		}
 	},
-	filtersToolbar: {
-		display: 'flex',
-		alignItems: 'baseline',
-		marginLeft: theme.spacing(-0.5)
-	},
-	filtersChipBox: {
-		display: 'flex',
-		overflow: 'scroll',
-		width: `calc(100% - ${theme.spacing(6)}px)`,
-		position: 'absolute',
+	chipsBox: {
+		display: 'none',
 		msOverflowStyle: 'none',
 		scrollbarWidth: 'none',
 		'&::-webkit-scrollbar': {
 			display: 'none'
+		},
+		[theme.breakpoints.up('sm')]: {
+			margin: theme.spacing(0, 0, 0, 2),
+			display: 'flex',
+			flexDirection: 'row-reverse',
+			flexShrink: 100000,
+			overflow: 'scroll',
+			whiteSpace: 'nowrap',
+			maxWidth: 670,
+			width: '100%'
+		},
+		[theme.breakpoints.up('md')]: {
+			margin: theme.spacing(0, 2)
 		}
 	},
-	chip: {
+	removeAllChip: {
 		margin: theme.spacing(0, 0.5)
 	}
 }));
 
-function ElevationScroll({ showFiltersPanel, children }) {
+function ElevationScroll({ children }) {
+	const showFiltersPanel = useSelector((state) => state.showFiltersPanel);
+
 	const trigger = useScrollTrigger({
 		disableHysteresis: true,
 		threshold: showFiltersPanel ? -1 : 290
@@ -60,12 +66,10 @@ function ElevationScroll({ showFiltersPanel, children }) {
 	});
 }
 
-function FiltersBar({ appliedFilters, setRemoveFilter, setRemoveAllFilters, ...props }) {
+export default function FiltersBar(props) {
 	const styles = useStyles();
-
-	function removeAllFilters() {
-		setRemoveAllFilters();
-	}
+	const dispatch = useDispatch();
+	const appliedFilters = useSelector((state) => state.appliedFilters);
 
 	return (
 		<Box
@@ -82,8 +86,8 @@ function FiltersBar({ appliedFilters, setRemoveFilter, setRemoveAllFilters, ...p
 					elevation={3}
 					classes={{ root: styles.zIndex }}
 				>
-					<Toolbar>
-						<Box className={styles.breadcrumbs}>
+					<Toolbar display="flex">
+						<Box className={styles.breadcrumbsBox}>
 							{props.loading ? (
 								<Breadcrumbs>
 									<Skeleton width={400} />
@@ -92,13 +96,9 @@ function FiltersBar({ appliedFilters, setRemoveFilter, setRemoveAllFilters, ...p
 								<BreadcrumbTrail breadcrumbs={props.breadcrumbs} />
 							)}
 						</Box>
-						<Box display={{ xs: 'none', md: 'flex' }}>
-							<ShowFiltersButton />
-						</Box>
-					</Toolbar>
-					{appliedFilters.length > 0 && (
-						<Toolbar variant="dense" className={styles.filtersToolbar}>
-							<Box className={styles.filtersChipBox}>
+						<Box flexGrow="1" justifyContent="flex-start"></Box>
+						{appliedFilters.length > 0 && (
+							<Box className={styles.chipsBox}>
 								{appliedFilters.map((filter) => (
 									<Tooltip
 										key={filter.value}
@@ -107,43 +107,32 @@ function FiltersBar({ appliedFilters, setRemoveFilter, setRemoveAllFilters, ...p
 										arrow
 									>
 										<Chip
-											className={styles.chip}
+											className={styles.removeAllChip}
 											label={filter.value}
-											onClick={() => setRemoveFilter(filter)}
-											onDelete={() => setRemoveFilter(filter)}
+											onClick={() => dispatch(removeFilter(filter))}
+											onDelete={() => dispatch(removeFilter(filter))}
 										/>
 									</Tooltip>
 								))}
-								<Box className={styles.chip}>
-									<Chip
-										label={'Remove All'}
-										variant="outlined"
-										deleteIcon={<DeleteRounded />}
-										onClick={removeAllFilters}
-										onDelete={removeAllFilters}
-									/>
-								</Box>
+								{appliedFilters.length > 4 && (
+									<Box className={styles.chip}>
+										<Chip
+											label={'Remove All'}
+											variant="outlined"
+											deleteIcon={<DeleteRounded />}
+											onClick={() => dispatch(removeAllFilters())}
+											onDelete={() => dispatch(removeAllFilters())}
+										/>
+									</Box>
+								)}
 							</Box>
-						</Toolbar>
-					)}
+						)}
+						<Box display={{ xs: 'none', md: 'flex' }}>
+							<ShowFiltersButton />
+						</Box>
+					</Toolbar>
 				</AppBar>
 			</ElevationScroll>
 		</Box>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		showFiltersPanel: state.showFiltersPanel,
-		appliedFilters: state.appliedFilters
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setRemoveFilter: (filter) => dispatch(actionCreators.removeFilter(filter)),
-		setRemoveAllFilters: () => dispatch(actionCreators.removeAllFilters())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(FiltersBar);
