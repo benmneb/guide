@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import clsx from 'clsx';
 import {
@@ -19,6 +20,7 @@ import Rating from '@material-ui/lab/Rating';
 import ReviewReport from './ReviewReport';
 import LikeButton from '../LikeButton';
 import randomMC from 'random-material-color';
+import { showSnackbar } from '../../../store/actions';
 import { getTimeAgo } from '../../../utils/timeAgo';
 import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 
@@ -42,9 +44,11 @@ export default function ReviewCard({ isAuthenticated, ...props }) {
 	const { review } = props;
 	const styles = useStyles();
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const currentUserData = useSelector((state) => state.currentUserData);
+	const color = randomMC.getColor({ text: review.user_name });
 	const [showMoreMenu, setShowMoreMenu] = useState(null);
 	const [showReportModal, setShowReportModal] = useState(false);
-	const color = randomMC.getColor({ text: review.user_name });
 
 	const authLink = usePrepareLink({
 		query: {
@@ -83,9 +87,22 @@ export default function ReviewCard({ isAuthenticated, ...props }) {
 		if (isAuthenticated) {
 			axios
 				.put('https://api.vomad.guide/like/', {
-					review_id: review.review_id
+					review_id: review.review_id,
+					user_id: currentUserData.id
 				})
-				.then(() => props.updateReview());
+				.then(() => props.updateReview())
+				.catch((err) => {
+					console.error(err);
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								title: 'Could not like review',
+								message: `${err.message}. Please try again.`
+							}
+						})
+					);
+				});
 		} else {
 			history.push(authLink);
 		}
