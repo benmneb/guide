@@ -2,37 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore, compose } from 'redux';
-import reducers from './store/reducers/reducers';
+import { store, persistor } from './store';
+import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
-import { persistStore, persistReducer } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react';
-import storage from 'redux-persist/lib/storage';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-
-import crossBrowserListener from './utils/reduxpersist-listener';
-
-const persistConfig = {
-	key: 'root',
-	storage,
-	stateReconciler: autoMergeLevel2,
-	whitelist: ['currentUserData', 'isAuthenticated']
-};
-
-const persistedReducer = persistReducer(persistConfig, reducers);
-
-const composeEnhancers =
-	process.env.NODE_ENV === 'development'
-		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-		: null || compose;
-
-const store = createStore(persistedReducer, composeEnhancers());
-
-const persistor = persistStore(store);
-
-window.addEventListener('storage', crossBrowserListener(store, persistConfig));
 
 const app = (
 	<Provider store={store}>

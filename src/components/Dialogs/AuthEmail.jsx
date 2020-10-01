@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AuthEmail() {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const route = useSelector((state) => state.isUsingEmailAuthRoute);
+	const route = useSelector((state) => state.auth.isUsingEmailAuthRoute);
 
 	const handleChangeRoute = (event, newRoute) => {
 		if (newRoute !== null) dispatch(setIsUsingEmailAuthRoute(newRoute));

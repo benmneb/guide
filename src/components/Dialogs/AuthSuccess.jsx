@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export default function AuthSuccess() {
 	const dispatch = useDispatch();
-	const isAuthenticated = useSelector((state) => state.isAuthenticated);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
 	useEffect(() => {
 		let mounted = true;

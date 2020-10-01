@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
 export default function AppliedFiltersBar() {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const appliedFilters = useSelector((state) => state.appliedFilters);
-	const showFiltersPanel = useSelector((state) => state.showFiltersPanel);
+	const appliedFilters = useSelector((state) => state.results.appliedFilters);
+	const showFiltersPanel = useSelector((state) => state.ui.showFiltersPanel);
 
 	if (appliedFilters.length <= 0 || showFiltersPanel) return null;
 

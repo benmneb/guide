@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ElevationScroll({ children }) {
-	const showFiltersPanel = useSelector((state) => state.showFiltersPanel);
+	const showFiltersPanel = useSelector((state) => state.ui.showFiltersPanel);
 
 	const trigger = useScrollTrigger({
 		disableHysteresis: true,
@@ -69,7 +69,7 @@ function ElevationScroll({ children }) {
 export default function FiltersBar(props) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const appliedFilters = useSelector((state) => state.appliedFilters);
+	const appliedFilters = useSelector((state) => state.results.appliedFilters);
 
 	return (
 		<Box

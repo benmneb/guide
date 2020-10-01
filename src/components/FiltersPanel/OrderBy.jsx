@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export default function OrderBy() {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const orderBy = useSelector((state) => state.orderResultsBy);
+	const orderBy = useSelector((state) => state.results.orderResultsBy);
 
 	const handleClick = (event, newOrder) => {
 		if (newOrder !== null) {

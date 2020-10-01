@@ -3,20 +3,29 @@ export {
 	hideFiltersPanel,
 	showSideDrawer,
 	hideSideDrawer,
-	setSelectedProduct,
-	setCurrentUserData,
 	showSnackbar,
-	hideSnackbar,
+	hideSnackbar
+} from './UI';
+
+export {
+	setSelectedProduct,
 	clickAddReviewAfterRating,
 	showAddReview,
 	hideAddReview,
-	setCurrentLocation,
+	setCurrentLocation
+} from './product';
+
+export {
+	setCurrentUserData,
+	setIsUsingEmailAuth,
+	setIsUsingEmailAuthRoute
+} from './auth';
+
+export {
 	addFilter,
 	removeFilter,
 	removeAllFilters,
 	setLoading,
-	setIsUsingEmailAuth,
-	setIsUsingEmailAuthRoute,
 	sortResultsBy,
 	orderResultsBy
-} from './actions';
+} from './results';

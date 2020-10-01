@@ -313,8 +313,8 @@ function WhereToBuy({
 
 const mapStateToProps = (state) => {
 	return {
-		currentLocation: state.currentLocation,
-		isAuthenticated: state.isAuthenticated
+		currentLocation: state.product.currentLocation,
+		isAuthenticated: state.auth.isAuthenticated
 	};
 };
 

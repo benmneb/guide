@@ -247,8 +247,8 @@ function About({ isAuthenticated, selectedProduct }) {
 
 const mapStateToProps = (state) => {
 	return {
-		isAuthenticated: state.isAuthenticated,
-		selectedProduct: state.selectedProduct
+		isAuthenticated: state.auth.isAuthenticated,
+		selectedProduct: state.product.selectedProduct
 	};
 };
 

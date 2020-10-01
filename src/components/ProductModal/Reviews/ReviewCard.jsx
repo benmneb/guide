@@ -45,7 +45,7 @@ export default function ReviewCard({ isAuthenticated, ...props }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const currentUserData = useSelector((state) => state.currentUserData);
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const color = randomMC.getColor({ text: review.user_name });
 	const [showMoreMenu, setShowMoreMenu] = useState(null);
 	const [showReportModal, setShowReportModal] = useState(false);

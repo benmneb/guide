@@ -74,7 +74,7 @@ export default function AboutEdit({ hide, show }) {
 	const theme = useTheme();
 	const dispatch = useDispatch();
 	const currentUserId = useSelector(
-		(state) => state.currentUserData && state.currentUserData.id
+		(state) => state.auth.currentUserData && state.auth.currentUserData.id
 	);
 	const { register, handleSubmit, errors, watch } = useForm();
 	const [editUsername, setEditUsername] = useState(false);

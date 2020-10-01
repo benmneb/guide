@@ -64,8 +64,8 @@ export default function Auth({ isOpened }) {
 	const location = useLocation();
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const isAuthenticated = useSelector((state) => state.isAuthenticated);
-	const isUsingEmailAuth = useSelector((state) => state.isUsingEmailAuth);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const isUsingEmailAuth = useSelector((state) => state.auth.isUsingEmailAuth);
 
 	useEffect(() => {
 		const node = loadCSS(

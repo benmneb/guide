@@ -59,7 +59,7 @@ export default function AddProducts({ isOpened }) {
 	const steps = getSteps();
 	const dispatch = useDispatch();
 	const currentUserId = useSelector(
-		(state) => state.currentUserData && state.currentUserData.id
+		(state) => state.auth.currentUserData && state.auth.currentUserData.id
 	);
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 

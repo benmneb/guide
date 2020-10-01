@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SortBy() {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const sortBy = useSelector((state) => state.sortResultsBy);
+	const sortBy = useSelector((state) => state.results.sortResultsBy);
 
 	const handleClick = (event, newSort) => {
 		if (newSort !== null) {

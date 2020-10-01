@@ -102,9 +102,9 @@ export default function TopBar({ children }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const currentUserData = useSelector((state) => state.currentUserData);
-	const showFiltersPanel = useSelector((state) => state.showFiltersPanel);
-	const isAuthenticated = useSelector((state) => state.isAuthenticated);
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const showFiltersPanel = useSelector((state) => state.ui.showFiltersPanel);
 
 	useEffect(() => {
 		if (isAuthenticated) {

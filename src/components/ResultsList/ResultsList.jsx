@@ -78,8 +78,8 @@ const ResultsList = ({
 	const loading = !fetchedResults.length > 0;
 	const [currentPathname, setCurrentPathname] = useState('');
 	const [sortResultsFunc, setSortResultsFunc] = useState(null);
-	const sortBy = useSelector((state) => state.sortResultsBy);
-	const orderBy = useSelector((state) => state.orderResultsBy);
+	const sortBy = useSelector((state) => state.results.sortResultsBy);
+	const orderBy = useSelector((state) => state.results.orderResultsBy);
 
 	const productLink = usePrepareLink({
 		to: '/:name/:id',
@@ -101,7 +101,7 @@ const ResultsList = ({
 		if (releventPathname !== currentPathname) {
 			setLoading(true);
 			axios
-				.get(`https://api.vomad.guide/category${releventPathname}`, {
+				.get(`https://api.vomad.guide/category${releventPathname}/0`, {
 					cancelToken: source.token
 				})
 				.then((response, rejection) => {
@@ -285,9 +285,9 @@ const ResultsList = ({
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel,
-		appliedFilters: state.appliedFilters,
-		isLoading: state.isLoading
+		showFiltersPanel: state.ui.showFiltersPanel,
+		appliedFilters: state.results.appliedFilters,
+		isLoading: state.results.isLoading
 	};
 };
 

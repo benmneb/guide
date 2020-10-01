@@ -91,7 +91,7 @@ function StarRating({
 
 const mapStateToProps = (state) => {
 	return {
-		showAddReview: state.showAddReview
+		showAddReview: state.product.showAddReview
 	};
 };
 

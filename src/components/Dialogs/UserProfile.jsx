@@ -297,7 +297,7 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 
 const mapStateToProps = (state) => {
 	return {
-		currentUserData: state.currentUserData
+		currentUserData: state.auth.currentUserData
 	};
 };
 

@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoadingBar() {
 	const styles = useStyles();
-	const isLoading = useSelector((state) => state.isLoading);
+	const isLoading = useSelector((state) => state.results.isLoading);
 
 	return (
 		isLoading && (

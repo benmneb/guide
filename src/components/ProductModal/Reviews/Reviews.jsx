@@ -148,10 +148,11 @@ function Reviews({
 
 const mapStateToProps = (state) => {
 	return {
-		showAddReview: state.showAddReview,
-		selectedProductId: state.selectedProduct.productId,
-		ratingBeforeClickedAddReviewSnackbar: state.ratingBeforeClickedAddReviewSnackbar,
-		isAuthenticated: state.isAuthenticated
+		showAddReview: state.product.showAddReview,
+		selectedProductId: state.product.selectedProduct.productId,
+		ratingBeforeClickedAddReviewSnackbar:
+			state.product.ratingBeforeClickedAddReviewSnackbar,
+		isAuthenticated: state.auth.isAuthenticated
 	};
 };
 

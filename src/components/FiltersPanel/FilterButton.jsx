@@ -53,7 +53,7 @@ function FilterButton({ setAddFilter, setRemoveFilter, appliedFilters, filter })
 
 const mapStateToProps = (state) => {
 	return {
-		appliedFilters: state.appliedFilters
+		appliedFilters: state.results.appliedFilters
 	};
 };
 

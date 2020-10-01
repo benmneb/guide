@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ReviewsAdd({ ratingBeforeClickedAddReviewSnackbar, ...props }) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const currentUserData = useSelector((state) => state.currentUserData);
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const [rating, setRating] = useState(0);
 	const [hover, setHover] = useState(-1);
 	const [ratingError, setRatingError] = useState(false);

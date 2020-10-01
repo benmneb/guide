@@ -302,9 +302,9 @@ const SideDrawer = ({
 
 const mapStateToProps = (state) => {
 	return {
-		showSideDrawer: state.showSideDrawer,
-		isAuthenticated: state.isAuthenticated,
-		currentUserData: state.currentUserData
+		showSideDrawer: state.ui.showSideDrawer,
+		isAuthenticated: state.auth.isAuthenticated,
+		currentUserData: state.auth.currentUserData
 	};
 };
 

@@ -267,9 +267,9 @@ const ProductModal = ({
 
 const mapStateToProps = (state) => {
 	return {
-		showAddReview: state.showAddReview,
-		currentUserData: state.currentUserData,
-		selectedProduct: state.selectedProduct
+		showAddReview: state.product.showAddReview,
+		currentUserData: state.auth.currentUserData,
+		selectedProduct: state.product.selectedProduct
 	};
 };
 

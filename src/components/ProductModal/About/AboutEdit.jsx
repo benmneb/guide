@@ -61,7 +61,7 @@ export default function AboutEdit(props) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
 	const currentUserId = useSelector(
-		(state) => state.currentUserData && state.currentUserData.id
+		(state) => state.auth.currentUserData && state.auth.currentUserData.id
 	);
 	const [selectedReason, setSelectedReason] = useState(null);
 	const [hasSelected, setHasSelected] = useState(false);

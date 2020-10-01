@@ -50,7 +50,7 @@ function AddProductsFab({ showFiltersPanel }) {
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel
+		showFiltersPanel: state.ui.showFiltersPanel
 	};
 };
 

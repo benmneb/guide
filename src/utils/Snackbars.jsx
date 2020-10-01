@@ -7,8 +7,8 @@ import { hideSnackbar } from '../store/actions';
 
 export default function Snackbars() {
 	const dispatch = useDispatch();
-	const snackData = useSelector((state) => state.snackData);
-	const showSnackbar = useSelector((state) => state.showSnackbar);
+	const snackData = useSelector((state) => state.ui.snackData);
+	const showSnackbar = useSelector((state) => state.ui.showSnackbar);
 
 	const handleCloseSnack = (event, reason) => {
 		if (reason !== 'clickaway') {

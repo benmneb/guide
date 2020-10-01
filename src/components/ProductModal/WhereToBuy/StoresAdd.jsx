@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export default function StoresAdd(props) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const currentUserId = useSelector((state) => state.currentUserData.id);
+	const currentUserId = useSelector((state) => state.auth.currentUserData.id);
 	const [value, setValue] = useState(null);
 	const [inputValue, setInputValue] = useState('');
 	const [options, setOptions] = useState([]);

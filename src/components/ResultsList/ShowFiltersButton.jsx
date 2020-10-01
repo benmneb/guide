@@ -23,7 +23,7 @@ const BackToCategories = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel
+		showFiltersPanel: state.ui.showFiltersPanel
 	};
 };
 

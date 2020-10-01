@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ReviewReport(props) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const currentUserId = useSelector((state) => state.currentUserData.id);
+	const currentUserId = useSelector((state) => state.auth.currentUserData.id);
 	const [pending, setPending] = useState(false);
 
 	const handleClose = () => {

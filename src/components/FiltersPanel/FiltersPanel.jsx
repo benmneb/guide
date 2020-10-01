@@ -139,8 +139,8 @@ const FiltersPanel = ({ showFiltersPanel, appliedFilters }) => {
 
 const mapStateToProps = (state) => {
 	return {
-		showFiltersPanel: state.showFiltersPanel,
-		appliedFilters: state.appliedFilters
+		showFiltersPanel: state.ui.showFiltersPanel,
+		appliedFilters: state.results.appliedFilters
 	};
 };
 
