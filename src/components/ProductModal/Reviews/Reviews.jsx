@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import * as actionCreators from '../../../store/actions';
+import { setReviews, showAddReview, hideAddReview } from '../../../store/actions';
 import { Typography, Button, Collapse, Grid, Link, Box } from '@material-ui/core';
 import { CancelRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,17 +26,16 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Reviews({
-	showAddReview,
-	onShowAddReview,
-	onHideAddReview,
-	selectedProductId,
-	ratingBeforeClickedAddReviewSnackbar,
-	isAuthenticated
-}) {
+export default function Reviews() {
 	const styles = useStyles();
 	const history = useHistory();
-	const [reviews, setReviews] = useState(null);
+	const dispatch = useDispatch();
+	const reviews = useSelector((state) => state.product.reviews);
+	const showAddReviewForm = useSelector((state) => state.product.showAddReview);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const selectedProductId = useSelector(
+		(state) => state.product.selectedProduct.productId
+	);
 
 	useEffect(() => {
 		let mounted = true;
@@ -48,7 +47,7 @@ function Reviews({
 					cancelToken: source.token
 				})
 				.then((response) => {
-					if (mounted) setReviews(response.data);
+					if (mounted) dispatch(setReviews(response.data));
 				})
 				.catch((err) => {
 					if (mounted) console.error(err);
@@ -59,7 +58,7 @@ function Reviews({
 			mounted = false;
 			source.cancel('Reviews fetch cancelled during clean-up');
 		};
-	}, [selectedProductId]);
+	}, [selectedProductId, dispatch]);
 
 	const authLink = usePrepareLink({
 		query: {
@@ -70,19 +69,12 @@ function Reviews({
 
 	function handleAddReviewButtonClick() {
 		if (isAuthenticated) {
-			if (showAddReview) return onHideAddReview();
-			else return onShowAddReview();
+			if (showAddReviewForm) return dispatch(hideAddReview());
+			else return dispatch(showAddReview());
 		} else {
 			history.push(authLink);
 		}
 	}
-
-	const updateReview = () => {
-		axios
-			.get(`https://api.vomad.guide/review/${selectedProductId}`)
-			.then((response) => setReviews(response.data))
-			.catch((err) => console.error(err));
-	};
 
 	return (
 		<>
@@ -97,34 +89,24 @@ function Reviews({
 					)}
 					<Button
 						size="large"
-						variant={showAddReview ? 'outlined' : 'contained'}
-						color={showAddReview ? 'default' : 'primary'}
-						startIcon={showAddReview ? <CancelRounded color="disabled" /> : null}
+						variant={showAddReviewForm ? 'outlined' : 'contained'}
+						color={showAddReviewForm ? 'default' : 'primary'}
+						startIcon={showAddReviewForm ? <CancelRounded color="disabled" /> : null}
 						onClick={handleAddReviewButtonClick}
-						classes={showAddReview ? { label: styles.cancelButton } : null}
+						classes={showAddReviewForm ? { label: styles.cancelButton } : null}
 					>
-						{showAddReview ? 'Cancel' : 'Add Review'}
+						{showAddReviewForm ? 'Cancel' : 'Add Review'}
 					</Button>
 				</Grid>
 			</Grid>
-			<Collapse in={showAddReview} timeout="auto" unmountOnExit>
-				<ReviewsAdd
-					ratingBeforeClickedAddReviewSnackbar={ratingBeforeClickedAddReviewSnackbar}
-					productId={selectedProductId}
-					updateReviews={() => updateReview()}
-					hide={onHideAddReview}
-				/>
+			<Collapse in={showAddReviewForm} timeout="auto" unmountOnExit>
+				<ReviewsAdd />
 			</Collapse>
 			{reviews && reviews.length > 0 ? (
 				<MasonryLayout>
 					{reviews &&
 						reviews.map((review) => (
-							<ReviewCard
-								key={review.review_id}
-								review={review}
-								updateReview={() => updateReview()}
-								isAuthenticated={isAuthenticated}
-							/>
+							<ReviewCard key={review.review_id} review={review} />
 						))}
 				</MasonryLayout>
 			) : (
@@ -145,22 +127,3 @@ function Reviews({
 		</>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		showAddReview: state.product.showAddReview,
-		selectedProductId: state.product.selectedProduct.productId,
-		ratingBeforeClickedAddReviewSnackbar:
-			state.product.ratingBeforeClickedAddReviewSnackbar,
-		isAuthenticated: state.auth.isAuthenticated
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onShowAddReview: () => dispatch(actionCreators.showAddReview()),
-		onHideAddReview: () => dispatch(actionCreators.hideAddReview())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Reviews);

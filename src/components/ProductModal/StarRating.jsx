@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import * as actionCreators from '../../store/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+	showSnackbar,
+	hideSnackbar,
+	clickAddReviewAfterRating,
+	showAddReview
+} from '../../store/actions';
 import { Typography, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import Skeleton from '@material-ui/lab/Skeleton';
 import useWidth from '../../utils/useWidth';
 import { labels } from '../../assets/ratingLabels';
 
-function StarRating({
-	showAddReview,
-	onHideSnackbar,
-	onShowSnackbar,
-	onClickAddReviewSnackbarAfterRating,
-	...props
-}) {
-	const [hover, setHover] = useState(-1);
+export default function StarRating(props) {
+	const { product } = props;
 	const width = useWidth();
-	const product = props.product;
+	const dispatch = useDispatch();
+	const showAddReviewForm = useSelector((state) => state.product.showAddReview);
+	const [hover, setHover] = useState(-1);
 
 	let minWidth = 295;
 	let ratingSize = 'large';
@@ -27,8 +28,9 @@ function StarRating({
 	}
 
 	const handleClickAddReviewAfterRating = (newRating) => {
-		onHideSnackbar();
-		onClickAddReviewSnackbarAfterRating(newRating);
+		dispatch(hideSnackbar());
+		dispatch(clickAddReviewAfterRating(newRating));
+		dispatch(showAddReview());
 	};
 
 	let text;
@@ -61,21 +63,23 @@ function StarRating({
 							onChange={(event, newValue) => {
 								const newRating = event.target.value;
 								props.onRate(newRating);
-								onShowSnackbar({
-									snackData: {
-										type: 'success',
-										message: `Rated as "${labels[event.target.value]}"`,
-										action: {
-											text: 'Add a review?',
-											clicked: () => handleClickAddReviewAfterRating(newRating)
+								dispatch(
+									showSnackbar({
+										snackData: {
+											type: 'success',
+											message: `Rated as "${labels[newRating]}"`,
+											action: {
+												text: 'Add a review?',
+												clicked: () => handleClickAddReviewAfterRating(newRating)
+											}
 										}
-									}
-								});
+									})
+								);
 							}}
 							onChangeActive={(event, newHover) => {
 								setHover(Math.floor(newHover));
 							}}
-							readOnly={showAddReview}
+							readOnly={showAddReviewForm}
 						/>
 					</Box>
 				</Box>
@@ -88,24 +92,3 @@ function StarRating({
 		</Box>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		showAddReview: state.product.showAddReview
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onClickAddReviewSnackbarAfterRating: (rating) =>
-			dispatch(
-				actionCreators.clickAddReviewAfterRating(rating),
-				dispatch(actionCreators.showAddReview())
-			),
-		onShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData })),
-		onHideSnackbar: () => dispatch(actionCreators.hideSnackbar())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StarRating);

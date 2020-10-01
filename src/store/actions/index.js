@@ -12,7 +12,9 @@ export {
 	clickAddReviewAfterRating,
 	showAddReview,
 	hideAddReview,
-	setCurrentLocation
+	setCurrentLocation,
+	setReviews,
+	updateReviews
 } from './product';
 
 export {

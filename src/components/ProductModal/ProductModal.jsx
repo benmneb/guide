@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
-import * as actionCreators from '../../store/actions';
+import { setReviews, hideAddReview, setSelectedProduct } from '../../store/actions';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
 import {
@@ -48,25 +48,25 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const ProductModal = ({
-	showAddReview,
-	onHideAddReview,
-	currentUserData,
-	setSelectedProduct,
-	selectedProduct,
-	show
-}) => {
+export default function ProductModal({ show }) {
 	const styles = useStyles();
 	const theme = useTheme();
 	const history = useHistory();
 	const location = useLocation();
-	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-	const [currentTab, setCurrentTab] = useState('about');
-	const [newRating, setNewRating] = useState(null);
+	const dispatch = useDispatch();
 	const { id } = useParams();
 	const urlSearchParamsTab = new URLSearchParams(location.search).get('tab');
+	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+	const showAddReview = useSelector((state) => state.product.showAddReview);
+	const selectedProduct = useSelector((state) => state.product.selectedProduct);
+	const currentUserData = useSelector(
+		(state) => state.auth.isAuthenticated && state.auth.currentUserData
+	);
+	const [currentTab, setCurrentTab] = useState('about');
+	const [newRating, setNewRating] = useState(null);
 	const [currentUrlSearchParams, setCurrentUrlSearchParams] = useState(null);
 
+	//get product info
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
@@ -77,7 +77,7 @@ const ProductModal = ({
 					cancelToken: source.token
 				})
 				.then((response) => {
-					if (mounted) setSelectedProduct(response.data[0]);
+					if (mounted) dispatch(setSelectedProduct(response.data[0]));
 				})
 				.catch((err) => {
 					if (mounted) console.error(err);
@@ -88,7 +88,7 @@ const ProductModal = ({
 			mounted = false;
 			source.cancel('Product modal call cancelled during clean-up');
 		};
-	}, [newRating, id, show, setSelectedProduct]);
+	}, [newRating, id, show, dispatch]);
 
 	const handleStarRating = (newValue) => {
 		axios
@@ -113,9 +113,10 @@ const ProductModal = ({
 	const onClose = () => {
 		goBack();
 		setTimeout(() => {
-			if (showAddReview) onHideAddReview();
+			if (showAddReview) dispatch(hideAddReview());
 			if (currentTab !== 'about') setCurrentTab('about');
-			setSelectedProduct(null);
+			dispatch(setSelectedProduct(null));
+			dispatch(setReviews(null));
 		}, 300);
 	};
 
@@ -157,6 +158,7 @@ const ProductModal = ({
 		[aboutLink, history, reviewsLink, whereToBuyLink]
 	);
 
+	// set appropriate tab from url search params
 	useEffect(() => {
 		if (show && urlSearchParamsTab !== currentUrlSearchParams)
 			switch (urlSearchParamsTab) {
@@ -171,6 +173,7 @@ const ProductModal = ({
 			}
 	}, [urlSearchParamsTab, handleChangeCurrentTab, show, currentUrlSearchParams]);
 
+	// show reviews tab after clicking "add review" on snackbar after rating
 	useEffect(() => {
 		if (showAddReview && currentTab !== 'reviews') setCurrentTab('reviews');
 	}, [showAddReview, currentTab]);
@@ -263,21 +266,4 @@ const ProductModal = ({
 			</DialogContent>
 		</Dialog>
 	);
-};
-
-const mapStateToProps = (state) => {
-	return {
-		showAddReview: state.product.showAddReview,
-		currentUserData: state.auth.currentUserData,
-		selectedProduct: state.product.selectedProduct
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onHideAddReview: () => dispatch(actionCreators.hideAddReview()),
-		setSelectedProduct: (id) => dispatch(actionCreators.setSelectedProduct(id))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductModal);
+}

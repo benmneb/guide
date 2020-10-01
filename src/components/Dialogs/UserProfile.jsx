@@ -109,7 +109,6 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 
 	function handleLogoutClick() {
 		confirm({
-			title: 'Log Out?',
 			description: 'Please confirm you want to log out of your account.',
 			confirmationText: 'Log out'
 		})
@@ -127,7 +126,7 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 			<Dialog
 				onClose={onClose}
 				fullScreen={fullScreen}
-				aria-labelledby="product-dialog-title"
+				aria-label="user-profile"
 				open={Boolean(isOpened)}
 				maxWidth="xs"
 				fullWidth

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { showSnackbar } from '../../../store/actions';
+import { showSnackbar, updateReviews, hideAddReview } from '../../../store/actions';
 import clsx from 'clsx';
 import { Typography, TextField, Grid, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
@@ -22,10 +22,16 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function ReviewsAdd({ ratingBeforeClickedAddReviewSnackbar, ...props }) {
+export default function ReviewsAdd() {
 	const styles = useStyles();
 	const dispatch = useDispatch();
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
+	const selectedProductId = useSelector(
+		(state) => state.product.selectedProduct.productId
+	);
+	const ratingBeforeClickedAddReviewSnackbar = useSelector(
+		(state) => state.product.ratingBeforeClickedAddReviewSnackbar
+	);
 	const [rating, setRating] = useState(0);
 	const [hover, setHover] = useState(-1);
 	const [ratingError, setRatingError] = useState(false);
@@ -39,7 +45,7 @@ export default function ReviewsAdd({ ratingBeforeClickedAddReviewSnackbar, ...pr
 			axios
 				.post('https://api.vomad.guide/review/', {
 					review: data.review,
-					product_id: props.productId,
+					product_id: selectedProductId,
 					user_id: currentUserData.id,
 					rating: rating
 				})
@@ -55,9 +61,9 @@ export default function ReviewsAdd({ ratingBeforeClickedAddReviewSnackbar, ...pr
 							}
 						})
 					);
-					props.hide();
+					dispatch(hideAddReview());
 				})
-				.then(() => props.updateReviews())
+				.then(() => dispatch(updateReviews(selectedProductId)))
 				.catch((err) => {
 					setPending(false);
 					if (err.response.data === 'user already reviewed') {

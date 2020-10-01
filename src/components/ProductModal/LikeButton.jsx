@@ -1,25 +1,66 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { updateReviews, showSnackbar } from '../../store/actions';
 import { Tooltip, IconButton } from '@material-ui/core';
 import { ThumbUpAltRounded } from '@material-ui/icons';
+import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
-function LikeButton({
-	tooltip,
-	tooltipPlacement,
-	ariaLabel,
-	size,
-	isAuthenticated,
-	...props
-}) {
+export default function LikeButton({ review, ...props }) {
+	const { tooltip, tooltipPlacement, ariaLabel, size } = props;
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const selectedProductId = useSelector(
+		(state) => state.product.selectedProduct.productId
+	);
+	const currentUserData = useSelector(
+		(state) => state.auth.isAuthenticated && state.auth.currentUserData
+	);
 	const [hasBeenClicked, setHasBeenClicked] = useState(false);
 
-	function handleClick() {
-		if (isAuthenticated) {
-			setHasBeenClicked(!hasBeenClicked);
+	const authLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.signIn
+		},
+		keepOldQuery: true
+	});
+
+	useEffect(() => {
+		if (isAuthenticated && review.liked_by) {
+			if (review.liked_by.includes(currentUserData.id)) setHasBeenClicked(true);
 		}
-		props.handleLike();
-	}
+	}, [isAuthenticated, setHasBeenClicked, review, currentUserData]);
+
+	const handleClick = () => {
+		if (isAuthenticated) {
+			axios
+				.put('https://api.vomad.guide/like/', {
+					review_id: review.review_id,
+					user_id: currentUserData.id
+				})
+				.then(() => {
+					dispatch(updateReviews(selectedProductId));
+					setHasBeenClicked(!hasBeenClicked);
+				})
+				.catch((err) => {
+					console.error(err);
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								title: 'Could not like review',
+								message: `${err.message}. Please try again.`
+							}
+						})
+					);
+				});
+		} else {
+			history.push(authLink);
+		}
+	};
 
 	const color = hasBeenClicked ? 'primary' : 'inherit';
 
@@ -56,11 +97,3 @@ LikeButton.defaultProps = {
 	tooltipPlacement: 'bottom',
 	size: 'default'
 };
-
-const mapStateToProps = (state) => {
-	return {
-		isAuthenticated: state.auth.isAuthenticated
-	};
-};
-
-export default connect(mapStateToProps)(LikeButton);
