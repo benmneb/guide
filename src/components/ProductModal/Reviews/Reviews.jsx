@@ -151,7 +151,6 @@ const mapStateToProps = (state) => {
 		showAddReview: state.showAddReview,
 		selectedProductId: state.selectedProduct.productId,
 		ratingBeforeClickedAddReviewSnackbar: state.ratingBeforeClickedAddReviewSnackbar,
-		showProductModal: state.showProductModal,
 		isAuthenticated: state.isAuthenticated
 	};
 };
