@@ -133,7 +133,7 @@ Heading.defaultProps = {
 
 export function SubHeading({ children, textAlign }) {
 	return (
-		<Typography align={textAlign} component="p" variant="h5" paragraph>
+		<Typography align={textAlign} component="h2" variant="h5" paragraph>
 			{children}
 		</Typography>
 	);
@@ -157,10 +157,10 @@ export function Footer({ textAlign, forPage, children }) {
 		}
 	});
 
-	if (children) {
+	if (forPage === 'home' && children) {
 		return (
 			<Box display={{ xs: 'none', md: 'block' }}>
-				<Typography align={textAlign} paragraph color="textSecondary">
+				<Typography align={textAlign} paragraph color="textSecondary" component="h3">
 					{children}
 				</Typography>
 			</Box>
@@ -207,7 +207,7 @@ export function Footer({ textAlign, forPage, children }) {
 }
 
 Footer.propTypes = {
-	forPage: PropTypes.oneOf(['category', 'prodType', '404']),
+	forPage: PropTypes.oneOf(['home', 'category', 'prodType', '404']),
 	textAlign: PropTypes.oneOf(['left', 'center']),
 	children: PropTypes.node
 };

@@ -83,7 +83,7 @@ const SubCat1s = () => {
 				<SubHeading>
 					The Vomad Guide is a free crowd-sourced collection of 100% plant-based products.
 				</SubHeading>
-				<Footer>
+				<Footer forPage="home">
 					There are 12,815 vegan products in 212 categories from 663 brands in 576 stores
 					and 54 online stores within Australia.
 				</Footer>
