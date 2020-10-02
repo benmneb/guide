@@ -1,13 +1,10 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { ConfirmProvider } from 'material-ui-confirm';
-import {
-	createMuiTheme,
-	responsiveFontSizes,
-	ThemeProvider
-} from '@material-ui/core/styles';
-import { orange } from '@material-ui/core/colors';
+import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { defaultOptions } from './assets/confirmProviderOptions';
+import { theme } from './assets/theme';
 import AppBar from './components/AppBar/AppBar';
 import ResultsList from './components/ResultsList/ResultsList';
 import AddProducts from './components/Dialogs/AddProducts';
@@ -24,61 +21,6 @@ import SupportUs from './components/Dialogs/SupportUs';
 import GetParameterPopups from './utils/routing/getParamaterPopups';
 import AuthSuccess from './components/Dialogs/AuthSuccess';
 import LoadingBar from './utils/LoadingBar';
-
-let theme = createMuiTheme({
-	palette: {
-		primary: orange
-	},
-	mixins: {
-		filtersPanel: {
-			width: 395,
-			'@media (max-width: 600px)': {
-				width: '100vw'
-			}
-		},
-		sideMenu: {
-			width: 240
-		},
-		hero: {
-			height: 375,
-			'@media (min-width: 600px)': {
-				height: 350
-			}
-		}
-	},
-	typography: {
-		button: {
-			textTransform: 'none'
-		}
-	},
-	overrides: {
-		MuiButton: {
-			containedPrimary: {
-				color: 'white'
-			}
-		},
-		MuiCssBaseline: {
-			'@global': {
-				html: {
-					backgroundColor: '#fff'
-				}
-			}
-		}
-	},
-	props: {
-		MuiButton: {
-			disableElevation: true
-		}
-	}
-});
-
-theme = responsiveFontSizes(theme);
-
-const defaultOptions = {
-	confirmationText: 'Confirm',
-	confirmationButtonProps: { variant: 'contained' },
-	cancellationButtonProps: { autoFocus: true }
-};
 
 export default function App() {
 	return (
