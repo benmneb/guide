@@ -106,25 +106,3 @@ export const allergens = [
 		tooltip: "Ingredients list does not contain 'sodium laurel sulphate' etc"
 	}
 ];
-
-export const sortBy = [
-	{
-		name: '🔥 Popularity',
-		value: 'Popularity',
-		tooltip: 'Uses a combination of reviews, ratings and views (default)'
-	},
-	{ name: '🔤 Alphabetical', value: 'Alphabetical', tooltip: 'Uses the brand name' }
-];
-
-export const orderBy = [
-	{
-		name: '↑ Ascending',
-		value: 'Ascending',
-		tooltip: 'Lowest first, or Z to A'
-	},
-	{
-		name: '↓ Descending',
-		value: 'Descending',
-		tooltip: 'Highest first, or A to Z (default)'
-	}
-];

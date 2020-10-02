@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Drawer, Typography, Grid, Box } from '@material-ui/core';
-import SortBy from './SortBy';
-import OrderBy from './OrderBy';
 import FilterButton from './FilterButton';
 import { ingredients, allergens, tags } from '../../assets/filters';
 
@@ -35,21 +33,6 @@ const useStyles = makeStyles((theme) => ({
 			borderTop: `1px solid rgba(0, 0, 0, 0.12);`
 		}
 	},
-	// made redundant, keeping "just in case"
-	// filtersApplied: {
-	// 	[theme.breakpoints.only('sm')]: {
-	// 		top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48,
-	// 		height: `calc(100vh - ${
-	// 			theme.mixins.toolbar['@media (min-width:600px)'].minHeight * 2 + 48
-	// 		}px)` // bottomNav height * 2 + chips toolbar height
-	// 	},
-	// 	[theme.breakpoints.up('md')]: {
-	// 		top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48,
-	// 		height: `calc(100vh - ${
-	// 			theme.mixins.toolbar['@media (min-width:600px)'].minHeight + 48
-	// 		}px)`
-	// 	}
-	// },
 	content: {
 		maxWidth: theme.mixins.filtersPanel.width,
 		[theme.breakpoints.only('xs')]: {
@@ -105,20 +88,6 @@ const FiltersPanel = ({ showFiltersPanel, appliedFilters }) => {
 						<FilterButton key={allergen.name} filter={allergen} />
 					))}
 				</Grid>
-				<Typography align="center" className={styles.filtersSectionTitle}>
-					Sort by
-				</Typography>
-				<Grid container justify="space-evenly">
-					<Grid item flexgrow="1">
-						<SortBy />
-					</Grid>
-				</Grid>
-				<Typography align="center" className={styles.filtersSectionTitle}>
-					Order by
-				</Typography>
-				<Grid container justify="center">
-					<OrderBy />
-				</Grid>
 				<Box margin={2}>
 					<Typography
 						component="footer"
@@ -130,6 +99,8 @@ const FiltersPanel = ({ showFiltersPanel, appliedFilters }) => {
 						Allergens are a guide only.
 						<br />
 						Always check the label before use.
+						<br />
+						Highest rated products are displayed first.
 					</Typography>
 				</Box>
 			</Box>
