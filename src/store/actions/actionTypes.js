@@ -31,3 +31,5 @@ export const ORDER_RESULTS_BY = 'ORDER_RESULTS_BY';
 
 export const SET_REVIEWS = 'SET_REVIEWS';
 export const UPDATE_REVIEWS = 'UPDATE_REVIEWS';
+export const SET_OFFSET = 'SET_OFFSET';
+export const INCREASE_OFFSET = 'INCREASE_OFFSET';

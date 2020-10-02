@@ -28,6 +28,6 @@ export {
 	removeFilter,
 	removeAllFilters,
 	setLoading,
-	sortResultsBy,
-	orderResultsBy
+	setOffset,
+	increaseOffset
 } from './results';

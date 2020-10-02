@@ -33,20 +33,16 @@ export const setLoading = (state) => {
 	};
 };
 
-export const sortResultsBy = (option) => {
+export const setOffset = (amount) => {
 	return {
-		type: actionTypes.SORT_RESULTS_BY,
-		payload: {
-			option
-		}
+		type: actionTypes.SET_OFFSET,
+		amount
 	};
 };
 
-export const orderResultsBy = (option) => {
+export const increaseOffset = (amount) => {
 	return {
-		type: actionTypes.ORDER_RESULTS_BY,
-		payload: {
-			option
-		}
+		type: actionTypes.INCREASE_OFFSET,
+		amount
 	};
 };

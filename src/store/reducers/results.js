@@ -3,8 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
 	isLoading: false,
 	appliedFilters: [],
-	sortResultsBy: 'Popularity',
-	orderResultsBy: 'Descending'
+	offset: 12
 };
 
 export default function ResultsReducer(state = initialState, action) {
@@ -31,15 +30,15 @@ export default function ResultsReducer(state = initialState, action) {
 				...state,
 				isLoading: action.payload.state
 			};
-		case actionTypes.SORT_RESULTS_BY:
+		case actionTypes.SET_OFFSET:
 			return {
 				...state,
-				sortResultsBy: action.payload.option
+				offset: action.amount
 			};
-		case actionTypes.ORDER_RESULTS_BY:
+		case actionTypes.INCREASE_OFFSET:
 			return {
 				...state,
-				orderResultsBy: action.payload.option
+				offset: state.offset + action.amount
 			};
 		default:
 			return state;
