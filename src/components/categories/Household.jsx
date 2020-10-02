@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -96,6 +97,14 @@ export default function Household() {
 
 	return (
 		<>
+			<Helmet>
+				<title>Vomad Guide: Find Vegan Household Products Near You</title>
+				<meta name="description" content="Vegan household products" />
+				<meta
+					name="keywords"
+					content="bath and body,personal care,household cleaning,makeup,animal care,plant based,plant-based,vegetarian,flexitarian"
+				/>
+			</Helmet>
 			<Hero>
 				<Heading>Vegan Household Products</Heading>
 				<SubHeading>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Helmet } from 'react-helmet';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -179,91 +180,107 @@ export default function ProductModal({ show }) {
 	}, [showAddReview, currentTab]);
 
 	return (
-		<Dialog
-			onClose={onClose}
-			fullScreen={fullScreen}
-			aria-labelledby="product-dialog-title"
-			open={show}
-			maxWidth="md"
-			fullWidth
-			classes={{ paperScrollPaper: styles.modalMaxHeight }}
-		>
-			<DialogTitle noTitle onClose={onClose} />
-			<DialogContent className={styles.dialogContentRoot}>
-				<Grid
-					component="header"
-					container
-					spacing={1}
-					direction="column"
-					alignItems="center"
-				>
-					<Grid item xs={12}>
-						{selectedProduct ? (
-							<Typography component="h1" variant="h4" align="center">
-								<Typography
-									className={styles.brandName}
-									variant="overline"
-									component="span"
-									display="block"
-								>
-									{selectedProduct.brandName}
-								</Typography>
-								{selectedProduct.productName}
-							</Typography>
-						) : (
-							<Box display="flex" flexDirection="column" alignItems="center">
-								<Skeleton width="30%" className={styles.brandName} />
-								<Typography component="h1" variant="h4" align="center">
-									<Skeleton width={500} />
-								</Typography>
-							</Box>
-						)}
-					</Grid>
-					<Grid item xs={12}>
-						<StarRating
-							product={selectedProduct}
-							averageRating={selectedProduct && Number(selectedProduct.rating)}
-							amountOfRatings={selectedProduct && Number(selectedProduct.ratingcount)}
-							productId={selectedProduct && selectedProduct.productId}
-							onRate={(newValue) => handleStarRating(newValue)}
-						/>
-					</Grid>
-					<Box display={{ xs: 'none', md: 'inherit' }}>
+		<>
+			{show && (
+				<Helmet>
+					<title>
+						{selectedProduct
+							? `Vomad Guide: ${selectedProduct.brandName} ${selectedProduct.productName}`
+							: 'Vomad Guide: Find Vegan Products Near You'}
+					</title>
+					<meta name="description" content="Vomad Guide: Find Vegan Products Near You" />
+					<meta
+						name="keywords"
+						content="plant based,plant-based,vegetarian,flexitarian"
+					/>
+				</Helmet>
+			)}
+			<Dialog
+				onClose={onClose}
+				fullScreen={fullScreen}
+				aria-labelledby="product-dialog-title"
+				open={show}
+				maxWidth="md"
+				fullWidth
+				classes={{ paperScrollPaper: styles.modalMaxHeight }}
+			>
+				<DialogTitle noTitle onClose={onClose} />
+				<DialogContent className={styles.dialogContentRoot}>
+					<Grid
+						component="header"
+						container
+						spacing={1}
+						direction="column"
+						alignItems="center"
+					>
 						<Grid item xs={12}>
-							<Paper variant="outlined">
-								<Tabs
-									component="nav"
-									value={currentTab}
-									onChange={selectedProduct && handleChangeCurrentTab}
-									indicatorColor="primary"
-									textColor="inherit"
-									centered
-								>
-									<Tab label="About" {...a11yProps('about')} value="about" />
-									<Tab label="Reviews" {...a11yProps('reviews')} value="reviews" />
-									<Tab
-										label="Where To Buy"
-										{...a11yProps('where-to-buy')}
-										value="where-to-buy"
-									/>
-								</Tabs>
-							</Paper>
+							{selectedProduct ? (
+								<Typography component="h1" variant="h4" align="center">
+									<Typography
+										className={styles.brandName}
+										variant="overline"
+										component="span"
+										display="block"
+									>
+										{selectedProduct.brandName}
+									</Typography>
+									{selectedProduct.productName}
+								</Typography>
+							) : (
+								<Box display="flex" flexDirection="column" alignItems="center">
+									<Skeleton width="30%" className={styles.brandName} />
+									<Typography component="h1" variant="h4" align="center">
+										<Skeleton width={500} />
+									</Typography>
+								</Box>
+							)}
 						</Grid>
+						<Grid item xs={12}>
+							<StarRating
+								product={selectedProduct}
+								averageRating={selectedProduct && Number(selectedProduct.rating)}
+								amountOfRatings={selectedProduct && Number(selectedProduct.ratingcount)}
+								productId={selectedProduct && selectedProduct.productId}
+								onRate={(newValue) => handleStarRating(newValue)}
+							/>
+						</Grid>
+						<Box display={{ xs: 'none', md: 'inherit' }}>
+							<Grid item xs={12}>
+								<Paper variant="outlined">
+									<Tabs
+										component="nav"
+										value={currentTab}
+										onChange={selectedProduct && handleChangeCurrentTab}
+										indicatorColor="primary"
+										textColor="inherit"
+										centered
+									>
+										<Tab label="About" {...a11yProps('about')} value="about" />
+										<Tab label="Reviews" {...a11yProps('reviews')} value="reviews" />
+										<Tab
+											label="Where To Buy"
+											{...a11yProps('where-to-buy')}
+											value="where-to-buy"
+										/>
+									</Tabs>
+								</Paper>
+							</Grid>
+						</Box>
+					</Grid>
+					<Box marginTop={2}>
+						<TabPanel value={currentTab} index="about">
+							<About />
+						</TabPanel>
+						<TabPanel value={currentTab} index="reviews">
+							{selectedProduct && <Reviews />}
+						</TabPanel>
+						<TabPanel value={currentTab} index="where-to-buy">
+							<WhereToBuy />
+						</TabPanel>
 					</Box>
-				</Grid>
-				<Box marginTop={2}>
-					<TabPanel value={currentTab} index="about">
-						<About />
-					</TabPanel>
-					<TabPanel value={currentTab} index="reviews">
-						{selectedProduct && <Reviews />}
-					</TabPanel>
-					<TabPanel value={currentTab} index="where-to-buy">
-						<WhereToBuy />
-					</TabPanel>
-				</Box>
-				<BottomNav currentTab={currentTab} onChange={handleChangeCurrentTab} />
-			</DialogContent>
-		</Dialog>
+					<BottomNav currentTab={currentTab} onChange={handleChangeCurrentTab} />
+				</DialogContent>
+			</Dialog>
+		</>
 	);
 }

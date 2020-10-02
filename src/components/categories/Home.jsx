@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { GridListTile, GridListTileBar, Box } from '@material-ui/core';
@@ -68,6 +69,14 @@ const SubCat1s = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Vomad Guide: Find Vegan Products Near You</title>
+				<meta
+					name="description"
+					content="The Original Vegan Product Guide to Australia"
+				/>
+				<meta name="keywords" content="plant based,plant-based,vegetarian,flexitarian" />
+			</Helmet>
 			<ScrollToTopOnMount />
 			<Hero>
 				<Heading>Find Vegan Products</Heading>

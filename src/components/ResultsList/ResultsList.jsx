@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import clsx from 'clsx';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -227,6 +228,15 @@ export default function ResultsList() {
 
 	return (
 		<>
+			<Helmet>
+				<title>
+					{!loadingInitially
+						? `Vomad Guide: Vegan ${categoryData.name} Products`
+						: 'Vomad Guide: Find Vegan Products Near You'}
+				</title>
+				<meta name="description" content="Vomad Guide: Find Vegan Products Near You" />
+				<meta name="keywords" content="plant based,plant-based,vegetarian,flexitarian" />
+			</Helmet>
 			<ScrollToTopOnMount />
 			{!loadingInitially ? (
 				<Hero hide={showFiltersPanel}>

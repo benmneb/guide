@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -96,6 +97,14 @@ export default function FoodDrink() {
 
 	return (
 		<>
+			<Helmet>
+				<title>Vomad Guide: Find Vegan Food & Drink Products Near You</title>
+				<meta name="description" content="Vegan food and drink products" />
+				<meta
+					name="keywords"
+					content="pantry,fridge,freezer,bakery,drinks,baby,pet food,plant based,plant-based,vegetarian,flexitarian"
+				/>
+			</Helmet>
 			<Hero>
 				<Heading>Vegan Food & Drink Products</Heading>
 				<SubHeading>
