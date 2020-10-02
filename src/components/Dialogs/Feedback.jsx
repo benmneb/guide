@@ -104,7 +104,7 @@ export default function Feedback({ isOpened }) {
 						<span role="img" aria-label="">
 							👍
 						</span>{' '}
-						Help us make the Guide better for everyone.
+						Your feedback helps make the Guide better for everyone.
 					</Typography>
 					<Typography component="h2">
 						<span role="img" aria-label="">
