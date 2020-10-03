@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import clsx from 'clsx';
 import axios from 'axios';
@@ -158,7 +158,7 @@ export default function ResultsList() {
 	}, [location.pathname, currentPathname, dispatch]);
 
 	// fetch more products on scroll
-	function fetchProducts() {
+	const fetchProducts = useCallback(() => {
 		dispatch(setLoading(true));
 		axios
 			.get(`https://api.vomad.guide/category${currentPathname}/${offset}`)
@@ -196,7 +196,7 @@ export default function ResultsList() {
 				);
 				return console.error('Error loading products:', err.message);
 			});
-	}
+	}, [currentPathname, dispatch, offset]);
 
 	// hide filters panel on unmount
 	useEffect(() => {
@@ -225,6 +225,11 @@ export default function ResultsList() {
 			setFilteredResults([]);
 		}
 	}, [appliedFilters, fetchedResults]);
+
+	// keep searching for products if filters applied and no products returned...
+	useEffect(() => {
+		if (appliedFilters.length && displayedResults.length < 12) fetchProducts();
+	}, [appliedFilters.length, displayedResults.length, fetchProducts]);
 
 	return (
 		<>
