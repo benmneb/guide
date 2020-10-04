@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ReviewReport(props) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const currentUserId = useSelector((state) => state.auth.currentUserData.id);
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const [pending, setPending] = useState(false);
 
 	const handleClose = () => {
@@ -39,7 +39,7 @@ export default function ReviewReport(props) {
 		axios
 			.post('https://api.vomad.guide/email/report-review', {
 				body: `<p><strong>New Review Report Received ${new Date()}</strong></p>
-			<p>User <strong>${currentUserId}</strong> reported review <strong>${
+			<p>User <strong>${currentUserData.id}</strong> reported review <strong>${
 					props.reviewId
 				}</strong> as "${reason}".</p>`
 			})

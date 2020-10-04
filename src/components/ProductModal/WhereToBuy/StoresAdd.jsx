@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export default function StoresAdd(props) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const currentUserId = useSelector((state) => state.auth.currentUserData.id);
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const [value, setValue] = useState(null);
 	const [inputValue, setInputValue] = useState('');
 	const [options, setOptions] = useState([]);
@@ -93,7 +93,7 @@ export default function StoresAdd(props) {
 							},
 							googlePlaceId: placeDetails.id,
 							googlePlaceTypes: results[0].types.join(', '),
-							addedBy: currentUserId,
+							addedBy: currentUserData.id,
 							addedOn: new Date()
 						});
 						setPending(false);

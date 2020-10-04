@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import {
 	Avatar,
@@ -38,7 +39,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ReviewCard({ review }) {
 	const styles = useStyles();
+	const history = useHistory();
 	const color = randomMC.getColor({ text: review.user_name });
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const [showMoreMenu, setShowMoreMenu] = useState(null);
 	const [showReportModal, setShowReportModal] = useState(false);
 
@@ -48,6 +51,12 @@ export default function ReviewCard({ review }) {
 		},
 		pushToQuery: {
 			[getParams.userId]: review.user_id
+		},
+		keepOldQuery: true
+	});
+	const authLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.signIn
 		},
 		keepOldQuery: true
 	});
@@ -62,7 +71,8 @@ export default function ReviewCard({ review }) {
 
 	const handleReportClick = () => {
 		setShowMoreMenu(null);
-		setShowReportModal(true);
+		if (isAuthenticated) setShowReportModal(true);
+		else history.push(authLink);
 	};
 
 	const handleCloseReportModal = () => {

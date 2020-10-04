@@ -58,9 +58,7 @@ export default function AddProducts({ isOpened }) {
 	const theme = useTheme();
 	const steps = getSteps();
 	const dispatch = useDispatch();
-	const currentUserId = useSelector(
-		(state) => state.auth.currentUserData && state.auth.currentUserData.id
-	);
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
 	const [activeStep, setActiveStep] = useState(0);
@@ -89,7 +87,9 @@ export default function AddProducts({ isOpened }) {
 			axios
 				.post('https://api.vomad.guide/email/add-product', {
 					body: `<p><strong>New Product Addition Request Received ${new Date()}</strong></p>
-				<p>User <strong>${currentUserId}</strong> suggested to add...</p>
+				<p>User <strong>${
+					currentUserData ? currentUserData.id : 'was not logged in'
+				}</strong> suggested to add...</p>
 				<p>Brand: <strong> ${brandname.name}</strong>
 				<br>Product: <strong>${productName.name}</strong>
 				<br>in category: <strong>${selectedCategory}</p>`

@@ -60,9 +60,7 @@ const reasons = [
 export default function AboutEdit(props) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
-	const currentUserId = useSelector(
-		(state) => state.auth.currentUserData && state.auth.currentUserData.id
-	);
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const [selectedReason, setSelectedReason] = useState(null);
 	const [hasSelected, setHasSelected] = useState(false);
 	const [pending, setPending] = useState(false);
@@ -86,7 +84,9 @@ export default function AboutEdit(props) {
 		setPending(true);
 		axios
 			.post('https://api.vomad.guide/email/edit-product', {
-				body: `<p><strong>New Edit Product Request Received ${new Date()}</strong></p><p>User <strong>${currentUserId}</strong><br>suggested to edit product <strong>${
+				body: `<p><strong>New Edit Product Request Received ${new Date()}</strong></p><p>User <strong>${
+					currentUserData.id
+				}</strong><br>suggested to edit product <strong>${
 					props.productId
 				}</strong><br>due to <strong>${selectedReason}</strong>.</p><p>They said "${
 					data.elaboration
