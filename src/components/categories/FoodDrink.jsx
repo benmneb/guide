@@ -99,7 +99,10 @@ export default function FoodDrink() {
 		<>
 			<Helmet>
 				<title>Vomad Guide: Find Vegan Food & Drink Products Near You</title>
-				<meta name="description" content="Vegan food and drink products" />
+				<meta
+					name="description"
+					content="Find vegan food and drink products in over 100 categories at the Vomad Guide: The Best Online Vegan Product Guide."
+				/>
 				<meta
 					name="keywords"
 					content="pantry,fridge,freezer,bakery,drinks,baby,pet food,plant based,plant-based,vegetarian,flexitarian"

@@ -188,7 +188,10 @@ export default function ProductModal({ show }) {
 							? `Vomad Guide: ${selectedProduct.brandName} ${selectedProduct.productName}`
 							: 'Vomad Guide: Find Vegan Products Near You'}
 					</title>
-					<meta name="description" content="Vomad Guide: Find Vegan Products Near You" />
+					<meta
+						name="description"
+						content="View ingredients, allergens, nutritional information, reviews, where to buy and more only on Vomad Guide: The Free Vegan Products Guide."
+					/>
 					<meta
 						name="keywords"
 						content="plant based,plant-based,vegetarian,flexitarian"

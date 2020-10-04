@@ -239,8 +239,14 @@ export default function ResultsList() {
 						? `Vomad Guide: Vegan ${categoryData.name} Products`
 						: 'Vomad Guide: Find Vegan Products Near You'}
 				</title>
-				<meta name="description" content="Vomad Guide: Find Vegan Products Near You" />
-				<meta name="keywords" content="plant based,plant-based,vegetarian,flexitarian" />
+				<meta
+					name="description"
+					content="Apply up to 20 different filters to thousands of results to find the plant-based product you're looking for."
+				/>
+				<meta
+					name="keywords"
+					content="plant based,plant-based,vegetarian,flexitarian,vegan brands, local brands, no oil, no added sugar, no salt, organic, gluten free, nut free, peanut free, soy free, "
+				/>
 			</Helmet>
 			<ScrollToTopOnMount />
 			{!loadingInitially ? (

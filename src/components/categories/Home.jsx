@@ -73,7 +73,7 @@ const SubCat1s = () => {
 				<title>Vomad Guide: Find Vegan Products Near You</title>
 				<meta
 					name="description"
-					content="The Original Vegan Product Guide to Australia"
+					content="The Original Vegan Product Guide to Australia. Browser, search, filter. Find, review, buy."
 				/>
 				<meta name="keywords" content="plant based,plant-based,vegetarian,flexitarian" />
 			</Helmet>

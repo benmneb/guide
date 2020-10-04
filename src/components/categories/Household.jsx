@@ -99,7 +99,10 @@ export default function Household() {
 		<>
 			<Helmet>
 				<title>Vomad Guide: Find Vegan Household Products Near You</title>
-				<meta name="description" content="Vegan household products" />
+				<meta
+					name="description"
+					content="Find vegan household products in over 100 categories at the Vomad Guide: The Best Online Vegan Product Guide."
+				/>
 				<meta
 					name="keywords"
 					content="bath and body,personal care,household cleaning,makeup,animal care,plant based,plant-based,vegetarian,flexitarian"
