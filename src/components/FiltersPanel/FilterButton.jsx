@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Tooltip, Typography } from '@material-ui/core';
-import * as actionCreators from '../../store/actions';
+import { addFilter, removeFilter } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	filtersBtn: {
@@ -18,8 +18,10 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function FilterButton({ setAddFilter, setRemoveFilter, appliedFilters, filter }) {
+export default function FilterButton({ filter }) {
 	const classes = useStyles();
+	const dispatch = useDispatch();
+	const appliedFilters = useSelector((state) => state.results.appliedFilters);
 	const [selected, setSelected] = useState(false);
 
 	useEffect(() => {
@@ -30,8 +32,8 @@ function FilterButton({ setAddFilter, setRemoveFilter, appliedFilters, filter })
 	if (selected) variant = 'contained';
 
 	function handleClick() {
-		if (!selected) setAddFilter(filter);
-		else setRemoveFilter(filter);
+		if (!selected) dispatch(addFilter(filter));
+		else dispatch(removeFilter(filter));
 	}
 
 	return (
@@ -50,18 +52,3 @@ function FilterButton({ setAddFilter, setRemoveFilter, appliedFilters, filter })
 		</Tooltip>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		appliedFilters: state.results.appliedFilters
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setAddFilter: (filter) => dispatch(actionCreators.addFilter(filter)),
-		setRemoveFilter: (filter) => dispatch(actionCreators.removeFilter(filter))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(FilterButton);

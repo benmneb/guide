@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import * as actionCreators from '../../../store/actions';
+import { showSnackbar } from '../../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import { IconButton } from '@material-ui/core';
 import { ThumbUpRounded, ThumbDownRounded } from '@material-ui/icons';
@@ -15,9 +15,11 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function StoresVoteButtons({ setShowSnackbar, isAuthenticated }) {
+export default function StoresVoteButtons() {
 	const styles = useStyles();
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const [selected, setSelected] = useState('');
 
 	const authLink = usePrepareLink({
@@ -31,13 +33,15 @@ function StoresVoteButtons({ setShowSnackbar, isAuthenticated }) {
 		if (isAuthenticated) {
 			if (vote !== selected) {
 				setSelected(vote);
-				setShowSnackbar({
-					snackData: {
-						type: 'success',
-						message: 'Thank you for helping people find vegan products easier',
-						emoji: '💪'
-					}
-				});
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'success',
+							message: 'Thank you for helping people find vegan products easier',
+							emoji: '💪'
+						}
+					})
+				);
 			} else setSelected('');
 		} else {
 			history.push(authLink);
@@ -70,18 +74,3 @@ function StoresVoteButtons({ setShowSnackbar, isAuthenticated }) {
 		</>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		isAuthenticated: state.auth.isAuthenticated
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData }))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StoresVoteButtons);

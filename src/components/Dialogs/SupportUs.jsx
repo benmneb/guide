@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
@@ -45,10 +45,11 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function SupportUs({ isOpened, isAuthenticated }) {
+export default function SupportUs({ isOpened }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const location = useLocation();
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 
 	const actionType = useGetParameter(getParams.action);
@@ -192,11 +193,3 @@ function SupportUs({ isOpened, isAuthenticated }) {
 		</>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		isAuthenticated: state.auth.isAuthenticated
-	};
-};
-
-export default connect(mapStateToProps)(SupportUs);

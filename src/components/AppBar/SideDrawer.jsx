@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -22,7 +22,7 @@ import FeedbackRoundedIcon from '@material-ui/icons/Feedback';
 import GetAppRoundedIcon from '@material-ui/icons/GetApp';
 import { categories } from '../../assets/categoriesAZ';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import * as actionCreators from '../../store/actions';
+import { hideSideDrawer } from '../../store/actions';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
@@ -54,16 +54,14 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const SideDrawer = ({
-	isAuthenticated,
-	showSideDrawer,
-	onHideSideDrawer,
-	currentUserData,
-	window
-}) => {
+export default function SideDrawer({ window }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const theme = useTheme();
+	const dispatch = useDispatch();
+	const showSideDrawer = useSelector((state) => state.ui.showSideDrawer);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const [expandCategories, setExpandCategories] = useState(false);
 	const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -72,7 +70,7 @@ const SideDrawer = ({
 	};
 
 	const handleCloseSideDrawer = () => {
-		if (showSideDrawer) onHideSideDrawer();
+		if (showSideDrawer) dispatch(hideSideDrawer());
 	};
 
 	const openMenuItem = (clickedItem) => {
@@ -298,20 +296,4 @@ const SideDrawer = ({
 			</Hidden>
 		</Box>
 	);
-};
-
-const mapStateToProps = (state) => {
-	return {
-		showSideDrawer: state.ui.showSideDrawer,
-		isAuthenticated: state.auth.isAuthenticated,
-		currentUserData: state.auth.currentUserData
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onHideSideDrawer: () => dispatch(actionCreators.hideSideDrawer())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SideDrawer);
+}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
 	Button,
 	Chip,
@@ -50,10 +50,11 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function About({ isAuthenticated, selectedProduct }) {
-	const product = selectedProduct;
+export default function About() {
 	const styles = useStyles();
 	const history = useHistory();
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const product = useSelector((state) => state.product.selectedProduct);
 	const [showEditModal, setShowEditModal] = useState(false);
 
 	const authLink = usePrepareLink({
@@ -244,12 +245,3 @@ function About({ isAuthenticated, selectedProduct }) {
 		</>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		isAuthenticated: state.auth.isAuthenticated,
-		selectedProduct: state.product.selectedProduct
-	};
-};
-
-export default connect(mapStateToProps)(About);

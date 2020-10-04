@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Drawer, Typography, Grid, Box } from '@material-ui/core';
 import FilterButton from './FilterButton';
@@ -50,8 +50,9 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const FiltersPanel = ({ showFiltersPanel, appliedFilters }) => {
+export default function FiltersPanel() {
 	const styles = useStyles();
+	const showFiltersPanel = useSelector((state) => state.ui.showFiltersPanel);
 
 	return (
 		<Drawer
@@ -106,13 +107,4 @@ const FiltersPanel = ({ showFiltersPanel, appliedFilters }) => {
 			</Box>
 		</Drawer>
 	);
-};
-
-const mapStateToProps = (state) => {
-	return {
-		showFiltersPanel: state.ui.showFiltersPanel,
-		appliedFilters: state.results.appliedFilters
-	};
-};
-
-export default connect(mapStateToProps)(FiltersPanel);
+}

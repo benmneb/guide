@@ -1,37 +1,25 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@material-ui/core';
-import * as actionCreators from '../../store/actions';
+import { hideFiltersPanel, showFiltersPanel } from '../../store/actions';
 
-const BackToCategories = (props) => {
+export default function BackToCategories() {
+	const dispatch = useDispatch();
+	const filtersPanelIsOpen = useSelector((state) => state.ui.showFiltersPanel);
+
 	const handleClick = () => {
-		if (props.showFiltersPanel) {
-			props.onHideFiltersPanel();
+		if (filtersPanelIsOpen) {
+			dispatch(hideFiltersPanel());
 		} else {
-			props.onShowFiltersPanel();
+			dispatch(showFiltersPanel());
 		}
 	};
 
-	const buttonLabel = props.showFiltersPanel ? 'Hide Filters' : 'Show Filters';
+	const buttonLabel = filtersPanelIsOpen ? 'Hide Filters' : 'Show Filters';
 
 	return (
 		<Button variant="contained" color="primary" size="large" onClick={handleClick}>
 			{buttonLabel}
 		</Button>
 	);
-};
-
-const mapStateToProps = (state) => {
-	return {
-		showFiltersPanel: state.ui.showFiltersPanel
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onShowFiltersPanel: () => dispatch(actionCreators.showFiltersPanel()),
-		onHideFiltersPanel: () => dispatch(actionCreators.hideFiltersPanel())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BackToCategories);
+}

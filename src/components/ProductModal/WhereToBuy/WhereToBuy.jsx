@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
 	Grid,
@@ -14,7 +14,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { AddRounded, ListRounded as ListIcon } from '@material-ui/icons';
 import { LoadScript } from '@react-google-maps/api';
-import * as actionCreators from '../../../store/actions';
+import { showSnackbar, setCurrentLocation } from '../../../store/actions';
 import { stores } from '../../../assets/stores';
 import StoresListSection from './StoresListSection';
 import StoresMap from './StoresMap';
@@ -48,16 +48,14 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const libraries = ['places'];
+const libraries = ['places']; // this must be outside the main function
 
-function WhereToBuy({
-	onShowSnackbar,
-	currentLocation,
-	setCurrentLocation,
-	isAuthenticated
-}) {
+export default function WhereToBuy() {
 	const styles = useStyles();
 	const history = useHistory();
+	const dispatch = useDispatch();
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const currentLocation = useSelector((state) => state.product.currentLocation);
 	const [selectedStore, setSelectedStore] = useState(null);
 	const [errMessage, setErrMessage] = useState(null);
 	const [openBottomDrawer, setOpenBottomDrawer] = useState(false);
@@ -76,10 +74,12 @@ function WhereToBuy({
 			window.navigator.geolocation.getCurrentPosition(
 				(position) => {
 					if (mounted) console.log('set current location');
-					setCurrentLocation({
-						lat: position.coords.latitude,
-						lng: position.coords.longitude
-					});
+					dispatch(
+						setCurrentLocation({
+							lat: position.coords.latitude,
+							lng: position.coords.longitude
+						})
+					);
 				},
 				(err) => {
 					if (mounted) {
@@ -90,19 +90,21 @@ function WhereToBuy({
 			);
 		} else {
 			console.error('window.navigator is not available');
-			onShowSnackbar({
-				snackData: {
-					type: 'error',
-					title: 'Location unavailable',
-					message: 'There was an error accessing your location.'
-				}
-			});
+			dispatch(
+				showSnackbar({
+					snackData: {
+						type: 'error',
+						title: 'Location unavailable',
+						message: 'There was an error accessing your location.'
+					}
+				})
+			);
 		}
 
 		return () => {
 			mounted = false;
 		};
-	}, [setCurrentLocation, onShowSnackbar]);
+	}, [dispatch]);
 
 	function handleListItemClick(store) {
 		if (selectedStore === store) {
@@ -127,29 +129,35 @@ function WhereToBuy({
 			navigator.clipboard
 				.writeText(address)
 				.then(
-					onShowSnackbar({
-						snackData: {
-							type: 'info',
-							message: 'Address copied to clipboard'
-						}
-					})
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'info',
+								message: 'Address copied to clipboard'
+							}
+						})
+					)
 				)
 				.catch((err) => {
 					console.error(err);
-					onShowSnackbar({
-						snackData: {
-							type: 'error',
-							message: 'Could not copy to clipboard'
-						}
-					});
+					dispatch(
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								message: 'Could not copy to clipboard'
+							}
+						})
+					);
 				});
 		} else {
-			onShowSnackbar({
-				snackData: {
-					type: 'error',
-					message: 'Could not copy to clipboard'
-				}
-			});
+			dispatch(
+				showSnackbar({
+					snackData: {
+						type: 'error',
+						message: 'Could not copy to clipboard'
+					}
+				})
+			);
 		}
 	}
 
@@ -310,21 +318,3 @@ function WhereToBuy({
 		</LoadScript>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		currentLocation: state.product.currentLocation,
-		isAuthenticated: state.auth.isAuthenticated
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onShowSnackbar: ({ snackData }) =>
-			dispatch(actionCreators.showSnackbar({ snackData })),
-		setCurrentLocation: (location) =>
-			dispatch(actionCreators.setCurrentLocation(location))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(WhereToBuy);

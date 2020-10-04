@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
 import axios from 'axios';
 import { useConfirm } from 'material-ui-confirm';
@@ -26,7 +26,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
 import randomMC from 'random-material-color';
-import * as actionCreators from '../../store/actions';
+import { setCurrentUserData } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	dialogContentRoot: {
@@ -49,16 +49,19 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
+export default function UserProfile({ isOpened }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const location = useLocation();
+	const dispatch = useDispatch();
 	const confirm = useConfirm();
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const urlSearchParamsId = new URLSearchParams(location.search).get('id');
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [isOwnProfile, setIsOwnProfile] = useState(false);
+	const color = selectedUser && randomMC.getColor({ text: selectedUser.user_name });
 
 	useEffect(() => {
 		let mounted = true;
@@ -113,13 +116,11 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 			confirmationText: 'Log out'
 		})
 			.then(() => {
-				setCurrentUserData(null, false);
+				dispatch(setCurrentUserData(null, false));
 				return (window.location.href = 'https://api.vomad.guide/auth/logout');
 			})
 			.catch(() => null);
 	}
-
-	const color = selectedUser && randomMC.getColor({ text: selectedUser.user_name });
 
 	return (
 		<>
@@ -293,18 +294,3 @@ function UserProfile({ isOpened, currentUserData, setCurrentUserData }) {
 		</>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		currentUserData: state.auth.currentUserData
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setCurrentUserData: (user, isAuth) =>
-			dispatch(actionCreators.setCurrentUserData(user, isAuth))
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

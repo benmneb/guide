@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
 	BottomNavigation,
@@ -10,7 +10,7 @@ import {
 	Box
 } from '@material-ui/core';
 import { ArrowBackIosRounded, FilterListRounded, AppsRounded } from '@material-ui/icons';
-import * as actionCreators from '../../store/actions';
+import { showFiltersPanel, hideFiltersPanel } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -31,15 +31,13 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function BottomNav({
-	showFiltersPanel,
-	onShowFiltersPanel,
-	onHideFiltersPanel,
-	appliedFilters
-}) {
+export default function BottomNav() {
 	const styles = useStyles();
 	const history = useHistory();
 	const location = useLocation();
+	const dispatch = useDispatch();
+	const filtersPanelIsOpen = useSelector((state) => state.ui.showFiltersPanel);
+	const appliedFilters = useSelector((state) => state.results.appliedFilters);
 	const [value, setValue] = useState(1);
 
 	const handleCategoriesClick = useCallback(() => {
@@ -48,18 +46,18 @@ function BottomNav({
 	}, [history, location.pathname]);
 
 	function handleResultsClick() {
-		if (showFiltersPanel) {
+		if (filtersPanelIsOpen) {
 			setValue(1);
-			return onHideFiltersPanel();
+			return dispatch(hideFiltersPanel());
 		}
 	}
 
 	function handleFiltersClick() {
-		if (showFiltersPanel) {
+		if (filtersPanelIsOpen) {
 			setValue(1);
-			return onHideFiltersPanel();
+			return dispatch(hideFiltersPanel());
 		}
-		return onShowFiltersPanel();
+		return dispatch(showFiltersPanel());
 	}
 
 	return (
@@ -107,19 +105,3 @@ function BottomNav({
 		</Box>
 	);
 }
-
-const mapStateToProps = (state) => {
-	return {
-		showFiltersPanel: state.ui.showFiltersPanel,
-		appliedFilters: state.results.appliedFilters
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onShowFiltersPanel: () => dispatch(actionCreators.showFiltersPanel()),
-		onHideFiltersPanel: () => dispatch(actionCreators.hideFiltersPanel())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BottomNav);
