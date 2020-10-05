@@ -37,7 +37,7 @@ export default function LikeButton({ review, ...props }) {
 	const handleClick = () => {
 		if (isAuthenticated) {
 			axios
-				.put('https://api.vomad.guide/like/', {
+				.put('https://api.vomad.guide/review-like/', {
 					review_id: review.review_id,
 					user_id: currentUserData.id
 				})
