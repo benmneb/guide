@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { showSnackbar } from '../../../store/actions';
 import { useForm } from 'react-hook-form';
+import { useConfirm } from 'material-ui-confirm';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import {
@@ -59,20 +60,31 @@ const reasons = [
 
 export default function AboutEdit(props) {
 	const styles = useStyles();
+	const confirm = useConfirm();
 	const dispatch = useDispatch();
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
+	const { register, handleSubmit, errors, getValues } = useForm();
 	const [selectedReason, setSelectedReason] = useState(null);
 	const [hasSelected, setHasSelected] = useState(false);
 	const [pending, setPending] = useState(false);
 
-	const { register, handleSubmit, errors } = useForm();
-
-	const handleClose = () => {
+	const performClose = () => {
 		props.onClose();
 		setTimeout(() => {
 			setHasSelected(false);
 			setSelectedReason(null);
 		}, 195);
+	};
+
+	const handleCloseClick = () => {
+		if (getValues('elaboration')) {
+			confirm({
+				description: 'Do you really want to close this modal before submitting?',
+				confirmationText: 'Close'
+			})
+				.then(() => performClose())
+				.catch(() => null);
+		} else performClose();
 	};
 
 	const handleListItemClick = (reason) => {
@@ -94,7 +106,7 @@ export default function AboutEdit(props) {
 			})
 			.then(() => {
 				setPending(false);
-				handleClose();
+				performClose();
 				dispatch(
 					showSnackbar({
 						snackData: {
@@ -190,7 +202,7 @@ export default function AboutEdit(props) {
 
 	return (
 		<Dialog
-			onClose={handleClose}
+			onClose={handleCloseClick}
 			aria-labelledby="simple-dialog-title"
 			open={props.show}
 			maxWidth="sm"
@@ -200,7 +212,7 @@ export default function AboutEdit(props) {
 				<IconButton
 					aria-label="close"
 					className={styles.closeButton}
-					onClick={handleClose}
+					onClick={handleCloseClick}
 				>
 					<CloseRounded />
 				</IconButton>
