@@ -101,7 +101,7 @@ export default function FiltersBar(props) {
 							<Box className={styles.chipsBox}>
 								{appliedFilters.map((filter) => (
 									<Tooltip
-										key={filter.value}
+										key={filter.id}
 										title={filter.tooltip}
 										placement="bottom"
 										arrow

@@ -70,7 +70,7 @@ export default function FiltersPanel() {
 				</Typography>
 				<Grid container justify="space-evenly">
 					{tags.map((tag) => (
-						<FilterButton key={tag.name} filter={tag} />
+						<FilterButton key={tag.id} filter={tag} />
 					))}
 				</Grid>
 				<Typography align="center" className={styles.filtersSectionTitle}>
@@ -78,7 +78,7 @@ export default function FiltersPanel() {
 				</Typography>
 				<Grid container justify="space-evenly">
 					{ingredients.map((ing) => (
-						<FilterButton key={ing.name} filter={ing} />
+						<FilterButton key={ing.id} filter={ing} />
 					))}
 				</Grid>
 				<Typography align="center" className={styles.filtersSectionTitle}>
@@ -86,7 +86,7 @@ export default function FiltersPanel() {
 				</Typography>
 				<Grid container justify="space-evenly">
 					{allergens.map((allergen) => (
-						<FilterButton key={allergen.name} filter={allergen} />
+						<FilterButton key={allergen.id} filter={allergen} />
 					))}
 				</Grid>
 				<Box margin={2}>
