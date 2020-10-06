@@ -13,6 +13,8 @@ import {
 	increaseOffset
 } from '../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
+import debounce from 'lodash.debounce';
+import { useIsFirstRender } from '../../utils/isFirstRender';
 import ResultCard from './ResultCard';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import FiltersBar from './FiltersBar';
@@ -73,15 +75,15 @@ export default function ResultsList() {
 	const styles = useStyles();
 	const dispatch = useDispatch();
 	const location = useLocation();
+	const isFirstRender = useIsFirstRender();
 	const showFiltersPanel = useSelector((state) => state.ui.showFiltersPanel);
 	const appliedFilters = useSelector((state) => state.results.appliedFilters);
 	const offset = useSelector((state) => state.results.offset);
 	const [fetchedResults, setFetchedResults] = useState([]);
-	const [filteredResults, setFilteredResults] = useState([]);
-	const [displayedResults, setDisplayedResults] = useState([]);
-	const loadingInitially = !fetchedResults.length > 0;
+	const loadingInitially = !fetchedResults.length > 0 && isFirstRender;
 	const [categoryData, setCategoryData] = useState({});
 	const [currentPathname, setCurrentPathname] = useState('');
+	const [releventFilters, setReleventFilters] = useState('');
 
 	const productLink = usePrepareLink({
 		to: '/:name/:id',
@@ -97,42 +99,33 @@ export default function ResultsList() {
 
 		if (releventPathname !== currentPathname) {
 			dispatch(setLoading(true));
-			axios
-				.get(`https://api.vomad.guide/category${releventPathname}/0`, {
-					cancelToken: source.token
-				})
-				.then((response, rejection) => {
-					if (mounted) {
-						if (rejection) {
-							dispatch(setLoading(false));
-							dispatch(
-								showSnackbar({
-									snackData: {
-										type: 'error',
-										title: 'Could not load products',
-										message: `${rejection.message}. Please try again soon.`
-									}
-								})
-							);
-							return console.warn('Loading results was rejected:', rejection.message);
+
+			async function initialFetch() {
+				if (mounted) dispatch(setLoading(true));
+				try {
+					const response = await axios.get(
+						`https://api.vomad.guide/category${releventPathname}/0`,
+						{
+							cancelToken: source.token
 						}
-						const breadcrumbsArr = Array(
-							String(response.data[0].breadcrumbs).split('@')
-						)[0];
+					);
+					const results = await response.data[0];
+					if (mounted) {
+						const breadcrumbsArr = Array(String(results.breadcrumbs).split('@'))[0];
 						setCategoryData({
 							name: String(breadcrumbsArr[breadcrumbsArr.length - 1]),
-							totalProducts: response.data[0].totalproducts,
-							totalBrands: response.data[0].totalbrands,
-							breadcrumbs: breadcrumbsArr
+							totalProducts: results.totalproducts,
+							totalBrands: results.totalbrands,
+							breadcrumbs: breadcrumbsArr,
+							fullCount: Number(results.fullcount)
 						});
 						setCurrentPathname(releventPathname);
-						setFetchedResults(response.data[0].productList);
+						setFetchedResults(results.productList);
 						scrollToTopNow();
 						dispatch(setOffset(12));
 						dispatch(setLoading(false));
 					}
-				})
-				.catch((err) => {
+				} catch (err) {
 					if (mounted) {
 						dispatch(setLoading(false));
 						dispatch(
@@ -140,14 +133,16 @@ export default function ResultsList() {
 								snackData: {
 									type: 'error',
 									title: 'Could not load products',
-									message: `${err.message}. Please try again soon.`,
-									duration: 12000
+									message: `${err.message}. Please try again soon.`
 								}
 							})
 						);
-						return console.error('Error loading products:', err.message);
+						console.warn('Loading results was rejected:', err.message);
 					}
-				});
+				}
+			}
+
+			initialFetch();
 		}
 
 		return () => {
@@ -158,45 +153,33 @@ export default function ResultsList() {
 	}, [location.pathname, currentPathname, dispatch]);
 
 	// fetch more products on scroll
-	const fetchProducts = useCallback(() => {
+	const fetchMoreProducts = useCallback(async () => {
 		dispatch(setLoading(true));
-		axios
-			.get(`https://api.vomad.guide/category${currentPathname}/${offset}`)
-			.then((response, rejection) => {
-				if (response.data) {
-					setFetchedResults((prev) => [...prev, ...response.data[0].productList]);
-					dispatch(increaseOffset(12));
-					dispatch(setLoading(false));
-				}
-				if (rejection) {
-					dispatch(setLoading(false));
-					dispatch(
-						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Could not load products',
-								message: `${rejection.message}. Please try again soon.`
-							}
-						})
-					);
-					return console.warn('Loading results was rejected:', rejection.message);
-				}
-			})
-			.catch((err) => {
+
+		try {
+			const response = await axios.get(
+				`https://api.vomad.guide/category${currentPathname}/${offset}/${releventFilters}`
+			);
+			const results = await response.data[0];
+			if (results) {
+				setFetchedResults((prev) => [...prev, ...results.productList]);
+				dispatch(increaseOffset(12));
 				dispatch(setLoading(false));
-				dispatch(
-					showSnackbar({
-						snackData: {
-							type: 'error',
-							title: 'Could not load products',
-							message: `${err.message}. Please try again soon.`,
-							duration: 12000
-						}
-					})
-				);
-				return console.error('Error loading products:', err.message);
-			});
-	}, [currentPathname, dispatch, offset]);
+			}
+		} catch (err) {
+			dispatch(setLoading(false));
+			dispatch(
+				showSnackbar({
+					snackData: {
+						type: 'error',
+						title: 'Could not load products',
+						message: `${err.message}. Please try again soon.`
+					}
+				})
+			);
+			return console.warn('Loading results was rejected:', err.message);
+		}
+	}, [currentPathname, dispatch, offset, releventFilters]);
 
 	// hide filters panel on unmount
 	useEffect(() => {
@@ -205,31 +188,127 @@ export default function ResultsList() {
 		};
 	}, [showFiltersPanel, dispatch]);
 
-	//
+	// NEW filter dispalyd tesuls by applied filters
 	useEffect(() => {
-		if (appliedFilters.length) setDisplayedResults(filteredResults);
-		else setDisplayedResults(fetchedResults);
-	}, [fetchedResults, filteredResults, appliedFilters]);
-
-	// filter displayed results by applied filters
-	useEffect(() => {
-		if (appliedFilters.length > 0) {
-			setFilteredResults(
-				fetchedResults.filter((result) =>
-					appliedFilters.every(
-						(filter) => result.tags !== null && result.tags.indexOf(filter.value) >= 0
-					)
-				)
-			);
+		if (appliedFilters.length) {
+			let tagnames = `?tag=${appliedFilters[0].id}`;
+			for (let i = 1; i < appliedFilters.length; i++) {
+				tagnames += `&tag=${appliedFilters[i].id}`;
+			}
+			setReleventFilters(tagnames);
 		} else {
-			setFilteredResults([]);
+			setReleventFilters('');
 		}
-	}, [appliedFilters, fetchedResults]);
+	}, [appliedFilters, setReleventFilters]);
 
-	// keep searching for products if filters applied and no products returned...
+	// NEW set filtered results if filters applied
 	useEffect(() => {
-		if (appliedFilters.length && displayedResults.length < 12) fetchProducts();
-	}, [appliedFilters.length, displayedResults.length, fetchProducts]);
+		let mounted = true;
+		const source = axios.CancelToken.source();
+		const categoryArr = location.pathname.split('/');
+		const releventPathname = `/${categoryArr[1]}/${categoryArr[2]}`;
+
+		if (appliedFilters.length) {
+			dispatch(setLoading(true));
+
+			async function fetchIfFilters() {
+				try {
+					const response = await axios.get(
+						`https://api.vomad.guide/category${releventPathname}/0/${releventFilters}`,
+						{
+							cancelToken: source.token
+						}
+					);
+					const results = await response.data[0];
+					if (mounted) {
+						if (results === undefined) {
+							setFetchedResults([]);
+							setCategoryData((prev) => ({
+								...prev,
+								fullCount: -1
+							}));
+							dispatch(setLoading(false));
+						} else {
+							setFetchedResults(results.productList);
+							setCategoryData((prev) => ({
+								...prev,
+								fullCount: Number(results.fullcount)
+							}));
+							console.info(Number(results.fullcount));
+							dispatch(setOffset(12));
+							dispatch(setLoading(false));
+						}
+					}
+				} catch (err) {
+					if (mounted) {
+						dispatch(setLoading(false));
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'error',
+									title: 'Could not load products',
+									message: `${err.message}. Please try again soon.`
+								}
+							})
+						);
+						console.error('Error loading products:', err.message);
+					}
+				}
+			}
+
+			const debounceFetchIfFilters = debounce(fetchIfFilters, 1000);
+			debounceFetchIfFilters();
+		}
+
+		if (appliedFilters.length === 0 && !isFirstRender) {
+			dispatch(setLoading(true));
+
+			async function fetchIfJustRemovedFilters() {
+				try {
+					const response = await axios.get(
+						`https://api.vomad.guide/category${releventPathname}/0`,
+						{
+							cancelToken: source.token
+						}
+					);
+					const results = await response.data[0];
+					if (mounted && results) {
+						setFetchedResults(results.productList);
+						setCategoryData((prev) => ({
+							...prev,
+							fullCount: Number(results.fullcount)
+						}));
+						dispatch(setOffset(12));
+						dispatch(setLoading(false));
+					}
+				} catch (err) {
+					if (mounted) {
+						dispatch(setLoading(false));
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'error',
+									title: 'Could not load products',
+									message: `${err.message}. Please try again soon.`
+								}
+							})
+						);
+						console.error('Error loading products:', err.message);
+					}
+				}
+			}
+
+			const debouncefetchIfJustRemovedFilters = debounce(fetchIfJustRemovedFilters, 1000);
+			debouncefetchIfJustRemovedFilters();
+		}
+
+		return () => {
+			mounted = false;
+			dispatch(setLoading(false));
+			source.cancel('Second results list cancelled during clean-up');
+		};
+		//eslint-disable-next-line
+	}, [releventFilters]);
 
 	return (
 		<>
@@ -267,13 +346,13 @@ export default function ResultsList() {
 					[styles.containerShift]: showFiltersPanel
 				})}
 				dataLength={fetchedResults.length}
-				next={fetchProducts}
-				hasMore={fetchedResults.length < categoryData.totalProducts}
-				scrollThreshold="300px"
+				next={fetchMoreProducts}
+				hasMore={fetchedResults.length < categoryData.fullCount}
+				scrollThreshold="600px"
 				endMessage={!loadingInitially && <ResultsListEndMessage />}
 			>
 				{!loadingInitially
-					? displayedResults.map((result) => (
+					? fetchedResults.map((result) => (
 							<Link
 								key={Number(result.productId)}
 								className={styles.productLink}
@@ -287,9 +366,9 @@ export default function ResultsList() {
 								<ResultCard result={result} />
 							</Link>
 					  ))
-					: [...Array(12)].map((_, skel) => <ResultSkeleton key={skel} />)}
+					: [...Array(12)].map((_, i) => <ResultSkeleton key={i} />)}
 			</InfiniteScroll>
-			{!loadingInitially && fetchedResults.length < categoryData.totalProducts && (
+			{!loadingInitially && fetchedResults.length < categoryData.fullCount && (
 				<ResultsListSpinner />
 			)}
 			<FiltersPanel />
