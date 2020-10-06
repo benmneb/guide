@@ -58,7 +58,7 @@ export default function StoresList(props) {
 						</Typography>
 					}
 				/>
-				<Tooltip title="Seen by this many people">
+				<Tooltip title="The products reputation for this store">
 					{store.likes >= 1 ? (
 						<Typography component="span" variant="overline">
 							+{store.likes}

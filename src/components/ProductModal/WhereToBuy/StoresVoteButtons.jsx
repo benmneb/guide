@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { showSnackbar } from '../../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Tooltip } from '@material-ui/core';
 import { ThumbUpRounded, ThumbDownRounded } from '@material-ui/icons';
 import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 
@@ -50,27 +50,31 @@ export default function StoresVoteButtons() {
 
 	return (
 		<>
-			<IconButton
-				aria-label="confirm"
-				className={styles.iconButton}
-				onClick={() => handleVote('up')}
-			>
-				<ThumbUpRounded
-					fontSize="small"
-					color={selected === 'up' ? 'primary' : 'inherit'}
-				/>
-			</IconButton>
-			<IconButton
-				aria-label="vote down"
-				className={styles.iconButton}
-				edge="end"
-				onClick={() => handleVote('down')}
-			>
-				<ThumbDownRounded
-					fontSize="small"
-					color={selected === 'down' ? 'primary' : 'inherit'}
-				/>
-			</IconButton>
+			<Tooltip title="Yes, I have seen this product in this store">
+				<IconButton
+					aria-label="confirm"
+					className={styles.iconButton}
+					onClick={() => handleVote('up')}
+				>
+					<ThumbUpRounded
+						fontSize="small"
+						color={selected === 'up' ? 'primary' : 'inherit'}
+					/>
+				</IconButton>
+			</Tooltip>
+			<Tooltip title="No, I have not seen this product in this store">
+				<IconButton
+					aria-label="vote down"
+					className={styles.iconButton}
+					edge="end"
+					onClick={() => handleVote('down')}
+				>
+					<ThumbDownRounded
+						fontSize="small"
+						color={selected === 'down' ? 'primary' : 'inherit'}
+					/>
+				</IconButton>
+			</Tooltip>
 		</>
 	);
 }
