@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import clsx from 'clsx';
 import axios from 'axios';
@@ -14,7 +14,6 @@ import {
 } from '../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import debounce from 'lodash.debounce';
-import { useIsFirstRender } from '../../utils/isFirstRender';
 import ResultCard from './ResultCard';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import FiltersBar from './FiltersBar';
@@ -75,42 +74,46 @@ export default function ResultsList() {
 	const styles = useStyles();
 	const dispatch = useDispatch();
 	const location = useLocation();
-	const isFirstRender = useIsFirstRender();
 	const showFiltersPanel = useSelector((state) => state.ui.showFiltersPanel);
 	const appliedFilters = useSelector((state) => state.results.appliedFilters);
 	const offset = useSelector((state) => state.results.offset);
 	const [fetchedResults, setFetchedResults] = useState([]);
-	const loadingInitially = !fetchedResults.length > 0 && isFirstRender;
+	const [loadingInitially, setLoadingInitially] = useState(true);
 	const [categoryData, setCategoryData] = useState({});
-	const [currentPathname, setCurrentPathname] = useState('');
-	const [releventFilters, setReleventFilters] = useState('');
+	const [filtersQueryString, setFiltersQueryString] = useState('');
+	const isFirstRender = useRef(true);
+	const currentPathname = useRef('');
+	const releventPathname = useRef('');
 
 	const productLink = usePrepareLink({
 		to: '/:name/:id',
 		isRelativePath: true
 	});
 
-	//axios call to get initial set of products
+	// set appropriate pathname for axios calls when relevent part of URL changes
+	useEffect(() => {
+		const categoryArr = location.pathname.split('/');
+		releventPathname.current = `${categoryArr[1]}/${categoryArr[2]}`;
+	}, [location.pathname]);
+
+	// fetch results on page load
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
-		const categoryArr = location.pathname.split('/');
-		const releventPathname = `/${categoryArr[1]}/${categoryArr[2]}`;
 
-		if (releventPathname !== currentPathname) {
-			dispatch(setLoading(true));
-
+		if (releventPathname.current !== currentPathname.current) {
 			async function initialFetch() {
 				if (mounted) dispatch(setLoading(true));
 				try {
 					const response = await axios.get(
-						`https://api.vomad.guide/category${releventPathname}/0`,
+						`https://api.vomad.guide/category/${releventPathname.current}/0`,
 						{
 							cancelToken: source.token
 						}
 					);
 					const results = await response.data[0];
 					if (mounted) {
+						currentPathname.current = releventPathname.current;
 						const breadcrumbsArr = Array(String(results.breadcrumbs).split('@'))[0];
 						setCategoryData({
 							name: String(breadcrumbsArr[breadcrumbsArr.length - 1]),
@@ -119,7 +122,6 @@ export default function ResultsList() {
 							breadcrumbs: breadcrumbsArr,
 							fullCount: Number(results.fullcount)
 						});
-						setCurrentPathname(releventPathname);
 						setFetchedResults(results.productList);
 						scrollToTopNow();
 						dispatch(setOffset(12));
@@ -137,7 +139,7 @@ export default function ResultsList() {
 								}
 							})
 						);
-						console.warn('Loading results was rejected:', err.message);
+						console.error('Loading results was rejected:', err.message);
 					}
 				}
 			}
@@ -150,15 +152,15 @@ export default function ResultsList() {
 			dispatch(setLoading(false));
 			source.cancel('Results list cancelled during clean-up');
 		};
-	}, [location.pathname, currentPathname, dispatch]);
+	}, [location.pathname, dispatch]);
 
-	// fetch more products on scroll
+	// fetch more results on scroll
 	const fetchMoreProducts = useCallback(async () => {
 		dispatch(setLoading(true));
 
 		try {
 			const response = await axios.get(
-				`https://api.vomad.guide/category${currentPathname}/${offset}/${releventFilters}`
+				`https://api.vomad.guide/category/${releventPathname.current}/${offset}/${filtersQueryString}`
 			);
 			const results = await response.data[0];
 			if (results) {
@@ -177,44 +179,22 @@ export default function ResultsList() {
 					}
 				})
 			);
-			return console.warn('Loading results was rejected:', err.message);
+			return console.error('Loading results was rejected:', err.message);
 		}
-	}, [currentPathname, dispatch, offset, releventFilters]);
+	}, [dispatch, offset, filtersQueryString]);
 
-	// hide filters panel on unmount
-	useEffect(() => {
-		return () => {
-			if (showFiltersPanel) dispatch(hideFiltersPanel());
-		};
-	}, [showFiltersPanel, dispatch]);
-
-	// NEW filter dispalyd tesuls by applied filters
-	useEffect(() => {
-		if (appliedFilters.length) {
-			let tagnames = `?tag=${appliedFilters[0].id}`;
-			for (let i = 1; i < appliedFilters.length; i++) {
-				tagnames += `&tag=${appliedFilters[i].id}`;
-			}
-			setReleventFilters(tagnames);
-		} else {
-			setReleventFilters('');
-		}
-	}, [appliedFilters, setReleventFilters]);
-
-	// NEW set filtered results if filters applied
+	// fetch results after applying/removing filters
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
-		const categoryArr = location.pathname.split('/');
-		const releventPathname = `/${categoryArr[1]}/${categoryArr[2]}`;
 
-		if (appliedFilters.length) {
+		if (filtersQueryString.length) {
 			dispatch(setLoading(true));
 
 			async function fetchIfFilters() {
 				try {
 					const response = await axios.get(
-						`https://api.vomad.guide/category${releventPathname}/0/${releventFilters}`,
+						`https://api.vomad.guide/category/${releventPathname.current}/0/${filtersQueryString}`,
 						{
 							cancelToken: source.token
 						}
@@ -234,7 +214,6 @@ export default function ResultsList() {
 								...prev,
 								fullCount: Number(results.fullcount)
 							}));
-							console.info(Number(results.fullcount));
 							dispatch(setOffset(12));
 							dispatch(setLoading(false));
 						}
@@ -260,19 +239,19 @@ export default function ResultsList() {
 			debounceFetchIfFilters();
 		}
 
-		if (appliedFilters.length === 0 && !isFirstRender) {
+		if (!filtersQueryString.length && !isFirstRender.current) {
 			dispatch(setLoading(true));
 
 			async function fetchIfJustRemovedFilters() {
 				try {
 					const response = await axios.get(
-						`https://api.vomad.guide/category${releventPathname}/0`,
+						`https://api.vomad.guide/category/${releventPathname.current}/0`,
 						{
 							cancelToken: source.token
 						}
 					);
 					const results = await response.data[0];
-					if (mounted && results) {
+					if (mounted) {
 						setFetchedResults(results.productList);
 						setCategoryData((prev) => ({
 							...prev,
@@ -307,8 +286,35 @@ export default function ResultsList() {
 			dispatch(setLoading(false));
 			source.cancel('Second results list cancelled during clean-up');
 		};
-		//eslint-disable-next-line
-	}, [releventFilters]);
+	}, [filtersQueryString, dispatch]);
+
+	// construct API query string to fetch results based on filters
+	useEffect(() => {
+		if (appliedFilters.length) {
+			let tagnames = `?tag=${appliedFilters[0].id}`;
+			for (let i = 1; i < appliedFilters.length; i++) {
+				tagnames += `&tag=${appliedFilters[i].id}`;
+			}
+			setFiltersQueryString(tagnames);
+		} else {
+			setFiltersQueryString('');
+		}
+	}, [appliedFilters, setFiltersQueryString]);
+
+	// let everything know once first page load is complete
+	useEffect(() => {
+		if (fetchedResults.length) {
+			setLoadingInitially(false);
+			isFirstRender.current = false;
+		}
+	}, [fetchedResults.length]);
+
+	// hide filters panel on unmount
+	useEffect(() => {
+		return () => {
+			if (showFiltersPanel) dispatch(hideFiltersPanel());
+		};
+	}, [showFiltersPanel, dispatch]);
 
 	return (
 		<>
@@ -360,7 +366,7 @@ export default function ResultsList() {
 									.replace(':id', result.productId)
 									.replace(
 										':name',
-										toKebabCase(result.brandName + '-' + result.productName)
+										toKebabCase(`${result.brandName}-${result.productName}`)
 									)}
 							>
 								<ResultCard result={result} />
