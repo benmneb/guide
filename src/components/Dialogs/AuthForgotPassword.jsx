@@ -30,10 +30,8 @@ export default function AuthForgotPassword({ show, hide }) {
 				if (response.data === 'recovery email sent') {
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'success',
-								message: 'Email sent, please check your inbox.'
-							}
+							type: 'success',
+							message: 'Email sent, please check your inbox.'
 						})
 					);
 					setPending(false);
@@ -46,23 +44,19 @@ export default function AuthForgotPassword({ show, hide }) {
 					setPending(false);
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Email not found',
-								message: 'The entered email is not in our database.',
-								emoji: '🤔'
-							}
+							type: 'error',
+							title: 'Email not found',
+							message: 'The entered email is not in our database.',
+							emoji: '🤔'
 						})
 					);
 				} else {
 					setPending(false);
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Could not process',
-								message: `${err.message}. Please try again soon.`
-							}
+							type: 'error',
+							title: 'Could not process',
+							message: `${err.message}. Please try again soon.`
 						})
 					);
 				}

@@ -41,12 +41,10 @@ export default function Advertise({ isOpened }) {
 				setPending(false);
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'success',
-							title: 'Message sent',
-							message: "Thanks for your interest, we'll be in touch",
-							emoji: '🤝'
-						}
+						type: 'success',
+						title: 'Message sent',
+						message: "Thanks for your interest, we'll be in touch",
+						emoji: '🤝'
 					})
 				);
 				goBack();
@@ -55,11 +53,9 @@ export default function Advertise({ isOpened }) {
 				setPending(false);
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'error',
-							title: 'Something went wrong',
-							message: `${err.message}. Please try again soon.`
-						}
+						type: 'error',
+						title: 'Something went wrong',
+						message: `${err.message}. Please try again soon.`
 					})
 				);
 			});

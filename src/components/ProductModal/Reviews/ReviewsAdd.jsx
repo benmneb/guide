@@ -53,12 +53,10 @@ export default function ReviewsAdd() {
 					setPending(false);
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'success',
-								title: 'Review added',
-								message: 'Thank you for helping people find vegan products easier',
-								emoji: '💪'
-							}
+							type: 'success',
+							title: 'Review added',
+							message: 'Thank you for helping people find vegan products easier',
+							emoji: '💪'
 						})
 					);
 					dispatch(hideAddReview());
@@ -69,21 +67,17 @@ export default function ReviewsAdd() {
 					if (err.response.data === 'user already reviewed') {
 						return dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'error',
-									title: "Can't leave two reviews",
-									message: 'You have already reviewed this product.'
-								}
+								type: 'error',
+								title: "Can't leave two reviews",
+								message: 'You have already reviewed this product.'
 							})
 						);
 					}
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Could not add review',
-								message: `${err.message}. TODO:`
-							}
+							type: 'error',
+							title: 'Could not add review',
+							message: `${err.message}. TODO:`
 						})
 					);
 				});

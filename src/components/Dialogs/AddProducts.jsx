@@ -99,12 +99,10 @@ export default function AddProducts({ isOpened }) {
 					setActiveStep((prevActiveStep) => prevActiveStep + 1);
 					return dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'success',
-								title: 'Submission received',
-								message: 'Thank you for helping people find vegan products easier',
-								emoji: '💪'
-							}
+							type: 'success',
+							title: 'Submission received',
+							message: 'Thank you for helping people find vegan products easier',
+							emoji: '💪'
 						})
 					);
 				})
@@ -112,11 +110,9 @@ export default function AddProducts({ isOpened }) {
 					setPending(false);
 					return dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Something went wrong',
-								message: `${err.message}. Please try again soon.`
-							}
+							type: 'error',
+							title: 'Something went wrong',
+							message: `${err.message}. Please try again soon.`
 						})
 					);
 				});

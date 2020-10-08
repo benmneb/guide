@@ -93,37 +93,31 @@ export default function AuthEmailLogin() {
 				if (error.response.data === 'no user found') {
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Email not found',
-								message:
-									'Please check spelling or use the sign up form to create an account.'
-							}
+							type: 'error',
+							title: 'Email not found',
+							message:
+								'Please check spelling or use the sign up form to create an account.'
 						})
 					);
 				} else if (error.response.data === 'incorrect password') {
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Incorrect password',
-								message: 'Please check spelling and try again.'
-							}
+							type: 'error',
+							title: 'Incorrect password',
+							message: 'Please check spelling and try again.'
 						})
 					);
 				} else if (error.response.data === 'Login with social media account') {
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: "Couldn't login",
-								message:
-									'Please login with the social account connected to this email, then you may add a password if you wish.',
-								duration: 12000,
-								action: {
-									text: 'Login with social',
-									clicked: () => dispatch(setIsUsingEmailAuth(false))
-								}
+							type: 'error',
+							title: "Couldn't login",
+							message:
+								'Please login with the social account connected to this email, then you may add a password if you wish.',
+							duration: 12000,
+							action: {
+								text: 'Login with social',
+								clicked: () => dispatch(setIsUsingEmailAuth(false))
 							}
 						})
 					);
@@ -131,12 +125,10 @@ export default function AuthEmailLogin() {
 					setPending(false);
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: "Couldn't login",
-								message:
-									'Something went wrong on our end. Sorry about that, please try again soon.'
-							}
+							type: 'error',
+							title: "Couldn't login",
+							message:
+								'Something went wrong on our end. Sorry about that, please try again soon.'
 						})
 					);
 					return console.error(error);

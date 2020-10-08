@@ -140,10 +140,8 @@ export default function AboutEdit({ hide, show }) {
 						setPending(false);
 						return dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'success',
-									message: 'Username changed successfully'
-								}
+								type: 'success',
+								message: 'Username changed successfully'
 							})
 						);
 					})
@@ -151,10 +149,8 @@ export default function AboutEdit({ hide, show }) {
 						setPending(false);
 						return dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'error',
-									message: 'Could not update username, please try again soon.'
-								}
+								type: 'error',
+								message: 'Could not update username, please try again soon.'
 							})
 						);
 					});
@@ -177,11 +173,9 @@ export default function AboutEdit({ hide, show }) {
 						setPending(false);
 						dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'warning',
-									title: 'Email changed',
-									message: 'Please check your inbox for a confirmation email'
-								}
+								type: 'warning',
+								title: 'Email changed',
+								message: 'Please check your inbox for a confirmation email'
 							})
 						);
 					})
@@ -190,12 +184,10 @@ export default function AboutEdit({ hide, show }) {
 							setPending(false);
 							return dispatch(
 								showSnackbar({
-									snackData: {
-										type: 'error',
-										title: 'Email must be different',
-										message:
-											'The email you entered is the same as the one you are trying to change!'
-									}
+									type: 'error',
+									title: 'Email must be different',
+									message:
+										'The email you entered is the same as the one you are trying to change!'
 								})
 							);
 						}
@@ -203,21 +195,17 @@ export default function AboutEdit({ hide, show }) {
 							setPending(false);
 							return dispatch(
 								showSnackbar({
-									snackData: {
-										type: 'error',
-										title: 'Email exists',
-										message: 'That email is already associated with another account.'
-									}
+									type: 'error',
+									title: 'Email exists',
+									message: 'That email is already associated with another account.'
 								})
 							);
 						}
 						setPending(false);
 						return dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'error',
-									message: 'Could not change email, please try again soon.'
-								}
+								type: 'error',
+								message: 'Could not change email, please try again soon.'
 							})
 						);
 					});
@@ -240,10 +228,8 @@ export default function AboutEdit({ hide, show }) {
 						setPending(false);
 						dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'success',
-									message: 'Password successfully updated'
-								}
+								type: 'success',
+								message: 'Password successfully updated'
 							})
 						);
 					})
@@ -251,10 +237,8 @@ export default function AboutEdit({ hide, show }) {
 						setPending(false);
 						return dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'error',
-									message: 'Could not update password, please try again soon.'
-								}
+								type: 'error',
+								message: 'Could not update password, please try again soon.'
 							})
 						);
 					});
@@ -283,12 +267,10 @@ export default function AboutEdit({ hide, show }) {
 					.then(() => {
 						dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'success',
-									color: 'info',
-									message: 'Account deleted. Sorry to see you go.',
-									emoji: '👋'
-								}
+								type: 'success',
+								color: 'info',
+								message: 'Account deleted. Sorry to see you go.',
+								emoji: '👋'
 							})
 						);
 					})
@@ -296,10 +278,8 @@ export default function AboutEdit({ hide, show }) {
 						setPending(false);
 						return dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'error',
-									message: 'Could not delete account, please try again.'
-								}
+								type: 'error',
+								message: 'Could not delete account, please try again.'
 							})
 						);
 					});

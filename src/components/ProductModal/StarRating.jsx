@@ -65,13 +65,11 @@ export default function StarRating(props) {
 								props.onRate(newRating);
 								dispatch(
 									showSnackbar({
-										snackData: {
-											type: 'success',
-											message: `Rated as "${labels[newRating]}"`,
-											action: {
-												text: 'Add a review?',
-												clicked: () => handleClickAddReviewAfterRating(newRating)
-											}
+										type: 'success',
+										message: `Rated as "${labels[newRating]}"`,
+										action: {
+											text: 'Add a review?',
+											clicked: () => handleClickAddReviewAfterRating(newRating)
 										}
 									})
 								);

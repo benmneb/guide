@@ -72,11 +72,9 @@ export default function StoresVoteButtons(props) {
 				console.error('Error casting vote:', err.message);
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'error',
-							title: 'Could not cast vote',
-							message: `${err.message}. Please try again.`
-						}
+						type: 'error',
+						title: 'Could not cast vote',
+						message: `${err.message}. Please try again.`
 					})
 				);
 			}

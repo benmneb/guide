@@ -93,11 +93,9 @@ export default function AuthEmailJoin() {
 				if (error.response.data === 'email already taken') {
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Email already exists',
-								message: 'Please login instead, or reset your password if you forgot it.'
-							}
+							type: 'error',
+							title: 'Email already exists',
+							message: 'Please login instead, or reset your password if you forgot it.'
 						})
 					);
 				} else {
@@ -105,11 +103,9 @@ export default function AuthEmailJoin() {
 					console.error(error);
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Could not sign up',
-								message: `${error.message}. Please try again.`
-							}
+							type: 'error',
+							title: 'Could not sign up',
+							message: `${error.message}. Please try again.`
 						})
 					);
 				}

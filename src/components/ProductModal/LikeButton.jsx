@@ -40,10 +40,8 @@ export default function LikeButton({ review, ...props }) {
 			if (currentUserData.id === review.user_id) {
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'info',
-							message: "You can't like your own review."
-						}
+						type: 'info',
+						message: "You can't like your own review."
 					})
 				);
 			} else {
@@ -61,11 +59,9 @@ export default function LikeButton({ review, ...props }) {
 						console.error(err);
 						dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'error',
-									title: 'Could not like review',
-									message: `${err.message}. Please try again.`
-								}
+								type: 'error',
+								title: 'Could not like review',
+								message: `${err.message}. Please try again.`
 							})
 						);
 					});

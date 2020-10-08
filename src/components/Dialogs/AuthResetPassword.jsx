@@ -90,23 +90,19 @@ export default function AuthResetPassword({ isOpened }) {
 						) {
 							dispatch(
 								showSnackbar({
-									snackData: {
-										type: 'error',
-										message:
-											'The password reset link you used is invalid or has expired. Please check the link or request a new one.',
-										duration: 12000
-									}
+									type: 'error',
+									message:
+										'The password reset link you used is invalid or has expired. Please check the link or request a new one.',
+									duration: 12000
 								})
 							);
 							goBack();
 						} else {
 							dispatch(
 								showSnackbar({
-									snackData: {
-										type: 'error',
-										title: 'Could not load password reset form',
-										message: error.message
-									}
+									type: 'error',
+									title: 'Could not load password reset form',
+									message: error.message
 								})
 							);
 							goBack();
@@ -133,11 +129,9 @@ export default function AuthResetPassword({ isOpened }) {
 			.then(() => {
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'success',
-							title: 'Password succesfully updated',
-							message: 'Please login to your account to begin.'
-						}
+						type: 'success',
+						title: 'Password succesfully updated',
+						message: 'Please login to your account to begin.'
 					})
 				);
 				setPending(false);
@@ -148,11 +142,9 @@ export default function AuthResetPassword({ isOpened }) {
 				setPending(false);
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'error',
-							title: 'Something went wrong',
-							message: `${err.message}. Please try again soon.`
-						}
+						type: 'error',
+						title: 'Something went wrong',
+						message: `${err.message}. Please try again soon.`
 					})
 				);
 			});

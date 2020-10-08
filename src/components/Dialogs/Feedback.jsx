@@ -41,13 +41,11 @@ export default function Feedback({ isOpened }) {
 				setPending(false);
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'success',
-							color: 'info',
-							title: 'Feedback received',
-							message: 'We appreciate and encourage all suggestions',
-							emoji: '👌'
-						}
+						type: 'success',
+						color: 'info',
+						title: 'Feedback received',
+						message: 'We appreciate and encourage all suggestions',
+						emoji: '👌'
 					})
 				);
 				goBack();
@@ -56,19 +54,19 @@ export default function Feedback({ isOpened }) {
 				setPending(false);
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'error',
-							title: 'Could not send feedback',
-							message: `${err.message}. Please try again soon.`
-						}
+						type: 'error',
+						title: 'Could not send feedback',
+						message: `${err.message}. Please try again soon.`
 					})
 				);
 			});
 	};
 
 	const goBack = useCallback(() => {
-		history.push(location.pathname);
-	}, [history, location.pathname]);
+		if (location.search.includes('&')) {
+			history.push(location.pathname + location.search.split('&')[0]);
+		} else history.push(location.pathname);
+	}, [history, location.pathname, location.search]);
 
 	const onClose = () => {
 		if (getValues('feedback')) {

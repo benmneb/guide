@@ -110,10 +110,8 @@ export default function TopBar({ children }) {
 		if (isAuthenticated) {
 			dispatch(
 				showSnackbar({
-					snackData: {
-						type: 'success',
-						message: 'Welcome back, ' + currentUserData.username
-					}
+					type: 'success',
+					message: 'Welcome back, ' + currentUserData.username
 				})
 			);
 		}

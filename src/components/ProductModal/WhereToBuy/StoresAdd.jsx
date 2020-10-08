@@ -36,52 +36,6 @@ export default function StoresAdd(props) {
 	const [placeDetails, setPlaceDetails] = useState({});
 	const [pending, setPending] = useState(false);
 
-	// this one uses the expensive PlacesServiceGetDetails
-	// const onSubmitAddStore = () => {
-	// 	const request = {
-	// 		placeId: placeId,
-	// 		fields: ['name', 'place_id', 'geometry', 'formatted_address']
-	// 	};
-
-	// 	if (window.google) {
-	// 		const service = new window.google.maps.places.PlacesService(
-	// 			document.createElement('div')
-	// 		);
-	// 		service.getDetails(request, (place, status) => {
-	// 			if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-	// 				const coords =
-	// 					place.geometry.location.lat() + ', ' + place.geometry.location.lng();
-	// 				console.log('place:', {
-	// 					name: place.name,
-	// 					googlePlaceId: place.place_id,
-	// 					coords: coords,
-	// 					address: place.formatted_address,
-	// 					addedBy: 'PUT CURRENT USER ID HERE',
-	// 					addedOn: new Date()
-	// 				});
-	// 				onShowSnackbar({
-	// 					snackData: {
-	// 						type: 'success',
-	// 						title: 'Store added',
-	// 						message: 'Thank you for helping people find vegan products easier',
-	// 						emoji: '💪'
-	// 					}
-	// 				});
-	// 				props.hide();
-	// 			} else {
-	// 				console.error('something went wrong getting the place details from google :(');
-	// 				onShowSnackbar({
-	// 					snackData: {
-	// 						type: 'error',
-	// 						title: 'Something went wrong',
-	// 						message: 'An error occured while adding the store, please try again soon'
-	// 					}
-	// 				});
-	// 			}
-	// 		});
-	// 	}
-	// };
-
 	const onSubmitAddStore = () => {
 		if (window.google) {
 			confirm({
@@ -118,13 +72,11 @@ export default function StoresAdd(props) {
 										setPending(false);
 										dispatch(
 											showSnackbar({
-												snackData: {
-													type: 'success',
-													title: 'Store added',
-													message:
-														'Thank you for helping people find vegan products easier',
-													emoji: '💪'
-												}
+												type: 'success',
+												title: 'Store added',
+												message:
+													'Thank you for helping people find vegan products easier',
+												emoji: '💪'
 											})
 										);
 										props.hide();
@@ -134,24 +86,20 @@ export default function StoresAdd(props) {
 										if (err.response.data === 'store already added') {
 											dispatch(
 												showSnackbar({
-													snackData: {
-														type: 'info',
-														title: 'Store already added',
-														message:
-															'That store has already been added for this product! Thanks anyway.'
-													}
+													type: 'info',
+													title: 'Store already added',
+													message:
+														'That store has already been added for this product! Thanks anyway.'
 												})
 											);
 										} else {
 											console.error('Something went wrong adding the store', err);
 											dispatch(
 												showSnackbar({
-													snackData: {
-														type: 'error',
-														title: 'Something went wrong',
-														message:
-															'An error occured while adding the store, please try again soon.'
-													}
+													type: 'error',
+													title: 'Something went wrong',
+													message:
+														'An error occured while adding the store, please try again soon.'
 												})
 											);
 										}
@@ -164,12 +112,10 @@ export default function StoresAdd(props) {
 								);
 								dispatch(
 									showSnackbar({
-										snackData: {
-											type: 'error',
-											title: 'Something went wrong',
-											message:
-												'An error occured while adding the store, please try again soon'
-										}
+										type: 'error',
+										title: 'Something went wrong',
+										message:
+											'An error occured while adding the store, please try again soon'
 									})
 								);
 							}

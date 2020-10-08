@@ -132,11 +132,9 @@ export default function ResultsList() {
 						dispatch(setLoading(false));
 						dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'error',
-									title: 'Could not load products',
-									message: `${err.message}. Please try again soon.`
-								}
+								type: 'error',
+								title: 'Could not load products',
+								message: `${err.message}. Please try again soon.`
 							})
 						);
 						console.error('Loading results was rejected:', err.message);
@@ -172,11 +170,9 @@ export default function ResultsList() {
 			dispatch(setLoading(false));
 			dispatch(
 				showSnackbar({
-					snackData: {
-						type: 'error',
-						title: 'Could not load products',
-						message: `${err.message}. Please try again soon.`
-					}
+					type: 'error',
+					title: 'Could not load products',
+					message: `${err.message}. Please try again soon.`
 				})
 			);
 			return console.error('Loading results was rejected:', err.message);
@@ -223,11 +219,9 @@ export default function ResultsList() {
 						dispatch(setLoading(false));
 						dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'error',
-									title: 'Could not load products',
-									message: `${err.message}. Please try again soon.`
-								}
+								type: 'error',
+								title: 'Could not load products',
+								message: `${err.message}. Please try again soon.`
 							})
 						);
 						console.error('Error loading products:', err.message);
@@ -265,11 +259,9 @@ export default function ResultsList() {
 						dispatch(setLoading(false));
 						dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'error',
-									title: 'Could not load products',
-									message: `${err.message}. Please try again soon.`
-								}
+								type: 'error',
+								title: 'Could not load products',
+								message: `${err.message}. Please try again soon.`
 							})
 						);
 						console.error('Error loading products:', err.message);

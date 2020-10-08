@@ -47,13 +47,11 @@ export default function ReviewReport(props) {
 				handleClose();
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'success',
-							color: 'info',
-							title: 'Report received',
-							message: "Thank you, we'll take it from here",
-							emoji: '👍'
-						}
+						type: 'success',
+						color: 'info',
+						title: 'Report received',
+						message: "Thank you, we'll take it from here",
+						emoji: '👍'
 					})
 				);
 			})
@@ -61,11 +59,9 @@ export default function ReviewReport(props) {
 				setPending(false);
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'error',
-							title: 'Could not report',
-							message: `${err.message}. Please try again soon.`
-						}
+						type: 'error',
+						title: 'Could not report',
+						message: `${err.message}. Please try again soon.`
 					})
 				);
 			});

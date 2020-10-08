@@ -73,12 +73,10 @@ export const updateStores = (selectedProductId, lat, lng) => (dispatch) =>
 			console.error('Error updating stores:', err);
 			dispatch(
 				showSnackbar({
-					snackData: {
-						type: 'info',
-						title: 'Vote received',
-						message: 'Thank you for helping people find vegan products easier',
-						emoji: '💪'
-					}
+					type: 'info',
+					title: 'Vote received',
+					message: 'Thank you for helping people find vegan products easier',
+					emoji: '💪'
 				})
 			);
 		});

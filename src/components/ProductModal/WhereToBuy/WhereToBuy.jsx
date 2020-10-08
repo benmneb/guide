@@ -116,21 +116,17 @@ export default function WhereToBuy() {
 							if (err.code === 1) {
 								dispatch(
 									showSnackbar({
-										snackData: {
-											type: 'error',
-											title: 'Location unavailable',
-											message: 'You need to allow access.'
-										}
+										type: 'error',
+										title: 'Location unavailable',
+										message: 'You need to allow access.'
 									})
 								);
 							} else {
 								dispatch(
 									showSnackbar({
-										snackData: {
-											type: 'error',
-											title: 'Location unavailable',
-											message: 'Could not access your location. Please try again.'
-										}
+										type: 'error',
+										title: 'Location unavailable',
+										message: 'Could not access your location. Please try again.'
 									})
 								);
 							}
@@ -142,12 +138,10 @@ export default function WhereToBuy() {
 					console.error('window.navigator is not available');
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Location unavailable',
-								message:
-									'Could not access your location. You might need to update your browser.'
-							}
+							type: 'error',
+							title: 'Location unavailable',
+							message:
+								'Could not access your location. You might need to update your browser.'
 						})
 					);
 				}
@@ -178,11 +172,9 @@ export default function WhereToBuy() {
 						console.error('Error fetching stores:', err);
 						dispatch(
 							showSnackbar({
-								snackData: {
-									type: 'error',
-									title: 'Could not show stores',
-									message: 'There was an error on our end. Please try again.'
-								}
+								type: 'error',
+								title: 'Could not show stores',
+								message: 'There was an error on our end. Please try again.'
 							})
 						);
 					}
@@ -220,10 +212,8 @@ export default function WhereToBuy() {
 				.then(
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'info',
-								message: 'Address copied to clipboard'
-							}
+							type: 'info',
+							message: 'Address copied to clipboard'
 						})
 					)
 				)
@@ -231,20 +221,16 @@ export default function WhereToBuy() {
 					console.error(err);
 					dispatch(
 						showSnackbar({
-							snackData: {
-								type: 'error',
-								message: 'Could not copy to clipboard'
-							}
+							type: 'error',
+							message: 'Could not copy to clipboard'
 						})
 					);
 				});
 		} else {
 			dispatch(
 				showSnackbar({
-					snackData: {
-						type: 'error',
-						message: 'Could not copy to clipboard'
-					}
+					type: 'error',
+					message: 'Could not copy to clipboard'
 				})
 			);
 		}

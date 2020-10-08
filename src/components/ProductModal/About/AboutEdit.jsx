@@ -109,13 +109,11 @@ export default function AboutEdit(props) {
 				performClose();
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'success',
-							color: 'info',
-							title: 'Suggestion received',
-							message: 'Thank you for helping people find vegan products easier',
-							emoji: '💪'
-						}
+						type: 'success',
+						color: 'info',
+						title: 'Suggestion received',
+						message: 'Thank you for helping people find vegan products easier',
+						emoji: '💪'
 					})
 				);
 			})
@@ -123,11 +121,9 @@ export default function AboutEdit(props) {
 				setPending(false);
 				dispatch(
 					showSnackbar({
-						snackData: {
-							type: 'error',
-							title: 'Sorry, could not send',
-							message: `${err.message}. Please try again.`
-						}
+						type: 'error',
+						title: 'Sorry, could not send',
+						message: `${err.message}. Please try again.`
 					})
 				);
 			});
