@@ -5,7 +5,7 @@ const initialState = {
 	ratingBeforeClickedAddReviewSnackbar: null,
 	showAddReview: false,
 	currentLocation: null,
-	reviews: [],
+	reviews: null,
 	stores: null,
 	selectedStore: null
 };

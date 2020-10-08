@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -33,17 +33,16 @@ export default function Reviews() {
 	const reviews = useSelector((state) => state.product.reviews);
 	const showAddReviewForm = useSelector((state) => state.product.showAddReview);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-	const selectedProductId = useSelector(
-		(state) => state.product.selectedProduct.productId
-	);
+	const selectedProduct = useSelector((state) => state.product.selectedProduct);
+	const alreadyFetchedReviews = useRef(Boolean(reviews));
 
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
 
-		if (selectedProductId) {
+		if (mounted && selectedProduct && !alreadyFetchedReviews.current) {
 			axios
-				.get(`https://api.vomad.guide/review/${selectedProductId}`, {
+				.get(`https://api.vomad.guide/review/${selectedProduct.productId}`, {
 					cancelToken: source.token
 				})
 				.then((response) => {
@@ -58,7 +57,7 @@ export default function Reviews() {
 			mounted = false;
 			source.cancel('Reviews fetch cancelled during clean-up');
 		};
-	}, [selectedProductId, dispatch]);
+	}, [selectedProduct, dispatch]);
 
 	const authLink = usePrepareLink({
 		query: {
