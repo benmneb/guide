@@ -33,7 +33,7 @@ export default function UiReducer(state = initialState, action) {
 			return {
 				...state,
 				showSnackbar: true,
-				snackData: action.payload.snackData
+				snackData: action.snackData
 			};
 		case actionTypes.HIDE_SNACKBAR:
 			return {

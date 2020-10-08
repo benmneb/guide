@@ -5,18 +5,14 @@ import axios from 'axios';
 export const setSelectedProduct = (id) => {
 	return {
 		type: actionTypes.SET_SELECTED_PRODUCT,
-		payload: {
-			id
-		}
+		id
 	};
 };
 
 export const clickAddReviewAfterRating = (rating) => {
 	return {
 		type: actionTypes.CLICK_ADD_REVIEW_AFTER_RATING,
-		payload: {
-			rating
-		}
+		rating
 	};
 };
 
@@ -35,9 +31,7 @@ export const hideAddReview = () => {
 export const setCurrentLocation = (location) => {
 	return {
 		type: actionTypes.SET_CURRENT_LOCATION,
-		payload: {
-			location
-		}
+		location
 	};
 };
 

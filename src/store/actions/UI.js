@@ -27,9 +27,7 @@ export const hideSideDrawer = () => {
 export const showSnackbar = ({ snackData }) => {
 	return {
 		type: actionTypes.SHOW_SNACKBAR,
-		payload: {
-			snackData
-		}
+		snackData
 	};
 };
 

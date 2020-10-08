@@ -3,18 +3,14 @@ import * as actionTypes from './actionTypes';
 export const addFilter = (filter) => {
 	return {
 		type: actionTypes.ADD_FILTER,
-		payload: {
-			filter
-		}
+		filter
 	};
 };
 
 export const removeFilter = (filter) => {
 	return {
 		type: actionTypes.REMOVE_FILTER,
-		payload: {
-			filter
-		}
+		filter
 	};
 };
 
@@ -27,9 +23,7 @@ export const removeAllFilters = () => {
 export const setLoading = (state) => {
 	return {
 		type: actionTypes.SET_LOADING,
-		payload: {
-			state
-		}
+		state
 	};
 };
 

@@ -15,13 +15,13 @@ export default function ProductReducer(state = initialState, action) {
 		case actionTypes.SET_SELECTED_PRODUCT:
 			return {
 				...state,
-				selectedProduct: action.payload.id,
+				selectedProduct: action.id,
 				ratingBeforeClickedAddReviewSnackbar: null
 			};
 		case actionTypes.CLICK_ADD_REVIEW_AFTER_RATING:
 			return {
 				...state,
-				ratingBeforeClickedAddReviewSnackbar: Number(action.payload.rating)
+				ratingBeforeClickedAddReviewSnackbar: Number(action.rating)
 			};
 		case actionTypes.SHOW_ADD_REVIEW:
 			return {
@@ -36,7 +36,7 @@ export default function ProductReducer(state = initialState, action) {
 		case actionTypes.SET_CURRENT_LOCATION:
 			return {
 				...state,
-				currentLocation: action.payload.location
+				currentLocation: action.location
 			};
 		case actionTypes.SET_REVIEWS:
 			return {

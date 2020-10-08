@@ -11,14 +11,12 @@ export default function ResultsReducer(state = initialState, action) {
 		case actionTypes.ADD_FILTER:
 			return {
 				...state,
-				appliedFilters: [action.payload.filter, ...state.appliedFilters]
+				appliedFilters: [action.filter, ...state.appliedFilters]
 			};
 		case actionTypes.REMOVE_FILTER:
 			return {
 				...state,
-				appliedFilters: state.appliedFilters.filter(
-					(filter) => filter !== action.payload.filter
-				)
+				appliedFilters: state.appliedFilters.filter((filter) => filter !== action.filter)
 			};
 		case actionTypes.REMOVE_ALL_FILTERS:
 			return {
@@ -28,7 +26,7 @@ export default function ResultsReducer(state = initialState, action) {
 		case actionTypes.SET_LOADING:
 			return {
 				...state,
-				isLoading: action.payload.state
+				isLoading: action.state
 			};
 		case actionTypes.SET_OFFSET:
 			return {

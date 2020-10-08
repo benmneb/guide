@@ -12,18 +12,18 @@ export default function AuthReducer(state = initialState, action) {
 		case actionTypes.SET_CURRENT_USER_DATA:
 			return {
 				...state,
-				isAuthenticated: action.payload.isAuth,
-				currentUserData: action.payload.user
+				isAuthenticated: action.isAuth,
+				currentUserData: action.user
 			};
 		case actionTypes.SET_IS_USING_EMAIL_AUTH:
 			return {
 				...state,
-				isUsingEmailAuth: action.payload.state
+				isUsingEmailAuth: action.state
 			};
 		case actionTypes.SET_IS_USING_EMAIL_AUTH_ROUTE:
 			return {
 				...state,
-				isUsingEmailAuthRoute: action.payload.route
+				isUsingEmailAuthRoute: action.route
 			};
 		default:
 			return state;
