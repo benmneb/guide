@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,13 +13,10 @@ export default function LikeButton({ review, ...props }) {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-	const selectedProductId = useSelector(
-		(state) => state.product.selectedProduct.productId
-	);
-	const currentUserData = useSelector(
-		(state) => state.auth.isAuthenticated && state.auth.currentUserData
-	);
-	const [hasBeenClicked, setHasBeenClicked] = useState(false);
+	const selectedProduct = useSelector((state) => state.product.selectedProduct);
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
+	const [hasBeenLiked, setHasBeenLiked] = useState(false);
+	const prevLiked = useRef(false);
 
 	const authLink = usePrepareLink({
 		query: {
@@ -28,46 +25,60 @@ export default function LikeButton({ review, ...props }) {
 		keepOldQuery: true
 	});
 
+	// set previously liked or not on mount
 	useEffect(() => {
 		if (isAuthenticated && review.liked_by) {
-			if (review.liked_by.includes(currentUserData.id)) setHasBeenClicked(true);
+			if (review.liked_by.includes(currentUserData.id)) {
+				prevLiked.current = true;
+				setHasBeenLiked(true);
+			}
 		}
-	}, [isAuthenticated, setHasBeenClicked, review, currentUserData]);
+	}, [isAuthenticated, setHasBeenLiked, review, currentUserData]);
 
 	const handleClick = () => {
 		if (isAuthenticated) {
-			axios
-				.put('https://api.vomad.guide/review-like/', {
-					review_id: review.review_id,
-					user_id: currentUserData.id
-				})
-				.then(() => {
-					dispatch(updateReviews(selectedProductId));
-					setHasBeenClicked(!hasBeenClicked);
-				})
-				.catch((err) => {
-					console.error(err);
-					dispatch(
-						showSnackbar({
-							snackData: {
-								type: 'error',
-								title: 'Could not like review',
-								message: `${err.message}. Please try again.`
-							}
-						})
-					);
-				});
+			if (currentUserData.id === review.user_id) {
+				dispatch(
+					showSnackbar({
+						snackData: {
+							type: 'info',
+							message: "You can't like your own review."
+						}
+					})
+				);
+			} else {
+				setHasBeenLiked(!hasBeenLiked);
+				axios
+					.put('https://api.vomad.guide/review-like/', {
+						review_id: review.review_id,
+						user_id: currentUserData.id
+					})
+					.then(() => {
+						dispatch(updateReviews(selectedProduct.productId));
+					})
+					.catch((err) => {
+						setHasBeenLiked(prevLiked.current);
+						console.error(err);
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'error',
+									title: 'Could not like review',
+									message: `${err.message}. Please try again.`
+								}
+							})
+						);
+					});
+			}
 		} else {
 			history.push(authLink);
 		}
 	};
 
-	const color = hasBeenClicked ? 'primary' : 'inherit';
-
 	return (
 		<Tooltip title={tooltip} placement={tooltipPlacement}>
 			<IconButton aria-label={ariaLabel} onClick={handleClick}>
-				<ThumbUpAltRounded color={color} fontSize={size} />
+				<ThumbUpAltRounded color={hasBeenLiked ? 'primary' : 'inherit'} fontSize={size} />
 			</IconButton>
 		</Tooltip>
 	);
