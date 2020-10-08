@@ -14,7 +14,10 @@ export {
 	hideAddReview,
 	setCurrentLocation,
 	setReviews,
-	updateReviews
+	updateReviews,
+	setStores,
+	updateStores,
+	setSelectedStore
 } from './product';
 
 export {

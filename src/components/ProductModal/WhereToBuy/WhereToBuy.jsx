@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import {
 	Grid,
@@ -9,15 +10,21 @@ import {
 	Hidden,
 	DialogContent,
 	DialogContentText,
-	DialogTitle
+	DialogTitle,
+	Fade
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AddRounded, ListRounded as ListIcon } from '@material-ui/icons';
 import { LoadScript } from '@react-google-maps/api';
-import { showSnackbar, setCurrentLocation } from '../../../store/actions';
-import { stores } from '../../../assets/stores';
+import {
+	showSnackbar,
+	setCurrentLocation,
+	setStores,
+	setSelectedStore
+} from '../../../store/actions';
 import StoresListSection from './StoresListSection';
 import StoresMap from './StoresMap';
+import StoresLoader from './StoresLoader';
 import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +52,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 	swipableDrawer: {
 		maxHeight: '50%'
+	},
+	loader: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		[theme.breakpoints.down('sm')]: {
+			height: `calc(100vh - ${theme.spacing(27.5)}px)` // approx screen taken up by rest of UI, taken from styles.mapBox
+		},
+		[theme.breakpoints.up('md')]: {
+			height: 538
+		}
 	}
 }));
 
@@ -56,71 +74,145 @@ export default function WhereToBuy() {
 	const dispatch = useDispatch();
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const currentLocation = useSelector((state) => state.product.currentLocation);
-	const [selectedStore, setSelectedStore] = useState(null);
-	const [errMessage, setErrMessage] = useState(null);
+	const selectedProduct = useSelector((state) => state.product.selectedProduct);
+	const selectedStore = useSelector((state) => state.product.selectedStore);
+	const stores = useSelector((state) => state.product.stores);
 	const [openBottomDrawer, setOpenBottomDrawer] = useState(false);
 	const [showAddStore, setShowAddStore] = useState(false);
 	const [markerMap, setMarkerMap] = useState({});
 	const [infoWindowOpen, setInfoWindowOpen] = useState(false);
+	const alreadyFetchedStores = useRef(Boolean(stores));
+
+	const authLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.signIn
+		},
+		keepOldQuery: true
+	});
 
 	function toggleBottomDrawer(currentState) {
 		setOpenBottomDrawer(currentState);
 	}
 
+	// get current location on mount
 	useEffect(() => {
 		let mounted = true;
 
-		if ('geolocation' in navigator) {
-			window.navigator.geolocation.getCurrentPosition(
-				(position) => {
-					if (mounted) console.log('set current location');
+		if (!currentLocation) {
+			if ('geolocation' in navigator) {
+				window.navigator.geolocation.getCurrentPosition(
+					(position) => {
+						if (mounted)
+							dispatch(
+								setCurrentLocation({
+									lat: position.coords.latitude,
+									lng: position.coords.longitude
+								})
+							);
+					},
+					(err) => {
+						if (mounted) {
+							console.error(err);
+							if (err.code === 1) {
+								dispatch(
+									showSnackbar({
+										snackData: {
+											type: 'error',
+											title: 'Location unavailable',
+											message: 'You need to allow access.'
+										}
+									})
+								);
+							} else {
+								dispatch(
+									showSnackbar({
+										snackData: {
+											type: 'error',
+											title: 'Location unavailable',
+											message: 'Could not access your location. Please try again.'
+										}
+									})
+								);
+							}
+						}
+					}
+				);
+			} else {
+				if (mounted) {
+					console.error('window.navigator is not available');
 					dispatch(
-						setCurrentLocation({
-							lat: position.coords.latitude,
-							lng: position.coords.longitude
+						showSnackbar({
+							snackData: {
+								type: 'error',
+								title: 'Location unavailable',
+								message:
+									'Could not access your location. You might need to update your browser.'
+							}
 						})
 					);
-				},
-				(err) => {
-					if (mounted) {
-						setErrMessage(err.message);
-						console.error(err);
-					}
 				}
-			);
-		} else {
-			console.error('window.navigator is not available');
-			dispatch(
-				showSnackbar({
-					snackData: {
-						type: 'error',
-						title: 'Location unavailable',
-						message: 'There was an error accessing your location.'
-					}
-				})
-			);
+			}
 		}
 
 		return () => {
 			mounted = false;
 		};
-	}, [dispatch]);
+	}, [dispatch, currentLocation]);
+
+	// initially fetch stores
+	useEffect(() => {
+		let mounted = true;
+		const source = axios.CancelToken.source();
+
+		if (currentLocation && selectedProduct && !alreadyFetchedStores.current) {
+			axios
+				.get(
+					`https://api.vomad.guide/stores/${selectedProduct.productId}?lat=${currentLocation.lat}&lng=${currentLocation.lng}`,
+					{ cancelToken: source.token }
+				)
+				.then((res) => {
+					if (mounted) {
+						alreadyFetchedStores.current = true;
+						dispatch(setStores(res.data));
+					}
+				})
+				.catch((err) => {
+					if (mounted) {
+						console.error('Error fetching stores:', err);
+						dispatch(
+							showSnackbar({
+								snackData: {
+									type: 'error',
+									title: 'Could not show stores',
+									message: 'There was an error on our end. Please try again.'
+								}
+							})
+						);
+					}
+				});
+		}
+
+		return () => {
+			mounted = false;
+			source.cancel('Fetching stores cancelled during clean-up');
+		};
+	}, [currentLocation, selectedProduct, dispatch]);
 
 	function handleListItemClick(store) {
-		if (selectedStore === store) {
+		if (selectedStore && selectedStore.prod_store_id === store.prod_store_id) {
 			handleDeselectStore();
 		} else {
 			if (infoWindowOpen) setInfoWindowOpen(false);
 			setTimeout(() => {
 				// timeout fixes the infoWindow glitch when clicking stores in menu
-				setSelectedStore(store);
+				dispatch(setSelectedStore(store));
 				setInfoWindowOpen(true);
 			}, 1);
 		}
 	}
 
 	function handleDeselectStore() {
-		setSelectedStore(null);
+		dispatch(setSelectedStore(null));
 		setInfoWindowOpen(false);
 	}
 
@@ -161,13 +253,6 @@ export default function WhereToBuy() {
 		}
 	}
 
-	const authLink = usePrepareLink({
-		query: {
-			[getParams.popup]: getEnums.popup.signIn
-		},
-		keepOldQuery: true
-	});
-
 	function handleAddStoreFabClick() {
 		if (isAuthenticated) {
 			setOpenBottomDrawer(true);
@@ -200,7 +285,7 @@ export default function WhereToBuy() {
 	const onMarkerLoad = (marker, store) => {
 		// this is needed for infoWindows to appear on marker click
 		return setMarkerMap((prevState) => {
-			return { ...prevState, [store.id]: marker };
+			return { ...prevState, [store.prod_store_id]: marker };
 		});
 	};
 
@@ -208,112 +293,110 @@ export default function WhereToBuy() {
 		<LoadScript
 			googleMapsApiKey="AIzaSyB_EdK1akrFvT1x2wfDHB-XfJsrraT3Fb8"
 			libraries={libraries}
+			loadingElement={<StoresLoader stage="maps" />}
 		>
 			{currentLocation ? (
-				<>
-					<Hidden mdUp>
-						<Box display="flex" justifyContent="center">
-							<Box className={styles.mapBox}>
-								<StoresMap
-									stores={stores}
-									selectedStore={selectedStore}
-									onMarkerLoad={(marker, store) => onMarkerLoad(marker, store)}
-									markerMap={markerMap}
-									onMarkerClick={(store) => handleListItemClick(store)}
-									deselectStore={handleDeselectStore}
-									infoWindowOpen={infoWindowOpen}
-									copyAddress={handleCopyAddress}
-									getDirections={handleGetDirections}
-									// mapPosition={currentLocation}
-									errorMessage={errMessage}
-								/>
-							</Box>
-							<Fab
-								color="primary"
-								variant="extended"
-								aria-label="Show list"
-								className={styles.drawerFab}
-								onClick={() => toggleBottomDrawer(!openBottomDrawer)}
-							>
-								Show list
-								<ListIcon className={styles.drawerFabIcon} />
-							</Fab>
-							<Fab
-								color="primary"
-								size="medium"
-								aria-label="Add store to list"
-								className={styles.addFab}
-								onClick={handleAddStoreFabClick}
-							>
-								<AddRounded />
-							</Fab>
-							<Box>
-								<SwipeableDrawer
-									classes={{ paperAnchorBottom: styles.swipableDrawer }}
-									anchor="bottom"
-									open={openBottomDrawer}
-									onOpen={() => toggleBottomDrawer(true)}
-									onClose={() => toggleBottomDrawer(false)}
-								>
-									<StoresListSection
-										showAddStore={showAddStore}
-										setShowAddStore={handleSetShowAddStore}
-										onListItemClick={(store) => handleListItemClick(store)}
-										handleCopyAddress={handleCopyAddress}
-										stores={stores}
-										selectedStore={selectedStore && selectedStore.id}
-										getDirections={handleGetDirections}
-									/>
-								</SwipeableDrawer>
-							</Box>
-						</Box>
-					</Hidden>
-					<Hidden smDown>
-						<Grid container spacing={2}>
-							<Grid item md={6}>
-								<Box marginTop={1} height={538}>
+				stores ? (
+					<>
+						<Hidden mdUp>
+							<Box display="flex" justifyContent="center">
+								<Box className={styles.mapBox}>
 									<StoresMap
-										stores={stores}
-										selectedStore={selectedStore}
 										onMarkerLoad={(marker, store) => onMarkerLoad(marker, store)}
 										markerMap={markerMap}
 										onMarkerClick={(store) => handleListItemClick(store)}
 										deselectStore={handleDeselectStore}
 										infoWindowOpen={infoWindowOpen}
-										// mapPosition={currentLocation}
 										copyAddress={handleCopyAddress}
 										getDirections={handleGetDirections}
-										errorMessage={errMessage}
 									/>
 								</Box>
-							</Grid>
-							<Grid item md={6}>
-								<Box marginTop={0} height={538} overflow="auto">
-									<StoresListSection
-										showAddStore={showAddStore}
-										setShowAddStore={handleSetShowAddStore}
-										onListItemClick={(store) => handleListItemClick(store)}
-										handleCopyAddress={handleCopyAddress}
-										stores={stores}
-										selectedStore={selectedStore && selectedStore.id}
-										getDirections={handleGetDirections}
-									/>
+								<Fab
+									color="primary"
+									variant="extended"
+									aria-label="Show list"
+									className={styles.drawerFab}
+									onClick={() => toggleBottomDrawer(!openBottomDrawer)}
+								>
+									Show list
+									<ListIcon className={styles.drawerFabIcon} />
+								</Fab>
+								<Fab
+									color="primary"
+									size="medium"
+									aria-label="Add store to list"
+									className={styles.addFab}
+									onClick={handleAddStoreFabClick}
+								>
+									<AddRounded />
+								</Fab>
+								<Box>
+									<SwipeableDrawer
+										classes={{ paperAnchorBottom: styles.swipableDrawer }}
+										anchor="bottom"
+										open={openBottomDrawer}
+										onOpen={() => toggleBottomDrawer(true)}
+										onClose={() => toggleBottomDrawer(false)}
+									>
+										<StoresListSection
+											showAddStore={showAddStore}
+											setShowAddStore={handleSetShowAddStore}
+											onListItemClick={(store) => handleListItemClick(store)}
+											handleCopyAddress={handleCopyAddress}
+											getDirections={handleGetDirections}
+										/>
+									</SwipeableDrawer>
 								</Box>
+							</Box>
+						</Hidden>
+						<Hidden smDown>
+							<Grid container spacing={2}>
+								<Grid item md={6}>
+									<Box marginTop={1} height={538}>
+										<StoresMap
+											onMarkerLoad={(marker, store) => onMarkerLoad(marker, store)}
+											markerMap={markerMap}
+											onMarkerClick={(store) => handleListItemClick(store)}
+											deselectStore={handleDeselectStore}
+											infoWindowOpen={infoWindowOpen}
+											copyAddress={handleCopyAddress}
+											getDirections={handleGetDirections}
+										/>
+									</Box>
+								</Grid>
+								<Grid item md={6}>
+									<Box marginTop={0} height={538} overflow="auto">
+										<StoresListSection
+											showAddStore={showAddStore}
+											setShowAddStore={handleSetShowAddStore}
+											onListItemClick={(store) => handleListItemClick(store)}
+											handleCopyAddress={handleCopyAddress}
+											getDirections={handleGetDirections}
+										/>
+									</Box>
+								</Grid>
 							</Grid>
-						</Grid>
-					</Hidden>
-				</>
+						</Hidden>
+					</>
+				) : (
+					<StoresLoader stage="stores" />
+				)
 			) : (
-				<Box>
-					<DialogTitle>Allow location access</DialogTitle>
-					<DialogContent>
-						<DialogContentText>
-							To view stores near you where this product has been seen you need to allow
-							location access. If you do not see a location prompt try refreshing the page
-							or adjusting your location permission settings.
-						</DialogContentText>
-					</DialogContent>
-				</Box>
+				<Fade in>
+					<Box>
+						<DialogTitle>Allow location access</DialogTitle>
+						<DialogContent>
+							<DialogContentText>
+								To view stores near you where this product has been seen you need to allow
+								location access.
+							</DialogContentText>
+							<DialogContentText>
+								If you do not see a location prompt try adjusting your location permission
+								settings.
+							</DialogContentText>
+						</DialogContent>
+					</Box>
+				</Fade>
 			)}
 		</LoadScript>
 	);

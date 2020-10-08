@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { showSnackbar } from '../../../store/actions';
+import { showSnackbar, updateStores } from '../../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import { IconButton, Tooltip } from '@material-ui/core';
 import { ThumbUpRounded, ThumbDownRounded } from '@material-ui/icons';
@@ -15,12 +16,16 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function StoresVoteButtons() {
+export default function StoresVoteButtons(props) {
 	const styles = useStyles();
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-	const [selected, setSelected] = useState('');
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
+	const selectedProduct = useSelector((state) => state.product.selectedProduct);
+	const currentLocation = useSelector((state) => state.product.currentLocation);
+	const [selected, setSelected] = useState(0);
+	const prevSelected = useRef(0);
 
 	const authLink = usePrepareLink({
 		query: {
@@ -29,20 +34,52 @@ export default function StoresVoteButtons() {
 		keepOldQuery: true
 	});
 
-	function handleVote(vote) {
+	// setSelected if they have previously voted
+	useEffect(() => {
 		if (isAuthenticated) {
-			if (vote !== selected) {
-				setSelected(vote);
+			const { votedBy, votedDownBy } = props;
+			if (votedBy && votedBy.includes(currentUserData.id)) {
+				prevSelected.current = 1;
+				setSelected(1);
+			} else if (votedDownBy && votedDownBy.includes(currentUserData.id)) {
+				prevSelected.current = -1;
+				setSelected(-1);
+			}
+		}
+	}, [currentUserData, isAuthenticated, props]);
+
+	async function handleVote(vote) {
+		if (isAuthenticated) {
+			if (vote !== selected) setSelected(vote);
+			else setSelected(0);
+
+			try {
+				const response = await axios.put('https://api.vomad.guide/store-vote', {
+					prod_store_id: props.prodStoreId,
+					user_id: currentUserData.id,
+					voteType: vote
+				});
+				response.data &&
+					dispatch(
+						updateStores(
+							selectedProduct.productId,
+							currentLocation.lat,
+							currentLocation.lng
+						)
+					);
+			} catch (err) {
+				setSelected(prevSelected.current);
+				console.error('Error casting vote:', err.message);
 				dispatch(
 					showSnackbar({
 						snackData: {
-							type: 'success',
-							message: 'Thank you for helping people find vegan products easier',
-							emoji: '💪'
+							type: 'error',
+							title: 'Could not cast vote',
+							message: `${err.message}. Please try again.`
 						}
 					})
 				);
-			} else setSelected('');
+			}
 		} else {
 			history.push(authLink);
 		}
@@ -54,24 +91,24 @@ export default function StoresVoteButtons() {
 				<IconButton
 					aria-label="confirm"
 					className={styles.iconButton}
-					onClick={() => handleVote('up')}
+					onClick={() => handleVote(1)}
 				>
 					<ThumbUpRounded
 						fontSize="small"
-						color={selected === 'up' ? 'primary' : 'inherit'}
+						color={selected === 1 ? 'primary' : 'inherit'}
 					/>
 				</IconButton>
 			</Tooltip>
-			<Tooltip title="No, I have not seen this product in this store">
+			<Tooltip title="This product is not currently stocked here">
 				<IconButton
 					aria-label="vote down"
 					className={styles.iconButton}
 					edge="end"
-					onClick={() => handleVote('down')}
+					onClick={() => handleVote(-1)}
 				>
 					<ThumbDownRounded
 						fontSize="small"
-						color={selected === 'down' ? 'primary' : 'inherit'}
+						color={selected === -1 ? 'primary' : 'inherit'}
 					/>
 				</IconButton>
 			</Tooltip>

@@ -5,7 +5,9 @@ const initialState = {
 	ratingBeforeClickedAddReviewSnackbar: null,
 	showAddReview: false,
 	currentLocation: null,
-	reviews: []
+	reviews: [],
+	stores: null,
+	selectedStore: null
 };
 
 export default function ProductReducer(state = initialState, action) {
@@ -40,6 +42,16 @@ export default function ProductReducer(state = initialState, action) {
 			return {
 				...state,
 				reviews: action.reviews
+			};
+		case actionTypes.SET_STORES:
+			return {
+				...state,
+				stores: action.stores
+			};
+		case actionTypes.SET_SELECTED_STORE:
+			return {
+				...state,
+				selectedStore: action.store
 			};
 		default:
 			return state;

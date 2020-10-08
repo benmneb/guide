@@ -4,7 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
-import { setReviews, hideAddReview, setSelectedProduct } from '../../store/actions';
+import {
+	setReviews,
+	hideAddReview,
+	setSelectedProduct,
+	setStores
+} from '../../store/actions';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
 import {
@@ -118,6 +123,7 @@ export default function ProductModal({ show }) {
 			if (currentTab !== 'about') setCurrentTab('about');
 			dispatch(setSelectedProduct(null));
 			dispatch(setReviews(null));
+			dispatch(setStores(null));
 		}, 300);
 	};
 
@@ -142,7 +148,7 @@ export default function ProductModal({ show }) {
 
 	const handleChangeCurrentTab = useCallback(
 		(event, newValue) => {
-			// if (newValue !== 1 && showAddReview) onHideAddReview();
+			if (newValue !== 'reviews' && showAddReview) dispatch(hideAddReview());
 			setCurrentTab(newValue);
 			setCurrentUrlSearchParams(newValue);
 			switch (newValue) {
@@ -156,7 +162,7 @@ export default function ProductModal({ show }) {
 					return history.replace(aboutLink);
 			}
 		},
-		[aboutLink, history, reviewsLink, whereToBuyLink]
+		[aboutLink, history, reviewsLink, whereToBuyLink, dispatch, showAddReview]
 	);
 
 	// set appropriate tab from url search params
@@ -281,7 +287,10 @@ export default function ProductModal({ show }) {
 							<WhereToBuy />
 						</TabPanel>
 					</Box>
-					<BottomNav currentTab={currentTab} onChange={handleChangeCurrentTab} />
+					<BottomNav
+						currentTab={currentTab}
+						onChange={selectedProduct && handleChangeCurrentTab}
+					/>
 				</DialogContent>
 			</Dialog>
 		</>

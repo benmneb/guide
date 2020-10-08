@@ -33,3 +33,7 @@ export const SET_REVIEWS = 'SET_REVIEWS';
 export const UPDATE_REVIEWS = 'UPDATE_REVIEWS';
 export const SET_OFFSET = 'SET_OFFSET';
 export const INCREASE_OFFSET = 'INCREASE_OFFSET';
+
+export const SET_STORES = 'SET_STORES';
+export const UPDATE_STORES = 'UPDATE_STORES';
+export const SET_SELECTED_STORE = 'SET_SELECTED_STORE';

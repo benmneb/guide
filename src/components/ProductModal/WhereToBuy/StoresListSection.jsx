@@ -55,8 +55,6 @@ export default function StoresListSection(props) {
 				<StoresAdd hide={props.setShowAddStore} />
 			</Collapse>
 			<StoresList
-				stores={props.stores}
-				selectedStore={props.selectedStore}
 				listItemClick={props.onListItemClick}
 				copyAddress={props.handleCopyAddress}
 				getDirections={props.getDirections}

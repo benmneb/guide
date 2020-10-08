@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
 	Collapse,
 	List,
@@ -34,71 +35,93 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StoresList(props) {
 	const styles = useStyles();
+	const stores = useSelector((state) => state.product.stores);
+	const selectedStore = useSelector((state) => state.product.selectedStore);
 
-	return props.stores.map((store) => (
-		<Box key={store.id}>
-			<ListItem
-				dense
-				button
-				onClick={() => props.listItemClick(store)}
-				selected={props.selectedStore === store.id}
-			>
-				<ListItemIcon>
-					{store.isVegan ? (
-						<EcoRounded style={{ color: green[500] }} />
-					) : (
-						<PlaceRounded />
-					)}
-				</ListItemIcon>
-				<ListItemText
-					primary={store.name}
-					secondary={
-						<Typography variant="body2" color="textSecondary" noWrap>
-							{store.address}
-						</Typography>
-					}
-				/>
-				<Tooltip title="The products reputation for this store">
-					{store.likes >= 1 ? (
-						<Typography component="span" variant="overline">
-							+{store.likes}
-						</Typography>
-					) : (
-						<Typography component="span" variant="overline" color="error">
-							{store.likes}
-						</Typography>
-					)}
-				</Tooltip>
-			</ListItem>
-			<Collapse in={props.selectedStore === store.id} timeout="auto" unmountOnExit>
-				<List component="div" dense style={{ paddingTop: 0 }}>
-					<ListItem className={styles.nested}>
-						<ListItemText
-							primary="Have you seen this product here?"
-							secondary={`Last confirmed ${getTimeAgo(store.lastSeen).toLowerCase()}`}
-						/>
-						<ListItemSecondaryAction>
-							<StoresVoteButtons />
-						</ListItemSecondaryAction>
-					</ListItem>
-					<ListItem button className={styles.nested} onClick={props.getDirections}>
-						<ListItemIcon>
-							<LaunchRounded fontSize="small" />
-						</ListItemIcon>
-						<ListItemText primary="Get directions in Google Maps" />
-					</ListItem>
-					<ListItem
-						button
-						onClick={() => props.copyAddress(store.address)}
-						className={styles.nested}
-					>
-						<ListItemIcon>
-							<FileCopyRounded fontSize="small" />
-						</ListItemIcon>
-						<ListItemText primary="Copy address to clipboard" />
-					</ListItem>
-				</List>
-			</Collapse>
+	return stores.length ? (
+		stores.map((store) => (
+			<Box key={store.prod_store_id}>
+				<ListItem
+					dense
+					button
+					onClick={() => props.listItemClick(store)}
+					selected={selectedStore && selectedStore.prod_store_id === store.prod_store_id}
+				>
+					<ListItemIcon>
+						{store.vegan_store ? (
+							<EcoRounded style={{ color: green[500] }} />
+						) : (
+							<PlaceRounded />
+						)}
+					</ListItemIcon>
+					<ListItemText
+						primary={store.store_name}
+						secondary={
+							<Typography variant="body2" color="textSecondary" noWrap>
+								{store.address}
+							</Typography>
+						}
+					/>
+					<Tooltip title="The products reputation for this store">
+						{store.votes >= 1 ? (
+							<Typography component="span" variant="subtitle2" color="textSecondary">
+								+{store.votes}
+							</Typography>
+						) : (
+							<Typography component="span" variant="subtitle2" color="error">
+								{store.votes}
+							</Typography>
+						)}
+					</Tooltip>
+				</ListItem>
+				<Collapse
+					in={selectedStore && selectedStore.prod_store_id === store.prod_store_id}
+					timeout="auto"
+					unmountOnExit
+				>
+					<List component="div" dense style={{ paddingTop: 0 }}>
+						<ListItem className={styles.nested}>
+							<ListItemText
+								primary="Can you confirm this product is here?"
+								secondary={`Last confirmed ${getTimeAgo(
+									store.last_seen ? new Date(store.last_seen) : new Date(store.date_added)
+								).toLowerCase()}`}
+							/>
+							<ListItemSecondaryAction>
+								<StoresVoteButtons
+									prodStoreId={store.prod_store_id}
+									votedBy={store.voted_by}
+									votedDownBy={store.voted_down_by}
+								/>
+							</ListItemSecondaryAction>
+						</ListItem>
+						<ListItem button className={styles.nested} onClick={props.getDirections}>
+							<ListItemIcon>
+								<LaunchRounded fontSize="small" />
+							</ListItemIcon>
+							<ListItemText primary="Get directions in Google Maps" />
+						</ListItem>
+						<ListItem
+							button
+							onClick={() => props.copyAddress(store.address)}
+							className={styles.nested}
+						>
+							<ListItemIcon>
+								<FileCopyRounded fontSize="small" />
+							</ListItemIcon>
+							<ListItemText primary="Copy address to clipboard" />
+						</ListItem>
+					</List>
+				</Collapse>
+			</Box>
+		))
+	) : (
+		<Box margin={2} color="text.secondary">
+			<Typography paragraph>No stores tagged within 25km of you.</Typography>
+			<Typography paragraph>
+				If you know a store that sells this product, add it here to help other people find
+				this product easier.
+			</Typography>
 		</Box>
-	));
+	);
 }

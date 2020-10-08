@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Link, Box } from '@material-ui/core';
 import { OpenInNewRounded, FileCopyRounded } from '@material-ui/icons';
@@ -21,11 +22,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InfoWindowContent(props) {
 	const styles = useStyles();
+	const selectedStore = useSelector((state) => state.product.selectedStore);
 
 	return (
 		<Box className={styles.infoWindowContent}>
 			<Typography component="span" variant="subtitle2" display="block" gutterBottom>
-				{props.selectedStore.name}
+				{selectedStore.store_name}
 			</Typography>
 			<Typography component="span" variant="subtitle2">
 				<Link className={styles.infoWindowLink} onClick={props.getDirections}>
@@ -34,7 +36,7 @@ export default function InfoWindowContent(props) {
 				|{' '}
 				<Link
 					className={styles.infoWindowLink}
-					onClick={() => props.copyAddress(props.selectedStore.address)}
+					onClick={() => props.copyAddress(selectedStore.address)}
 				>
 					Copy address <FileCopyRounded className={styles.infoWindowIcon} />
 				</Link>
