@@ -171,10 +171,7 @@ export default function WhereToBuy() {
 					{ cancelToken: source.token }
 				)
 				.then((res) => {
-					if (mounted) {
-						alreadyFetchedStores.current = true;
-						dispatch(setStores(res.data));
-					}
+					if (mounted) dispatch(setStores(res.data));
 				})
 				.catch((err) => {
 					if (mounted) {
