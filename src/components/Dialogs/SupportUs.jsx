@@ -22,9 +22,6 @@ import Advertise from './Advertise';
 import Auth from './Auth';
 
 const useStyles = makeStyles((theme) => ({
-	bold: {
-		fontWeight: theme.typography.fontWeightBold
-	},
 	list: {
 		margin: 0,
 		padding: 0,
@@ -103,9 +100,9 @@ export default function SupportUs({ isOpened }) {
 						<Box component="ul" className={styles.list}>
 							<Box component="li" data-icon="✏️">
 								<Typography component="div">
-									<Typography component="span" className={styles.bold}>
+									<Box component="span" fontWeight="fontWeightBold">
 										Rate, review, tag and add.
-									</Typography>{' '}
+									</Box>{' '}
 									Leave reviews and ratings for products you've bought, tag the stores
 									you've bought them in, and add any missing products to the Guide.
 									Together we can help the community at large easily find all the best
@@ -126,9 +123,9 @@ export default function SupportUs({ isOpened }) {
 							</Box>
 							<Box component="li" data-icon="🗣">
 								<Typography>
-									<Typography component="span" className={styles.bold}>
+									<Box component="span" fontWeight="fontWeightBold">
 										Mention us.
-									</Typography>{' '}
+									</Box>{' '}
 									Recommend the Guide to your friends and family. Show them how easy it is
 									to find vegan products. A quick browse of the Guide can open their eyes
 									to how convenient being vegan is in {new Date().getFullYear()}.
@@ -136,9 +133,9 @@ export default function SupportUs({ isOpened }) {
 							</Box>
 							<Box component="li" data-icon="🎁">
 								<Typography>
-									<Typography component="span" className={styles.bold}>
+									<Box component="span" fontWeight="fontWeightBold">
 										Share links.
-									</Typography>{' '}
+									</Box>{' '}
 									If you see someone on social media asking about vegan products, or
 									enquiring if a specific vegan product is any good, then post a link to
 									the Guide.
@@ -146,9 +143,9 @@ export default function SupportUs({ isOpened }) {
 							</Box>
 							<Box component="li" data-icon="📈">
 								<Typography component="div">
-									<Typography component="span" className={styles.bold}>
+									<Box component="span" fontWeight="fontWeightBold">
 										Advertise.
-									</Typography>{' '}
+									</Box>{' '}
 									If you have a brand that would benefit from being exposed to visitors of
 									the Guide then get in touch and let's start an advertising relationship.
 									<Box marginTop={1.5}>
@@ -165,9 +162,9 @@ export default function SupportUs({ isOpened }) {
 							</Box>
 							<Box component="li" data-icon="❤️">
 								<Typography component="div">
-									<Typography component="span" className={styles.bold}>
+									<Box component="span" fontWeight="fontWeightBold">
 										Become a patron.
-									</Typography>{' '}
+									</Box>{' '}
 									Pledge a monthly amount you are comfortable with to help cover the
 									expenses associated with creating and maintaining a large-scale web-app
 									like this. Every little bit helps.
