@@ -23,12 +23,12 @@ const useStyles = makeStyles((theme) => ({
 			maxWidth: 250
 		},
 		margin: 'auto',
-		transition: `${theme.transitions.duration.complex}ms ${theme.transitions.easing.easeInOut}`,
+		transition: `${theme.transitions.duration.standard}ms ${theme.transitions.easing.easeInOut}`,
 		boxShadow: 'none',
 		borderRadius: theme.shape.borderRadius,
 		'&:hover': {
-			transform: 'scale(1.04)',
-			boxShadow: theme.shadows[8],
+			transform: 'scale(1.01)',
+			boxShadow: theme.shadows[4],
 			cursor: 'pointer'
 		}
 	},
