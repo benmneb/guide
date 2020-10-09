@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import debounce from 'lodash.debounce';
 import {
 	setReviews,
 	hideAddReview,
@@ -108,23 +107,19 @@ export default function ProductModal({ show }) {
 			});
 	};
 
-	const goBack = debounce(
-		useCallback(() => {
+	const onClose = () => {
+		if (show) {
 			const releventPath = location.pathname.match(/^([^/]*\/){3}/)[0].slice(0, -1); // cuts off everything after the category
 			history.push(releventPath);
-		}, [history, location.pathname]),
-		300
-	);
+		}
+	};
 
-	const onClose = () => {
-		goBack();
-		setTimeout(() => {
-			if (showAddReview) dispatch(hideAddReview());
-			if (currentTab !== 'about') setCurrentTab('about');
-			dispatch(setSelectedProduct(null));
-			dispatch(setReviews(null));
-			dispatch(setStores(null));
-		}, 300);
+	const onExited = () => {
+		if (showAddReview) dispatch(hideAddReview());
+		if (currentTab !== 'about') setCurrentTab('about');
+		dispatch(setSelectedProduct(null));
+		dispatch(setReviews(null));
+		dispatch(setStores(null));
 	};
 
 	const aboutLink = usePrepareLink({
@@ -206,6 +201,7 @@ export default function ProductModal({ show }) {
 			)}
 			<Dialog
 				onClose={onClose}
+				onExited={onExited}
 				fullScreen={fullScreen}
 				aria-labelledby="product-dialog-title"
 				open={show}
