@@ -20,7 +20,7 @@ import FavoriteRoundedIcon from '@material-ui/icons/Favorite';
 import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import FeedbackRoundedIcon from '@material-ui/icons/Feedback';
 import GetAppRoundedIcon from '@material-ui/icons/GetApp';
-import { categories } from '../../assets/categoriesAZ';
+import { categories } from '../../assets/categories';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { hideSideDrawer } from '../../store/actions';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
@@ -94,6 +94,8 @@ export default function SideDrawer({ window }) {
 				return history.push(advertiseLink);
 			case 'feedback':
 				return history.push(feedbackLink);
+			case 'getTheApp':
+				return history.push(getTheAppLink);
 			case 'terms':
 				return history.push(termsLink);
 			case 'privacy':
@@ -106,6 +108,11 @@ export default function SideDrawer({ window }) {
 	const authLink = usePrepareLink({
 		query: {
 			[getParams.popup]: getEnums.popup.signIn
+		}
+	});
+	const addProductsLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.addProducts
 		}
 	});
 	const advertiseLink = usePrepareLink({
@@ -123,9 +130,9 @@ export default function SideDrawer({ window }) {
 			[getParams.popup]: getEnums.popup.feedback
 		}
 	});
-	const addProductsLink = usePrepareLink({
+	const getTheAppLink = usePrepareLink({
 		query: {
-			[getParams.popup]: getEnums.popup.addProducts
+			[getParams.popup]: getEnums.popup.getTheApp
 		}
 	});
 	const termsLink = usePrepareLink({
@@ -190,7 +197,7 @@ export default function SideDrawer({ window }) {
 						{categories.map((category) => (
 							<ListItem
 								component={Link}
-								to={'/' + category.prodType + '/' + category.url}
+								to={`/${category.prodType}/${category.url}`}
 								dense
 								button
 								key={category.id}
@@ -244,7 +251,7 @@ export default function SideDrawer({ window }) {
 					</ListItemIcon>
 					<ListItemText primary="Provide Feedback" />
 				</ListItem>
-				<ListItem button>
+				<ListItem button onClick={() => openMenuItem('getTheApp')}>
 					<ListItemIcon>
 						<GetAppRoundedIcon />
 					</ListItemIcon>
@@ -265,7 +272,6 @@ export default function SideDrawer({ window }) {
 
 	return (
 		<Box component="nav" className={styles.drawer} aria-label="main menu">
-			{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
 			<Hidden lgUp implementation="js">
 				<Drawer
 					container={container}
@@ -273,9 +279,7 @@ export default function SideDrawer({ window }) {
 					anchor={theme.direction === 'rtl' ? 'right' : 'left'}
 					open={showSideDrawer}
 					onClose={handleCloseSideDrawer}
-					classes={{
-						paper: styles.drawerPaper
-					}}
+					classes={{ paper: styles.drawerPaper }}
 					ModalProps={{
 						keepMounted: true // Better open performance on mobile.
 					}}
@@ -284,13 +288,7 @@ export default function SideDrawer({ window }) {
 				</Drawer>
 			</Hidden>
 			<Hidden mdDown implementation="js">
-				<Drawer
-					classes={{
-						paper: styles.drawerPaper
-					}}
-					variant="permanent"
-					open
-				>
+				<Drawer classes={{ paper: styles.drawerPaper }} variant="permanent" open>
 					{drawer}
 				</Drawer>
 			</Hidden>

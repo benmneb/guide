@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { GridListTile, GridListTileBar, Box } from '@material-ui/core';
-import { subCat1s } from '../../assets/subCat1s';
+import { GridListTile, GridListTileBar, Box, GridList } from '@material-ui/core';
+import { homeCats } from '../../assets/categories';
 import Hero, { Footer, Heading, SubHeading } from '../Hero/Hero';
 import ScrollToTopOnMount from '../../utils/ScrollToTop';
+import useWidth from '../../utils/useWidth';
+import CategoryTitleBar from './CategoryTitleBar';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
 		justifyContent: 'space-between',
 		backgroundColor: theme.palette.common.white,
-		marginTop: theme.spacing(2),
 		[theme.breakpoints.down('sm')]: {
 			marginBottom: theme.spacing(8)
 		},
@@ -61,11 +62,72 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: theme.typography.h6.fontSize,
 		textAlign: 'center',
 		lineHeight: theme.typography.body2.lineHeight
+	},
+	neflixContainer: {
+		marginTop: theme.spacing(-4),
+		[theme.breakpoints.down('sm')]: {
+			marginBottom: theme.spacing(7)
+		}
+	},
+	netflixContent: {
+		marginTop: theme.spacing(4)
+	},
+	netflixGridList: {
+		flexWrap: 'nowrap',
+		transform: 'translateZ(0)', // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+		msOverflowStyle: 'none',
+		scrollbarWidth: 'none',
+		'&::-webkit-scrollbar': {
+			display: 'none'
+		}
+	},
+	netflixGridListTile: {
+		'&:hover img': {
+			filter: 'brightness(100%)'
+		}
+	},
+	netflixImage: {
+		cursor: 'pointer',
+		filter: 'brightness(85%)',
+		transitionProperty: 'filter',
+		transitionDuration: `${theme.transitions.duration.complex}ms`,
+		width: '100%',
+		height: '100%'
 	}
 }));
 
-const SubCat1s = () => {
+export default function Home() {
 	const styles = useStyles();
+	const width = useWidth();
+	const [cols, setCols] = useState(null);
+	const [cellHeight, setCellHeight] = useState(null);
+
+	useEffect(() => {
+		switch (width) {
+			case 'xs':
+				setCols(2.3);
+				setCellHeight(220);
+				break;
+			case 'sm':
+				setCols(3.5);
+				setCellHeight(275);
+				break;
+			case 'md':
+				setCols(5.3);
+				setCellHeight(300);
+				break;
+			case 'lg':
+				setCols(5.3);
+				setCellHeight(300);
+				break;
+			case 'xl':
+				setCols(7.3);
+				setCellHeight(300);
+				break;
+			default:
+				return;
+		}
+	}, [width]);
 
 	return (
 		<>
@@ -88,34 +150,42 @@ const SubCat1s = () => {
 					and 54 online stores within Australia.
 				</Footer>
 			</Hero>
-			<Box className={styles.root}>
-				<Box className={styles.container}>
-					{subCat1s.map((image) => (
-						<GridListTile
-							key={image.img}
-							component="div"
-							cols={1}
-							className={styles.gridListTile}
+			<Box className={styles.netflixContainer}>
+				{homeCats.map((category) => (
+					<Box key={category.id} component="section" className={styles.netflixContent}>
+						<CategoryTitleBar
+							name={category.name}
+							url={`/${category.prodType}/${category.url}`}
+						/>
+						<GridList
+							className={styles.netflixGridList}
+							cols={cols}
+							cellHeight={cellHeight}
+							spacing={0}
 						>
-							<Link to={'/' + image.prodType + '/' + image.url}>
-								<Box height="100%" width="auto">
-									<img src={image.img} alt={''} className={styles.image} />
-								</Box>
-								<GridListTileBar
-									titlePosition="top"
-									title={image.title}
-									className={styles.titleBar}
-									classes={{
-										title: styles.title
-									}}
-								/>
-							</Link>
-						</GridListTile>
-					))}
-				</Box>
+							{category.subCats.map((subCats) => (
+								<GridListTile
+									key={subCats.id}
+									component={Link}
+									to={`${category.prodType}/${subCats.url}`}
+									cols={1}
+									className={styles.gridListTile}
+								>
+									<img src={subCats.image} alt={''} className={styles.netflixImage} />
+									<GridListTileBar
+										titlePosition="top"
+										title={subCats.name}
+										className={styles.titleBar}
+										classes={{
+											title: styles.title
+										}}
+									/>
+								</GridListTile>
+							))}
+						</GridList>
+					</Box>
+				))}
 			</Box>
 		</>
 	);
-};
-
-export default SubCat1s;
+}

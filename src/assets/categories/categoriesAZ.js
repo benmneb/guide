@@ -574,13 +574,6 @@ export const categories = [
 		parent_id: 52
 	},
 	{
-		name: 'Food & Drink',
-		id: 1,
-		prodType: 'food-drink',
-		url: null,
-		parent_id: 0
-	},
-	{
 		name: 'Foundation & Powder',
 		id: 208,
 		prodType: 'household',
@@ -698,13 +691,6 @@ export const categories = [
 		prodType: 'food-drink',
 		url: 'hot-chocolate-cocoa',
 		parent_id: 58
-	},
-	{
-		name: 'Household',
-		id: 2,
-		prodType: 'food-drink',
-		url: null,
-		parent_id: 0
 	},
 	{
 		name: 'Household Cleaning',

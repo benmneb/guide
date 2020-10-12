@@ -13,7 +13,7 @@ import {
 	Hidden
 } from '@material-ui/core';
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRight';
-import { subCat1s } from '../../assets/subCat1s';
+import { foodDrinkCats } from '../../assets/categories';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import useWidth from '../../utils/useWidth';
 
@@ -32,8 +32,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	gridList: {
 		flexWrap: 'nowrap',
-		// Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-		transform: 'translateZ(0)'
+		transform: 'translateZ(0)', // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+		msOverflowStyle: 'none',
+		scrollbarWidth: 'none',
+		'&::-webkit-scrollbar': {
+			display: 'none'
+		}
 	},
 	gridListTile: {
 		'&:hover img': {
@@ -117,57 +121,55 @@ export default function FoodDrink() {
 				<Footer forPage="prodType" />
 			</Hero>
 			<Box className={styles.container}>
-				{['Pantry', 'Fridge & Freezer', 'Bakery', 'Drinks', 'Baby', 'Pet Food'].map(
-					(category) => (
-						<Box key={category} component="section" className={styles.content}>
-							<Toolbar component="header">
-								<Box flexGrow="1">
-									<Typography component="h2" variant="h5" align="left">
-										{category}
-									</Typography>
-								</Box>
-								<Box flexGrow="0">
-									<Button
-										component={Link}
-										to="/food-drink/nut-butters-spreads"
-										variant="text"
-										color="default"
-										endIcon={<ChevronRightRoundedIcon />}
-										classes={{ text: styles.buttonText }}
-									>
-										See all<Hidden only="xs"> {category}</Hidden>
-									</Button>
-								</Box>
-							</Toolbar>
-							<GridList
-								className={styles.gridList}
-								cols={cols}
-								cellHeight={cellHeight}
-								spacing={0}
-							>
-								{subCat1s.map((image) => (
-									<GridListTile
-										component={Link}
-										to={image.prodType + '/' + image.url}
-										key={image.img}
-										cols={1}
-										className={styles.gridListTile}
-									>
-										<img src={image.img} alt={image.title} className={styles.image} />
-										<GridListTileBar
-											titlePosition="top"
-											title={image.title}
-											className={styles.titleBar}
-											classes={{
-												title: styles.title
-											}}
-										/>
-									</GridListTile>
-								))}
-							</GridList>
-						</Box>
-					)
-				)}
+				{foodDrinkCats.map((category) => (
+					<Box key={category.id} component="section" className={styles.content}>
+						<Toolbar component="header">
+							<Box flexGrow="1">
+								<Typography component="h2" variant="h5" align="left">
+									{category.name}
+								</Typography>
+							</Box>
+							<Box flexGrow="0">
+								<Button
+									component={Link}
+									to={`/food-drink/${category.url}`}
+									variant="text"
+									color="default"
+									endIcon={<ChevronRightRoundedIcon />}
+									classes={{ text: styles.buttonText }}
+								>
+									See all<Hidden only="xs"> {category.name}</Hidden>
+								</Button>
+							</Box>
+						</Toolbar>
+						<GridList
+							className={styles.gridList}
+							cols={cols}
+							cellHeight={cellHeight}
+							spacing={0}
+						>
+							{category.subCats.map((subCat) => (
+								<GridListTile
+									key={subCat.id}
+									component={Link}
+									to={`/food-drink/${subCat.url}`}
+									cols={1}
+									className={styles.gridListTile}
+								>
+									<img src={subCat.image} alt={''} className={styles.image} />
+									<GridListTileBar
+										titlePosition="top"
+										title={subCat.name}
+										className={styles.titleBar}
+										classes={{
+											title: styles.title
+										}}
+									/>
+								</GridListTile>
+							))}
+						</GridList>
+					</Box>
+				))}
 			</Box>
 		</>
 	);
