@@ -152,7 +152,7 @@ export default function Home() {
 			</Hero>
 			<Box className={styles.netflixContainer}>
 				{homeCats.map((category) => (
-					<Box key={category.id} component="section" className={styles.netflixContent}>
+					<Box key={category.name} component="section" className={styles.netflixContent}>
 						<CategoryTitleBar
 							name={category.name}
 							url={`/${category.prodType}/${category.url}`}
@@ -165,7 +165,7 @@ export default function Home() {
 						>
 							{category.subCats.map((subCats) => (
 								<GridListTile
-									key={subCats.id}
+									key={subCats.name}
 									component={Link}
 									to={`${category.prodType}/${subCats.url}`}
 									cols={1}

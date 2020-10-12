@@ -118,7 +118,7 @@ export default function Household() {
 			</Hero>
 			<Box className={styles.container}>
 				{householdCats.map((category) => (
-					<Box key={category.id} component="section" className={styles.content}>
+					<Box key={category.name} component="section" className={styles.content}>
 						<Toolbar component="header">
 							<Box flexGrow="1">
 								<Typography component="h2" variant="h5" align="left">
@@ -146,7 +146,7 @@ export default function Household() {
 						>
 							{category.subCats.map((subCat) => (
 								<GridListTile
-									key={subCat.id}
+									key={subCat.name}
 									component={Link}
 									to={`/household/${subCat.url}`}
 									cols={1}
