@@ -166,7 +166,6 @@ export default function ResultsList() {
 				`https://api.vomad.guide/category/${releventPathname.current}/${offset}/${filtersQueryString}`
 			);
 			const results = await response.data[0];
-			console.log(response.data);
 			if (results) {
 				setFetchedResults((prev) => [...prev, ...results.productList]);
 				dispatch(
