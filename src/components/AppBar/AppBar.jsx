@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
 	profileButton: {
 		padding: theme.spacing(1)
 	},
+	authButtonLabel: {
+		whiteSpace: 'nowrap'
+	},
 	// necessary for content to be below app bar
 	content: {
 		flexGrow: 1,
@@ -175,12 +178,21 @@ export default function TopBar({ children }) {
 					) : (
 						<Box display={{ xs: 'none', sm: 'inline-flex' }}>
 							<Box marginLeft={1}>
-								<Button variant="outlined" onClick={handleLoginClick}>
+								<Button
+									variant="outlined"
+									onClick={handleLoginClick}
+									classes={{ label: styles.authButtonLabel }}
+								>
 									Login
 								</Button>
 							</Box>
 							<Box marginLeft={1}>
-								<Button variant="contained" color="primary" onClick={handleSignUpClick}>
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={handleSignUpClick}
+									classes={{ label: styles.authButtonLabel }}
+								>
 									Sign up
 								</Button>
 							</Box>
