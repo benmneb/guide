@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { InputBase, Grid, Typography, Box, Popper } from '@material-ui/core';
 import { BathtubRounded, FastfoodRounded, SearchRounded } from '@material-ui/icons';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
 import { usePrepareLink } from '../../utils/routing';
 import { categories } from '../../assets/categories';
+import { matchSorter } from 'match-sorter';
 
 const useStyles = makeStyles((theme) => ({
 	search: {
@@ -55,8 +56,6 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const filter = createFilterOptions();
-
 export default function SearchBar() {
 	const styles = useStyles();
 	const history = useHistory();
@@ -94,16 +93,16 @@ export default function SearchBar() {
 	}
 
 	function filterOptions(options, params) {
-		const filtered = filter(options, params);
+		const sorted = matchSorter(options, params.inputValue, { keys: ['name'] });
 
 		if (params.inputValue !== '') {
-			filtered.unshift({
+			sorted.unshift({
 				inputValue: params.inputValue,
 				name: `Search "${params.inputValue}"`
 			});
 		}
 
-		return filtered;
+		return sorted;
 	}
 
 	function getOptionLabel(option) {
