@@ -5,6 +5,18 @@ import { NavigateNextRounded } from '@material-ui/icons';
 import { toKebabCase } from '../../utils/changeCase';
 
 export default function BreadcrumbsTrail({ breadcrumbs }) {
+	if (typeof breadcrumbs === 'string') {
+		return (
+			<Breadcrumbs
+				separator={<NavigateNextRounded fontSize="small" />}
+				aria-label="breadcrumb"
+			>
+				<Typography color="inherit">Search</Typography>
+				<Typography color="textPrimary">{breadcrumbs}</Typography>
+			</Breadcrumbs>
+		);
+	}
+
 	if (breadcrumbs.length === 4) {
 		return (
 			<Breadcrumbs

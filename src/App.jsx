@@ -21,6 +21,8 @@ import SupportUs from './components/Dialogs/SupportUs';
 import GetParameterPopups from './utils/routing/getParamaterPopups';
 import AuthSuccess from './components/Dialogs/AuthSuccess';
 import LoadingBar from './utils/LoadingBar';
+import GetTheApp from './components/Dialogs/GetTheApp';
+import SearchResultsList from './components/ResultsList/SearchResultsList';
 
 export default function App() {
 	return (
@@ -36,6 +38,9 @@ export default function App() {
 						<Route exact path="/auth/success">
 							<AuthSuccess />
 						</Route>
+						<Route path="/search/:term">
+							<SearchResultsList />
+						</Route>
 						<Route path="/:productType/:category">
 							<ResultsList />
 						</Route>
@@ -50,6 +55,7 @@ export default function App() {
 				<GetParameterPopups />
 				<UserProfile />
 				<AddProducts />
+				<GetTheApp />
 				<SupportUs />
 				<Advertise />
 				<Feedback />

@@ -3,13 +3,14 @@ import { Helmet } from 'react-helmet';
 import clsx from 'clsx';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Link, Route, useLocation } from 'react-router-dom';
+import { Link, Route, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	hideFiltersPanel,
 	setLoading,
 	showSnackbar,
-	setOffset
+	setOffset,
+	increaseOffset
 } from '../../store/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import debounce from 'lodash.debounce';
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function ResultsList() {
+export default function SearchResultsList() {
 	const styles = useStyles();
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -78,59 +79,64 @@ export default function ResultsList() {
 	const offset = useSelector((state) => state.results.offset);
 	const [fetchedResults, setFetchedResults] = useState([]);
 	const [loadingInitially, setLoadingInitially] = useState(true);
-	const [categoryData, setCategoryData] = useState({});
+	const [searchResultsData, setSearchResultsData] = useState({});
 	const [filtersQueryString, setFiltersQueryString] = useState('');
 	const isFirstRender = useRef(true);
 	const currentPathname = useRef('');
-	const releventPathname = useRef('');
+	const searchTerm = useRef('');
+	const { term } = useParams();
 
 	const productLink = usePrepareLink({
 		to: '/:name/:id',
 		isRelativePath: true
 	});
 
-	// set appropriate pathname for axios calls when relevent part of URL changes
+	// set appropriate pathname for axios calls when query changes
 	useEffect(() => {
-		const categoryArr = location.pathname.split('/');
-		releventPathname.current = `${categoryArr[1]}/${categoryArr[2]}`;
-	}, [location.pathname]);
+		searchTerm.current = term;
+	}, [term]);
 
 	// fetch results on page load
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
 
-		if (releventPathname.current !== currentPathname.current) {
+		if (searchTerm.current !== currentPathname.current) {
 			async function initialFetch() {
 				if (mounted) dispatch(setLoading(true));
 				try {
 					const response = await axios.get(
-						`https://api.vomad.guide/category/${releventPathname.current}/0`,
+						`https://api.vomad.guide/search/${searchTerm.current}/0`,
 						{
 							cancelToken: source.token
 						}
 					);
 					const results = await response.data[0];
 					if (mounted) {
-						currentPathname.current = releventPathname.current;
-						const breadcrumbsArr = Array(String(results.breadcrumbs).split('@'))[0];
-						setCategoryData({
-							name: String(breadcrumbsArr[breadcrumbsArr.length - 1]),
-							totalProducts: results.fullcount,
-							totalBrands: results.totalbrands,
-							breadcrumbs: breadcrumbsArr,
-							fullCount: Number(results.fullcount)
-						});
-						setFetchedResults(results.productList);
+						currentPathname.current = searchTerm.current;
+						const queryString = searchTerm.current.replace(/[+]/g, ' ');
 						scrollToTopNow();
-						dispatch(
-							setOffset(
-								Number(
-									results.productList[results.productList.length - 1].productPosition
-								)
-							)
-						);
 						dispatch(setLoading(false));
+						if (results) {
+							setSearchResultsData({
+								query: queryString,
+								totalProducts: results.fullcount,
+								breadcrumbs: queryString,
+								fullCount: Number(results.fullcount)
+							});
+							setFetchedResults(results.productList);
+							dispatch(setOffset(12));
+						} else if (results === undefined) {
+							setSearchResultsData({
+								query: queryString,
+								totalProducts: 0,
+								breadcrumbs: queryString,
+								fullCount: 0
+							});
+							setFetchedResults([]);
+							setLoadingInitially(false);
+							isFirstRender.current = false;
+						}
 					}
 				} catch (err) {
 					if (mounted) {
@@ -163,17 +169,12 @@ export default function ResultsList() {
 
 		try {
 			const response = await axios.get(
-				`https://api.vomad.guide/category/${releventPathname.current}/${offset}/${filtersQueryString}`
+				`https://api.vomad.guide/search/${searchTerm.current}/${offset}/${filtersQueryString}`
 			);
 			const results = await response.data[0];
-			console.log(response.data);
 			if (results) {
 				setFetchedResults((prev) => [...prev, ...results.productList]);
-				dispatch(
-					setOffset(
-						Number(results.productList[results.productList.length - 1].productPosition)
-					)
-				);
+				dispatch(increaseOffset(12));
 				dispatch(setLoading(false));
 			}
 		} catch (err) {
@@ -200,7 +201,7 @@ export default function ResultsList() {
 			async function fetchIfFilters() {
 				try {
 					const response = await axios.get(
-						`https://api.vomad.guide/category/${releventPathname.current}/0/${filtersQueryString}`,
+						`https://api.vomad.guide/search/${searchTerm.current}/0/${filtersQueryString}`,
 						{
 							cancelToken: source.token
 						}
@@ -209,24 +210,18 @@ export default function ResultsList() {
 					if (mounted) {
 						if (results === undefined) {
 							setFetchedResults([]);
-							setCategoryData((prev) => ({
+							setSearchResultsData((prev) => ({
 								...prev,
 								fullCount: -1
 							}));
 							dispatch(setLoading(false));
 						} else {
 							setFetchedResults(results.productList);
-							setCategoryData((prev) => ({
+							setSearchResultsData((prev) => ({
 								...prev,
 								fullCount: Number(results.fullcount)
 							}));
-							dispatch(
-								setOffset(
-									Number(
-										results.productList[results.productList.length - 1].productPosition
-									)
-								)
-							);
+							dispatch(setOffset(12));
 							dispatch(setLoading(false));
 						}
 					}
@@ -255,7 +250,7 @@ export default function ResultsList() {
 			async function fetchIfJustRemovedFilters() {
 				try {
 					const response = await axios.get(
-						`https://api.vomad.guide/category/${releventPathname.current}/0`,
+						`https://api.vomad.guide/search/${searchTerm.current}/0`,
 						{
 							cancelToken: source.token
 						}
@@ -263,17 +258,11 @@ export default function ResultsList() {
 					const results = await response.data[0];
 					if (mounted) {
 						setFetchedResults(results.productList);
-						setCategoryData((prev) => ({
+						setSearchResultsData((prev) => ({
 							...prev,
 							fullCount: Number(results.fullcount)
 						}));
-						dispatch(
-							setOffset(
-								Number(
-									results.productList[results.productList.length - 1].productPosition
-								)
-							)
-						);
+						dispatch(setOffset(12));
 						dispatch(setLoading(false));
 					}
 				} catch (err) {
@@ -335,7 +324,10 @@ export default function ResultsList() {
 			<Helmet>
 				<title>
 					{!loadingInitially
-						? `Vomad Guide: Vegan ${categoryData.name} Products`
+						? `Vomad Guide: Vegan ${
+								searchResultsData.query.charAt(0).toUpperCase() +
+								searchResultsData.query.slice(1)
+						  } Products`
 						: 'Vomad Guide: Find Vegan Products Near You'}
 				</title>
 				<meta
@@ -350,10 +342,10 @@ export default function ResultsList() {
 			<ScrollToTopOnMount />
 			{!loadingInitially ? (
 				<Hero hide={showFiltersPanel}>
-					<Heading>Vegan {categoryData.name}</Heading>
+					<Heading>Vegan {searchResultsData.query}</Heading>
 					<SubHeading>
-						There are {categoryData.totalProducts} vegan {categoryData.name.toLowerCase()}{' '}
-						products within Australia from {categoryData.totalBrands} brands.
+						There are {searchResultsData.totalProducts} vegan{' '}
+						{searchResultsData.query.toLowerCase()} products within Australia.
 					</SubHeading>
 					<Footer />
 				</Hero>
@@ -362,7 +354,7 @@ export default function ResultsList() {
 			)}
 			<FiltersBar
 				loading={loadingInitially}
-				breadcrumbs={categoryData.breadcrumbs}
+				breadcrumbs={searchResultsData.breadcrumbs}
 				showFilterButton={Boolean(fetchedResults.length)}
 			/>
 			<InfiniteScroll
@@ -371,7 +363,7 @@ export default function ResultsList() {
 				})}
 				dataLength={fetchedResults.length}
 				next={fetchMoreProducts}
-				hasMore={fetchedResults.length < categoryData.fullCount}
+				hasMore={fetchedResults.length < searchResultsData.fullCount}
 				scrollThreshold="600px"
 				endMessage={!loadingInitially && <ResultsListEndMessage />}
 			>
@@ -392,7 +384,7 @@ export default function ResultsList() {
 					  ))
 					: [...Array(12)].map((_, i) => <ResultSkeleton key={i} />)}
 			</InfiniteScroll>
-			{!loadingInitially && fetchedResults.length < categoryData.fullCount && (
+			{!loadingInitially && fetchedResults.length < searchResultsData.fullCount && (
 				<ResultsListSpinner />
 			)}
 			<FiltersPanel />

@@ -2,17 +2,9 @@ import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	AppBar,
-	Toolbar,
-	IconButton,
-	InputBase,
-	Button,
-	Tooltip,
-	Box
-} from '@material-ui/core';
-import { MenuRounded, SearchRounded, AccountCircleRounded } from '@material-ui/icons';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { AppBar, Toolbar, IconButton, Button, Tooltip, Box } from '@material-ui/core';
+import { MenuRounded, AccountCircleRounded } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/core/styles';
 import SideDrawer from './SideDrawer';
 import {
 	setIsUsingEmailAuthRoute,
@@ -20,6 +12,7 @@ import {
 	showSideDrawer
 } from '../../store/actions';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
+import SearchBar from './SearchBar';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -45,43 +38,10 @@ const useStyles = makeStyles((theme) => ({
 			cursor: 'pointer'
 		}
 	},
-	search: {
-		position: 'relative',
-		borderRadius: theme.shape.borderRadius,
-		backgroundColor: fade(theme.palette.common.black, 0.15),
-		'&:hover': {
-			backgroundColor: fade(theme.palette.common.black, 0.25)
-		},
-		backgroundBlendMode: 'darken',
-		marginLeft: 0,
-		width: '100%',
-		[theme.breakpoints.up('sm')]: {
-			marginLeft: theme.spacing(1),
-			width: 'auto'
-		}
-	},
-	searchIcon: {
-		padding: theme.spacing(0, 2),
-		height: '100%',
-		position: 'absolute',
-		pointerEvents: 'none',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	inputRoot: {
-		color: 'inherit'
-	},
-	inputInput: {
-		padding: theme.spacing(1, 1, 1, 0),
-		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`, // vertical padding + font size from searchIcon
-		transition: theme.transitions.create('width'),
-		width: '100%',
-		[theme.breakpoints.up('sm')]: {
-			width: '12ch',
-			'&:focus': {
-				width: '20ch'
-			}
+	profileButtonBox: {
+		marginLeft: theme.spacing(1),
+		[theme.breakpoints.up('md')]: {
+			marginLeft: theme.spacing(0)
 		}
 	},
 	profileButton: {
@@ -188,19 +148,7 @@ export default function TopBar({ children }) {
 						/>
 					</Box>
 					<Box flexGrow="1" justifyContent="flex-start"></Box>
-					<Box className={styles.search}>
-						<Box className={styles.searchIcon}>
-							<SearchRounded />
-						</Box>
-						<InputBase
-							placeholder="Search…"
-							classes={{
-								root: styles.inputRoot,
-								input: styles.inputInput
-							}}
-							inputProps={{ 'aria-label': 'search' }}
-						/>
-					</Box>
+					<SearchBar />
 					<Box display={{ xs: 'none', md: 'inline-flex' }} marginLeft={1}>
 						<Button component={Link} to={advertiseLink}>
 							Advertise
@@ -209,9 +157,9 @@ export default function TopBar({ children }) {
 							Support Us
 						</Button>
 					</Box>
-					<Box display={{ xs: 'none', sm: 'inline-flex' }}>
-						{isAuthenticated ? (
-							<Box marginLeft={0}>
+					{isAuthenticated ? (
+						<Box display="inline-flex">
+							<Box className={styles.profileButtonBox}>
 								<Tooltip title="View your profile and settings">
 									<IconButton
 										edge="end"
@@ -223,21 +171,21 @@ export default function TopBar({ children }) {
 									</IconButton>
 								</Tooltip>
 							</Box>
-						) : (
-							<>
-								<Box marginLeft={1}>
-									<Button variant="outlined" onClick={handleLoginClick}>
-										Login
-									</Button>
-								</Box>
-								<Box marginLeft={1}>
-									<Button variant="contained" color="primary" onClick={handleSignUpClick}>
-										Sign up
-									</Button>
-								</Box>
-							</>
-						)}
-					</Box>
+						</Box>
+					) : (
+						<Box display={{ xs: 'none', sm: 'inline-flex' }}>
+							<Box marginLeft={1}>
+								<Button variant="outlined" onClick={handleLoginClick}>
+									Login
+								</Button>
+							</Box>
+							<Box marginLeft={1}>
+								<Button variant="contained" color="primary" onClick={handleSignUpClick}>
+									Sign up
+								</Button>
+							</Box>
+						</Box>
+					)}
 				</Toolbar>
 			</AppBar>
 

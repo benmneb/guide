@@ -20,9 +20,7 @@ export default function ResultsListEndMessage() {
 			minHeight={300}
 		>
 			<Box margin={2}>
-				<Typography color="textSecondary">
-					Anything missing from this category?
-				</Typography>
+				<Typography color="textSecondary">Anything missing?</Typography>
 			</Box>
 			<Box margin={2}>
 				<Button
