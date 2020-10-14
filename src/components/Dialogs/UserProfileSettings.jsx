@@ -249,7 +249,7 @@ export default function AboutEdit({ hide, show }) {
 	const handleDeleteAccountClick = () => {
 		confirm({
 			description:
-				'Please confirm you want to delete your account. This action will also log out you out immediately. There is no going back from this.',
+				'This action will also log out you out immediately. There is no going back from this.',
 			confirmationText: 'Delete Account',
 			confirmationButtonProps: { className: styles.deleteAccount }
 		})
@@ -537,8 +537,8 @@ export default function AboutEdit({ hide, show }) {
 				<Collapse in={deleteAccount} timeout="auto" unmountOnExit>
 					<Box display="flex" flexDirection="column" alignItems="center" margin={2}>
 						<Typography variant="body2" paragraph>
-							Do you really want to delete your account? This action is permanent and can
-							not be undone.
+							Do you really want to delete your account? This is permanent and can not be
+							undone.
 						</Typography>
 						<LoadingButton
 							variant="contained"
