@@ -10,33 +10,25 @@ import useWidth from '../../utils/useWidth';
 import CategoryTitleBar from './CategoryTitleBar';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		backgroundColor: theme.palette.common.white,
+	container: {
+		marginTop: theme.spacing(-4),
 		[theme.breakpoints.down('sm')]: {
-			marginBottom: theme.spacing(8)
-		},
-		[theme.breakpoints.down('xs')]: {
 			marginBottom: theme.spacing(7)
 		}
 	},
-	container: {
-		backgroundColor: theme.palette.background.paper,
-		width: '100%',
-		display: 'grid',
-		[theme.breakpoints.up('xs')]: {
-			gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))'
-		},
-		[theme.breakpoints.up('sm')]: {
-			gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))'
-		},
-		[theme.breakpoints.up('md')]: {
-			gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))'
+	content: {
+		marginTop: theme.spacing(4)
+	},
+	gridList: {
+		flexWrap: 'nowrap',
+		transform: 'translateZ(0)', // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+		msOverflowStyle: 'none',
+		scrollbarWidth: 'none',
+		'&::-webkit-scrollbar': {
+			display: 'none'
 		}
 	},
 	gridListTile: {
-		height: 300,
 		'&:hover img': {
 			filter: 'brightness(100%)'
 		}
@@ -46,8 +38,8 @@ const useStyles = makeStyles((theme) => ({
 		filter: 'brightness(85%)',
 		transitionProperty: 'filter',
 		transitionDuration: `${theme.transitions.duration.complex}ms`,
-		height: '100%',
 		width: '100%',
+		height: '100%',
 		objectFit: 'cover',
 		objectPosition: 'center'
 	},
@@ -62,37 +54,6 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: theme.typography.h6.fontSize,
 		textAlign: 'center',
 		lineHeight: theme.typography.body2.lineHeight
-	},
-	neflixContainer: {
-		marginTop: theme.spacing(-4),
-		[theme.breakpoints.down('sm')]: {
-			marginBottom: theme.spacing(7)
-		}
-	},
-	netflixContent: {
-		marginTop: theme.spacing(4)
-	},
-	netflixGridList: {
-		flexWrap: 'nowrap',
-		transform: 'translateZ(0)', // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-		msOverflowStyle: 'none',
-		scrollbarWidth: 'none',
-		'&::-webkit-scrollbar': {
-			display: 'none'
-		}
-	},
-	netflixGridListTile: {
-		'&:hover img': {
-			filter: 'brightness(100%)'
-		}
-	},
-	netflixImage: {
-		cursor: 'pointer',
-		filter: 'brightness(85%)',
-		transitionProperty: 'filter',
-		transitionDuration: `${theme.transitions.duration.complex}ms`,
-		width: '100%',
-		height: '100%'
 	}
 }));
 
@@ -150,15 +111,15 @@ export default function Home() {
 					and 54 online stores within Australia.
 				</Footer>
 			</Hero>
-			<Box className={styles.netflixContainer}>
+			<Box className={styles.container}>
 				{homeCats.map((category) => (
-					<Box key={category.name} component="section" className={styles.netflixContent}>
+					<Box key={category.name} component="section" className={styles.content}>
 						<CategoryTitleBar
 							name={category.name}
 							url={`/${category.prodType}/${category.url}`}
 						/>
 						<GridList
-							className={styles.netflixGridList}
+							className={styles.gridList}
 							cols={cols}
 							cellHeight={cellHeight}
 							spacing={0}
@@ -171,7 +132,7 @@ export default function Home() {
 									cols={1}
 									className={styles.gridListTile}
 								>
-									<img src={subCats.image} alt={''} className={styles.netflixImage} />
+									<img src={subCats.image} alt={''} className={styles.image} />
 									<GridListTileBar
 										titlePosition="top"
 										title={subCats.name}
