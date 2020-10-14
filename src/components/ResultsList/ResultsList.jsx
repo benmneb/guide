@@ -362,7 +362,7 @@ export default function ResultsList() {
 			<FiltersBar
 				loading={loadingInitially}
 				breadcrumbs={categoryData.breadcrumbs}
-				showFilterButton={Boolean(fetchedResults.length)}
+				showFilterButton={!loadingInitially}
 			/>
 			<InfiniteScroll
 				className={clsx(styles.container, {

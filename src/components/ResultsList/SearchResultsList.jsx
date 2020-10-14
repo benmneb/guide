@@ -355,7 +355,7 @@ export default function SearchResultsList() {
 			<FiltersBar
 				loading={loadingInitially}
 				breadcrumbs={searchResultsData.breadcrumbs}
-				showFilterButton={Boolean(fetchedResults.length)}
+				showFilterButton={!loadingInitially}
 			/>
 			<InfiniteScroll
 				className={clsx(styles.container, {
