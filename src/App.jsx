@@ -7,21 +7,12 @@ import { defaultOptions } from './assets/confirmProviderOptions';
 import { theme } from './assets/theme';
 import AppBar from './components/AppBar/AppBar';
 import ResultsList from './components/ResultsList/ResultsList';
-import AddProducts from './components/Dialogs/AddProducts';
-import Advertise from './components/Dialogs/Advertise';
-import Privacy from './components/Dialogs/Privacy';
-import Terms from './components/Dialogs/Terms';
-import Feedback from './components/Dialogs/Feedback';
 import Snackbars from './utils/Snackbars';
-import Auth from './components/Dialogs/Auth';
-import UserProfile from './components/Dialogs/UserProfile';
 import Categories from './components/categories/Categories';
 import PageNotFound from './components/categories/PageNotFound';
-import SupportUs from './components/Dialogs/SupportUs';
 import GetParameterPopups from './utils/routing/getParamaterPopups';
 import AuthSuccess from './components/Dialogs/AuthSuccess';
 import LoadingBar from './utils/LoadingBar';
-import GetTheApp from './components/Dialogs/GetTheApp';
 import SearchResultsList from './components/ResultsList/SearchResultsList';
 
 export default function App() {
@@ -53,15 +44,6 @@ export default function App() {
 					</Switch>
 				</AppBar>
 				<GetParameterPopups />
-				<UserProfile />
-				<AddProducts />
-				<GetTheApp />
-				<SupportUs />
-				<Advertise />
-				<Feedback />
-				<Privacy />
-				<Terms />
-				<Auth />
 				<Snackbars />
 			</ConfirmProvider>
 		</ThemeProvider>
