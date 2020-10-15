@@ -12,6 +12,7 @@ import Terms from '../../../components/Dialogs/Terms';
 import Privacy from '../../../components/Dialogs/Privacy';
 import UserProfile from '../../../components/Dialogs/UserProfile';
 import AuthResetPassword from '../../../components/Dialogs/AuthResetPassword';
+import GetTheApp from '../../../components/Dialogs/GetTheApp';
 
 const popups = {
 	[GET_ENUMS.popup.signIn]: Auth,
@@ -23,8 +24,10 @@ const popups = {
 	[GET_ENUMS.popup.privacy]: Privacy,
 	[GET_ENUMS.popup.userProfile]: UserProfile,
 	[GET_ENUMS.popup.resetPassword]: AuthResetPassword,
+	[GET_ENUMS.popup.getTheApp]: GetTheApp,
 	[GET_ENUMS.action.advertise]: Advertise,
-	[GET_ENUMS.action.login]: Auth
+	[GET_ENUMS.action.login]: Auth,
+	[GET_ENUMS.action.feedback]: Feedback
 };
 
 const GetParameterPopups = () => {

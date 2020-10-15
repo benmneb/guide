@@ -12,6 +12,7 @@ export const GET_ENUMS = {
 		supportUs: 'support-us',
 		feedback: 'feedback',
 		addProducts: 'add-products',
+		getTheApp: 'get-the-app',
 		terms: 'terms-of-use',
 		privacy: 'privacy-policy',
 		userProfile: 'user',
@@ -19,7 +20,8 @@ export const GET_ENUMS = {
 	},
 	action: {
 		advertise: 'advertise',
-		login: 'login'
+		login: 'login',
+		feedback: 'feedback'
 	},
 	productTab: {
 		about: 'about',
