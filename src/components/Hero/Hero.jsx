@@ -6,47 +6,12 @@ import { Typography, Link, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
-// JSS has to be inside the function if it receives props for the bgImage
 const useStyles = makeStyles((theme) => ({
 	container: {
 		backgroundColor: theme.palette.background.paper,
 		zIndex: theme.zIndex.appBar + 1,
 		...theme.mixins.hero // for responsive height
 	},
-	// hasBgImage: {
-	// 	[theme.breakpoints.only('xs')]: {
-	// 		background: `radial-gradient(farthest-corner at ${
-	// 			theme.breakpoints.values.sm
-	// 		}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
-	// 			theme.palette.background.paper,
-	// 			1
-	// 		)} 70%), url(${bgImage}) center / cover no-repeat`
-	// 	},
-	// 	[theme.breakpoints.only('sm')]: {
-	// 		background: `radial-gradient(farthest-corner at ${
-	// 			theme.breakpoints.values.md
-	// 		}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
-	// 			theme.palette.background.paper,
-	// 			1
-	// 		)} 70%), url(${bgImage}) center / cover no-repeat`
-	// 	},
-	// 	[theme.breakpoints.up('md')]: {
-	// 		background: `radial-gradient(farthest-corner at ${
-	// 			theme.breakpoints.values.lg
-	// 		}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
-	// 			theme.palette.background.paper,
-	// 			1
-	// 		)} 70%), url(${bgImage}) center / cover no-repeat`
-	// 	},
-	// 	[theme.breakpoints.up('xl')]: {
-	// 		background: `radial-gradient(farthest-corner at ${
-	// 			theme.breakpoints.values.xl
-	// 		}px 0px, ${fade(theme.palette.background.paper, 0)} 0%, ${fade(
-	// 			theme.palette.background.paper,
-	// 			1
-	// 		)} 70%), url(${bgImage}) center / cover no-repeat`
-	// 	}
-	// },
 	content: {
 		top: theme.mixins.toolbar.minHeight / 2,
 		zIndex: theme.zIndex.appBar + 1,
