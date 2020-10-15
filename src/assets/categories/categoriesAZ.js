@@ -21,7 +21,7 @@ export const categories = [
 		parent_id: 2
 	},
 	{
-		name: 'Baby (All Food & Drink)',
+		name: 'Baby (All Consumables)',
 		id: 3,
 		prodType: 'food-drink',
 		url: 'baby',
@@ -77,14 +77,14 @@ export const categories = [
 		parent_id: 49
 	},
 	{
-		name: 'Bath & Body',
+		name: 'Bath & Body Care',
 		id: 10,
 		prodType: 'household',
 		url: 'bath-body',
 		parent_id: 2
 	},
 	{
-		name: 'Bathroom',
+		name: 'Bathroom Care',
 		id: 71,
 		prodType: 'household',
 		url: 'bathroom',
@@ -98,7 +98,7 @@ export const categories = [
 		parent_id: 75
 	},
 	{
-		name: 'Beans & Legumes',
+		name: 'Beans & Legumes (Canned)',
 		id: 145,
 		prodType: 'food-drink',
 		url: 'beans-legumes',
@@ -182,14 +182,14 @@ export const categories = [
 		parent_id: 50
 	},
 	{
-		name: 'Bronzing',
+		name: 'Bronzing Makeup',
 		id: 206,
 		prodType: 'household',
 		url: 'bronzing',
 		parent_id: 75
 	},
 	{
-		name: 'Brows & Pencils',
+		name: 'Brows & Pencils (Makeup)',
 		id: 203,
 		prodType: 'household',
 		url: 'brows-pencils',
@@ -245,7 +245,7 @@ export const categories = [
 		parent_id: 7
 	},
 	{
-		name: 'Cat & Kitten',
+		name: 'Cat & Kitten Food',
 		id: 62,
 		prodType: 'food-drink',
 		url: 'cat-kitten',
@@ -336,7 +336,7 @@ export const categories = [
 		parent_id: 83
 	},
 	{
-		name: 'Colouring',
+		name: 'Colouring (Hair Care)',
 		id: 174,
 		prodType: 'household',
 		url: 'colouring',
@@ -357,7 +357,7 @@ export const categories = [
 		parent_id: 7
 	},
 	{
-		name: 'Conditioner',
+		name: 'Conditioner (Hair Care)',
 		id: 176,
 		prodType: 'household',
 		url: 'conditioner',
@@ -441,17 +441,17 @@ export const categories = [
 		parent_id: 6
 	},
 	{
-		name: 'Dog & Puppy',
+		name: 'Dog & Puppy Food',
 		id: 63,
 		prodType: 'food-drink',
 		url: 'dog-puppy',
 		parent_id: 8
 	},
 	{
-		name: 'Dried',
+		name: 'Dried Herbs & Spices',
 		id: 119,
 		prodType: 'food-drink',
-		url: 'dried',
+		url: 'dried-herbs-spices',
 		parent_id: 51
 	},
 	{
@@ -462,14 +462,14 @@ export const categories = [
 		parent_id: 49
 	},
 	{
-		name: 'Drinks',
+		name: 'Drinks (All)',
 		id: 5,
 		prodType: 'food-drink',
 		url: 'drinks',
 		parent_id: 1
 	},
 	{
-		name: 'Dry Mixes',
+		name: 'Dry Mixes (Recipes Bases)',
 		id: 161,
 		prodType: 'food-drink',
 		url: 'dry-mixes',
@@ -490,7 +490,7 @@ export const categories = [
 		parent_id: 74
 	},
 	{
-		name: 'Eyes & Brows',
+		name: 'Eyes & Brows Makeup',
 		id: 74,
 		prodType: 'household',
 		url: 'eyes-brows',
@@ -504,7 +504,7 @@ export const categories = [
 		parent_id: 74
 	},
 	{
-		name: 'Face',
+		name: 'Face Makeup',
 		id: 75,
 		prodType: 'household',
 		url: 'face',
@@ -518,7 +518,7 @@ export const categories = [
 		parent_id: 67
 	},
 	{
-		name: 'Face, Neck & Eye',
+		name: 'Face, Neck & Eye Care',
 		id: 187,
 		prodType: 'household',
 		url: 'face-neck-eye',
@@ -609,7 +609,7 @@ export const categories = [
 		parent_id: 6
 	},
 	{
-		name: 'Fruit',
+		name: 'Fruit (Canned)',
 		id: 146,
 		prodType: 'food-drink',
 		url: 'fruit',
@@ -630,7 +630,7 @@ export const categories = [
 		parent_id: 12
 	},
 	{
-		name: 'Gloss & Glaze',
+		name: 'Gloss & Glaze (Lip Makeup)',
 		id: 212,
 		prodType: 'household',
 		url: 'gloss-glaze',
@@ -658,7 +658,7 @@ export const categories = [
 		parent_id: 66
 	},
 	{
-		name: 'Hand, Nail & Feet',
+		name: 'Hand, Nail & Feet Care',
 		id: 190,
 		prodType: 'household',
 		url: 'hand-nail-feet',
@@ -770,21 +770,21 @@ export const categories = [
 		parent_id: 5
 	},
 	{
-		name: 'Kitchen',
+		name: 'Kitchen Care',
 		id: 70,
 		prodType: 'household',
 		url: 'kitchen',
 		parent_id: 12
 	},
 	{
-		name: 'Laundry',
+		name: 'Laundry Care',
 		id: 72,
 		prodType: 'household',
 		url: 'laundry',
 		parent_id: 12
 	},
 	{
-		name: 'Liner & Pencils',
+		name: 'Liner & Pencils (Lip Makeup)',
 		id: 213,
 		prodType: 'household',
 		url: 'liner-pencils',
@@ -798,7 +798,7 @@ export const categories = [
 		parent_id: 68
 	},
 	{
-		name: 'Lips',
+		name: 'Lips (Makeup)',
 		id: 76,
 		prodType: 'household',
 		url: 'lips',
@@ -889,7 +889,7 @@ export const categories = [
 		parent_id: 36
 	},
 	{
-		name: 'Mock-Meats',
+		name: 'Mock Meats',
 		id: 36,
 		prodType: 'food-drink',
 		url: 'mock-meats',
@@ -910,7 +910,7 @@ export const categories = [
 		parent_id: 53
 	},
 	{
-		name: 'Nails',
+		name: 'Nail Care',
 		id: 77,
 		prodType: 'household',
 		url: 'nails',
@@ -938,14 +938,14 @@ export const categories = [
 		parent_id: 50
 	},
 	{
-		name: 'Nuts, Seeds & Coconut',
+		name: 'Nuts, Seeds & Coconut (Baking)',
 		id: 130,
 		prodType: 'food-drink',
 		url: 'nuts-seeds-coconut',
 		parent_id: 52
 	},
 	{
-		name: 'Nuts, Seeds & Legumes',
+		name: 'Nuts, Seeds & Legumes (Snacks)',
 		id: 105,
 		prodType: 'food-drink',
 		url: 'nuts-seeds-legumes',
@@ -959,7 +959,7 @@ export const categories = [
 		parent_id: 30
 	},
 	{
-		name: 'Oils',
+		name: 'Oils (Cooking)',
 		id: 158,
 		prodType: 'food-drink',
 		url: 'oils',
@@ -1008,14 +1008,14 @@ export const categories = [
 		parent_id: 7
 	},
 	{
-		name: 'Paste & Cream',
+		name: 'Paste & Cream (Deodorant)',
 		id: 199,
 		prodType: 'household',
 		url: 'paste-cream',
 		parent_id: 83
 	},
 	{
-		name: 'Pastes',
+		name: 'Pastes (Herbs & Spices)',
 		id: 121,
 		prodType: 'food-drink',
 		url: 'pastes',
@@ -1120,14 +1120,14 @@ export const categories = [
 		parent_id: 36
 	},
 	{
-		name: 'Primer',
+		name: 'Primer (Makeup)',
 		id: 211,
 		prodType: 'household',
 		url: 'primer',
 		parent_id: 75
 	},
 	{
-		name: 'Remover & Wipes',
+		name: 'Remover & Wipes (Makeup)',
 		id: 78,
 		prodType: 'household',
 		url: 'remover-wipes',
@@ -1155,14 +1155,14 @@ export const categories = [
 		parent_id: 30
 	},
 	{
-		name: 'Roasts & Other',
+		name: 'Roasts & Other (Mock Meats)',
 		id: 99,
 		prodType: 'food-drink',
 		url: 'roasts-other',
 		parent_id: 36
 	},
 	{
-		name: 'Roll On',
+		name: 'Roll On (Deodorant)',
 		id: 194,
 		prodType: 'household',
 		url: 'roll-on',
@@ -1183,7 +1183,7 @@ export const categories = [
 		parent_id: 53
 	},
 	{
-		name: 'Sauces & Pastes',
+		name: 'Sauces & Pastes (Recipe Bases)',
 		id: 160,
 		prodType: 'food-drink',
 		url: 'sauces-pastes',
@@ -1232,14 +1232,14 @@ export const categories = [
 		parent_id: 68
 	},
 	{
-		name: 'Sheets',
+		name: 'Sheets (Pasta)',
 		id: 153,
 		prodType: 'food-drink',
 		url: 'sheets',
 		parent_id: 55
 	},
 	{
-		name: 'Shower & Bath',
+		name: 'Shower & Bath Care',
 		id: 67,
 		prodType: 'household',
 		url: 'shower-bath',
@@ -1260,7 +1260,7 @@ export const categories = [
 		parent_id: 10
 	},
 	{
-		name: 'Slices & Deli',
+		name: 'Slices & Deli (Mock Meats)',
 		id: 98,
 		prodType: 'food-drink',
 		url: 'slices-deli',
@@ -1288,7 +1288,7 @@ export const categories = [
 		parent_id: 5
 	},
 	{
-		name: 'Soup & Dahl',
+		name: 'Soup & Dahl (Canned)',
 		id: 143,
 		prodType: 'food-drink',
 		url: 'soup-dahl',
@@ -1309,7 +1309,7 @@ export const categories = [
 		parent_id: 30
 	},
 	{
-		name: 'Spaghetti',
+		name: 'Spaghetti (Canned)',
 		id: 142,
 		prodType: 'food-drink',
 		url: 'spaghetti',
@@ -1323,14 +1323,14 @@ export const categories = [
 		parent_id: 5
 	},
 	{
-		name: 'Spray',
+		name: 'Spray On (Deodorant)',
 		id: 196,
 		prodType: 'household',
 		url: 'spray',
 		parent_id: 83
 	},
 	{
-		name: 'Sticks & Solids',
+		name: 'Sticks & Solids (Deodorant)',
 		id: 195,
 		prodType: 'household',
 		url: 'sticks-solids',
@@ -1344,7 +1344,7 @@ export const categories = [
 		parent_id: 61
 	},
 	{
-		name: 'Styling',
+		name: 'Styling (Hair Care)',
 		id: 178,
 		prodType: 'household',
 		url: 'styling',
@@ -1372,7 +1372,7 @@ export const categories = [
 		parent_id: 53
 	},
 	{
-		name: 'Sweets & Dessert',
+		name: 'Sweets & Dessert (Pantry)',
 		id: 57,
 		prodType: 'food-drink',
 		url: 'sweets-dessert',
@@ -1421,14 +1421,14 @@ export const categories = [
 		parent_id: 53
 	},
 	{
-		name: 'Tomatoes',
+		name: 'Tomatoes (Canned)',
 		id: 147,
 		prodType: 'food-drink',
 		url: 'tomatoes',
 		parent_id: 54
 	},
 	{
-		name: 'Tools & Accessories',
+		name: 'Tools & Accessories (Makeup)',
 		id: 79,
 		prodType: 'household',
 		url: 'tools-accessories',
@@ -1442,14 +1442,14 @@ export const categories = [
 		parent_id: 65
 	},
 	{
-		name: 'Treatments',
+		name: 'Treatments (Hair Care)',
 		id: 177,
 		prodType: 'household',
 		url: 'treatments',
 		parent_id: 66
 	},
 	{
-		name: 'Vegetables',
+		name: 'Vegetables (Canned)',
 		id: 144,
 		prodType: 'food-drink',
 		url: 'vegetables',
