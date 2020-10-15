@@ -117,7 +117,6 @@ export default function ResultsList() {
 						setCategoryData({
 							name: String(breadcrumbsArr[breadcrumbsArr.length - 1]),
 							totalProducts: results.fullcount,
-							totalBrands: results.totalbrands,
 							breadcrumbs: breadcrumbsArr,
 							fullCount: Number(results.fullcount)
 						});
@@ -352,7 +351,7 @@ export default function ResultsList() {
 					<Heading>Vegan {categoryData.name}</Heading>
 					<SubHeading>
 						There are {categoryData.totalProducts} vegan {categoryData.name.toLowerCase()}{' '}
-						products within Australia from {categoryData.totalBrands} brands.
+						products within Australia.
 					</SubHeading>
 					<Footer />
 				</Hero>
