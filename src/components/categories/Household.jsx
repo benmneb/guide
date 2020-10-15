@@ -13,6 +13,7 @@ import {
 	Hidden
 } from '@material-ui/core';
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRight';
+import ScrollToTopOnMount from '../../utils/ScrollToTop';
 import { householdCats } from '../../assets/categories';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import useWidth from '../../utils/useWidth';
@@ -108,6 +109,7 @@ export default function Household() {
 					content="bath and body,personal care,household cleaning,makeup,animal care,plant based,plant-based,vegetarian,flexitarian"
 				/>
 			</Helmet>
+			<ScrollToTopOnMount />
 			<Hero>
 				<Heading>Vegan Household Products</Heading>
 				<SubHeading>

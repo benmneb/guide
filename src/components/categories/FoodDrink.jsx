@@ -13,6 +13,7 @@ import {
 	Hidden
 } from '@material-ui/core';
 import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRight';
+import ScrollToTopOnMount from '../../utils/ScrollToTop';
 import { foodDrinkCats } from '../../assets/categories';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import useWidth from '../../utils/useWidth';
@@ -112,6 +113,7 @@ export default function FoodDrink() {
 					content="pantry,fridge,freezer,bakery,drinks,baby,pet food,plant based,plant-based,vegetarian,flexitarian"
 				/>
 			</Helmet>
+			<ScrollToTopOnMount />
 			<Hero>
 				<Heading>Vegan Food & Drink Products</Heading>
 				<SubHeading>
