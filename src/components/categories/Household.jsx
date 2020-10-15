@@ -33,8 +33,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	gridList: {
 		flexWrap: 'nowrap',
-		// Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-		transform: 'translateZ(0)'
+		transform: 'translateZ(0)', // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+		msOverflowStyle: 'none',
+		scrollbarWidth: 'none',
+		'&::-webkit-scrollbar': {
+			display: 'none'
+		}
 	},
 	gridListTile: {
 		'&:hover img': {
@@ -147,22 +151,18 @@ export default function Household() {
 							spacing={0}
 						>
 							{category.subCats.map((subCat) => (
-								<GridListTile
-									key={subCat.name}
-									component={Link}
-									to={`/household/${subCat.url}`}
-									cols={1}
-									className={styles.gridListTile}
-								>
-									<img src={subCat.image} alt={''} className={styles.image} />
-									<GridListTileBar
-										titlePosition="top"
-										title={subCat.name}
-										className={styles.titleBar}
-										classes={{
-											title: styles.title
-										}}
-									/>
+								<GridListTile key={subCat.name} cols={1} className={styles.gridListTile}>
+									<Link to={`/household/${subCat.url}`}>
+										<img src={subCat.image} alt={''} className={styles.image} />
+										<GridListTileBar
+											titlePosition="top"
+											title={subCat.name}
+											className={styles.titleBar}
+											classes={{
+												title: styles.title
+											}}
+										/>
+									</Link>
 								</GridListTile>
 							))}
 						</GridList>

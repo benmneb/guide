@@ -128,22 +128,18 @@ export default function Home() {
 							spacing={0}
 						>
 							{category.subCats.map((subCats) => (
-								<GridListTile
-									key={subCats.name}
-									component={Link}
-									to={`${category.prodType}/${subCats.url}`}
-									cols={1}
-									className={styles.gridListTile}
-								>
-									<img src={subCats.image} alt={''} className={styles.image} />
-									<GridListTileBar
-										titlePosition="top"
-										title={subCats.name}
-										className={styles.titleBar}
-										classes={{
-											title: styles.title
-										}}
-									/>
+								<GridListTile key={subCats.name} cols={1} className={styles.gridListTile}>
+									<Link to={`${category.prodType}/${subCats.url}`}>
+										<img src={subCats.image} alt={''} className={styles.image} />
+										<GridListTileBar
+											titlePosition="top"
+											title={subCats.name}
+											className={styles.titleBar}
+											classes={{
+												title: styles.title
+											}}
+										/>
+									</Link>
 								</GridListTile>
 							))}
 						</GridList>

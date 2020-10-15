@@ -151,22 +151,18 @@ export default function FoodDrink() {
 							spacing={0}
 						>
 							{category.subCats.map((subCat) => (
-								<GridListTile
-									key={subCat.name}
-									component={Link}
-									to={`/food-drink/${subCat.url}`}
-									cols={1}
-									className={styles.gridListTile}
-								>
-									<img src={subCat.image} alt={''} className={styles.image} />
-									<GridListTileBar
-										titlePosition="top"
-										title={subCat.name}
-										className={styles.titleBar}
-										classes={{
-											title: styles.title
-										}}
-									/>
+								<GridListTile key={subCat.name} cols={1} className={styles.gridListTile}>
+									<Link to={`/food-drink/${subCat.url}`}>
+										<img src={subCat.image} alt={''} className={styles.image} />
+										<GridListTileBar
+											titlePosition="top"
+											title={subCat.name}
+											className={styles.titleBar}
+											classes={{
+												title: styles.title
+											}}
+										/>
+									</Link>
 								</GridListTile>
 							))}
 						</GridList>
