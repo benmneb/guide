@@ -342,7 +342,7 @@ export default function ResultsList() {
 				/>
 				<meta
 					name="keywords"
-					content="plant based,plant-based,vegetarian,flexitarian,vegan brands, local brands, no oil, no added sugar, no salt, organic, gluten free, nut free, peanut free, soy free, "
+					content="plant based,plant-based,vegetarian,flexitarian,vegan brands,local brands,no oil,no added sugar,no salt,organic,gluten free,wheat free,nut free,peanut free,soy free,lupin free,sesame free,mustard free,alcohol free,phthalate free,paraben free,sls free,list,product list,shopping,grocery,shopping list,grocery list"
 				/>
 			</Helmet>
 			<ScrollToTopOnMount />

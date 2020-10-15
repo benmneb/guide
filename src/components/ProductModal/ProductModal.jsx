@@ -191,11 +191,11 @@ export default function ProductModal({ show }) {
 					</title>
 					<meta
 						name="description"
-						content="View ingredients, allergens, nutritional information, reviews, where to buy and more only on Vomad Guide: The Free Vegan Products Guide."
+						content="View ingredients, allergens, nutritional information, reviews, stores to buy in, and more, only on Vomad Guide: The Free Vegan Product Guide."
 					/>
 					<meta
 						name="keywords"
-						content="plant based,plant-based,vegetarian,flexitarian"
+						content="plant based,plant-based,vegetarian,flexitarian,list,product list,shopping,grocery,shopping list,grocery list"
 					/>
 				</Helmet>
 			)}

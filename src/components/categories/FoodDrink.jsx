@@ -110,7 +110,7 @@ export default function FoodDrink() {
 				/>
 				<meta
 					name="keywords"
-					content="pantry,fridge,freezer,bakery,drinks,baby,pet food,plant based,plant-based,vegetarian,flexitarian"
+					content="pantry,fridge,freezer,bakery,drinks,baby,pet food,plant based,plant-based,vegetarian,flexitarian,list,product list,shopping,grocery,shopping list,grocery list"
 				/>
 			</Helmet>
 			<ScrollToTopOnMount />
