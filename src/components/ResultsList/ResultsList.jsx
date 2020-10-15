@@ -113,9 +113,9 @@ export default function ResultsList() {
 					const results = await response.data[0];
 					if (mounted) {
 						currentPathname.current = releventPathname.current;
-						const breadcrumbsArr = Array(String(results.breadcrumbs).split('@'))[0];
+						const breadcrumbsArr = results.breadcrumbs.split('@');
 						setCategoryData({
-							name: String(breadcrumbsArr[breadcrumbsArr.length - 1]),
+							name: breadcrumbsArr[breadcrumbsArr.length - 1],
 							totalProducts: results.fullcount,
 							breadcrumbs: breadcrumbsArr,
 							fullCount: Number(results.fullcount)
