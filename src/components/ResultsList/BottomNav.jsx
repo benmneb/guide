@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
 		zIndex: theme.zIndex.appBar - 1
 	},
 	bottomNav: {
-		...theme.mixins.toolbar
+		...theme.mixins.toolbar,
+		backgroundColor: theme.palette.background.default
 	},
 	badge: {
 		color: theme.palette.background.paper,

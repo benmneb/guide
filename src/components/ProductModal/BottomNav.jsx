@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
 		boxShadow: theme.shadows[24]
 	},
 	bottomNav: {
-		...theme.mixins.toolbar
+		...theme.mixins.toolbar,
+		backgroundColor: theme.palette.background.default
 	}
 }));
 
