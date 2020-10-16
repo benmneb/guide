@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -68,13 +68,15 @@ export default function TopBar({ children }) {
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const showFiltersPanel = useSelector((state) => state.ui.showFiltersPanel);
+	const isFirstMount = useRef(true);
 
 	useEffect(() => {
-		if (isAuthenticated) {
+		if (isAuthenticated && isFirstMount.current) {
+			isFirstMount.current = false;
 			dispatch(
 				showSnackbar({
 					type: 'success',
-					message: 'Welcome back, ' + currentUserData.username
+					message: `Welcome back, ${currentUserData.username}`
 				})
 			);
 		}

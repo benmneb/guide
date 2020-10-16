@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
 import axios from 'axios';
@@ -32,7 +32,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { red } from '@material-ui/core/colors';
 import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
-import { setCurrentUserData, showSnackbar } from '../../store/actions';
+import { setCurrentUserData, showSnackbar, updateUsername } from '../../store/actions';
 import UserAvatar from '../../utils/UserAvatar';
 
 const useStyles = makeStyles((theme) => ({
@@ -78,27 +78,24 @@ export default function UserProfile({ isOpened }) {
 	const confirm = useConfirm();
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
-	const urlSearchParamsId = new URLSearchParams(location.search).get('id');
+	const urlSearchParamsId = useRef(new URLSearchParams(location.search).get('id'));
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [isOwnProfile, setIsOwnProfile] = useState(false);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [pending, setPending] = useState(false);
 
+	// get user data on load
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
 
 		if (isOpened) {
 			axios
-				.get(`https://api.vomad.guide/user/${urlSearchParamsId}`, {
+				.get(`https://api.vomad.guide/user/${urlSearchParamsId.current}`, {
 					cancelToken: source.token
 				})
 				.then((res) => mounted && setSelectedUser(res.data[0]))
-				.then(() => {
-					if (mounted && currentUserData)
-						setIsOwnProfile(currentUserData.id === Number(urlSearchParamsId));
-				})
 				.catch((err) => mounted && console.error(err));
 		}
 
@@ -106,7 +103,15 @@ export default function UserProfile({ isOpened }) {
 			mounted = false;
 			source.cancel('User modal call cancelled during clean-up');
 		};
-	}, [urlSearchParamsId, isOpened, currentUserData]);
+	}, [isOpened]);
+
+	// check if its their own profile
+	useEffect(() => {
+		let mounted = true;
+		if (mounted && currentUserData)
+			setIsOwnProfile(currentUserData.id === Number(urlSearchParamsId.current));
+		return () => (mounted = false);
+	}, [currentUserData]);
 
 	const goBack = useCallback(() => {
 		if (location.search.includes('?view=user')) {
@@ -258,13 +263,9 @@ export default function UserProfile({ isOpened }) {
 			.catch(() => null);
 	}
 
-	function handleUpdateUsername() {
-		axios
-			.get(`https://api.vomad.guide/user/${currentUserData.id}`)
-			.then((res) =>
-				setSelectedUser((prev) => ({ ...prev, user_name: res.data[0].user_name }))
-			)
-			.catch((err) => console.error(err.message));
+	function handleUpdateUsername(username) {
+		dispatch(updateUsername(username));
+		setSelectedUser((prev) => ({ ...prev, user_name: username }));
 	}
 
 	return (
@@ -333,9 +334,9 @@ export default function UserProfile({ isOpened }) {
 								)}
 								{isOwnProfile && (
 									<Box display="flex" flexDirection="column-reverse" marginLeft={-3}>
-										<Tooltip title="Upload a new avatar" enterDelay={1000}>
+										<Tooltip title="Change avatar">
 											<IconButton
-												aria-label="upload a new avatar"
+												aria-label="change avatar"
 												component="span"
 												onClick={handleClickChangeAvatar}
 											>

@@ -25,6 +25,14 @@ export default function AuthReducer(state = initialState, action) {
 				...state,
 				isUsingEmailAuthRoute: action.route
 			};
+		case actionTypes.UPDATE_USERNAME:
+			return {
+				...state,
+				currentUserData: {
+					...state.currentUserData,
+					username: action.username
+				}
+			};
 		default:
 			return state;
 	}

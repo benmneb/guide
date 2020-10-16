@@ -23,7 +23,8 @@ export {
 export {
 	setCurrentUserData,
 	setIsUsingEmailAuth,
-	setIsUsingEmailAuthRoute
+	setIsUsingEmailAuthRoute,
+	updateUsername
 } from './auth';
 
 export {

@@ -21,3 +21,10 @@ export const setCurrentUserData = (user, isAuth) => {
 		isAuth
 	};
 };
+
+export const updateUsername = (username) => {
+	return {
+		type: actionTypes.UPDATE_USERNAME,
+		username
+	};
+};

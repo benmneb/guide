@@ -73,9 +73,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 	const confirm = useConfirm();
 	const theme = useTheme();
 	const dispatch = useDispatch();
-	const currentUserId = useSelector(
-		(state) => state.auth.currentUserData && state.auth.currentUserData.id
-	);
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const { register, handleSubmit, errors, watch } = useForm();
 	const [editUsername, setEditUsername] = useState(false);
 	const [changeEmail, setChangeEmail] = useState(false);
@@ -132,7 +130,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 			.then(() => {
 				setPending('username');
 				axios
-					.put(`https://api.vomad.guide/auth/update-username/${currentUserId}`, {
+					.put(`https://api.vomad.guide/auth/update-username/${currentUserData.id}`, {
 						user_name: data.username
 					})
 					.then(() => {
@@ -144,7 +142,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 								message: 'Username changed successfully'
 							})
 						);
-						updateUsername();
+						updateUsername(data.username);
 					})
 					.catch(() => {
 						setPending(false);
@@ -166,7 +164,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 			.then(() => {
 				setPending('email');
 				axios
-					.put(`https://api.vomad.guide/auth/update-email/${currentUserId}`, {
+					.put(`https://api.vomad.guide/auth/update-email/${currentUserData.id}`, {
 						email: data.email
 					})
 					.then(() => {
@@ -221,7 +219,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 			.then(() => {
 				setPending('password');
 				axios
-					.post(`https://api.vomad.guide/auth/update-password/${currentUserId}`, {
+					.post(`https://api.vomad.guide/auth/update-password/${currentUserData.id}`, {
 						password: data.password
 					})
 					.then(() => {
@@ -260,7 +258,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 			})
 			.then(() => {
 				axios
-					.delete(`https://api.vomad.guide/auth/delete-user/${currentUserId}`)
+					.delete(`https://api.vomad.guide/auth/delete-user/${currentUserData.id}`)
 					.then(() => {
 						setPending(false);
 						dispatch(setCurrentUserData(null, false));
