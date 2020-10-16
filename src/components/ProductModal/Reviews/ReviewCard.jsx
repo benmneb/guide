@@ -3,7 +3,6 @@ import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import {
-	Avatar,
 	Typography,
 	Paper,
 	IconButton,
@@ -17,15 +16,11 @@ import { MoreVertRounded, ReportRounded } from '@material-ui/icons';
 import Rating from '@material-ui/lab/Rating';
 import ReviewReport from './ReviewReport';
 import LikeButton from '../LikeButton';
-import randomMC from 'random-material-color';
 import { getTimeAgo } from '../../../utils/timeAgo';
 import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
+import UserAvatar from '../../../utils/UserAvatar';
 
 const useStyles = makeStyles((theme) => ({
-	largeAvatar: {
-		width: theme.spacing(9),
-		height: theme.spacing(9)
-	},
 	reportIcon: {
 		marginRight: theme.spacing(1)
 	},
@@ -40,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 export default function ReviewCard({ review }) {
 	const styles = useStyles();
 	const history = useHistory();
-	const color = randomMC.getColor({ text: review.user_name });
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const [showMoreMenu, setShowMoreMenu] = useState(null);
 	const [showReportModal, setShowReportModal] = useState(false);
@@ -86,16 +80,9 @@ export default function ReviewCard({ review }) {
 					<Box component="article" padding={2}>
 						<Box display="flex" marginBottom={2}>
 							<Box marginRight={2}>
-								<Avatar
-									component={RouterLink}
-									to={userProfileLink}
-									alt={review.user_name}
-									src={review.avatar}
-									className={clsx(styles.largeAvatar, styles.link)}
-									style={{ backgroundColor: color }}
-								>
-									{review.user_name.charAt(0).toUpperCase()}
-								</Avatar>
+								<RouterLink to={userProfileLink} className={styles.link}>
+									<UserAvatar userData={review} component="review" />
+								</RouterLink>
 							</Box>
 							<Box
 								component="footer"

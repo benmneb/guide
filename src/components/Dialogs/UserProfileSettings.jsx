@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function AboutEdit({ hide, show }) {
+export default function AboutEdit({ hide, show, updateUsername }) {
 	const styles = useStyles();
 	const confirm = useConfirm();
 	const theme = useTheme();
@@ -138,16 +138,17 @@ export default function AboutEdit({ hide, show }) {
 					.then(() => {
 						setEditUsername(false);
 						setPending(false);
-						return dispatch(
+						dispatch(
 							showSnackbar({
 								type: 'success',
 								message: 'Username changed successfully'
 							})
 						);
+						updateUsername();
 					})
 					.catch(() => {
 						setPending(false);
-						return dispatch(
+						dispatch(
 							showSnackbar({
 								type: 'error',
 								message: 'Could not update username, please try again soon.'

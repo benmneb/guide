@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import {
-	Avatar,
 	Button,
 	Dialog,
 	IconButton,
@@ -18,6 +17,8 @@ import {
 	Menu,
 	MenuItem,
 	ListItemIcon,
+	Backdrop,
+	CircularProgress,
 	Box
 } from '@material-ui/core';
 import {
@@ -28,10 +29,11 @@ import {
 	DeleteForeverRounded
 } from '@material-ui/icons';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { red } from '@material-ui/core/colors';
 import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
-import randomMC from 'random-material-color';
-import { setCurrentUserData } from '../../store/actions';
+import { setCurrentUserData, showSnackbar } from '../../store/actions';
+import UserAvatar from '../../utils/UserAvatar';
 
 const useStyles = makeStyles((theme) => ({
 	dialogContentRoot: {
@@ -54,6 +56,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logoutButton: {
 		marginLeft: theme.spacing(1)
+	},
+	deleteAvatarButton: {
+		color: theme.palette.getContrastText(red[500]),
+		backgroundColor: red[500],
+		'&:hover': {
+			backgroundColor: red[700]
+		}
+	},
+	backdrop: {
+		zIndex: theme.zIndex.modal + 1,
+		color: '#fff'
 	}
 }));
 
@@ -69,7 +82,8 @@ export default function UserProfile({ isOpened }) {
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [isOwnProfile, setIsOwnProfile] = useState(false);
-	const color = selectedUser && randomMC.getColor({ text: selectedUser.user_name });
+	const [anchorEl, setAnchorEl] = useState(null);
+	const [pending, setPending] = useState(false);
 
 	useEffect(() => {
 		let mounted = true;
@@ -80,16 +94,12 @@ export default function UserProfile({ isOpened }) {
 				.get(`https://api.vomad.guide/user/${urlSearchParamsId}`, {
 					cancelToken: source.token
 				})
-				.then((response) => {
-					if (mounted) setSelectedUser(response.data[0]);
-				})
+				.then((res) => mounted && setSelectedUser(res.data[0]))
 				.then(() => {
 					if (mounted && currentUserData)
 						setIsOwnProfile(currentUserData.id === Number(urlSearchParamsId));
 				})
-				.catch((err) => {
-					if (mounted) console.error(err);
-				});
+				.catch((err) => mounted && console.error(err));
 		}
 
 		return () => {
@@ -130,8 +140,6 @@ export default function UserProfile({ isOpened }) {
 			.catch(() => null);
 	}
 
-	const [anchorEl, setAnchorEl] = React.useState(null);
-
 	const handleClickChangeAvatar = (event) => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -141,23 +149,121 @@ export default function UserProfile({ isOpened }) {
 	};
 
 	function handleAvatarUpload(e) {
-		console.log(e.target.files[0]);
-		const data = new FormData();
-		data.append('image', e.target.files[0]);
-		axios
-			.post('https://api.vomad.guide/avatar/image-upload', data, {
-				user_id: currentUserData.id
+		e.persist();
+		confirm({
+			description:
+				'Please confirm you want to change your avatar to the image you just selected.',
+			confirmationText: 'Change avatar'
+		})
+			.then(() => {
+				setPending(true);
+				const data = new FormData();
+				data.append('image', e.target.files[0]);
+				axios
+					.post('https://api.vomad.guide/avatar/image-upload', data)
+					.then((res) => {
+						axios
+							.post('https://api.vomad.guide/avatar/image-update', {
+								user_id: currentUserData.id,
+								avatar: res.data.imageUrl
+							})
+							.then((res) => {
+								setPending(false);
+								dispatch(
+									showSnackbar({
+										type: 'info',
+										message: 'Image uploaded'
+									})
+								);
+								axios
+									.get(`https://api.vomad.guide/user/${currentUserData.id}`)
+									.then((res) =>
+										setSelectedUser((prev) => ({ ...prev, avatar: res.data[0].avatar }))
+									)
+									.catch((err) => {
+										console.error(err.message);
+										dispatch(
+											showSnackbar({
+												type: 'info',
+												title: 'Your new avatar was uploaded',
+												message:
+													'But we had trouble refreshing the data. Check back soon and you should see the new image.'
+											})
+										);
+									});
+							})
+							.catch((err) => {
+								setPending(false);
+								dispatch(
+									showSnackbar({
+										type: 'error',
+										title: 'Could not change avatar',
+										message: `${err.message}. Please try again.`
+									})
+								);
+								console.error(err.message);
+							});
+					})
+					.catch((err) => {
+						setPending(false);
+						dispatch(
+							showSnackbar({
+								type: 'error',
+								title: 'Could not change avatar',
+								message: `${err.message}. Please try again.`
+							})
+						);
+						console.error(err.message);
+					});
 			})
-			.then((res) => console.log(res))
-			.catch((err) => console.error(err.message));
+			.catch(() => null);
 	}
 
-	function deleteAvatar(e) {
-		axios
-			.post('https://api.vomad.guide/avatar/delete', {
-				user_id: currentUserData.id
+	function handleDeleteAvatar() {
+		handleCloseAvatarMenu();
+		confirm({
+			description: 'Please confirm you want to delete your avatar.',
+			confirmationText: 'Delete avatar',
+			confirmationButtonProps: { className: styles.deleteAvatarButton }
+		})
+			.then(() => {
+				setPending(true);
+				axios
+					.delete(`https://api.vomad.guide/avatar/image-delete/${currentUserData.id}`)
+					.then(() => {
+						setPending(false);
+						dispatch(
+							showSnackbar({
+								type: 'info',
+								message: 'Avatar deleted'
+							})
+						);
+						axios
+							.get(`https://api.vomad.guide/user/${currentUserData.id}`)
+							.then(() => setSelectedUser((prev) => ({ ...prev, avatar: null })))
+							.catch((err) => console.error(err.message));
+					})
+					.catch((err) => {
+						setPending(false);
+						dispatch(
+							showSnackbar({
+								type: 'error',
+								title: 'Could not delete avatar',
+								message: `${err.message}. Please try again.`
+							})
+						);
+						console.error(err.message);
+					});
 			})
-			.then((res) => console.log(res))
+			.catch(() => null);
+	}
+
+	function handleUpdateUsername() {
+		axios
+			.get(`https://api.vomad.guide/user/${currentUserData.id}`)
+			.then((res) =>
+				setSelectedUser((prev) => ({ ...prev, user_name: res.data[0].user_name }))
+			)
 			.catch((err) => console.error(err.message));
 	}
 
@@ -221,14 +327,7 @@ export default function UserProfile({ isOpened }) {
 								marginLeft={isOwnProfile ? 3 : 0}
 							>
 								{selectedUser ? (
-									<Avatar
-										src={selectedUser.avatar}
-										alt={selectedUser.user_name.toUpperCase()}
-										className={styles.avatar}
-										style={{ backgroundColor: color }}
-									>
-										{selectedUser.user_name.charAt(0).toUpperCase()}
-									</Avatar>
+									<UserAvatar userData={selectedUser} component="userProfile" />
 								) : (
 									<Skeleton variant="circle" className={styles.avatar} />
 								)}
@@ -323,6 +422,9 @@ export default function UserProfile({ isOpened }) {
 							)}
 						</Grid>
 					</Grid>
+					<Backdrop open={pending} className={styles.backdrop}>
+						<CircularProgress color="inherit" />
+					</Backdrop>
 				</DialogContent>
 			</Dialog>
 			<Menu
@@ -347,14 +449,18 @@ export default function UserProfile({ isOpened }) {
 						Change avatar
 					</MenuItem>
 				</label>
-				<MenuItem onClick={handleCloseAvatarMenu}>
+				<MenuItem onClick={handleDeleteAvatar}>
 					<ListItemIcon>
 						<DeleteForeverRounded />
 					</ListItemIcon>
 					Delete avatar
 				</MenuItem>
 			</Menu>
-			<UserProfileSettings show={showSettingsModal} hide={handleHideSettingsModal} />
+			<UserProfileSettings
+				show={showSettingsModal}
+				hide={handleHideSettingsModal}
+				updateUsername={handleUpdateUsername}
+			/>
 		</>
 	);
 }
