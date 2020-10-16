@@ -15,12 +15,17 @@ import {
 	Typography,
 	useMediaQuery,
 	Grid,
+	Menu,
+	MenuItem,
+	ListItemIcon,
 	Box
 } from '@material-ui/core';
 import {
 	PhotoCameraRounded,
 	SettingsRounded,
-	ExitToAppRounded
+	ExitToAppRounded,
+	CloudUploadRounded,
+	DeleteForeverRounded
 } from '@material-ui/icons';
 import Skeleton from '@material-ui/lab/Skeleton';
 import UserProfileSettings from './UserProfileSettings';
@@ -88,7 +93,7 @@ export default function UserProfile({ isOpened }) {
 			mounted = false;
 			source.cancel('User modal call cancelled during clean-up');
 		};
-	}, [urlSearchParamsId, setSelectedUser, isOpened, currentUserData]);
+	}, [urlSearchParamsId, isOpened, currentUserData]);
 
 	const goBack = useCallback(() => {
 		if (location.search.includes('?view=user')) {
@@ -120,6 +125,37 @@ export default function UserProfile({ isOpened }) {
 				return (window.location.href = 'https://api.vomad.guide/auth/logout');
 			})
 			.catch(() => null);
+	}
+
+	const [anchorEl, setAnchorEl] = React.useState(null);
+
+	const handleClickChangeAvatar = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleCloseAvatarMenu = () => {
+		setAnchorEl(null);
+	};
+
+	function handleAvatarUpload(e) {
+		console.log(e.target.files[0]);
+		const data = new FormData();
+		data.append('image', e.target.files[0]);
+		axios
+			.post('https://api.vomad.guide/avatar/image-upload', data, {
+				user_id: currentUserData.id
+			})
+			.then((res) => console.log(res))
+			.catch((err) => console.error(err.message));
+	}
+
+	function deleteAvatar(e) {
+		axios
+			.post('https://api.vomad.guide/avatar/delete', {
+				user_id: currentUserData.id
+			})
+			.then((res) => console.log(res))
+			.catch((err) => console.error(err.message));
 	}
 
 	return (
@@ -195,19 +231,15 @@ export default function UserProfile({ isOpened }) {
 								)}
 								{isOwnProfile && (
 									<Box display="flex" flexDirection="column-reverse" marginLeft={-3}>
-										<input
-											accept="image/*"
-											className={styles.input}
-											id="icon-button-file"
-											type="file"
-										/>
-										<label htmlFor="icon-button-file">
-											<Tooltip title="Upload a new avatar" enterDelay={1000}>
-												<IconButton aria-label="upload a new avatar" component="span">
-													<PhotoCameraRounded />
-												</IconButton>
-											</Tooltip>
-										</label>
+										<Tooltip title="Upload a new avatar" enterDelay={1000}>
+											<IconButton
+												aria-label="upload a new avatar"
+												component="span"
+												onClick={handleClickChangeAvatar}
+											>
+												<PhotoCameraRounded />
+											</IconButton>
+										</Tooltip>
 									</Box>
 								)}
 							</Box>
@@ -290,6 +322,35 @@ export default function UserProfile({ isOpened }) {
 					</Grid>
 				</DialogContent>
 			</Dialog>
+			<Menu
+				id="avatar-menu"
+				anchorEl={anchorEl}
+				keepMounted
+				open={Boolean(anchorEl)}
+				onClose={handleCloseAvatarMenu}
+			>
+				<input
+					accept="image/png, image/jpeg"
+					className={styles.input}
+					id="upload-avatar"
+					type="file"
+					onChange={handleAvatarUpload}
+				/>
+				<label htmlFor="upload-avatar">
+					<MenuItem onClick={handleCloseAvatarMenu}>
+						<ListItemIcon>
+							<CloudUploadRounded />
+						</ListItemIcon>
+						Change avatar
+					</MenuItem>
+				</label>
+				<MenuItem onClick={handleCloseAvatarMenu}>
+					<ListItemIcon>
+						<DeleteForeverRounded />
+					</ListItemIcon>
+					Delete avatar
+				</MenuItem>
+			</Menu>
 			<UserProfileSettings show={showSettingsModal} hide={handleHideSettingsModal} />
 		</>
 	);
