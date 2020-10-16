@@ -1,4 +1,4 @@
-import React, { Children, cloneElement } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
@@ -29,18 +29,8 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function Hero({ children, textAlign, bgImage, hide }) {
+export default function Hero({ children, bgImage, hide }) {
 	const styles = useStyles();
-
-	let justifyContent = 'flex-start';
-
-	if (textAlign === 'center') {
-		justifyContent = 'center';
-	}
-
-	const childrenWithProps = Children.map(children, (child) =>
-		cloneElement(child, { textAlign })
-	);
 
 	return (
 		<Box
@@ -48,7 +38,7 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 			position="relative"
 			display="flex"
 			alignItems="center"
-			justifyContent={justifyContent}
+			justifyContent="flex-start"
 			className={clsx(styles.container, {
 				[styles.displayNone]: hide,
 				[styles.hasBgImage]: bgImage
@@ -60,62 +50,47 @@ export default function Hero({ children, textAlign, bgImage, hide }) {
 				minWidth={272}
 				className={styles.content}
 			>
-				{childrenWithProps}
+				{children}
 			</Box>
 		</Box>
 	);
 }
 
 Hero.propTypes = {
-	children: PropTypes.node.isRequired,
-	textAlign: PropTypes.oneOf(['left', 'center'])
-};
-
-Hero.defaultProps = {
-	textAlign: 'left'
+	children: PropTypes.node.isRequired
 };
 
 ///////// HEADING
 
-export function Heading({ children, textAlign }) {
+export function Heading({ children }) {
 	return (
-		<Typography component="h1" variant="h2" align={textAlign} gutterBottom>
+		<Typography component="h1" variant="h2" gutterBottom>
 			{children}
 		</Typography>
 	);
 }
 
 Heading.propTypes = {
-	children: PropTypes.node.isRequired,
-	textAlign: PropTypes.oneOf(['left', 'center'])
-};
-
-Heading.defaultProps = {
-	textAlign: 'left'
+	children: PropTypes.node.isRequired
 };
 
 ///////// SUB-HEADING
 
-export function SubHeading({ children, textAlign }) {
+export function SubHeading({ children }) {
 	return (
-		<Typography align={textAlign} component="h2" variant="h5" paragraph>
+		<Typography component="h2" variant="h5" paragraph>
 			{children}
 		</Typography>
 	);
 }
 
 SubHeading.propTypes = {
-	children: PropTypes.node.isRequired,
-	textAlign: PropTypes.oneOf(['left', 'center'])
-};
-
-SubHeading.defaultProps = {
-	textAlign: 'left'
+	children: PropTypes.node.isRequired
 };
 
 ///////// FOOTER
 
-export function Footer({ textAlign, forPage, children }) {
+export function Footer({ forPage, children }) {
 	const addProductsLink = usePrepareLink({
 		query: {
 			[getParams.popup]: getEnums.popup.addProducts
@@ -125,7 +100,7 @@ export function Footer({ textAlign, forPage, children }) {
 	if (forPage === 'home' && children) {
 		return (
 			<Box display={{ xs: 'none', md: 'block' }}>
-				<Typography align={textAlign} paragraph color="textSecondary" component="h3">
+				<Typography paragraph color="textSecondary" component="h3">
 					{children}
 				</Typography>
 			</Box>
@@ -135,7 +110,7 @@ export function Footer({ textAlign, forPage, children }) {
 	if (forPage === 'category') {
 		return (
 			<Box display={{ xs: 'none', md: 'block' }}>
-				<Typography align={textAlign} paragraph color="textSecondary">
+				<Typography paragraph color="textSecondary">
 					You can{' '}
 					<Link underline="hover" component={RouterLink} to={addProductsLink}>
 						add any missing products
@@ -149,7 +124,7 @@ export function Footer({ textAlign, forPage, children }) {
 	if (forPage === 'prodType') {
 		return (
 			<Box display={{ xs: 'none', md: 'block' }}>
-				<Typography align={textAlign} paragraph color="textSecondary">
+				<Typography paragraph color="textSecondary">
 					Select a category from below to see products, reviews, stores and more.
 				</Typography>
 			</Box>
@@ -159,7 +134,7 @@ export function Footer({ textAlign, forPage, children }) {
 	if (forPage === '404') {
 		return (
 			<Box>
-				<Typography align={textAlign} paragraph>
+				<Typography paragraph>
 					Seems like a good time to{' '}
 					<Link underline="hover" component={RouterLink} to="/">
 						browse vegan products
@@ -173,11 +148,9 @@ export function Footer({ textAlign, forPage, children }) {
 
 Footer.propTypes = {
 	forPage: PropTypes.oneOf(['home', 'category', 'prodType', '404']),
-	textAlign: PropTypes.oneOf(['left', 'center']),
 	children: PropTypes.node
 };
 
 Footer.defaultProps = {
-	forPage: 'category',
-	textAlign: 'left'
+	forPage: 'category'
 };
