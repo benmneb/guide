@@ -20,6 +20,8 @@ import LoadingButton from '../../utils/LoadingButton';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
 
+const actionsStyle = { paddingRight: 0 };
+
 export default function Feedback({ isOpened }) {
 	const history = useHistory();
 	const location = useLocation();
@@ -156,7 +158,7 @@ export default function Feedback({ isOpened }) {
 						helperText={Boolean(errors.email) && errors.email.message}
 						fullWidth
 					/>
-					<DialogActions style={{ paddingRight: 0 }}>
+					<DialogActions style={actionsStyle}>
 						<Button onClick={onClose}>Cancel</Button>
 						<LoadingButton
 							type="submit"

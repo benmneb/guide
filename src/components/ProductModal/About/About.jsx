@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: theme.shape.borderRadius,
 		marginTop: theme.spacing(2)
 	},
+	infoSkeleton: {
+		margin: theme.spacing(2, 0)
+	},
 	chipBox: {
 		marginBottom: theme.spacing(2),
 		'& > *': {
@@ -227,10 +230,10 @@ export default function About() {
 						</>
 					) : (
 						<Box margin={2}>
-							<Skeleton variant="rect" width={150} style={{ margin: '16px 0' }} />
+							<Skeleton variant="rect" width={150} className={styles.infoSkeleton} />
 							<Skeleton variant="rect" />
 							<Skeleton variant="rect" width={300} />
-							<Skeleton variant="rect" width={120} style={{ margin: '16px 0' }} />
+							<Skeleton variant="rect" width={120} className={styles.infoSkeleton} />
 							<Skeleton variant="rect" width={275} />
 							<Skeleton variant="rect" width={250} />
 						</Box>

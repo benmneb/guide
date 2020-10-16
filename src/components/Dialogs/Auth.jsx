@@ -59,6 +59,8 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
+const googleIconStyle = { fontSize: 18, margin: 2 };
+
 export default function Auth({ isOpened }) {
 	const styles = useStyles();
 	const location = useLocation();
@@ -146,9 +148,7 @@ export default function Auth({ isOpened }) {
 							<Button
 								size="large"
 								variant="contained"
-								startIcon={
-									<Icon className="fab fa-google" style={{ fontSize: 18, margin: 2 }} />
-								}
+								startIcon={<Icon className="fab fa-google" style={googleIconStyle} />}
 								classes={{
 									label: styles.buttonLabel,
 									root: clsx(styles.google, styles.buttonMargin)

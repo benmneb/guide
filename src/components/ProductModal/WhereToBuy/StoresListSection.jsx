@@ -17,8 +17,14 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		backgroundColor: theme.palette.background.paper
 	},
+	addStoreButton: {
+		margin: theme.spacing(1, 0)
+	},
 	cancelButton: {
 		color: theme.palette.text.secondary
+	},
+	listSubHeader: {
+		zIndex: '2'
 	}
 }));
 
@@ -31,14 +37,14 @@ export default function StoresListSection(props) {
 			aria-label="Stores near you"
 			className={styles.storesList}
 			subheader={
-				<ListSubheader style={{ zIndex: '2' }} component="div">
+				<ListSubheader className={styles.listSubHeader} component="div">
 					<Box display="flex" justifyContent="space-between" alignItems="center">
 						<Typography component="h2" variant="h5">
 							Stores Near You
 						</Typography>
 						<Button
 							size="large"
-							style={{ margin: '8px 0' }}
+							className={styles.addStoreButton}
 							onClick={props.setShowAddStore}
 							variant={props.showAddStore ? 'outlined' : 'contained'}
 							color={props.showAddStore ? 'default' : 'primary'}

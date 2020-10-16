@@ -51,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	input: {
 		display: 'none'
+	},
+	logoutButton: {
+		marginLeft: theme.spacing(1)
 	}
 }));
 
@@ -312,7 +315,7 @@ export default function UserProfile({ isOpened }) {
 										variant="outlined"
 										onClick={handleLogoutClick}
 										startIcon={<ExitToAppRounded />}
-										style={{ marginLeft: 8 }}
+										className={styles.logoutButton}
 									>
 										Logout
 									</Button>

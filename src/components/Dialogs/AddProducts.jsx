@@ -48,6 +48,12 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('sm')]: {
 			height: 590
 		}
+	},
+	autocomplete: {
+		width: 300
+	},
+	finalActions: {
+		padding: 0
 	}
 }));
 
@@ -238,7 +244,7 @@ export default function AddProducts({ isOpened }) {
 									return category.name;
 								}}
 								renderOption={(category) => category.name}
-								style={{ width: 300 }}
+								className={styles.autocomplete}
 								freeSolo
 								renderInput={(params) => (
 									<TextField {...params} label="Brand Name" variant="outlined" required />
@@ -293,7 +299,7 @@ export default function AddProducts({ isOpened }) {
 									return product.name;
 								}}
 								renderOption={(product) => product.name}
-								style={{ width: 300 }}
+								className={styles.autocomplete}
 								freeSolo
 								renderInput={(params) => (
 									<TextField
@@ -321,7 +327,7 @@ export default function AddProducts({ isOpened }) {
 								inputValue={inputValue}
 								onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
 								options={categoriesMapped}
-								style={{ width: 300 }}
+								className={styles.autocomplete}
 								renderInput={(params) => (
 									<TextField {...params} label="Category" variant="outlined" required />
 								)}
@@ -425,7 +431,7 @@ export default function AddProducts({ isOpened }) {
 							Please note that for quality assurance we manually review all submissions
 							before they appear on the Guide.
 						</Typography>
-						<DialogActions style={{ padding: 0 }}>
+						<DialogActions className={styles.finalActions}>
 							<Button onClick={onClose}>Close</Button>
 							<Button onClick={handleReset} variant="contained" color="primary">
 								Add another product

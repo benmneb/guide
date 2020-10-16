@@ -56,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
+const popperStyle = { width: 350 };
+
 export default function SearchBar() {
 	const styles = useStyles();
 	const history = useHistory();
@@ -173,7 +175,7 @@ export default function SearchBar() {
 	}
 
 	function CustomPopper(props) {
-		return <Popper {...props} style={{ width: 350 }} placement="bottom-start" />;
+		return <Popper {...props} style={popperStyle} placement="bottom-start" />;
 	}
 
 	return (

@@ -20,6 +20,8 @@ import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
 import LoadingButton from '../../utils/LoadingButton';
 
+const actionsStyle = { paddingRight: 0 };
+
 export default function Advertise({ isOpened }) {
 	const history = useHistory();
 	const location = useLocation();
@@ -156,7 +158,7 @@ export default function Advertise({ isOpened }) {
 						helperText={Boolean(errors.message) && errors.message.message}
 						fullWidth
 					/>
-					<DialogActions style={{ paddingRight: 0 }}>
+					<DialogActions style={actionsStyle}>
 						<Button onClick={onClose}>Cancel</Button>
 						<LoadingButton
 							type="submit"

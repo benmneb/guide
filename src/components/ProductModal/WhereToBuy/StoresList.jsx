@@ -30,6 +30,12 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.only('xs')]: {
 			padding: 6
 		}
+	},
+	veganStore: {
+		color: green[500]
+	},
+	storeActionsList: {
+		paddingTop: 0
 	}
 }));
 
@@ -49,7 +55,7 @@ export default function StoresList(props) {
 				>
 					<ListItemIcon>
 						{store.vegan_store ? (
-							<EcoRounded style={{ color: green[500] }} />
+							<EcoRounded className={styles.veganStore} />
 						) : (
 							<PlaceRounded />
 						)}
@@ -79,7 +85,7 @@ export default function StoresList(props) {
 					timeout="auto"
 					unmountOnExit
 				>
-					<List component="div" dense style={{ paddingTop: 0 }}>
+					<List component="div" dense className={styles.storeActionsList}>
 						<ListItem className={styles.nested}>
 							<ListItemText
 								primary="Can you confirm this product is here?"

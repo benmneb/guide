@@ -20,6 +20,12 @@ const useStyles = makeStyles((theme) => ({
 	backdrop: {
 		zIndex: theme.zIndex.modal + 1,
 		color: '#fff'
+	},
+	offensive: {
+		color: red[500]
+	},
+	spam: {
+		color: deepOrange[400]
 	}
 }));
 
@@ -78,13 +84,13 @@ export default function ReviewReport(props) {
 					onClick={() => handleListItemClick('inappropriate or offensive')}
 				>
 					<ListItemIcon>
-						<ReportRounded fontSize="large" style={{ color: red[500] }} />
+						<ReportRounded fontSize="large" className={styles.offensive} />
 					</ListItemIcon>
 					<ListItemText primary="Inappropriate or offensive" />
 				</ListItem>
 				<ListItem button onClick={() => handleListItemClick('advertising or spam')}>
 					<ListItemIcon>
-						<ReportProblemRounded fontSize="large" style={{ color: deepOrange[400] }} />
+						<ReportProblemRounded fontSize="large" className={styles.spam} />
 					</ListItemIcon>
 					<ListItemText primary="Advertising or spam" />
 				</ListItem>
