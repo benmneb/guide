@@ -108,11 +108,6 @@ export const mockMeats = {
 			name: 'Fish & Seafood',
 			image: 'https://ik.imagekit.io/vomadguide/subCat2s/fish_0SeDskLCPh.png',
 			url: 'fish-seafood'
-		},
-		{
-			name: '+ 3 more...',
-			image: '',
-			url: '' // no URL because its just seeing all in mock-meats
 		}
 	]
 };
