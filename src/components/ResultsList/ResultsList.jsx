@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, lazy } from 'react';
 import { Helmet } from 'react-helmet';
 import clsx from 'clsx';
 import axios from 'axios';
@@ -20,12 +20,12 @@ import FiltersPanel from '../FiltersPanel/FiltersPanel';
 import BottomNav from './BottomNav';
 import ResultSkeleton from './ResultSkeleton';
 import HeroSkeleton from '../Hero/HeroSkeleton';
-import ProductModal from '../ProductModal/ProductModal';
 import { usePrepareLink } from '../../utils/routing';
 import ScrollToTopOnMount, { scrollToTopNow } from '../../utils/ScrollToTop';
 import { toKebabCase } from '../../utils/changeCase';
 import ResultsListSpinner from './ResultsListSpinner';
 import ResultsListEndMessage from './ResultsListEndMessage';
+const ProductModal = lazy(() => import('../ProductModal/ProductModal'));
 
 const useStyles = makeStyles((theme) => ({
 	container: {
