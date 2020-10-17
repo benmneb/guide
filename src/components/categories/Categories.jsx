@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { useLocation } from 'react-router-dom';
 import Home from './Home';
-import FoodDrink from './FoodDrink';
-import Household from './Household';
 import BottomNav from './BottomNav';
 import ScrollToTopOnMount from '../../utils/ScrollToTop';
+const FoodDrink = lazy(() => import('./FoodDrink'));
+const Household = lazy(() => import('./Household'));
 
 export default function Categories() {
 	const location = useLocation();
@@ -37,7 +37,7 @@ export default function Categories() {
 	return (
 		<>
 			<ScrollToTopOnMount />
-			{category}
+			<Suspense fallback={null}>{category}</Suspense>
 			<BottomNav currentTab={currentTab} onChange={handleChangeCurrentTab} />
 		</>
 	);
