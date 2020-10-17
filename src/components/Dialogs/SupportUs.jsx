@@ -104,9 +104,8 @@ export default function SupportUs({ isOpened }) {
 										Rate, review, tag and add.
 									</Box>{' '}
 									Leave reviews and ratings for products you've bought, tag the stores
-									you've bought them in, and add any missing products to the Guide.
-									Together we can help the community at large easily find all the best
-									vegan products.
+									you've bought them in, and add any missing products so others can find
+									them. The easiest way to support The Guide is just to use it.
 									{!isAuthenticated && (
 										<Box marginTop={1.5}>
 											<Button
