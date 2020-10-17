@@ -36,6 +36,7 @@
 	"scripts": {
 		"start": "PORT=3001 react-scripts start",
 		"build": "react-scripts build",
+		"analyse": "node analyse.js",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},
@@ -53,5 +54,8 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
+	},
+	"devDependencies": {
+		"webpack-bundle-analyzer": "^3.9.0"
 	}
 }
