@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, lazy } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
@@ -280,7 +280,9 @@ export default function ProductModal({ show }) {
 							{selectedProduct && <Reviews />}
 						</TabPanel>
 						<TabPanel value={currentTab} index="where-to-buy">
-							<WhereToBuy />
+							<Suspense fallback={null}>
+								<WhereToBuy />
+							</Suspense>
 						</TabPanel>
 					</Box>
 					<BottomNav

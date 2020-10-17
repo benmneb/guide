@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef, lazy } from 'react';
+import React, { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import clsx from 'clsx';
 import axios from 'axios';
@@ -389,10 +389,12 @@ export default function SearchResultsList() {
 			)}
 			<FiltersPanel />
 			<BottomNav />
-			<Route
-				path={productLink.pathname}
-				children={({ match }) => <ProductModal show={Boolean(match)} />}
-			/>
+			<Suspense fallback={null}>
+				<Route
+					path={productLink.pathname}
+					children={({ match }) => <ProductModal show={Boolean(match)} />}
+				/>
+			</Suspense>
 		</>
 	);
 }

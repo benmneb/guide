@@ -21,34 +21,38 @@ export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<ConfirmProvider defaultOptions={defaultOptions}>
-				<Suspense fallback={null}>
-					<CssBaseline />
-					<LoadingBar />
-					<AppBar>
-						<Switch>
-							<Route exact path="/">
-								<Categories />
-							</Route>
-							<Route exact path="/auth/success">
-								<AuthSuccess />
-							</Route>
-							<Route path="/search/:term">
+				<CssBaseline />
+				<LoadingBar />
+				<AppBar>
+					<Switch>
+						<Route exact path="/">
+							<Categories />
+						</Route>
+						<Route exact path="/auth/success">
+							<AuthSuccess />
+						</Route>
+						<Route path="/search/:term">
+							<Suspense fallback={null}>
 								<SearchResultsList />
-							</Route>
-							<Route path="/:productType/:category">
+							</Suspense>
+						</Route>
+						<Route path="/:productType/:category">
+							<Suspense fallback={null}>
 								<ResultsList />
-							</Route>
-							<Route path="/:productType">
-								<Categories />
-							</Route>
-							<Route>
-								<PageNotFound />
-							</Route>
-						</Switch>
-					</AppBar>
+							</Suspense>
+						</Route>
+						<Route path="/:productType">
+							<Categories />
+						</Route>
+						<Route>
+							<PageNotFound />
+						</Route>
+					</Switch>
+				</AppBar>
+				<Suspense fallback={null}>
 					<GetParameterPopups />
-					<Snackbars />
 				</Suspense>
+				<Snackbars />
 			</ConfirmProvider>
 		</ThemeProvider>
 	);
