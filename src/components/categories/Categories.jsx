@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Home from './Home';
 import BottomNav from './BottomNav';
 import ScrollToTopOnMount from '../../utils/ScrollToTop';
-import HeroSkeleton from '../Hero/HeroSkeleton';
+import CategoriesSkeleton from './CategoriesSkeleton';
 const FoodDrink = lazy(() => import('./FoodDrink'));
 const Household = lazy(() => import('./Household'));
 
@@ -38,7 +38,7 @@ export default function Categories() {
 	return (
 		<>
 			<ScrollToTopOnMount />
-			<Suspense fallback={<HeroSkeleton />}>{category}</Suspense>
+			<Suspense fallback={<CategoriesSkeleton />}>{category}</Suspense>
 			<BottomNav currentTab={currentTab} onChange={handleChangeCurrentTab} />
 		</>
 	);
