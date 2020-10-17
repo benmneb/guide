@@ -11,6 +11,7 @@ import Categories from './components/categories/Categories';
 import PageNotFound from './components/categories/PageNotFound';
 import AuthSuccess from './components/Dialogs/AuthSuccess';
 import LoadingBar from './utils/LoadingBar';
+import HeroSkeleton from './components/Hero/HeroSkeleton';
 const ResultsList = lazy(() => import('./components/ResultsList/ResultsList'));
 const GetParameterPopups = lazy(() => import('./utils/routing/getParamaterPopups'));
 const SearchResultsList = lazy(() =>
@@ -32,12 +33,12 @@ export default function App() {
 							<AuthSuccess />
 						</Route>
 						<Route path="/search/:term">
-							<Suspense fallback={null}>
+							<Suspense fallback={<HeroSkeleton />}>
 								<SearchResultsList />
 							</Suspense>
 						</Route>
 						<Route path="/:productType/:category">
-							<Suspense fallback={null}>
+							<Suspense fallback={<HeroSkeleton />}>
 								<ResultsList />
 							</Suspense>
 						</Route>
