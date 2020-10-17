@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, lazy } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
@@ -26,10 +26,10 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import TabPanel, { a11yProps } from '../../utils/TabPanel';
 import About from './About/About';
 import Reviews from './Reviews/Reviews';
+import WhereToBuy from './WhereToBuy/WhereToBuy';
 import BottomNav from './BottomNav';
 import StarRating from './StarRating';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
-const WhereToBuy = lazy(() => import('./WhereToBuy/WhereToBuy'));
 
 const useStyles = makeStyles((theme) => ({
 	dialogContentRoot: {
