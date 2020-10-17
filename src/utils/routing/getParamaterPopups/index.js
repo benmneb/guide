@@ -1,20 +1,18 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 
 import { GET_ENUMS } from '../router';
 import useGetPopupState from './useGetPopupState';
 
-const Auth = lazy(() => import('../../../components/Dialogs/Auth'));
-const Advertise = lazy(() => import('../../../components/Dialogs/Advertise'));
-const Feedback = lazy(() => import('../../../components/Dialogs/Feedback'));
-const SupportUs = lazy(() => import('../../../components/Dialogs/SupportUs'));
-const AddProducts = lazy(() => import('../../../components/Dialogs/AddProducts'));
-const Terms = lazy(() => import('../../../components/Dialogs/Terms'));
-const Privacy = lazy(() => import('../../../components/Dialogs/Privacy'));
-const UserProfile = lazy(() => import('../../../components/Dialogs/UserProfile'));
-const GetTheApp = lazy(() => import('../../../components/Dialogs/GetTheApp'));
-const AuthResetPassword = lazy(() =>
-	import('../../../components/Dialogs/AuthResetPassword')
-);
+import Auth from '../../../components/Dialogs/Auth';
+import Advertise from '../../../components/Dialogs/Advertise';
+import Feedback from '../../../components/Dialogs/Feedback';
+import SupportUs from '../../../components/Dialogs/SupportUs';
+import AddProducts from '../../../components/Dialogs/AddProducts';
+import Terms from '../../../components/Dialogs/Terms';
+import Privacy from '../../../components/Dialogs/Privacy';
+import UserProfile from '../../../components/Dialogs/UserProfile';
+import AuthResetPassword from '../../../components/Dialogs/AuthResetPassword';
+import GetTheApp from '../../../components/Dialogs/GetTheApp';
 
 const popups = {
 	[GET_ENUMS.popup.signIn]: Auth,
@@ -40,9 +38,5 @@ export default function GetParameterPopups() {
 		return null;
 	}
 
-	return (
-		<Suspense fallback={null}>
-			<Component isOpened={isOpened} />
-		</Suspense>
-	);
+	return <Component isOpened={isOpened} />;
 }
