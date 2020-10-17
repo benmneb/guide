@@ -12,10 +12,10 @@ import PageNotFound from './components/categories/PageNotFound';
 import AuthSuccess from './components/Dialogs/AuthSuccess';
 import LoadingBar from './utils/LoadingBar';
 const ResultsList = lazy(() => import('./components/ResultsList/ResultsList'));
+const GetParameterPopups = lazy(() => import('./utils/routing/getParamaterPopups'));
 const SearchResultsList = lazy(() =>
 	import('./components/ResultsList/SearchResultsList')
 );
-const GetParameterPopups = lazy(() => import('./utils/routing/getParamaterPopups'));
 
 export default function App() {
 	return (
