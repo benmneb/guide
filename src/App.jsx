@@ -11,6 +11,7 @@ import Categories from './components/categories/Categories';
 import PageNotFound from './components/categories/PageNotFound';
 import AuthSuccess from './components/Dialogs/AuthSuccess';
 import LoadingBar from './utils/LoadingBar';
+import ErrorBoundary from './utils/ErrorBoundary';
 const ResultsList = lazy(() => import('./components/ResultsList/ResultsList'));
 const GetParameterPopups = lazy(() => import('./utils/routing/getParamaterPopups'));
 const SearchResultsList = lazy(() =>
@@ -37,9 +38,11 @@ export default function App() {
 							</Suspense>
 						</Route>
 						<Route path="/:productType/:category">
-							<Suspense fallback={null}>
-								<ResultsList />
-							</Suspense>
+							<ErrorBoundary>
+								<Suspense fallback={null}>
+									<ResultsList />
+								</Suspense>
+							</ErrorBoundary>
 						</Route>
 						<Route path="/:productType">
 							<Categories />
