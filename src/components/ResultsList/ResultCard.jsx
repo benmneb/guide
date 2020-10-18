@@ -16,20 +16,22 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
+		borderRadius: theme.shape.borderRadius,
+		margin: 'auto',
+		boxShadow: 'none',
 		[theme.breakpoints.up('xs')]: {
 			maxWidth: 180
 		},
 		[theme.breakpoints.up('md')]: {
 			maxWidth: 250
 		},
-		margin: 'auto',
-		transition: `${theme.transitions.duration.standard}ms ${theme.transitions.easing.easeInOut}`,
-		boxShadow: 'none',
-		borderRadius: theme.shape.borderRadius,
-		'&:hover': {
-			transform: 'scale(1.01)',
-			boxShadow: theme.shadows[4],
-			cursor: 'pointer'
+		'@media (hover: hover) and (pointer: fine)': {
+			transition: `${theme.transitions.duration.standard}ms ${theme.transitions.easing.easeInOut}`,
+			'&:hover': {
+				transform: 'scale(1.01)',
+				boxShadow: theme.shadows[4],
+				cursor: 'pointer'
+			}
 		}
 	},
 	cardMedia: {
