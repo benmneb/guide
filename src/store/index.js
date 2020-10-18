@@ -10,7 +10,7 @@ const persistConfig = {
 	key: 'root',
 	storage,
 	stateReconciler: autoMergeLevel2,
-	whitelist: ['auth']
+	whitelist: ['auth', 'pwa']
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

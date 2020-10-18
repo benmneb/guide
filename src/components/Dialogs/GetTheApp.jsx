@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory, useLocation, Link as RouterLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import DialogTitle from '../../utils/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -20,6 +21,7 @@ import {
 	getEnums
 } from '../../utils/routing';
 import Feedback from './Feedback';
+import { setDeferredInstallPrompt } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -46,7 +48,9 @@ export default function GetTheApp({ isOpened }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const location = useLocation();
+	const dispatch = useDispatch();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
+	const deferredInstallPrompt = useSelector((state) => state.pwa.installPrompt);
 	const wantsFeedback = useGetParameter(getParams.action);
 	const [showFeedback, setShowFeedback] = useState(false);
 
@@ -71,6 +75,37 @@ export default function GetTheApp({ isOpened }) {
 		keepOldQuery: true
 	});
 
+	function getDeviceDetails() {
+		if (deferredInstallPrompt !== null) {
+			return console.log('installable');
+		}
+
+		if (
+			typeof navigator !== 'undefined' &&
+			/iPad|iPhone|iPod/.test(navigator.userAgent)
+		) {
+			return console.log('iOS device');
+		}
+
+		return console.log('not installable, not iOS');
+	}
+	getDeviceDetails();
+
+	async function handleInstallClick() {
+		console.log('handling install click');
+
+		deferredInstallPrompt.prompt();
+		const choiceResult = await deferredInstallPrompt.userChoice;
+
+		if (choiceResult.outcome === 'accepted') {
+			console.log('User accepted the PWA prompt');
+		} else {
+			console.log('User dismissed the PWA prompt');
+		}
+
+		dispatch(setDeferredInstallPrompt(null));
+	}
+
 	return (
 		<>
 			<Dialog
@@ -88,7 +123,13 @@ export default function GetTheApp({ isOpened }) {
 						<Typography paragraph>
 							Hit the button below to install the Guide on your device.
 							<Box marginY={2} component="span" display="flex" justifyContent="center">
-								<Button variant="contained" color="primary" startIcon={<GetAppRounded />}>
+								<Button
+									variant="contained"
+									color="primary"
+									startIcon={<GetAppRounded />}
+									disabled={deferredInstallPrompt === null}
+									onClick={handleInstallClick}
+								>
 									Install the Guide
 								</Button>
 							</Box>

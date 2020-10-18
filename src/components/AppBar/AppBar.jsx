@@ -9,7 +9,8 @@ import SideDrawer from './SideDrawer';
 import {
 	setIsUsingEmailAuthRoute,
 	showSnackbar,
-	showSideDrawer
+	showSideDrawer,
+	setDeferredInstallPrompt
 } from '../../store/actions';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 import SearchBar from './SearchBar';
@@ -70,6 +71,32 @@ export default function TopBar({ children }) {
 	const showFiltersPanel = useSelector((state) => state.ui.showFiltersPanel);
 	const isFirstMount = useRef(true);
 
+	const advertiseLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.advertise
+		}
+	});
+	const supportUsLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.supportUs
+		}
+	});
+	const authLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.signIn
+		}
+	});
+	const userProfileLink = usePrepareLink(
+		isAuthenticated && {
+			query: {
+				[getParams.popup]: getEnums.popup.userProfile
+			},
+			pushToQuery: {
+				[getParams.userId]: currentUserData.id
+			}
+		}
+	);
+
 	useEffect(() => {
 		if (isAuthenticated && isFirstMount.current) {
 			isFirstMount.current = false;
@@ -96,31 +123,12 @@ export default function TopBar({ children }) {
 		history.push(authLink);
 	}
 
-	const advertiseLink = usePrepareLink({
-		query: {
-			[getParams.popup]: getEnums.popup.advertise
-		}
+	// check if PWA is installable on device
+	window.addEventListener('beforeinstallprompt', (e) => {
+		e.preventDefault();
+		dispatch(setDeferredInstallPrompt(e));
+		console.log('deferred install prompt:', e);
 	});
-	const supportUsLink = usePrepareLink({
-		query: {
-			[getParams.popup]: getEnums.popup.supportUs
-		}
-	});
-	const authLink = usePrepareLink({
-		query: {
-			[getParams.popup]: getEnums.popup.signIn
-		}
-	});
-	const userProfileLink = usePrepareLink(
-		isAuthenticated && {
-			query: {
-				[getParams.popup]: getEnums.popup.userProfile
-			},
-			pushToQuery: {
-				[getParams.userId]: currentUserData.id
-			}
-		}
-	);
 
 	return (
 		<Box className={styles.root}>
