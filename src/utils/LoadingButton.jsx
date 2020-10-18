@@ -53,7 +53,7 @@ export default function LoadingButton({
 
 	if (!startIcon && !endIcon) {
 		return (
-			<Button disabled={pending} {...props}>
+			<Button disabled={disabled || pending} {...props}>
 				{pending && pendingText ? pendingText : children}
 			</Button>
 		);
@@ -62,7 +62,7 @@ export default function LoadingButton({
 	if (startIcon) {
 		return (
 			<Button
-				disabled={pending}
+				disabled={disabled || pending}
 				startIcon={pending ? <CircularProgress color="inherit" size={16} /> : startIcon}
 				{...props}
 			>
@@ -74,7 +74,7 @@ export default function LoadingButton({
 	if (endIcon) {
 		return (
 			<Button
-				disabled={pending}
+				disabled={disabled || pending}
 				endIcon={pending ? <CircularProgress color="inherit" size={16} /> : endIcon}
 				{...props}
 			>
