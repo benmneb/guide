@@ -75,19 +75,23 @@ export default function GetTheApp({ isOpened }) {
 		keepOldQuery: true
 	});
 
+	let whichDevice;
 	function getDeviceDetails() {
-		if (deferredInstallPrompt !== null) {
-			return console.log('installable');
+		if (deferredInstallPrompt) {
+			whichDevice = 'installable';
+			return console.log(whichDevice);
 		}
 
 		if (
 			typeof navigator !== 'undefined' &&
 			/iPad|iPhone|iPod/.test(navigator.userAgent)
 		) {
-			return console.log('iOS device');
+			whichDevice = 'iPad/iPhone/iPod';
+			return console.log(whichDevice);
 		}
 
-		return console.log('not installable, not iOS');
+		whichDevice = 'not installable, and not iOS';
+		return console.log(whichDevice);
 	}
 	getDeviceDetails();
 
@@ -120,6 +124,7 @@ export default function GetTheApp({ isOpened }) {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText component="article" id="get-the-app-description">
+						<Typography paragraph>PWA status: {whichDevice}</Typography>
 						<Typography paragraph>
 							Hit the button below to install the Guide on your device.
 							<Box marginY={2} component="span" display="flex" justifyContent="center">
@@ -127,7 +132,7 @@ export default function GetTheApp({ isOpened }) {
 									variant="contained"
 									color="primary"
 									startIcon={<GetAppRounded />}
-									disabled={deferredInstallPrompt === null}
+									disabled={!deferredInstallPrompt}
 									onClick={handleInstallClick}
 								>
 									Install the Guide
