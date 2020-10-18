@@ -85,8 +85,8 @@ export default function GetTheApp({ isOpened }) {
 			typeof navigator !== 'undefined' &&
 			/iPad|iPhone|iPod/.test(navigator.userAgent)
 		) {
-			setPwaStatus('iPad/iPhone/iPod');
-			console.log('iPad/iPhone/iPod');
+			setPwaStatus('iOS');
+			console.log('iOS');
 		} else {
 			setPwaStatus('not installable, and not iOS');
 			console.log('not installable, and not iOS');
@@ -126,61 +126,118 @@ export default function GetTheApp({ isOpened }) {
 				<DialogContent>
 					<DialogContentText component="article" id="get-the-app-description">
 						<Typography paragraph>PWA status: {pwaStatus}</Typography>
-						<Typography paragraph>
-							Hit the button below to install the Guide on your device.
-							<Box marginY={2} component="span" display="flex" justifyContent="center">
-								<LoadingButton
-									variant="contained"
-									color="primary"
-									startIcon={<GetAppRounded />}
-									disabled={!deferredInstallPrompt}
-									onClick={handleInstallClick}
-									pending={pending}
-								>
-									Install the Guide
-								</LoadingButton>
-							</Box>
-						</Typography>
-						<Typography paragraph>DETECT IF iOS AND DO INSTALL INSTRUCTIONS </Typography>
-						<Typography paragraph>
-							The Guide is currently available for installation on:
-						</Typography>
-						<Box component="ul" className={styles.list}>
-							<Box component="li" data-icon="💻">
-								<Typography>
-									<Box component="span" fontWeight="fontWeightBold">
-										All modern desktop & laptop computers
-									</Box>
-									, from an up-to-date chromium-based browser like Google Chrome, Brave
-									Browser or Microsoft Edge.
+						{pwaStatus === 'installable' && (
+							<Typography paragraph>
+								Hit the button below to install the Guide on your device.
+								<Box marginY={2} component="span" display="flex" justifyContent="center">
+									<LoadingButton
+										variant="contained"
+										color="primary"
+										size="large"
+										startIcon={<GetAppRounded />}
+										disabled={!deferredInstallPrompt}
+										onClick={handleInstallClick}
+										pending={pending}
+									>
+										Install the Guide
+									</LoadingButton>
+								</Box>
+							</Typography>
+						)}
+
+						{pwaStatus === 'iOS' && (
+							<>
+								<Typography paragraph>
+									Add the Guide to your iOS device home screen in 3 simple steps:
 								</Typography>
-							</Box>
-							<Box component="li" data-icon="🍏">
-								<Typography>
-									<Box component="span" fontWeight="fontWeightBold">
-										All modern iOS mobile devices
+								<Box component="ul" className={styles.list}>
+									<Box component="li" data-icon="⒈">
+										<Typography>
+											<Box component="span" fontWeight="fontWeightBold">
+												First open the Guide in Safari browser.
+											</Box>
+											Currently, installing any PWA on iOS is only possible from Safari.
+										</Typography>
 									</Box>
-									, this means all up-to-date iPhones and iPads, from Safari browser only.
-								</Typography>
-							</Box>
-							<Box component="li" data-icon="📲">
-								<Typography>
-									<Box component="span" fontWeight="fontWeightBold">
-										All Android mobile devices.
+									<Box component="li" data-icon="⒉">
+										<Typography>
+											<Box component="span" fontWeight="fontWeightBold">
+												Tap the "share" button
+											</Box>
+											found at the bottom of the page.
+										</Typography>
 									</Box>
+									<Box component="li" data-icon="⒊">
+										<Typography>
+											<Box component="span" fontWeight="fontWeightBold">
+												Scroll to the "Add to Home Screen" option.
+											</Box>
+											Tap it. Then tap "Add" to confirm.
+										</Typography>
+									</Box>
+								</Box>
+								<Typography paragraph>
+									You can now access the Guide directly from your home screen.
 								</Typography>
-							</Box>
-						</Box>
-						<Typography paragraph>
-							If you do not see an orange button above to "Install the Guide", it means
-							your device does not allow installation of Progressive Web-Apps.
-						</Typography>
-						<Typography paragraph>
-							If you believe this is an error, please{' '}
-							<Link component={RouterLink} to={feedbackLink}>
-								let us know.
-							</Link>
-						</Typography>
+							</>
+						)}
+
+						{pwaStatus === 'not installable, and not iOS' && (
+							<>
+								<Typography paragraph>
+									Your device or current browser does not support installation of{' '}
+									<Link
+										href="https://web.dev/what-are-pwas/"
+										target="_blank"
+										rel="noopener"
+									>
+										Progressive Web-Apps
+									</Link>
+									.
+								</Typography>
+								<Typography paragraph>
+									PWAs are a new technology, so the Guide is currently available for
+									installation on the following devices:
+								</Typography>
+								<Box component="ul" className={styles.list}>
+									<Box component="li" data-icon="💻">
+										<Typography>
+											<Box component="span" fontWeight="fontWeightBold">
+												All modern desktop & laptop computers
+											</Box>
+											, by opening this page in an up-to-date chromium-based browser like
+											Google Chrome, Brave Browser or Microsoft Edge.
+										</Typography>
+									</Box>
+									<Box component="li" data-icon="🍏">
+										<Typography>
+											<Box component="span" fontWeight="fontWeightBold">
+												All modern iOS mobile devices
+											</Box>
+											, this means all up-to-date iPhones and iPads, from Safari browser
+											only.
+										</Typography>
+									</Box>
+									<Box component="li" data-icon="📲">
+										<Typography>
+											<Box component="span" fontWeight="fontWeightBold">
+												All Android mobile devices.
+											</Box>
+										</Typography>
+									</Box>
+								</Box>
+								<Typography paragraph>
+									Please open this page on one of those to install the app.
+								</Typography>
+								<Typography paragraph>
+									If you believe there is an error and you are seeing this screen even
+									though your device does support PWAs, please{' '}
+									<Link component={RouterLink} to={feedbackLink}>
+										let us know.
+									</Link>
+								</Typography>
+							</>
+						)}
 					</DialogContentText>
 				</DialogContent>
 			</Dialog>
