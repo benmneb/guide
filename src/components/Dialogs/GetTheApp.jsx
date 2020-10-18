@@ -10,8 +10,7 @@ import {
 	Link,
 	Typography,
 	useMediaQuery,
-	Box,
-	Button
+	Box
 } from '@material-ui/core';
 import { GetAppRounded } from '@material-ui/icons';
 import {
@@ -22,6 +21,7 @@ import {
 } from '../../utils/routing';
 import Feedback from './Feedback';
 import { setDeferredInstallPrompt } from '../../store/actions';
+import LoadingButton from '../../utils/LoadingButton';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -53,6 +53,8 @@ export default function GetTheApp({ isOpened }) {
 	const deferredInstallPrompt = useSelector((state) => state.pwa.installPrompt);
 	const wantsFeedback = useGetParameter(getParams.action);
 	const [showFeedback, setShowFeedback] = useState(false);
+	const [pwaStatus, setPwaStatus] = useState('pending');
+	const [pending, setPending] = useState(false);
 
 	const goBack = useCallback(() => {
 		history.push(location.pathname);
@@ -75,36 +77,35 @@ export default function GetTheApp({ isOpened }) {
 		keepOldQuery: true
 	});
 
-	let whichDevice;
-	function getDeviceDetails() {
+	useEffect(() => {
 		if (deferredInstallPrompt) {
-			whichDevice = 'installable';
-			return console.log(whichDevice);
-		}
-
-		if (
+			setPwaStatus('installable');
+			console.log('installable');
+		} else if (
 			typeof navigator !== 'undefined' &&
 			/iPad|iPhone|iPod/.test(navigator.userAgent)
 		) {
-			whichDevice = 'iPad/iPhone/iPod';
-			return console.log(whichDevice);
+			setPwaStatus('iPad/iPhone/iPod');
+			console.log('iPad/iPhone/iPod');
+		} else {
+			setPwaStatus('not installable, and not iOS');
+			console.log('not installable, and not iOS');
 		}
-
-		whichDevice = 'not installable, and not iOS';
-		return console.log(whichDevice);
-	}
-	getDeviceDetails();
+	}, [deferredInstallPrompt]);
 
 	async function handleInstallClick() {
 		console.log('handling install click');
 
+		setPending(true);
 		deferredInstallPrompt.prompt();
 		const choiceResult = await deferredInstallPrompt.userChoice;
 
 		if (choiceResult.outcome === 'accepted') {
 			console.log('User accepted the PWA prompt');
+			setPending(false);
 		} else {
 			console.log('User dismissed the PWA prompt');
+			setPending(false);
 		}
 
 		dispatch(setDeferredInstallPrompt(null));
@@ -124,19 +125,20 @@ export default function GetTheApp({ isOpened }) {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText component="article" id="get-the-app-description">
-						<Typography paragraph>PWA status: {whichDevice}</Typography>
+						<Typography paragraph>PWA status: {pwaStatus}</Typography>
 						<Typography paragraph>
 							Hit the button below to install the Guide on your device.
 							<Box marginY={2} component="span" display="flex" justifyContent="center">
-								<Button
+								<LoadingButton
 									variant="contained"
 									color="primary"
 									startIcon={<GetAppRounded />}
 									disabled={!deferredInstallPrompt}
 									onClick={handleInstallClick}
+									pending={pending}
 								>
 									Install the Guide
-								</Button>
+								</LoadingButton>
 							</Box>
 						</Typography>
 						<Typography paragraph>DETECT IF iOS AND DO INSTALL INSTRUCTIONS </Typography>
