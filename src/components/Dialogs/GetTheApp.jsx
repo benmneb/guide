@@ -155,7 +155,7 @@ export default function GetTheApp({ isOpened }) {
 										<Typography>
 											<Box component="span" fontWeight="fontWeightBold">
 												First open the Guide in Safari browser.
-											</Box>
+											</Box>{' '}
 											Currently, installing any PWA on iOS is only possible from Safari.
 										</Typography>
 									</Box>
@@ -163,7 +163,7 @@ export default function GetTheApp({ isOpened }) {
 										<Typography>
 											<Box component="span" fontWeight="fontWeightBold">
 												Tap the "share" button
-											</Box>
+											</Box>{' '}
 											found at the bottom of the page.
 										</Typography>
 									</Box>
@@ -171,13 +171,16 @@ export default function GetTheApp({ isOpened }) {
 										<Typography>
 											<Box component="span" fontWeight="fontWeightBold">
 												Scroll to the "Add to Home Screen" option.
-											</Box>
+											</Box>{' '}
 											Tap it. Then tap "Add" to confirm.
 										</Typography>
 									</Box>
 								</Box>
 								<Typography paragraph>
-									You can now access the Guide directly from your home screen.
+									You can now access the Guide directly from your home screen.{' '}
+									<span role="img" aria-label="">
+										🥳
+									</span>
 								</Typography>
 							</>
 						)}
