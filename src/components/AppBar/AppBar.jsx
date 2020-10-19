@@ -127,9 +127,17 @@ export default function TopBar({ children }) {
 	window.addEventListener('beforeinstallprompt', (e) => {
 		e.preventDefault();
 		dispatch(setDeferredInstallPrompt(e));
+		// dispatch(hasInstalledPWA(false));
+	});
+
+	// check if user is installing PWA
+	window.addEventListener('appinstalled', (evt) => {
+		console.log('app installed', evt);
+		// dispatch(hasInstalledPWA(true))
 	});
 
 	// check if PWA is already installed on device
+	// only works on Android: Chrome 84 or later at this time
 	useEffect(() => {
 		async function checkIfInstalled() {
 			if ('getInstalledRelatedApps' in window.navigator) {
