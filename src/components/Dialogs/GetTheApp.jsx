@@ -156,7 +156,7 @@ export default function GetTheApp({ isOpened }) {
 										Progressive Web-App
 									</Link>
 									, which is an emerging technology that is closing the gap between native
-									applications and tradition websites by creating a similar user
+									applications and tradition websites by implementing a similar user
 									experience.
 								</Typography>
 							</>
@@ -165,7 +165,7 @@ export default function GetTheApp({ isOpened }) {
 						{pwaStatus === 'has installed' && (
 							<>
 								<Typography paragraph>
-									You have already installed the Guide on this device.{' '}
+									You have successfully installed the Guide on this device.{' '}
 									<span role="img" aria-label="">
 										🥳
 									</span>
@@ -180,20 +180,34 @@ export default function GetTheApp({ isOpened }) {
 										Progressive Web-App
 									</Link>
 									, which is an emerging technology that is closing the gap between native
-									applications and tradition websites by creating a similar user
+									applications and tradition websites by implementing a similar user
 									experience.
 								</Typography>
 								<Typography paragraph>
 									If you have any feedback on your experience, please{' '}
 									<Link component={RouterLink} to={feedbackLink}>
-										let us know.
-									</Link>
+										let us know now
+									</Link>{' '}
+									, or later, through the "Provide Feedback" option in the side bar.
 								</Typography>
 							</>
 						)}
 
 						{pwaStatus === 'iOS' && (
 							<>
+								<Typography paragraph>
+									The Guide is a{' '}
+									<Link
+										href="https://web.dev/what-are-pwas/"
+										target="_blank"
+										rel="noopener"
+									>
+										Progressive Web-App
+									</Link>{' '}
+									(PWA), which is an emerging technology that is closing the gap between
+									native applications and tradition websites by implementing a similar
+									user experience.
+								</Typography>
 								<Typography paragraph>
 									Add the Guide to your iOS device home screen in 3 simple steps:
 								</Typography>
@@ -243,8 +257,8 @@ export default function GetTheApp({ isOpened }) {
 										rel="noopener"
 									>
 										Progressive Web-Apps
-									</Link>
-									.
+									</Link>{' '}
+									(PWAs).
 								</Typography>
 								<Typography paragraph>
 									PWAs are an emerging technology, so the Guide is currently available for
