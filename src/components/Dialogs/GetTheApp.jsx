@@ -80,22 +80,17 @@ export default function GetTheApp({ isOpened }) {
 	useEffect(() => {
 		if (deferredInstallPrompt) {
 			setPwaStatus('installable');
-			console.log('installable');
 		} else if (
 			typeof navigator !== 'undefined' &&
 			/iPad|iPhone|iPod/.test(navigator.userAgent)
 		) {
 			setPwaStatus('iOS');
-			console.log('iOS');
 		} else {
 			setPwaStatus('not installable, and not iOS');
-			console.log('not installable, and not iOS');
 		}
 	}, [deferredInstallPrompt]);
 
 	async function handleInstallClick() {
-		console.log('handling install click');
-
 		setPending(true);
 		deferredInstallPrompt.prompt();
 		const choiceResult = await deferredInstallPrompt.userChoice;
@@ -125,24 +120,43 @@ export default function GetTheApp({ isOpened }) {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText component="article" id="get-the-app-description">
-						<Typography paragraph>PWA status: {pwaStatus}</Typography>
 						{pwaStatus === 'installable' && (
-							<Typography paragraph>
-								Hit the button below to install the Guide on your device.
-								<Box marginY={2} component="span" display="flex" justifyContent="center">
-									<LoadingButton
-										variant="contained"
-										color="primary"
-										size="large"
-										startIcon={<GetAppRounded />}
-										disabled={!deferredInstallPrompt}
-										onClick={handleInstallClick}
-										pending={pending}
+							<>
+								<Typography paragraph>
+									Hit the button below to install the Guide on your device.
+									<Box
+										marginY={2}
+										component="span"
+										display="flex"
+										justifyContent="center"
 									>
-										Install the Guide
-									</LoadingButton>
-								</Box>
-							</Typography>
+										<LoadingButton
+											variant="contained"
+											color="primary"
+											size="large"
+											startIcon={<GetAppRounded />}
+											disabled={!deferredInstallPrompt}
+											onClick={handleInstallClick}
+											pending={pending}
+										>
+											Install the Guide
+										</LoadingButton>
+									</Box>
+								</Typography>
+								<Typography paragraph>
+									The Guide is a{' '}
+									<Link
+										href="https://web.dev/what-are-pwas/"
+										target="_blank"
+										rel="noopener"
+									>
+										Progressive Web-App
+									</Link>
+									, which is an emerging technology that is closing the gap between native
+									applications and tradition websites by creating a similar user
+									experience.
+								</Typography>
+							</>
 						)}
 
 						{pwaStatus === 'iOS' && (
@@ -177,9 +191,10 @@ export default function GetTheApp({ isOpened }) {
 									</Box>
 								</Box>
 								<Typography paragraph>
-									You can now access the Guide directly from your home screen.{' '}
+									You can now access the Guide directly from your home screen, with a
+									single tap.{' '}
 									<span role="img" aria-label="">
-										🥳
+										😎
 									</span>
 								</Typography>
 							</>
@@ -199,7 +214,7 @@ export default function GetTheApp({ isOpened }) {
 									.
 								</Typography>
 								<Typography paragraph>
-									PWAs are a new technology, so the Guide is currently available for
+									PWAs are an emerging technology, so the Guide is currently available for
 									installation on the following devices:
 								</Typography>
 								<Box component="ul" className={styles.list}>
@@ -208,7 +223,7 @@ export default function GetTheApp({ isOpened }) {
 											<Box component="span" fontWeight="fontWeightBold">
 												All modern desktop & laptop computers
 											</Box>
-											, by opening this page in an up-to-date chromium-based browser like
+											, by opening this page in an up-to-date, supporting browser such as
 											Google Chrome, Brave Browser or Microsoft Edge.
 										</Typography>
 									</Box>
@@ -224,13 +239,23 @@ export default function GetTheApp({ isOpened }) {
 									<Box component="li" data-icon="📲">
 										<Typography>
 											<Box component="span" fontWeight="fontWeightBold">
-												All Android mobile devices.
+												All modern Android mobile devices
 											</Box>
+											, from an up-to-date, supporting browser such as Chrome, Brave,
+											Edge, Opera, Firefox for Android or Samsung Internet.
+										</Typography>
+									</Box>
+									<Box component="li" data-icon="🖼">
+										<Typography>
+											<Box component="span" fontWeight="fontWeightBold">
+												All modern Windows mobile devices
+											</Box>
+											, from supporting browsers.
 										</Typography>
 									</Box>
 								</Box>
 								<Typography paragraph>
-									Please open this page on one of those to install the app.
+									Please open this page on one of the above to install the app.
 								</Typography>
 								<Typography paragraph>
 									If you believe there is an error and you are seeing this screen even
