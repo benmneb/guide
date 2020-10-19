@@ -40,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	nested: {
 		paddingLeft: theme.spacing(4)
+	},
+	getTheApp: {
+		'@media (display-mode: standalone)': {
+			display: 'none'
+		}
 	}
 }));
 
@@ -238,7 +243,11 @@ export default function SideDrawerContents() {
 					</ListItemIcon>
 					<ListItemText primary="Provide Feedback" />
 				</ListItem>
-				<ListItem button onClick={() => openMenuItem('getTheApp')}>
+				<ListItem
+					button
+					onClick={() => openMenuItem('getTheApp')}
+					className={styles.getTheApp}
+				>
 					<ListItemIcon>
 						<GetAppRoundedIcon />
 					</ListItemIcon>
