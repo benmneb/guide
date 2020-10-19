@@ -98,6 +98,7 @@ export default function TopBar({ children }) {
 	);
 
 	useEffect(() => {
+		checkIfInstalled();
 		if (isAuthenticated && isFirstMount.current) {
 			isFirstMount.current = false;
 			dispatch(
@@ -127,8 +128,18 @@ export default function TopBar({ children }) {
 	window.addEventListener('beforeinstallprompt', (e) => {
 		e.preventDefault();
 		dispatch(setDeferredInstallPrompt(e));
-		console.log('deferred install prompt:', e);
 	});
+
+	// check if PWA is already installed on device
+	async function checkIfInstalled() {
+		if ('getInstalledRelatedApps' in window.navigator) {
+			const relatedApps = await navigator.getInstalledRelatedApps();
+			console.log(relatedApps);
+			relatedApps.forEach((app) => {
+				console.log(app.id, app.platform, app.url);
+			});
+		}
+	}
 
 	return (
 		<Box className={styles.root}>
