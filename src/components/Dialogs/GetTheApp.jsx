@@ -12,6 +12,7 @@ import {
 	useMediaQuery,
 	Box
 } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import { GetAppRounded } from '@material-ui/icons';
 import {
 	usePrepareLink,
@@ -156,7 +157,7 @@ export default function GetTheApp({ isOpened }) {
 										Progressive Web-App
 									</Link>
 									, which is an emerging technology that is closing the gap between native
-									applications and tradition websites by implementing a similar user
+									applications and traditional websites by implementing a comparable user
 									experience.
 								</Typography>
 							</>
@@ -164,12 +165,13 @@ export default function GetTheApp({ isOpened }) {
 
 						{pwaStatus === 'has installed' && (
 							<>
-								<Typography paragraph>
+								<Alert severity="success">
 									You have successfully installed the Guide on this device.{' '}
 									<span role="img" aria-label="">
 										🥳
 									</span>
-								</Typography>
+								</Alert>
+								<Typography paragraph />
 								<Typography paragraph>
 									The Vomad Guide is a{' '}
 									<Link
@@ -180,7 +182,7 @@ export default function GetTheApp({ isOpened }) {
 										Progressive Web-App
 									</Link>
 									, which is an emerging technology that is closing the gap between native
-									applications and tradition websites by implementing a similar user
+									applications and traditional websites by implementing a comparable user
 									experience.
 								</Typography>
 								<Typography paragraph>
@@ -205,8 +207,8 @@ export default function GetTheApp({ isOpened }) {
 										Progressive Web-App
 									</Link>{' '}
 									(PWA), which is an emerging technology that is closing the gap between
-									native applications and tradition websites by implementing a similar
-									user experience.
+									native applications and traditional websites by implementing a
+									comparable user experience.
 								</Typography>
 								<Typography paragraph>
 									Add the Guide to your iOS device home screen in 3 simple steps:
@@ -238,8 +240,7 @@ export default function GetTheApp({ isOpened }) {
 									</Box>
 								</Box>
 								<Typography paragraph>
-									You can now access the Guide directly from your home screen, with a
-									single tap.{' '}
+									You can now access the Guide directly from your home screen.{' '}
 									<span role="img" aria-label="">
 										😎
 									</span>
@@ -249,20 +250,27 @@ export default function GetTheApp({ isOpened }) {
 
 						{pwaStatus === 'not installable, and not iOS' && (
 							<>
-								<Typography paragraph>
-									Your device or current browser does not support installation of{' '}
+								<Alert severity="error">
+									This browser does{' '}
+									<Box component="span" fontWeight="fontWeightBold">
+										not
+									</Box>{' '}
+									support installation of{' '}
 									<Link
 										href="https://web.dev/what-are-pwas/"
 										target="_blank"
 										rel="noopener"
+										color="inherit"
+										underline="always"
 									>
 										Progressive Web-Apps
-									</Link>{' '}
-									(PWAs).
-								</Typography>
+									</Link>
+									.
+								</Alert>
+								<Typography paragraph />
 								<Typography paragraph>
-									PWAs are an emerging technology, so the Guide is currently available for
-									installation on the following devices:
+									The Guide is currently available for installation on the following
+									devices:
 								</Typography>
 								<Box component="ul" className={styles.list}>
 									<Box component="li" data-icon="💻">
@@ -302,11 +310,12 @@ export default function GetTheApp({ isOpened }) {
 									</Box>
 								</Box>
 								<Typography paragraph>
-									Please open this page on one of the above to install the app.
+									Please open this page on one of the above to install the app on your
+									device.
 								</Typography>
 								<Typography paragraph>
 									If you believe there is an error and you are seeing this screen even
-									though your device does support PWAs, please{' '}
+									though this browser does support PWAs, please{' '}
 									<Link component={RouterLink} to={feedbackLink}>
 										let us know.
 									</Link>
