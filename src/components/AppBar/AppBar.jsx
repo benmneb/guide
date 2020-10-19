@@ -98,6 +98,19 @@ export default function TopBar({ children }) {
 		}
 	);
 
+	// check if PWA is installable on device
+	window.addEventListener('beforeinstallprompt', (e) => {
+		e.preventDefault();
+		dispatch(setDeferredInstallPrompt(e));
+	});
+
+	// check if user is installing PWA
+	window.addEventListener('appinstalled', (evt) => {
+		console.log('app installed', evt);
+		dispatch(setHasInstalledPWA(true));
+	});
+
+	// show snackbar on first page load if logged in
 	useEffect(() => {
 		if (isAuthenticated && isFirstMount.current) {
 			isFirstMount.current = false;
@@ -123,34 +136,6 @@ export default function TopBar({ children }) {
 		dispatch(setIsUsingEmailAuthRoute('join'));
 		history.push(authLink);
 	}
-
-	// check if PWA is installable on device
-	window.addEventListener('beforeinstallprompt', (e) => {
-		e.preventDefault();
-		dispatch(setDeferredInstallPrompt(e));
-	});
-
-	// check if user is installing PWA
-	window.addEventListener('appinstalled', (evt) => {
-		console.log('app installed', evt);
-		dispatch(setHasInstalledPWA(true));
-	});
-
-	// check if PWA is already installed on device
-	// only works on Android: Chrome 84 or later at this time
-	// useEffect(() => {
-	// 	async function checkIfInstalled() {
-	// 		if ('getInstalledRelatedApps' in window.navigator) {
-	// 			const relatedApps = await navigator.getInstalledRelatedApps();
-	// 			console.log(relatedApps);
-	// 			relatedApps.forEach((app) => {
-	// 				console.log(app.id, app.platform, app.url);
-	// 			});
-	// 		}
-	// 	}
-
-	// 	checkIfInstalled();
-	// }, []);
 
 	return (
 		<Box className={styles.root}>
