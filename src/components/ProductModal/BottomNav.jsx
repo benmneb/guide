@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
 		position: 'fixed',
 		bottom: 0,
 		left: 0,
-		boxShadow: theme.shadows[24]
+		boxShadow: theme.shadows[24],
+		zIndex: theme.zIndex.appBar
 	},
 	bottomNav: {
 		...theme.mixins.toolbar,
