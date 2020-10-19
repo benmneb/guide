@@ -5,7 +5,7 @@ const initialState = {
 	hasInstalled: false
 };
 
-export default function UiReducer(state = initialState, action) {
+export default function PwaReducer(state = initialState, action) {
 	switch (action.type) {
 		case actionTypes.SET_DEFERRED_INSTALL_PROMPT:
 			return {
