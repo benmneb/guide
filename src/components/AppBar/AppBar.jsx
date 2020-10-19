@@ -70,7 +70,6 @@ export default function TopBar({ children }) {
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const showFiltersPanel = useSelector((state) => state.ui.showFiltersPanel);
-	const hasInstalledPWA = useSelector((state) => state.pwa.hasInstalled);
 	const isFirstMount = useRef(true);
 
 	const advertiseLink = usePrepareLink({
@@ -129,7 +128,6 @@ export default function TopBar({ children }) {
 	window.addEventListener('beforeinstallprompt', (e) => {
 		e.preventDefault();
 		dispatch(setDeferredInstallPrompt(e));
-		if (hasInstalledPWA) dispatch(setHasInstalledPWA(false));
 	});
 
 	// check if user is installing PWA
@@ -140,19 +138,19 @@ export default function TopBar({ children }) {
 
 	// check if PWA is already installed on device
 	// only works on Android: Chrome 84 or later at this time
-	useEffect(() => {
-		async function checkIfInstalled() {
-			if ('getInstalledRelatedApps' in window.navigator) {
-				const relatedApps = await navigator.getInstalledRelatedApps();
-				console.log(relatedApps);
-				relatedApps.forEach((app) => {
-					console.log(app.id, app.platform, app.url);
-				});
-			}
-		}
+	// useEffect(() => {
+	// 	async function checkIfInstalled() {
+	// 		if ('getInstalledRelatedApps' in window.navigator) {
+	// 			const relatedApps = await navigator.getInstalledRelatedApps();
+	// 			console.log(relatedApps);
+	// 			relatedApps.forEach((app) => {
+	// 				console.log(app.id, app.platform, app.url);
+	// 			});
+	// 		}
+	// 	}
 
-		checkIfInstalled();
-	}, []);
+	// 	checkIfInstalled();
+	// }, []);
 
 	return (
 		<Box className={styles.root}>
