@@ -175,31 +175,7 @@ export default function UserProfile({ isOpened }) {
 								user_id: currentUserData.id,
 								avatar: releventUrl
 							})
-							.then((res) => {
-								setPending(false);
-								dispatch(
-									showSnackbar({
-										type: 'info',
-										message: 'Image uploaded'
-									})
-								);
-								axios
-									.get(`https://api.vomad.guide/user/${currentUserData.id}`)
-									.then((res) =>
-										setSelectedUser((prev) => ({ ...prev, avatar: res.data[0].avatar }))
-									)
-									.catch((err) => {
-										console.error(err.message);
-										dispatch(
-											showSnackbar({
-												type: 'info',
-												title: 'Your new avatar was uploaded',
-												message:
-													'But we had trouble refreshing the data. Check back soon and you should see the new image.'
-											})
-										);
-									});
-							})
+							.then(() => getNewAvatarAfterUpload())
 							.catch((err) => {
 								setPending(false);
 								dispatch(
@@ -225,6 +201,33 @@ export default function UserProfile({ isOpened }) {
 					});
 			})
 			.catch(() => null);
+	}
+
+	async function getNewAvatarAfterUpload() {
+		setPending(false);
+		dispatch(
+			showSnackbar({
+				type: 'info',
+				message: 'Image uploaded'
+			})
+		);
+		try {
+			const response = await axios.get(
+				`https://api.vomad.guide/user/${currentUserData.id}`
+			);
+			const avatar = await response.data[0].avatar;
+			setSelectedUser((prev) => ({ ...prev, avatar }));
+		} catch (err) {
+			console.error(err.message);
+			dispatch(
+				showSnackbar({
+					type: 'info',
+					title: 'Your new avatar was uploaded',
+					message:
+						'But we had trouble refreshing the data. Check back soon and you should see the new image.'
+				})
+			);
+		}
 	}
 
 	function handleDeleteAvatar() {
