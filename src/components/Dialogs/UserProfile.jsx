@@ -165,12 +165,13 @@ export default function UserProfile({ isOpened }) {
 				const data = new FormData();
 				data.append('image', e.target.files[0]);
 				axios
-					.post('https://api.vomad.guide/avatar/image-upload', data)
+					.post(`https://api.vomad.guide/avatar/image-upload/${currentUserData.id}`, data)
 					.then((res) => {
+						const releventUrl = 'https://' + res.data.imageUrl.split('amazonaws.com/')[1];
 						axios
 							.post('https://api.vomad.guide/avatar/image-update', {
 								user_id: currentUserData.id,
-								avatar: res.data.imageUrl
+								avatar: releventUrl
 							})
 							.then((res) => {
 								setPending(false);
@@ -237,16 +238,13 @@ export default function UserProfile({ isOpened }) {
 					.delete(`https://api.vomad.guide/avatar/image-delete/${currentUserData.id}`)
 					.then(() => {
 						setPending(false);
+						setSelectedUser((prev) => ({ ...prev, avatar: null }));
 						dispatch(
 							showSnackbar({
 								type: 'info',
 								message: 'Avatar deleted'
 							})
 						);
-						axios
-							.get(`https://api.vomad.guide/user/${currentUserData.id}`)
-							.then(() => setSelectedUser((prev) => ({ ...prev, avatar: null })))
-							.catch((err) => console.error(err.message));
 					})
 					.catch((err) => {
 						setPending(false);
