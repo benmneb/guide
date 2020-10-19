@@ -36,4 +36,4 @@ export {
 	increaseOffset
 } from './results';
 
-export { setDeferredInstallPrompt } from './PWA';
+export { setDeferredInstallPrompt, setHasInstalledPWA } from './PWA';

@@ -10,7 +10,8 @@ import {
 	setIsUsingEmailAuthRoute,
 	showSnackbar,
 	showSideDrawer,
-	setDeferredInstallPrompt
+	setDeferredInstallPrompt,
+	setHasInstalledPWA
 } from '../../store/actions';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 import SearchBar from './SearchBar';
@@ -69,6 +70,7 @@ export default function TopBar({ children }) {
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const showFiltersPanel = useSelector((state) => state.ui.showFiltersPanel);
+	const hasInstalledPWA = useSelector((state) => state.pwa.hasInstalled);
 	const isFirstMount = useRef(true);
 
 	const advertiseLink = usePrepareLink({
@@ -127,13 +129,13 @@ export default function TopBar({ children }) {
 	window.addEventListener('beforeinstallprompt', (e) => {
 		e.preventDefault();
 		dispatch(setDeferredInstallPrompt(e));
-		// dispatch(hasInstalledPWA(false));
+		if (hasInstalledPWA) dispatch(setHasInstalledPWA(false));
 	});
 
 	// check if user is installing PWA
 	window.addEventListener('appinstalled', (evt) => {
 		console.log('app installed', evt);
-		// dispatch(hasInstalledPWA(true))
+		dispatch(setHasInstalledPWA(true));
 	});
 
 	// check if PWA is already installed on device

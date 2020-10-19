@@ -6,3 +6,10 @@ export const setDeferredInstallPrompt = (prompt) => {
 		prompt
 	};
 };
+
+export const setHasInstalledPWA = (status) => {
+	return {
+		type: actionTypes.SET_HAS_INSTALLED_PWA,
+		status
+	};
+};

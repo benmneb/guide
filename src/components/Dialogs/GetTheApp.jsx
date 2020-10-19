@@ -51,6 +51,7 @@ export default function GetTheApp({ isOpened }) {
 	const dispatch = useDispatch();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const deferredInstallPrompt = useSelector((state) => state.pwa.installPrompt);
+	const hasInstalledPWA = useSelector((state) => state.pwa.hasInstalled);
 	const wantsFeedback = useGetParameter(getParams.action);
 	const [showFeedback, setShowFeedback] = useState(false);
 	const [pwaStatus, setPwaStatus] = useState('pending');
@@ -85,10 +86,12 @@ export default function GetTheApp({ isOpened }) {
 			/iPad|iPhone|iPod/.test(navigator.userAgent)
 		) {
 			setPwaStatus('iOS');
+		} else if (hasInstalledPWA) {
+			setPwaStatus('has installed');
 		} else {
 			setPwaStatus('not installable, and not iOS');
 		}
-	}, [deferredInstallPrompt]);
+	}, [deferredInstallPrompt, hasInstalledPWA]);
 
 	async function handleInstallClick() {
 		setPending(true);
@@ -155,6 +158,36 @@ export default function GetTheApp({ isOpened }) {
 									, which is an emerging technology that is closing the gap between native
 									applications and tradition websites by creating a similar user
 									experience.
+								</Typography>
+							</>
+						)}
+
+						{pwaStatus === 'has installed' && (
+							<>
+								<Typography paragraph>
+									You have already installed the Guide on this device.{' '}
+									<span role="img" aria-label="">
+										🥳
+									</span>
+								</Typography>
+								<Typography paragraph>
+									The Vomad Guide is a{' '}
+									<Link
+										href="https://web.dev/what-are-pwas/"
+										target="_blank"
+										rel="noopener"
+									>
+										Progressive Web-App
+									</Link>
+									, which is an emerging technology that is closing the gap between native
+									applications and tradition websites by creating a similar user
+									experience.
+								</Typography>
+								<Typography paragraph>
+									If you have any feedback on your experience, please{' '}
+									<Link component={RouterLink} to={feedbackLink}>
+										let us know.
+									</Link>
 								</Typography>
 							</>
 						)}
