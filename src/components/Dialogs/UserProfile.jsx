@@ -167,7 +167,9 @@ export default function UserProfile({ isOpened }) {
 				axios
 					.post(`https://api.vomad.guide/avatar/image-upload/${currentUserData.id}`, data)
 					.then((res) => {
-						const releventUrl = 'https://' + res.data.imageUrl.split('amazonaws.com/')[1];
+						const releventUrl = `https://${res.data.imageUrl
+							.split('amazonaws.com/')[1]
+							.replace('-resize', '')}`;
 						axios
 							.post('https://api.vomad.guide/avatar/image-update', {
 								user_id: currentUserData.id,
@@ -434,7 +436,7 @@ export default function UserProfile({ isOpened }) {
 				onClose={handleCloseAvatarMenu}
 			>
 				<input
-					accept="image/png, image/jpeg"
+					accept="image/png, image/jpeg, image/webp"
 					className={styles.input}
 					id="upload-avatar"
 					type="file"
