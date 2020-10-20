@@ -16,19 +16,23 @@ const useStyles = makeStyles((theme) => ({
 		}
 	},
 	gridListTile: {
-		'&:hover img': {
-			filter: 'brightness(100%)'
+		'@media (hover: hover) and (pointer: fine)': {
+			'&:hover img': {
+				filter: 'brightness(100%)'
+			}
 		}
 	},
 	image: {
 		cursor: 'pointer',
-		filter: 'brightness(85%)',
-		transitionProperty: 'filter',
-		transitionDuration: `${theme.transitions.duration.complex}ms`,
 		width: '100%',
 		height: '100%',
 		objectFit: 'cover',
-		objectPosition: 'center'
+		objectPosition: 'center',
+		'@media (hover: hover) and (pointer: fine)': {
+			filter: 'brightness(85%)',
+			transitionProperty: 'filter',
+			transitionDuration: `${theme.transitions.duration.complex}ms`
+		}
 	},
 	titleBar: {
 		position: 'absolute',
