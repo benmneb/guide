@@ -96,14 +96,25 @@ export default function UserProfile({ isOpened }) {
 					cancelToken: source.token
 				})
 				.then((res) => mounted && setSelectedUser(res.data[0]))
-				.catch((err) => mounted && console.error(err));
+				.catch((err) => {
+					if (mounted) {
+						dispatch(
+							showSnackbar({
+								type: 'error',
+								title: 'Could not load user details',
+								message: 'Something went wrong. Please try again.'
+							})
+						);
+						console.error(err);
+					}
+				});
 		}
 
 		return () => {
 			mounted = false;
 			source.cancel('User modal call cancelled during clean-up');
 		};
-	}, [isOpened]);
+	}, [isOpened, dispatch]);
 
 	// check if its their own profile
 	useEffect(() => {
@@ -161,15 +172,13 @@ export default function UserProfile({ isOpened }) {
 			confirmationText: 'Change avatar'
 		})
 			.then(() => {
-				setPending(true);
+				setPending('Uploading');
 				const data = new FormData();
 				data.append('image', e.target.files[0]);
 				axios
 					.post(`https://api.vomad.guide/avatar/image-upload/${currentUserData.id}`, data)
 					.then((res) => {
-						const releventUrl = `https://${res.data.imageUrl
-							.split('amazonaws.com/')[1]
-							.replace('-resize', '')}`;
+						const releventUrl = `https://${res.data.imageUrl.split('amazonaws.com/')[1]}`;
 						axios
 							.post('https://api.vomad.guide/avatar/image-update', {
 								user_id: currentUserData.id,
@@ -220,7 +229,7 @@ export default function UserProfile({ isOpened }) {
 			const avatar = await response.data[0].avatar;
 			setSelectedUser((prev) => ({ ...prev, avatar }));
 		} catch (err) {
-			console.error(err.message);
+			console.error(err);
 			dispatch(
 				showSnackbar({
 					type: 'info',
@@ -234,13 +243,24 @@ export default function UserProfile({ isOpened }) {
 
 	function handleDeleteAvatar() {
 		handleCloseAvatarMenu();
+
+		if (!selectedUser.avatar) {
+			return dispatch(
+				showSnackbar({
+					type: 'error',
+					title: "You can't delete the default avatar",
+					message: 'If you want to change it, upload a new one.'
+				})
+			);
+		}
+
 		confirm({
 			description: 'Please confirm you want to delete your avatar.',
 			confirmationText: 'Delete avatar',
 			confirmationButtonProps: { className: styles.deleteAvatarButton }
 		})
 			.then(() => {
-				setPending(true);
+				setPending('Deleting');
 				axios
 					.delete(`https://api.vomad.guide/avatar/image-delete/${currentUserData.id}`)
 					.then(() => {
@@ -255,14 +275,24 @@ export default function UserProfile({ isOpened }) {
 					})
 					.catch((err) => {
 						setPending(false);
-						dispatch(
-							showSnackbar({
-								type: 'error',
-								title: 'Could not delete avatar',
-								message: `${err.message}. Please try again.`
-							})
-						);
-						console.error(err.message);
+						console.error(err);
+						if (err.response.data === 'no avatar found') {
+							dispatch(
+								showSnackbar({
+									type: 'error',
+									title: "You can't delete the default avatar",
+									message: 'If you want to change it, upload a new one.'
+								})
+							);
+						} else {
+							dispatch(
+								showSnackbar({
+									type: 'error',
+									title: 'Could not delete avatar',
+									message: 'Something went wrong. Please try again.'
+								})
+							);
+						}
 					});
 			})
 			.catch(() => null);
@@ -428,11 +458,11 @@ export default function UserProfile({ isOpened }) {
 							)}
 						</Grid>
 					</Grid>
-					<Backdrop open={pending} className={styles.backdrop}>
+					<Backdrop open={Boolean(pending)} className={styles.backdrop}>
 						<Box display="flex" flexDirection="column" alignItems="center">
 							<Typography gutterBottom>
 								<Box component="span" fontWeight="fontWeightBold">
-									Uploading image...
+									{pending} image...
 								</Box>
 							</Typography>
 							<CircularProgress color="inherit" />
