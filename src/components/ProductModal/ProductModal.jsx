@@ -285,11 +285,11 @@ export default function ProductModal({ show }) {
 							</Suspense>
 						</TabPanel>
 					</Box>
-					<BottomNav
-						currentTab={currentTab}
-						onChange={selectedProduct && handleChangeCurrentTab}
-					/>
 				</DialogContent>
+				<BottomNav
+					currentTab={currentTab}
+					onChange={selectedProduct && handleChangeCurrentTab}
+				/>
 			</Dialog>
 		</>
 	);
