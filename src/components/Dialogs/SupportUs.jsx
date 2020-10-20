@@ -164,16 +164,16 @@ export default function SupportUs({ isOpened }) {
 									<Box component="span" fontWeight="fontWeightBold">
 										Become a patron.
 									</Box>{' '}
-									Pledge a monthly amount you are comfortable with to help cover the
-									expenses associated with creating and maintaining a large-scale web-app
-									like this. Every little bit helps.
+									Pledge an amount you are comfortable with to help cover the expenses
+									associated with creating and maintaining a large-scale web-app like
+									this. Every little bit helps.
 									<Box marginTop={1.5}>
 										<Button
 											variant="contained"
 											color="primary"
 											href="https://patreon.com/vomad"
 											target="_blank"
-											rel="noopener"
+											rel="noopener noreferrer"
 										>
 											Support us via Patreon
 										</Button>
