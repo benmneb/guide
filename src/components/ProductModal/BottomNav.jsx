@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 		bottom: 0,
 		left: 0,
 		boxShadow: theme.shadows[24],
-		zIndex: theme.zIndex.appBar
+		zIndex: '99999'
 	},
 	bottomNav: {
 		...theme.mixins.toolbar,
