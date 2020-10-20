@@ -26,7 +26,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import TabPanel, { a11yProps } from '../../utils/TabPanel';
 import About from './About/About';
 import Reviews from './Reviews/Reviews';
-import BottomNav from '../ResultsList/BottomNav';
+import BottomNav from './BottomNav';
 import StarRating from './StarRating';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 const WhereToBuy = lazy(() => import('./WhereToBuy/WhereToBuy'));
