@@ -175,7 +175,16 @@ export default function UserProfile({ isOpened }) {
 								user_id: currentUserData.id,
 								avatar: releventUrl
 							})
-							.then(() => getNewAvatarAfterUpload())
+							.then(() => {
+								setPending(false);
+								dispatch(
+									showSnackbar({
+										type: 'info',
+										message: 'Image uploaded'
+									})
+								);
+								getNewAvatarAfterUpload();
+							})
 							.catch((err) => {
 								setPending(false);
 								dispatch(
@@ -204,13 +213,6 @@ export default function UserProfile({ isOpened }) {
 	}
 
 	async function getNewAvatarAfterUpload() {
-		setPending(false);
-		dispatch(
-			showSnackbar({
-				type: 'info',
-				message: 'Image uploaded'
-			})
-		);
 		try {
 			const response = await axios.get(
 				`https://api.vomad.guide/user/${currentUserData.id}`
@@ -427,7 +429,14 @@ export default function UserProfile({ isOpened }) {
 						</Grid>
 					</Grid>
 					<Backdrop open={pending} className={styles.backdrop}>
-						<CircularProgress color="inherit" />
+						<Box display="flex" flexDirection="column" alignItems="center">
+							<Typography gutterBottom>
+								<Box component="span" fontWeight="fontWeightBold">
+									Uploading image...
+								</Box>
+							</Typography>
+							<CircularProgress color="inherit" />
+						</Box>
 					</Backdrop>
 				</DialogContent>
 			</Dialog>
