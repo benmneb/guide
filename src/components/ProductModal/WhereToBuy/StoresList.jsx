@@ -18,6 +18,7 @@ import {
 	FileCopyRounded
 } from '@material-ui/icons';
 import { green } from '@material-ui/core/colors';
+import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import { getTimeAgo } from '../../../utils/timeAgo';
 import StoresVoteButtons from './StoresVoteButtons';
@@ -123,7 +124,8 @@ export default function StoresList(props) {
 		))
 	) : (
 		<Box margin={2} color="text.secondary">
-			<Typography paragraph>No stores tagged within 25km of you.</Typography>
+			<Alert severity="error">No stores tagged within 25km of you.</Alert>
+			<Typography paragraph />
 			<Typography paragraph>
 				If you know a store that sells this product, add it here to help other people find
 				this product easier.
