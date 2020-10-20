@@ -9,16 +9,17 @@ import MapRoundedIcon from '@material-ui/icons/Map';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		width: '100%',
+		width: '100vw',
 		position: 'fixed',
 		bottom: 0,
 		left: 0,
-		boxShadow: theme.shadows[24],
-		zIndex: '99999'
+		boxShadow: theme.shadows[24]
 	},
 	bottomNav: {
 		...theme.mixins.toolbar,
-		backgroundColor: theme.palette.background.default
+		backgroundColor: theme.palette.background.default,
+		zIndex: '99999',
+		position: 'relative'
 	}
 }));
 
