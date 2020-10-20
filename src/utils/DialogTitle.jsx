@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -15,10 +14,8 @@ const useStyles = makeStyles((theme) => ({
 		position: 'absolute',
 		right: theme.spacing(1),
 		top: theme.spacing(1),
-		color: theme.palette.grey[500]
-	},
-	ridiculousZindex: {
-		zIndex: '99999'
+		color: theme.palette.grey[500],
+		zIndex: theme.zIndex.modal + 1
 	}
 }));
 
@@ -28,11 +25,7 @@ export default function DialogTitle({ children, onClose, textAlign, noTitle, ...
 	if (noTitle)
 		return (
 			<MuiDialogTitle disableTypography className={styles.container} {...props}>
-				<IconButton
-					aria-label="close"
-					className={clsx(styles.closeButton, styles.ridiculousZindex)}
-					onClick={onClose}
-				>
+				<IconButton aria-label="close" className={styles.closeButton} onClick={onClose}>
 					<CloseRounded />
 				</IconButton>
 			</MuiDialogTitle>
