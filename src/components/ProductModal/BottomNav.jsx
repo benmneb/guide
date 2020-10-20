@@ -17,9 +17,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	bottomNav: {
 		...theme.mixins.toolbar,
-		backgroundColor: theme.palette.background.default,
-		zIndex: '99999',
-		position: 'relative'
+		backgroundColor: theme.palette.background.default
+	},
+	wrapper: {
+		color: 'red'
 	}
 }));
 
@@ -35,16 +36,23 @@ export default function BottomNav(props) {
 				showLabels
 				className={styles.bottomNav}
 			>
-				<BottomNavigationAction label="About" value="about" icon={<InfoRoundedIcon />} />
+				<BottomNavigationAction
+					label="About"
+					value="about"
+					icon={<InfoRoundedIcon />}
+					classes={{ wrapper: styles.wrapper }}
+				/>
 				<BottomNavigationAction
 					label="Reviews"
 					value="reviews"
 					icon={<RateReviewRoundedIcon />}
+					classes={{ wrapper: styles.wrapper }}
 				/>
 				<BottomNavigationAction
 					label="Where to Buy"
 					value="where-to-buy"
 					icon={<MapRoundedIcon />}
+					classes={{ wrapper: styles.wrapper }}
 				/>
 			</BottomNavigation>
 		</Box>
