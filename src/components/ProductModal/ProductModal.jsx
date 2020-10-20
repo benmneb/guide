@@ -6,8 +6,12 @@ import axios from 'axios';
 import {
 	setReviews,
 	hideAddReview,
+	showAddReview,
 	setSelectedProduct,
-	setStores
+	setStores,
+	showSnackbar,
+	hideSnackbar,
+	clickAddReviewAfterRating
 } from '../../store/actions';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
@@ -29,6 +33,7 @@ import Reviews from './Reviews/Reviews';
 import BottomNav from './BottomNav';
 import StarRating from './StarRating';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
+import { labels } from '../../assets/ratingLabels';
 const WhereToBuy = lazy(() => import('./WhereToBuy/WhereToBuy'));
 
 const useStyles = makeStyles((theme) => ({
@@ -62,14 +67,22 @@ export default function ProductModal({ show }) {
 	const { id } = useParams();
 	const urlSearchParamsTab = new URLSearchParams(location.search).get('tab');
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-	const showAddReview = useSelector((state) => state.product.showAddReview);
+	const showingAddReview = useSelector((state) => state.product.showAddReview);
 	const selectedProduct = useSelector((state) => state.product.selectedProduct);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const currentUserData = useSelector(
-		(state) => state.auth.isAuthenticated && state.auth.currentUserData
+		(state) => isAuthenticated && state.auth.currentUserData
 	);
 	const [currentTab, setCurrentTab] = useState('about');
 	const [newRating, setNewRating] = useState(null);
 	const [currentUrlSearchParams, setCurrentUrlSearchParams] = useState(null);
+
+	const authLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.signIn
+		},
+		keepOldQuery: true
+	});
 
 	//get product info
 	useEffect(() => {
@@ -104,7 +117,37 @@ export default function ProductModal({ show }) {
 			})
 			.then((response) => {
 				setNewRating(JSON.parse(response.config.data).rating);
+				dispatch(
+					showSnackbar({
+						type: 'success',
+						message: `Rated as "${labels[newValue]}"`,
+						action: {
+							text: 'Add a review?',
+							clicked: () => handleClickAddReviewAfterRating(newValue)
+						}
+					})
+				);
+			})
+			.catch((err) => {
+				console.error(err.message);
+				dispatch(
+					showSnackbar({
+						type: 'error',
+						title: 'Could not submit rating',
+						message: 'Something went wrong. Please try again.'
+					})
+				);
 			});
+	};
+
+	const handleClickAddReviewAfterRating = (newRating) => {
+		dispatch(clickAddReviewAfterRating(newRating));
+		if (isAuthenticated) {
+			dispatch(hideSnackbar());
+			dispatch(showAddReview());
+		} else {
+			history.push(authLink);
+		}
 	};
 
 	const onClose = () => {
@@ -115,7 +158,7 @@ export default function ProductModal({ show }) {
 	};
 
 	const onExited = () => {
-		if (showAddReview) dispatch(hideAddReview());
+		if (showingAddReview) dispatch(hideAddReview());
 		if (currentTab !== 'about') setCurrentTab('about');
 		dispatch(setSelectedProduct(null));
 		dispatch(setReviews(null));
@@ -143,7 +186,7 @@ export default function ProductModal({ show }) {
 
 	const handleChangeCurrentTab = useCallback(
 		(event, newValue) => {
-			if (newValue !== 'reviews' && showAddReview) dispatch(hideAddReview());
+			if (newValue !== 'reviews' && showingAddReview) dispatch(hideAddReview());
 			setCurrentTab(newValue);
 			setCurrentUrlSearchParams(newValue);
 			switch (newValue) {
@@ -157,7 +200,7 @@ export default function ProductModal({ show }) {
 					return history.replace(aboutLink);
 			}
 		},
-		[aboutLink, history, reviewsLink, whereToBuyLink, dispatch, showAddReview]
+		[aboutLink, history, reviewsLink, whereToBuyLink, dispatch, showingAddReview]
 	);
 
 	// set appropriate tab from url search params
@@ -177,8 +220,8 @@ export default function ProductModal({ show }) {
 
 	// show reviews tab after clicking "add review" on snackbar after rating
 	useEffect(() => {
-		if (showAddReview && currentTab !== 'reviews') setCurrentTab('reviews');
-	}, [showAddReview, currentTab]);
+		if (showingAddReview && currentTab !== 'reviews') setCurrentTab('reviews');
+	}, [showingAddReview, currentTab]);
 
 	return (
 		<>

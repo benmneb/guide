@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-	showSnackbar,
-	hideSnackbar,
-	clickAddReviewAfterRating,
-	showAddReview
-} from '../../store/actions';
+import { useSelector } from 'react-redux';
 import { Typography, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { useConfirm } from 'material-ui-confirm';
 import useWidth from '../../utils/useWidth';
 import { labels } from '../../assets/ratingLabels';
 
 export default function StarRating(props) {
 	const { product } = props;
 	const width = useWidth();
-	const dispatch = useDispatch();
+	const confirm = useConfirm();
 	const showAddReviewForm = useSelector((state) => state.product.showAddReview);
 	const [hover, setHover] = useState(-1);
 
@@ -26,12 +21,6 @@ export default function StarRating(props) {
 		minWidth = 265;
 		ratingSize = 'medium';
 	}
-
-	const handleClickAddReviewAfterRating = (newRating) => {
-		dispatch(hideSnackbar());
-		dispatch(clickAddReviewAfterRating(newRating));
-		dispatch(showAddReview());
-	};
 
 	let text;
 	if (product && props.amountOfRatings > 1) {
@@ -50,6 +39,21 @@ export default function StarRating(props) {
 		text = `rate as "${labels[hover]}"`;
 	}
 
+	function handleRatingClick(event, newValue) {
+		confirm({
+			title: `Rate as ${newValue} out of 5?`,
+			description: `Please confirm you want to rate this product as "${labels[newValue]}".`,
+			confirmationText: 'Rate'
+		})
+			.then(() => props.onRate(newValue))
+			.catch(() => null)
+			.finally(() => setHover(-1));
+	}
+
+	function handleRatingHover(event, newHover) {
+		setHover(Math.floor(newHover));
+	}
+
 	return (
 		<Box disaply="flex" justifyContent="center">
 			<Box display="flex" alignItems="center" marginBottom={1} minWidth={minWidth}>
@@ -60,23 +64,8 @@ export default function StarRating(props) {
 							value={props.averageRating}
 							precision={precision}
 							size={ratingSize}
-							onChange={(event, newValue) => {
-								const newRating = event.target.value;
-								props.onRate(newRating);
-								dispatch(
-									showSnackbar({
-										type: 'success',
-										message: `Rated as "${labels[newRating]}"`,
-										action: {
-											text: 'Add a review?',
-											clicked: () => handleClickAddReviewAfterRating(newRating)
-										}
-									})
-								);
-							}}
-							onChangeActive={(event, newHover) => {
-								setHover(Math.floor(newHover));
-							}}
+							onChange={handleRatingClick}
+							onChangeActive={handleRatingHover}
 							readOnly={showAddReviewForm}
 						/>
 					</Box>
