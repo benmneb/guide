@@ -19,14 +19,21 @@ export default function AuthSuccess() {
 			})
 			.then((response) => {
 				if (mounted) {
-					if (response.status === 200) return response.data.user;
+					if (response.status === 200) return response.data;
 					else throw new Error('failed to authenticate user');
 				}
 			})
-			.then((user) => {
+			.then((data) => {
 				if (mounted) {
 					dispatch(
-						setCurrentUserData({ id: user.user_id, username: user.user_name }, true)
+						setCurrentUserData(
+							{
+								id: data.user.user_id,
+								username: data.user.user_name,
+								authState: data.authState
+							},
+							true
+						)
 					);
 				}
 			})

@@ -24,7 +24,8 @@ export {
 	setCurrentUserData,
 	setIsUsingEmailAuth,
 	setIsUsingEmailAuthRoute,
-	updateUsername
+	updateUsername,
+	updateAuthState
 } from './auth';
 
 export {

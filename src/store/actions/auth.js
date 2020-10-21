@@ -28,3 +28,10 @@ export const updateUsername = (username) => {
 		username
 	};
 };
+
+export const updateAuthState = (state) => {
+	return {
+		type: actionTypes.UPDATE_AUTH_STATE,
+		state
+	};
+};

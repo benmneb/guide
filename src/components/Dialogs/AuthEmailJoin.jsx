@@ -74,12 +74,19 @@ export default function AuthEmailJoin() {
 				}
 			})
 			.then((response) => {
-				if (response.status === 200) return response.data.user;
+				if (response.status === 200) return response.data;
 				else throw new Error('failed to authenticate user');
 			})
-			.then((user) => {
+			.then((data) => {
 				dispatch(
-					setCurrentUserData({ id: user.user_id, username: user.user_name }, true)
+					setCurrentUserData(
+						{
+							id: data.user.user_id,
+							username: data.user.user_name,
+							authState: data.authState
+						},
+						true
+					)
 				);
 				setPending(false);
 			})
@@ -87,7 +94,7 @@ export default function AuthEmailJoin() {
 				goBack();
 			})
 			.catch((error) => {
-				console.error(error.response.data);
+				console.error(error);
 				setPending(false);
 				dispatch(setCurrentUserData(null, false));
 				if (error.response.data === 'email already taken') {
@@ -99,8 +106,6 @@ export default function AuthEmailJoin() {
 						})
 					);
 				} else {
-					setPending(false);
-					console.error(error);
 					dispatch(
 						showSnackbar({
 							type: 'error',

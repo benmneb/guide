@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
+import axios from 'axios';
 import clsx from 'clsx';
+import { useConfirm } from 'material-ui-confirm';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppBar, Toolbar, IconButton, Button, Tooltip, Box } from '@material-ui/core';
@@ -8,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SideDrawer from './SideDrawer';
 import {
 	setIsUsingEmailAuthRoute,
+	updateAuthState,
 	showSnackbar,
 	showSideDrawer,
 	setDeferredInstallPrompt,
@@ -66,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TopBar({ children }) {
 	const styles = useStyles();
 	const history = useHistory();
+	const confirm = useConfirm();
 	const dispatch = useDispatch();
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -110,6 +114,10 @@ export default function TopBar({ children }) {
 		dispatch(setHasInstalledPWA(true));
 	});
 
+	// const askToClaimTempAccount = useCallback(() => {
+
+	// }, [confirm, currentUserData, dispatch]);
+
 	// show snackbar on first page load if logged in
 	useEffect(() => {
 		if (isAuthenticated && isFirstMount.current) {
@@ -120,8 +128,56 @@ export default function TopBar({ children }) {
 					message: `Welcome back, ${currentUserData.username}`
 				})
 			);
+			// if they just registered, check for a temp account and ask to link it
+			if (currentUserData.authState === 'new user created') {
+				axios
+					.get('https://api.vomad.guide/auth/check-temp-user')
+					.then((res) => {
+						confirm({
+							title: 'Previous activity detected',
+							description: `There are ${res.data[0].rating_count} product ratings associated with this device, do you want to connect this activity to your new account?`,
+							confirmationText: 'Connect'
+						})
+							.then(() => {
+								dispatch(updateAuthState('claimed'));
+								axios
+									.put(`https://api.vomad.guide/auth/link-user/${currentUserData.id}`, {
+										temp_user_id: res.data[0].temp_user_id
+									})
+									.then(() => {
+										dispatch(
+											showSnackbar({
+												type: 'success',
+												color: 'info',
+												message: 'Succesfully connected'
+											})
+										);
+									})
+									.catch((err) => {
+										console.error(err.message);
+										dispatch(
+											showSnackbar({
+												type: 'error',
+												message: 'Something went wrong connecting the temporary account'
+											})
+										);
+									});
+							})
+							.catch(() => {
+								dispatch(updateAuthState('chose not to claim'));
+							});
+					})
+					.catch((err) => {
+						if (err.response.data === 'no temp user') {
+							console.log('No temp account to merge, everything is okay :)');
+							dispatch(updateAuthState('nothing to claim'));
+						} else {
+							console.log('While checking for a temp user:', err);
+						}
+					});
+			}
 		}
-	}, [isAuthenticated, dispatch, currentUserData]);
+	}, [isAuthenticated, dispatch, currentUserData, confirm]);
 
 	const handleDrawerToggle = () => {
 		dispatch(showSideDrawer());
