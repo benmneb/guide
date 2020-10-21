@@ -114,10 +114,6 @@ export default function TopBar({ children }) {
 		dispatch(setHasInstalledPWA(true));
 	});
 
-	// const askToClaimTempAccount = useCallback(() => {
-
-	// }, [confirm, currentUserData, dispatch]);
-
 	// show snackbar on first page load if logged in
 	useEffect(() => {
 		if (isAuthenticated && isFirstMount.current) {
