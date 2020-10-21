@@ -3,14 +3,14 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsUsingEmailAuth } from '../../store/actions';
 import clsx from 'clsx';
-import { loadCSS } from 'fg-loadcss';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import { Dialog, Button, Icon, Box } from '@material-ui/core';
+import { Dialog, Button, Box } from '@material-ui/core';
 import { Facebook, Twitter, MailOutlineRounded } from '@material-ui/icons';
 import { indigo, red, blue, grey } from '@material-ui/core/colors';
 import AuthEmail from './AuthEmail';
+import GoogleIcon from '../../utils/GoogleIcon';
 
 const useStyles = makeStyles((theme) => ({
 	dialogPaperWidth: {
@@ -51,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: grey[800]
 		}
 	},
+	googleIcon: {
+		'& :first-child': {
+			fontSize: 18,
+			margin: 2
+		}
+	},
 	dialogContentRoot: {
 		padding: theme.spacing(0, 2, 2, 2),
 		[theme.breakpoints.up('md')]: {
@@ -59,8 +65,6 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const googleIconStyle = { fontSize: 18, margin: 2 };
-
 export default function Auth({ isOpened }) {
 	const styles = useStyles();
 	const location = useLocation();
@@ -68,17 +72,6 @@ export default function Auth({ isOpened }) {
 	const dispatch = useDispatch();
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const isUsingEmailAuth = useSelector((state) => state.auth.isUsingEmailAuth);
-
-	useEffect(() => {
-		const node = loadCSS(
-			'https://use.fontawesome.com/releases/v5.14.0/css/all.css',
-			document.querySelector('#font-awesome-css')
-		);
-
-		return () => {
-			node.parentNode.removeChild(node);
-		};
-	}, []);
 
 	function handleContinueWithEmail() {
 		dispatch(setIsUsingEmailAuth(true));
@@ -148,10 +141,11 @@ export default function Auth({ isOpened }) {
 							<Button
 								size="large"
 								variant="contained"
-								startIcon={<Icon className="fab fa-google" style={googleIconStyle} />}
+								startIcon={<GoogleIcon />}
 								classes={{
 									label: styles.buttonLabel,
-									root: clsx(styles.google, styles.buttonMargin)
+									root: clsx(styles.google, styles.buttonMargin),
+									iconSizeLarge: styles.googleIcon
 								}}
 								onClick={handleGoogleLogin}
 							>

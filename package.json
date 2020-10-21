@@ -13,7 +13,6 @@
 		"autosuggest-highlight": "^3.1.1",
 		"axios": "^0.20.0",
 		"clsx": "^1.1.1",
-		"fg-loadcss": "^3.1.0",
 		"lodash.debounce": "^4.0.8",
 		"match-sorter": "^5.0.0",
 		"material-ui": "^0.20.2",
