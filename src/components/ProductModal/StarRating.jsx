@@ -40,6 +40,7 @@ export default function StarRating(props) {
 	}
 
 	function handleRatingClick(event, newValue) {
+		setHover(-1); // putting this in a .finally was not working in brave/chrome, so its here
 		const newRating = event.target.value; // cant use newValue, returns undefined when you click the current rating
 		confirm({
 			title: `Rate as ${newRating} out of 5?`,
@@ -47,8 +48,7 @@ export default function StarRating(props) {
 			confirmationText: 'Rate'
 		})
 			.then(() => props.onRate(newRating))
-			.catch(() => null)
-			.finally(() => setHover(-1));
+			.catch(() => null);
 	}
 
 	function handleRatingHover(event, newHover) {
