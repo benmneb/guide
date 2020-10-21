@@ -122,10 +122,14 @@ export default function TopBar({ children }) {
 	useEffect(() => {
 		if (isAuthenticated && isFirstMount.current) {
 			isFirstMount.current = false;
+			const greeting =
+				currentUserData.authState === 'new user created'
+					? 'Welcome to the Guide, '
+					: 'Welcome back, ';
 			dispatch(
 				showSnackbar({
 					type: 'success',
-					message: `Welcome back, ${currentUserData.username}`
+					message: greeting + currentUserData.username
 				})
 			);
 			// if they just registered, check for a temp account and ask to link it
@@ -169,7 +173,6 @@ export default function TopBar({ children }) {
 					})
 					.catch((err) => {
 						if (err.response.data === 'no temp user') {
-							console.log('No temp account to merge, everything is okay :)');
 							dispatch(updateAuthState('nothing to claim'));
 						} else {
 							console.log('While checking for a temp user:', err);
