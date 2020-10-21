@@ -98,21 +98,22 @@ export default function AuthEmailJoin() {
 				setPending(false);
 				dispatch(setCurrentUserData(null, false));
 				if (error.response.data === 'email already taken') {
-					return dispatch(
+					dispatch(
 						showSnackbar({
 							type: 'error',
 							title: 'Email already exists',
 							message: 'Please login instead, or reset your password if you forgot it.'
 						})
 					);
+				} else {
+					dispatch(
+						showSnackbar({
+							type: 'error',
+							title: 'Could not sign up',
+							message: `${error.message}. Please try again.`
+						})
+					);
 				}
-				return dispatch(
-					showSnackbar({
-						type: 'error',
-						title: 'Could not sign up',
-						message: `${error.message}. Please try again.`
-					})
-				);
 			});
 	};
 
