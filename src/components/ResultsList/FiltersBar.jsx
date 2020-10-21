@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 		zIndex: theme.zIndex.appBar - 1
 	},
 	breadcrumbsBox: {
-		overflow: 'scroll',
+		overflow: 'auto',
 		display: 'none',
 		[theme.breakpoints.up('sm')]: {
 			display: 'block'
