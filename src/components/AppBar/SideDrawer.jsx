@@ -37,7 +37,7 @@ export default function SideDrawer({ window }) {
 
 	return (
 		<Box component="nav" className={styles.drawer} aria-label="main menu">
-			<Hidden lgUp implementation="js">
+			<Hidden lgUp>
 				<SwipeableDrawer
 					container={container}
 					anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -45,14 +45,12 @@ export default function SideDrawer({ window }) {
 					onOpen={handleOpenSideDrawer}
 					onClose={handleCloseSideDrawer}
 					classes={{ paper: styles.drawerPaper }}
-					ModalProps={{
-						keepMounted: true // Better open performance on mobile.
-					}}
+					ModalProps={{ keepMounted: true }} // Better open performance on mobile.
 				>
 					<SideDrawerContents />
 				</SwipeableDrawer>
 			</Hidden>
-			<Hidden mdDown implementation="js">
+			<Hidden mdDown>
 				<Drawer classes={{ paper: styles.drawerPaper }} variant="permanent" open>
 					<SideDrawerContents />
 				</Drawer>
