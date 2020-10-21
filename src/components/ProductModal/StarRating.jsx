@@ -40,12 +40,13 @@ export default function StarRating(props) {
 	}
 
 	function handleRatingClick(event, newValue) {
+		const newRating = event.target.value; // cant use newValue, returns undefined when you click the current rating
 		confirm({
-			title: `Rate as ${newValue} out of 5?`,
-			description: `Please confirm you want to rate this product as "${labels[newValue]}".`,
+			title: `Rate as ${newRating} out of 5?`,
+			description: `Please confirm you want to rate this product as "${labels[newRating]}".`,
 			confirmationText: 'Rate'
 		})
-			.then(() => props.onRate(newValue))
+			.then(() => props.onRate(newRating))
 			.catch(() => null)
 			.finally(() => setHover(-1));
 	}
