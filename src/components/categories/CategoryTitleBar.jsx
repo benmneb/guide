@@ -21,18 +21,20 @@ export default function CategoryTitleBar({ name, url }) {
 					{name}
 				</Typography>
 			</Box>
-			<Box flexGrow="0">
-				<Button
-					component={Link}
-					to={url}
-					variant="text"
-					color="default"
-					endIcon={<ChevronRightRounded />}
-					classes={{ text: styles.buttonText }}
-				>
-					See all<Hidden only="xs"> {name}</Hidden>
-				</Button>
-			</Box>
+			{name !== 'Other' && (
+				<Box flexGrow="0">
+					<Button
+						component={Link}
+						to={url}
+						variant="text"
+						color="default"
+						endIcon={<ChevronRightRounded />}
+						classes={{ text: styles.buttonText }}
+					>
+						See all<Hidden only="xs"> {name}</Hidden>
+					</Button>
+				</Box>
+			)}
 		</Toolbar>
 	);
 }
