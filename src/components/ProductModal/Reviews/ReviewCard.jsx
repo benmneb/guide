@@ -1,29 +1,16 @@
-import React, { useState } from 'react';
-import { Link as RouterLink, useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-import {
-	Typography,
-	Paper,
-	IconButton,
-	Menu,
-	MenuItem,
-	Link,
-	Box
-} from '@material-ui/core';
+import { Typography, Paper, Link, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { MoreVertRounded, ReportRounded } from '@material-ui/icons';
 import Rating from '@material-ui/lab/Rating';
-import ReviewReport from './ReviewReport';
 import LikeButton from '../LikeButton';
 import { getTimeAgo } from '../../../utils/timeAgo';
 import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 import UserAvatar from '../../../utils/UserAvatar';
+import ReviewMoreMenu from './ReviewMoreMenu';
 
 const useStyles = makeStyles((theme) => ({
-	reportIcon: {
-		marginRight: theme.spacing(1)
-	},
 	author: {
 		fontWeight: theme.typography.fontWeightMedium
 	},
@@ -34,10 +21,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ReviewCard({ review }) {
 	const styles = useStyles();
-	const history = useHistory();
-	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-	const [showMoreMenu, setShowMoreMenu] = useState(null);
-	const [showReportModal, setShowReportModal] = useState(false);
 
 	const userProfileLink = usePrepareLink({
 		query: {
@@ -48,30 +31,6 @@ export default function ReviewCard({ review }) {
 		},
 		keepOldQuery: true
 	});
-	const authLink = usePrepareLink({
-		query: {
-			[getParams.popup]: getEnums.popup.signIn
-		},
-		keepOldQuery: true
-	});
-
-	const handleMoreMenuClick = (e) => {
-		setShowMoreMenu(e.currentTarget);
-	};
-
-	const handleMoreMenuClose = () => {
-		setShowMoreMenu(null);
-	};
-
-	const handleReportClick = () => {
-		setShowMoreMenu(null);
-		if (isAuthenticated) setShowReportModal(true);
-		else history.push(authLink);
-	};
-
-	const handleCloseReportModal = () => {
-		setShowReportModal(false);
-	};
 
 	return (
 		<>
@@ -101,30 +60,7 @@ export default function ReviewCard({ review }) {
 								</Link>
 								<Typography variant="body2">+ {review.authorPoints}</Typography>
 							</Box>
-							<Box
-								flexGrow="1"
-								display="flex"
-								alignItems="flex-start"
-								justifyContent="flex-end"
-								marginTop={-1}
-								marginRight={-1}
-							>
-								<IconButton aria-label="more options" onClick={handleMoreMenuClick}>
-									<MoreVertRounded />
-								</IconButton>
-								<Menu
-									id={review.review_id}
-									anchorEl={showMoreMenu}
-									keepMounted
-									open={Boolean(showMoreMenu)}
-									onClose={handleMoreMenuClose}
-								>
-									<MenuItem onClick={() => handleReportClick(review.review_id)}>
-										<ReportRounded className={styles.reportIcon} />
-										<Typography>Report</Typography>
-									</MenuItem>
-								</Menu>
-							</Box>
+							<ReviewMoreMenu review={review} />
 						</Box>
 						<Box marginBottom={2}>
 							<Rating name="rating" value={review.rating} readOnly />
@@ -147,11 +83,6 @@ export default function ReviewCard({ review }) {
 					</Box>
 				</Paper>
 			</Box>
-			<ReviewReport
-				show={showReportModal}
-				reviewId={review.review_id}
-				onClose={handleCloseReportModal}
-			/>
 		</>
 	);
 }
