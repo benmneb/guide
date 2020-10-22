@@ -85,9 +85,6 @@ export default function Auth({ isOpened }) {
 
 	function onClose() {
 		goBack();
-		setTimeout(() => {
-			dispatch(setIsUsingEmailAuth(false));
-		}, 300);
 	}
 
 	useEffect(() => {
