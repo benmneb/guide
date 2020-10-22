@@ -44,7 +44,7 @@ export default function AddReviewForm() {
 		if (rating > 0) {
 			setPending(true);
 			axios
-				.post('https://api.vomad.guide/review/', {
+				.post('https://api.vomad.guide/add-review/', {
 					review: data.review,
 					product_id: selectedProductId,
 					user_id: currentUserData.id,

@@ -18,7 +18,7 @@ export default function Reviews() {
 
 		if (mounted && selectedProduct && !alreadyFetchedReviews.current) {
 			axios
-				.get(`https://api.vomad.guide/review/${selectedProduct.productId}`, {
+				.get(`https://api.vomad.guide/reviews/${selectedProduct.productId}`, {
 					cancelToken: source.token
 				})
 				.then((response) => {

@@ -110,7 +110,7 @@ export default function ProductModal({ show }) {
 
 	const handleStarRating = (newValue) => {
 		axios
-			.put('https://api.vomad.guide/rating/', {
+			.put('https://api.vomad.guide/add-rating/', {
 				rating: newValue,
 				product_id: selectedProduct && selectedProduct.productId,
 				user_id: currentUserData.id

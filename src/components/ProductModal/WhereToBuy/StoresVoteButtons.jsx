@@ -54,7 +54,7 @@ export default function StoresVoteButtons(props) {
 			else setSelected(0);
 
 			try {
-				const response = await axios.put('https://api.vomad.guide/store-vote', {
+				const response = await axios.put('https://api.vomad.guide/vote-store', {
 					prod_store_id: props.prodStoreId,
 					user_id: currentUserData.id,
 					voteType: vote

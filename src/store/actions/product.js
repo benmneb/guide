@@ -44,7 +44,7 @@ export const setReviews = (reviews) => {
 
 export const updateReviews = (selectedProductId) => (dispatch) =>
 	axios
-		.get(`https://api.vomad.guide/review/${selectedProductId}`)
+		.get(`https://api.vomad.guide/reviews/${selectedProductId}`)
 		.then((response) =>
 			dispatch({
 				type: actionTypes.SET_REVIEWS,
