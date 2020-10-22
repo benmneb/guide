@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function ReviewReport(props) {
+export default function ReviewReport({ onClose, reviewId, show }) {
 	const styles = useStyles();
 	const dispatch = useDispatch();
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
@@ -37,7 +37,7 @@ export default function ReviewReport(props) {
 
 	const handleClose = () => {
 		setPending(false);
-		props.onClose();
+		onClose();
 	};
 
 	const handleListItemClick = (reason) => {
@@ -45,9 +45,9 @@ export default function ReviewReport(props) {
 		axios
 			.post('https://api.vomad.guide/email/report-review', {
 				body: `<p><strong>New Review Report Received ${new Date()}</strong></p>
-			<p>User <strong>${currentUserData.id}</strong> reported review <strong>${
-					props.reviewId
-				}</strong> as "${reason}".</p>`
+			<p>User <strong>${
+				currentUserData.id
+			}</strong> reported review <strong>${reviewId}</strong> as "${reason}".</p>`
 			})
 			.then(() => {
 				handleClose();
@@ -74,7 +74,7 @@ export default function ReviewReport(props) {
 	};
 
 	return (
-		<Dialog onClose={handleClose} aria-labelledby="report-review-title" open={props.show}>
+		<Dialog onClose={handleClose} aria-labelledby="report-review-title" open={show}>
 			<DialogTitle id="report-review-title" onClose={handleClose}>
 				Report as...
 			</DialogTitle>
