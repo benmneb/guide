@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		}
 	},
 	dialogPaperWidth: {
+		width: 219,
 		minWidth: 291,
 		maxWidth: 300
 	},
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'flex-start'
 	},
 	buttonMargin: {
-		margin: theme.spacing(0.5)
+		margin: theme.spacing(0.5, 0)
 	}
 }));
 
