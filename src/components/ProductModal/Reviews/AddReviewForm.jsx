@@ -27,12 +27,11 @@ export default function AddReviewForm() {
 	const dispatch = useDispatch();
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const showAddReviewForm = useSelector((state) => state.product.showAddReview);
+	const prevReviewData = useSelector((state) => state.product.prevReviewData);
 	const selectedProductId = useSelector(
 		(state) => state.product.selectedProduct.productId
 	);
-	const ratingBeforeClickedAddReviewSnackbar = useSelector(
-		(state) => state.product.ratingBeforeClickedAddReviewSnackbar
-	);
+	const tempRating = useSelector((state) => state.product.tempRating);
 	const [rating, setRating] = useState(0);
 	const [hover, setHover] = useState(-1);
 	const [ratingError, setRatingError] = useState(false);
@@ -48,14 +47,14 @@ export default function AddReviewForm() {
 					review: data.review,
 					product_id: selectedProductId,
 					user_id: currentUserData.id,
-					rating: rating
+					rating: rating,
+					review_id: prevReviewData && prevReviewData.review_id
 				})
 				.then(() => {
 					setPending(false);
 					dispatch(
 						showSnackbar({
 							type: 'success',
-							title: 'Review added',
 							message: 'Thank you for helping people find vegan products easier',
 							emoji: '💪'
 						})
@@ -64,21 +63,13 @@ export default function AddReviewForm() {
 				})
 				.then(() => dispatch(updateReviews(selectedProductId)))
 				.catch((err) => {
+					console.error(err.message);
 					setPending(false);
-					if (err.response.data === 'user already reviewed') {
-						return dispatch(
-							showSnackbar({
-								type: 'error',
-								title: "Can't leave two reviews",
-								message: 'You have already reviewed this product.'
-							})
-						);
-					}
 					dispatch(
 						showSnackbar({
 							type: 'error',
 							title: 'Could not add review',
-							message: `${err.message}. TODO:`
+							message: 'Something went wrong, please try again soon.'
 						})
 					);
 				});
@@ -87,17 +78,13 @@ export default function AddReviewForm() {
 		}
 	};
 
+	// set correct rating if they have previously rated
 	useEffect(() => {
-		if (
-			ratingBeforeClickedAddReviewSnackbar &&
-			rating !== ratingBeforeClickedAddReviewSnackbar
-		) {
-			setRating(ratingBeforeClickedAddReviewSnackbar);
-		}
-	}, [ratingBeforeClickedAddReviewSnackbar, rating]);
+		if (tempRating) setRating(tempRating);
+		else if (prevReviewData && prevReviewData.rating) setRating(prevReviewData.rating);
+	}, [prevReviewData, tempRating]);
 
 	let ratingHelperText;
-
 	if ((rating === 0 && hover === -1) || (rating === null && hover === -1)) {
 		ratingHelperText = (
 			<Typography
@@ -138,12 +125,8 @@ export default function AddReviewForm() {
 									value={rating}
 									precision={1}
 									size="large"
-									onChange={(event, newValue) => {
-										setRating(newValue);
-									}}
-									onChangeActive={(event, newHover) => {
-										setHover(newHover);
-									}}
+									onChange={(event, newValue) => setRating(newValue)}
+									onChangeActive={(event, newHover) => setHover(newHover)}
 								/>
 							</Grid>
 							<Grid item xs={12} sm={8} container justify="center">
@@ -164,6 +147,7 @@ export default function AddReviewForm() {
 									error={Boolean(errors.review)}
 									helperText={Boolean(errors.review) && errors.review.message}
 									autoFocus
+									defaultValue={prevReviewData && prevReviewData.review}
 								/>
 							</Grid>
 							<Grid item container xs={12} justify="center">

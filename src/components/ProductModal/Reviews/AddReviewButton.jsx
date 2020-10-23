@@ -19,6 +19,7 @@ export default function AddReviewButton() {
 	const dispatch = useDispatch();
 	const showAddReviewForm = useSelector((state) => state.product.showAddReview);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const prevReviewData = useSelector((state) => state.product.prevReviewData);
 
 	const authLink = usePrepareLink({
 		query: {
@@ -45,7 +46,11 @@ export default function AddReviewButton() {
 			onClick={handleAddReviewButtonClick}
 			classes={showAddReviewForm ? { label: styles.cancelButton } : null}
 		>
-			{showAddReviewForm ? 'Cancel' : 'Add Review'}
+			{showAddReviewForm
+				? 'Cancel'
+				: prevReviewData && prevReviewData.review
+				? 'Edit Review'
+				: 'Add Review'}
 		</Button>
 	);
 }

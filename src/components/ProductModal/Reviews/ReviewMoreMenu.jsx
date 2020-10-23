@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Typography, IconButton, Menu, MenuItem, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { MoreVertRounded, ReportRounded, EditRounded } from '@material-ui/icons';
 import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 import ReviewReport from './ReviewReport';
+import { showAddReview } from '../../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
 	menuIcon: {
@@ -16,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ReviewMoreMenu({ review }) {
 	const styles = useStyles();
 	const history = useHistory();
+	const dispatch = useDispatch();
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const [showMoreMenu, setShowMoreMenu] = useState(null);
@@ -38,11 +40,14 @@ export default function ReviewMoreMenu({ review }) {
 
 	const handleMoreMenuOption = (action) => {
 		setShowMoreMenu(null);
+
 		if (action === 'report') {
 			if (isAuthenticated) setShowReportModal(true);
 			else history.push(authLink);
-		} else {
-			console.log('edit review!!!!!');
+		}
+
+		if (action === 'edit') {
+			dispatch(showAddReview());
 		}
 	};
 
@@ -70,7 +75,7 @@ export default function ReviewMoreMenu({ review }) {
 					open={Boolean(showMoreMenu)}
 					onClose={handleMoreMenuClose}
 				>
-					{review.user_id === currentUserData.id ? (
+					{review.user_id === (currentUserData && currentUserData.id) ? (
 						<MenuItem onClick={() => handleMoreMenuOption('edit')}>
 							<EditRounded className={styles.menuIcon} />
 							<Typography>Edit</Typography>

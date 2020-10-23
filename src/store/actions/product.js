@@ -9,9 +9,9 @@ export const setSelectedProduct = (id) => {
 	};
 };
 
-export const clickAddReviewAfterRating = (rating) => {
+export const setTempRating = (rating) => {
 	return {
-		type: actionTypes.CLICK_ADD_REVIEW_AFTER_RATING,
+		type: actionTypes.SET_TEMP_RATING,
 		rating
 	};
 };
@@ -42,13 +42,20 @@ export const setReviews = (reviews) => {
 	};
 };
 
+export const setPrevReviewData = (data) => {
+	return {
+		type: actionTypes.SET_PREV_REVIEW_DATA,
+		data
+	};
+};
+
 export const updateReviews = (selectedProductId) => (dispatch) =>
 	axios
 		.get(`https://api.vomad.guide/reviews/${selectedProductId}`)
 		.then((response) =>
 			dispatch({
 				type: actionTypes.SET_REVIEWS,
-				reviews: response.data
+				reviews: response.data.reviews
 			})
 		)
 		.catch((err) => console.error('TODO: PUT A SNACKBAR HERE BRO', err));

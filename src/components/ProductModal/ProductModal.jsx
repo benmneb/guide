@@ -5,13 +5,15 @@ import { useHistory, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import {
 	setReviews,
+	setPrevReviewData,
+	updateReviews,
 	hideAddReview,
 	showAddReview,
 	setSelectedProduct,
 	setStores,
 	showSnackbar,
 	hideSnackbar,
-	clickAddReviewAfterRating
+	setTempRating
 } from '../../store/actions';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
@@ -69,6 +71,8 @@ export default function ProductModal({ show }) {
 	const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const showingAddReview = useSelector((state) => state.product.showAddReview);
 	const selectedProduct = useSelector((state) => state.product.selectedProduct);
+	const prevReviewData = useSelector((state) => state.product.prevReviewData);
+	const tempRating = useSelector((state) => state.product.tempRating);
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const currentUserData = useSelector(
 		(state) => isAuthenticated && state.auth.currentUserData
@@ -109,44 +113,66 @@ export default function ProductModal({ show }) {
 	}, [newRating, id, show, dispatch]);
 
 	const handleStarRating = (newValue) => {
-		axios
-			.put('https://api.vomad.guide/add-rating/', {
-				rating: newValue,
-				product_id: selectedProduct && selectedProduct.productId,
-				user_id: currentUserData.id
-			})
-			.then((response) => {
-				setNewRating(JSON.parse(response.config.data).rating);
-				dispatch(
-					showSnackbar({
-						type: 'success',
-						message: `Rated as "${labels[newValue]}"`,
-						action: {
-							text: 'Add a review?',
-							clicked: () => handleClickAddReviewAfterRating(newValue)
-						}
-					})
-				);
-			})
-			.catch((err) => {
-				console.error(err.message);
-				dispatch(
-					showSnackbar({
-						type: 'error',
-						title: 'Could not submit rating',
-						message: 'Something went wrong. Please try again.'
-					})
-				);
-			});
+		if (!prevReviewData || Number(newValue) !== (tempRating || prevReviewData.rating)) {
+			axios
+				.put('https://api.vomad.guide/add-rating/', {
+					rating: newValue,
+					product_id: selectedProduct && selectedProduct.productId,
+					user_id: currentUserData.id
+				})
+				.then((res) => {
+					setNewRating(JSON.parse(res.config.data).rating);
+					const message =
+						res.data.message === 'rating updated' ? 'Rating updated to' : 'Rated as';
+					const action = res.data.reviewFound ? 'Edit' : 'Add';
+					dispatch(
+						showSnackbar({
+							type: 'success',
+							message: `${message} "${labels[newValue]}"`,
+							action: {
+								text: `${action} review?`,
+								clicked: () => handleClickSnackbarAfterRating(newValue, action)
+							}
+						})
+					);
+					dispatch(setTempRating(newValue));
+					if (prevReviewData && prevReviewData.rating !== Number(newValue)) {
+						dispatch(updateReviews(selectedProduct.productId));
+					}
+				})
+				.catch((err) => {
+					console.error(err.message);
+					dispatch(
+						showSnackbar({
+							type: 'error',
+							title: 'Could not submit rating',
+							message: 'Something went wrong. Please try again.'
+						})
+					);
+				});
+		} else {
+			dispatch(
+				showSnackbar({
+					type: 'info',
+					message: 'New rating must be different from previous rating.'
+				})
+			);
+		}
 	};
 
-	const handleClickAddReviewAfterRating = (newRating) => {
-		dispatch(clickAddReviewAfterRating(newRating));
-		if (isAuthenticated) {
+	const handleClickSnackbarAfterRating = (newRating, action) => {
+		if (action === 'Add') {
+			if (isAuthenticated) {
+				dispatch(hideSnackbar());
+				dispatch(showAddReview());
+			} else {
+				history.push(authLink);
+			}
+		}
+
+		if (action === 'Edit') {
 			dispatch(hideSnackbar());
 			dispatch(showAddReview());
-		} else {
-			history.push(authLink);
 		}
 	};
 
@@ -160,6 +186,8 @@ export default function ProductModal({ show }) {
 	const onExited = () => {
 		if (showingAddReview) dispatch(hideAddReview());
 		if (currentTab !== 'about') setCurrentTab('about');
+		if (prevReviewData) dispatch(setPrevReviewData(null));
+		if (tempRating) dispatch(setTempRating(null));
 		dispatch(setSelectedProduct(null));
 		dispatch(setReviews(null));
 		dispatch(setStores(null));

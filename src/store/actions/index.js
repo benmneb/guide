@@ -9,11 +9,12 @@ export {
 
 export {
 	setSelectedProduct,
-	clickAddReviewAfterRating,
+	setTempRating,
 	showAddReview,
 	hideAddReview,
 	setCurrentLocation,
 	setReviews,
+	setPrevReviewData,
 	updateReviews,
 	setStores,
 	updateStores,

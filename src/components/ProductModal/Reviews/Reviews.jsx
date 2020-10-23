@@ -1,29 +1,36 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { setReviews } from '../../../store/actions';
-import AddReviewForm from './AddReviewForm';
+import { setReviews, setPrevReviewData } from '../../../store/actions';
 import ReviewsList from './ReviewsList';
 import ReviewsTitleBar from './ReviewsTitleBar';
+import AddReviewForm from './AddReviewForm';
 
 export default function Reviews() {
 	const dispatch = useDispatch();
 	const selectedProduct = useSelector((state) => state.product.selectedProduct);
-	const alreadyFetchedReviews = useRef(false);
+	const currentUserData = useSelector((state) => state.auth.currentUserData);
+	const reviews = useSelector((state) => state.product.reviews);
+	const alreadyFetchedReviews = useRef(Boolean(reviews));
 
 	// fetch reviews
 	useEffect(() => {
 		let mounted = true;
 		const source = axios.CancelToken.source();
+		const queryParam = currentUserData ? `?userid=${currentUserData.id}` : '';
 
 		if (mounted && selectedProduct && !alreadyFetchedReviews.current) {
 			axios
-				.get(`https://api.vomad.guide/reviews/${selectedProduct.productId}`, {
-					cancelToken: source.token
-				})
-				.then((response) => {
+				.get(
+					`https://api.vomad.guide/reviews/${selectedProduct.productId}${queryParam}`,
+					{
+						cancelToken: source.token
+					}
+				)
+				.then((res) => {
 					if (mounted) {
-						dispatch(setReviews(response.data));
+						dispatch(setReviews(res.data.reviews));
+						dispatch(setPrevReviewData(res.data.userReview));
 						alreadyFetchedReviews.current = true;
 					}
 				})
@@ -36,7 +43,7 @@ export default function Reviews() {
 			mounted = false;
 			source.cancel('Reviews fetch cancelled during clean-up');
 		};
-	}, [selectedProduct, dispatch]);
+	}, [selectedProduct, currentUserData, dispatch]);
 
 	return (
 		<>

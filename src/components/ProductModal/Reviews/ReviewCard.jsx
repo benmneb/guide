@@ -64,7 +64,15 @@ export default function ReviewCard({ review }) {
 						</Box>
 						<Box marginBottom={2}>
 							<Rating name="rating" value={review.rating} readOnly />
-							<Typography>{getTimeAgo(new Date(review.review_date))}</Typography>
+							<Typography>
+								{getTimeAgo(new Date(review.review_date))}
+								{review.last_edited && (
+									<Box component="span" color="text.secondary">
+										{' '}
+										(edited {getTimeAgo(new Date(review.last_edited)).toLowerCase()})
+									</Box>
+								)}
+							</Typography>
 						</Box>
 						<Box component="article">
 							<Typography>{review.review}</Typography>

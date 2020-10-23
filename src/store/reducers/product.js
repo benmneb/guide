@@ -2,12 +2,13 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
 	selectedProduct: null,
-	ratingBeforeClickedAddReviewSnackbar: null,
+	tempRating: null,
 	showAddReview: false,
 	currentLocation: null,
 	reviews: null,
 	stores: null,
-	selectedStore: null
+	selectedStore: null,
+	prevReviewData: null
 };
 
 export default function ProductReducer(state = initialState, action) {
@@ -15,13 +16,12 @@ export default function ProductReducer(state = initialState, action) {
 		case actionTypes.SET_SELECTED_PRODUCT:
 			return {
 				...state,
-				selectedProduct: action.id,
-				ratingBeforeClickedAddReviewSnackbar: null
+				selectedProduct: action.id
 			};
-		case actionTypes.CLICK_ADD_REVIEW_AFTER_RATING:
+		case actionTypes.SET_TEMP_RATING:
 			return {
 				...state,
-				ratingBeforeClickedAddReviewSnackbar: Number(action.rating)
+				tempRating: Number(action.rating)
 			};
 		case actionTypes.SHOW_ADD_REVIEW:
 			return {
@@ -42,6 +42,11 @@ export default function ProductReducer(state = initialState, action) {
 			return {
 				...state,
 				reviews: action.reviews
+			};
+		case actionTypes.SET_PREV_REVIEW_DATA:
+			return {
+				...state,
+				prevReviewData: action.data
 			};
 		case actionTypes.SET_STORES:
 			return {
