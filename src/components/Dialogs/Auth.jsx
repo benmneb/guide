@@ -51,12 +51,6 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: grey[800]
 		}
 	},
-	googleIcon: {
-		'& :first-child': {
-			fontSize: 18,
-			margin: 2
-		}
-	},
 	dialogContentRoot: {
 		padding: theme.spacing(0, 2, 2, 2),
 		[theme.breakpoints.up('md')]: {
@@ -137,12 +131,11 @@ export default function Auth({ isOpened }) {
 							</Button>
 							<Button
 								size="large"
-								variant="contained"
+								variant="outlined"
 								startIcon={<GoogleIcon />}
 								classes={{
 									label: styles.buttonLabel,
-									root: clsx(styles.google, styles.buttonMargin),
-									iconSizeLarge: styles.googleIcon
+									root: styles.buttonMargin
 								}}
 								onClick={handleGoogleLogin}
 							>
@@ -161,11 +154,11 @@ export default function Auth({ isOpened }) {
 							</Button>
 							<Button
 								size="large"
-								variant="contained"
+								variant="outlined"
 								startIcon={<MailOutlineRounded />}
 								classes={{
 									label: styles.buttonLabel,
-									root: clsx(styles.email, styles.buttonMargin)
+									root: styles.buttonMargin
 								}}
 								onClick={handleContinueWithEmail}
 							>
