@@ -1092,7 +1092,7 @@ export const categories = [
 		parent_id: 6
 	},
 	{
-		name: 'Plant Milks',
+		name: 'Plant Milks (All)',
 		id: 30,
 		prodType: 'food-drink',
 		url: 'plant-milks',
