@@ -51,9 +51,7 @@ export default function LikeButton({ review, ...props }) {
 						review_id: review.review_id,
 						user_id: currentUserData.id
 					})
-					.then(() => {
-						dispatch(updateReviews(selectedProduct.productId));
-					})
+					.then(() => dispatch(updateReviews(selectedProduct.productId)))
 					.catch((err) => {
 						setHasBeenLiked(prevLiked.current);
 						console.error(err);
