@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import { Dialog, Button, Box } from '@material-ui/core';
-import { Facebook, Twitter, MailOutlineRounded } from '@material-ui/icons';
+import { Facebook, Twitter, EmailTwoTone } from '@material-ui/icons';
 import { indigo, blue } from '@material-ui/core/colors';
 import AuthEmail from './AuthEmail';
 import GoogleIcon from '../../utils/GoogleIcon';
@@ -121,7 +121,7 @@ export default function Auth({ isOpened }) {
 							<Button
 								size="large"
 								variant="outlined"
-								startIcon={<MailOutlineRounded color="action" />}
+								startIcon={<EmailTwoTone color="action" />}
 								classes={{
 									label: styles.buttonLabel,
 									root: styles.buttonMargin
