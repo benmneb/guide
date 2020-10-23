@@ -1,30 +1,32 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { showSnackbar } from '../../store/actions';
+import {
+	showSnackbar,
+	setConfirmItsVegan,
+	setBrandname,
+	setProductname,
+	setSelectedCategory,
+	setCategoryInputValue
+} from '../../store/actions';
 import {
 	Button,
-	Checkbox,
 	Dialog,
 	DialogActions,
 	DialogContent,
-	FormControlLabel,
-	FormGroup,
 	Stepper,
 	Step,
 	StepLabel,
 	StepContent,
-	TextField,
 	Typography,
 	useMediaQuery,
 	Box
 } from '@material-ui/core';
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
-import { categories } from '../../assets/categories';
 import LoadingButton from '../../utils/LoadingButton';
+import AddProductsSteps from './AddProductsSteps';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -49,9 +51,6 @@ const useStyles = makeStyles((theme) => ({
 			height: 590
 		}
 	},
-	autocomplete: {
-		width: 300
-	},
 	finalActions: {
 		padding: 0
 	}
@@ -61,24 +60,16 @@ export default function AddProducts({ isOpened }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const location = useLocation();
-	const theme = useTheme();
 	const steps = getSteps();
 	const dispatch = useDispatch();
+	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
-	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
-
+	const confirmItsVegan = useSelector((state) => state.addProduct.confirmItsVegan);
+	const brandName = useSelector((state) => state.addProduct.brandName);
+	const productName = useSelector((state) => state.addProduct.productName);
+	const selectedCategory = useSelector((state) => state.addProduct.selectedCategory);
 	const [activeStep, setActiveStep] = useState(0);
-	const [confirmItsVegan, setConfirmItsVegan] = useState(false);
-	const [brandname, setBrandname] = useState(null);
-	const [productName, setProductName] = useState(null);
-	const [selectedCategory, setSelectedCategory] = useState(null);
-	const [inputValue, setInputValue] = useState('');
 	const [pending, setPending] = useState(false);
-
-	const handleItsVeganChange = (event) => {
-		setConfirmItsVegan(event.target.checked);
-	};
-
 	let formRef = useRef();
 
 	const handleNext = () => {
@@ -86,7 +77,7 @@ export default function AddProducts({ isOpened }) {
 			return;
 		}
 		if (activeStep < steps.length - 1) {
-			return setActiveStep((prevActiveStep) => prevActiveStep + 1);
+			return setActiveStep((prev) => prev + 1);
 		}
 		if (activeStep === steps.length - 1) {
 			setPending(true);
@@ -96,13 +87,13 @@ export default function AddProducts({ isOpened }) {
 				<p>User <strong>${
 					currentUserData ? currentUserData.id : 'was not logged in'
 				}</strong> suggested to add...</p>
-				<p>Brand: <strong> ${brandname.name}</strong>
-				<br>Product: <strong>${productName.name}</strong>
+				<p>Brand: <strong> ${brandName.brand_name}</strong>
+				<br>Product: <strong>${productName.product_name}</strong>
 				<br>in category: <strong>${selectedCategory}</p>`
 				})
 				.then(() => {
 					setPending(false);
-					setActiveStep((prevActiveStep) => prevActiveStep + 1);
+					setActiveStep((prev) => prev + 1);
 					return dispatch(
 						showSnackbar({
 							type: 'success',
@@ -114,11 +105,12 @@ export default function AddProducts({ isOpened }) {
 				})
 				.catch((err) => {
 					setPending(false);
+					console.error(err.message);
 					return dispatch(
 						showSnackbar({
 							type: 'error',
-							title: 'Something went wrong',
-							message: `${err.message}. Please try again soon.`
+							title: 'Could not add product',
+							message: `Something went wrong. Please try again soon.`
 						})
 					);
 				});
@@ -126,34 +118,27 @@ export default function AddProducts({ isOpened }) {
 	};
 
 	const handleBack = () => {
-		setActiveStep((prevActiveStep) => prevActiveStep - 1);
+		setActiveStep((prev) => prev - 1);
 	};
 
 	const handleReset = () => {
 		setActiveStep(0);
-		setConfirmItsVegan(false);
-		setBrandname(null);
-		setProductName(null);
-		setSelectedCategory(null);
-		setInputValue('');
+		dispatch(setConfirmItsVegan(false));
+		dispatch(setBrandname(null));
+		dispatch(setProductname(null));
+		dispatch(setSelectedCategory(null));
+		dispatch(setCategoryInputValue(''));
 	};
-
-	const goBack = useCallback(() => {
-		history.push(location.pathname);
-	}, [history, location.pathname]);
 
 	const onClose = () => {
-		setTimeout(() => {
-			handleReset();
-		}, theme.transitions.duration.leavingScreen);
-		goBack();
+		if (isOpened) {
+			history.push(location.pathname);
+		}
 	};
 
-	const categoriesMapped = categories.map((category) => {
-		return category.name;
-	});
-
-	const filter = createFilterOptions();
+	const onExited = () => {
+		handleReset();
+	};
 
 	function getSteps() {
 		return [
@@ -164,218 +149,11 @@ export default function AddProducts({ isOpened }) {
 		];
 	}
 
-	function getStepContent(step) {
-		switch (step) {
-			case 0:
-				return (
-					<>
-						<Typography paragraph color="textSecondary">
-							Vegan means it contains no animal/insect ingredients and that the item was
-							not tested on animals. Ingredients like honey, shellac, gelatin and fish
-							stock are not vegan.
-						</Typography>
-						<Typography color="textSecondary">Please tick the box to confirm:</Typography>
-						<FormGroup row>
-							<FormControlLabel
-								control={
-									<Checkbox
-										checked={confirmItsVegan}
-										onChange={handleItsVeganChange}
-										color="primary"
-										name="checked"
-									/>
-								}
-								label="I confirm the product I want to add is vegan"
-							/>
-						</FormGroup>
-					</>
-				);
-			case 1:
-				return (
-					<>
-						<Typography paragraph color="textSecondary">
-							Please include details as they appear on the packaging.
-						</Typography>
-						<Box margin={1}>
-							<Autocomplete
-								value={brandname}
-								onChange={(event, newValue) => {
-									if (typeof newValue === 'string') {
-										setBrandname({
-											name: newValue
-										});
-									} else if (newValue && newValue.inputValue) {
-										// Create a new value from the user input
-										setBrandname({
-											name: newValue.inputValue
-										});
-									} else {
-										setBrandname(newValue);
-									}
-								}}
-								filterOptions={(options, params) => {
-									const filtered = filter(options, params);
-
-									// Suggest the creation of a new value
-									if (params.inputValue !== '') {
-										filtered.push({
-											inputValue: params.inputValue,
-											name: `Add "${params.inputValue}"`
-										});
-									}
-
-									return filtered;
-								}}
-								selectOnFocus
-								clearOnBlur
-								handleHomeEndKeys
-								id="brandname"
-								options={categories}
-								getOptionLabel={(category) => {
-									// Value selected with enter, right from the input
-									if (typeof category === 'string') {
-										return category;
-									}
-									// Add "xxx" option created dynamically
-									if (category.inputValue) {
-										return category.inputValue;
-									}
-									// Regular option
-									return category.name;
-								}}
-								renderOption={(category) => category.name}
-								className={styles.autocomplete}
-								freeSolo
-								renderInput={(params) => (
-									<TextField {...params} label="Brand Name" variant="outlined" required />
-								)}
-							/>
-						</Box>
-						<Box marginY={2} marginX={1}>
-							<Autocomplete
-								value={productName}
-								onChange={(event, newValue) => {
-									if (typeof newValue === 'string') {
-										setProductName({
-											name: newValue
-										});
-									} else if (newValue && newValue.inputValue) {
-										// Create a new value from the user input
-										setProductName({
-											name: newValue.inputValue
-										});
-									} else {
-										setProductName(newValue);
-									}
-								}}
-								filterOptions={(options, params) => {
-									const filtered = filter(options, params);
-
-									// Suggest the creation of a new value
-									if (params.inputValue !== '') {
-										filtered.push({
-											inputValue: params.inputValue,
-											name: `Add "${params.inputValue}"`
-										});
-									}
-
-									return filtered;
-								}}
-								selectOnFocus
-								clearOnBlur
-								handleHomeEndKeys
-								id="productName"
-								options={categories}
-								getOptionLabel={(product) => {
-									// Value selected with enter, right from the input
-									if (typeof product === 'string') {
-										return product;
-									}
-									// Add "xxx" option created dynamically
-									if (product.inputValue) {
-										return product.inputValue;
-									}
-									// Regular option
-									return product.name;
-								}}
-								renderOption={(product) => product.name}
-								className={styles.autocomplete}
-								freeSolo
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										label="Product Name"
-										variant="outlined"
-										required
-									/>
-								)}
-							/>
-						</Box>
-					</>
-				);
-			case 2:
-				return (
-					<>
-						<Typography paragraph color="textSecondary">
-							Select the most appropriate category.
-						</Typography>
-						<Box margin={1}>
-							<Autocomplete
-								id="grouped-demo"
-								value={selectedCategory}
-								onChange={(event, chosenCategory) => setSelectedCategory(chosenCategory)}
-								inputValue={inputValue}
-								onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
-								options={categoriesMapped}
-								className={styles.autocomplete}
-								renderInput={(params) => (
-									<TextField {...params} label="Category" variant="outlined" required />
-								)}
-							/>
-						</Box>
-					</>
-				);
-			case 3:
-				return (
-					<>
-						<Box>
-							<Typography component="span" color="textSecondary">
-								Brand name:{' '}
-							</Typography>
-							<Typography component="span" gutterBottom>
-								{brandname && brandname.name}
-							</Typography>
-						</Box>
-						<Box>
-							<Typography component="span" color="textSecondary">
-								Product name:{' '}
-							</Typography>
-							<Typography component="span" gutterBottom>
-								{productName && productName.name}
-							</Typography>
-						</Box>
-						<Box marginBottom={1}>
-							<Typography component="span" color="textSecondary">
-								Category:{' '}
-							</Typography>
-							<Typography component="span" gutterBottom>
-								{selectedCategory && selectedCategory}
-							</Typography>
-						</Box>
-						<Typography paragraph>
-							If the above details are correct, click submit.
-						</Typography>
-					</>
-				);
-			default:
-				return 'Unknown step';
-		}
-	}
-
 	return (
 		<Dialog
 			open={Boolean(isOpened)}
 			onClose={onClose}
+			onExited={onExited}
 			aria-labelledby="form-dialog-title"
 			fullScreen={fullScreen}
 			maxWidth="sm"
@@ -394,7 +172,9 @@ export default function AddProducts({ isOpened }) {
 									{label}
 								</StepLabel>
 								<StepContent>
-									<Box component="section">{getStepContent(index)}</Box>
+									<Box component="section">
+										<AddProductsSteps step={index} />
+									</Box>
 									<div className={styles.actionsContainer}>
 										<div>
 											<Button

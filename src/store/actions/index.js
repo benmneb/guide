@@ -39,3 +39,11 @@ export {
 } from './results';
 
 export { setDeferredInstallPrompt, setHasInstalledPWA } from './PWA';
+
+export {
+	setConfirmItsVegan,
+	setBrandname,
+	setProductname,
+	setSelectedCategory,
+	setCategoryInputValue
+} from './addProduct';
