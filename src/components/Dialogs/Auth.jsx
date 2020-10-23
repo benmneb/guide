@@ -85,14 +85,8 @@ export default function Auth({ isOpened }) {
 		if (isAuthenticated && isOpened) goBack();
 	}, [isAuthenticated, goBack, isOpened]);
 
-	const handleFacebookLogin = () => {
-		const url = 'https://api.vomad.guide/auth/facebook';
-		const name = '_blank';
-		window.open(url, name);
-	};
-
-	const handleGoogleLogin = () => {
-		const url = 'https://api.vomad.guide/auth/google';
+	const handleSocialLogin = (website) => {
+		const url = `https://api.vomad.guide/auth/${website}`;
 		const name = '_blank';
 		window.open(url, name);
 	};
@@ -125,7 +119,7 @@ export default function Auth({ isOpened }) {
 									label: styles.buttonLabel,
 									root: clsx(styles.facebook, styles.buttonMargin)
 								}}
-								onClick={handleFacebookLogin}
+								onClick={() => handleSocialLogin('facebook')}
 							>
 								Continue with Facebook
 							</Button>
@@ -137,7 +131,7 @@ export default function Auth({ isOpened }) {
 									label: styles.buttonLabel,
 									root: styles.buttonMargin
 								}}
-								onClick={handleGoogleLogin}
+								onClick={() => handleSocialLogin('google')}
 							>
 								Continue with Google
 							</Button>
@@ -149,6 +143,7 @@ export default function Auth({ isOpened }) {
 									label: styles.buttonLabel,
 									root: clsx(styles.twitter, styles.buttonMargin)
 								}}
+								onClick={() => handleSocialLogin('twitter')}
 							>
 								Continue with Twitter
 							</Button>
