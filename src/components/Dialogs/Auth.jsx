@@ -2,17 +2,22 @@ import React, { useEffect, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsUsingEmailAuth } from '../../store/actions';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import { Dialog, Button, Box } from '@material-ui/core';
 import { Facebook, Twitter, MailOutlineRounded } from '@material-ui/icons';
-import { indigo, red, blue, grey } from '@material-ui/core/colors';
+import { indigo, blue } from '@material-ui/core/colors';
 import AuthEmail from './AuthEmail';
 import GoogleIcon from '../../utils/GoogleIcon';
 
 const useStyles = makeStyles((theme) => ({
+	dialogContentRoot: {
+		padding: theme.spacing(0, 2, 2, 2),
+		[theme.breakpoints.up('md')]: {
+			marginBottom: 0
+		}
+	},
 	dialogPaperWidth: {
 		minWidth: 291,
 		maxWidth: 300
@@ -22,40 +27,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	buttonMargin: {
 		margin: theme.spacing(0.5)
-	},
-	facebook: {
-		color: theme.palette.getContrastText(indigo[500]),
-		backgroundColor: indigo[500],
-		'&:hover': {
-			backgroundColor: indigo[700]
-		}
-	},
-	google: {
-		color: theme.palette.getContrastText(red[500]),
-		backgroundColor: red[500],
-		'&:hover': {
-			backgroundColor: red[700]
-		}
-	},
-	twitter: {
-		color: theme.palette.getContrastText(blue[500]),
-		backgroundColor: blue[500],
-		'&:hover': {
-			backgroundColor: blue[700]
-		}
-	},
-	email: {
-		color: theme.palette.getContrastText(grey[700]),
-		backgroundColor: grey[700],
-		'&:hover': {
-			backgroundColor: grey[800]
-		}
-	},
-	dialogContentRoot: {
-		padding: theme.spacing(0, 2, 2, 2),
-		[theme.breakpoints.up('md')]: {
-			marginBottom: 0
-		}
 	}
 }));
 
@@ -113,11 +84,11 @@ export default function Auth({ isOpened }) {
 						>
 							<Button
 								size="large"
-								variant="contained"
-								startIcon={<Facebook />}
+								variant="outlined"
+								startIcon={<Facebook style={{ color: indigo[500] }} />}
 								classes={{
 									label: styles.buttonLabel,
-									root: clsx(styles.facebook, styles.buttonMargin)
+									root: styles.buttonMargin
 								}}
 								onClick={() => handleSocialLogin('facebook')}
 							>
@@ -137,11 +108,11 @@ export default function Auth({ isOpened }) {
 							</Button>
 							<Button
 								size="large"
-								variant="contained"
-								startIcon={<Twitter />}
+								variant="outlined"
+								startIcon={<Twitter style={{ color: blue[500] }} />}
 								classes={{
 									label: styles.buttonLabel,
-									root: clsx(styles.twitter, styles.buttonMargin)
+									root: styles.buttonMargin
 								}}
 								onClick={() => handleSocialLogin('twitter')}
 							>
@@ -150,7 +121,7 @@ export default function Auth({ isOpened }) {
 							<Button
 								size="large"
 								variant="outlined"
-								startIcon={<MailOutlineRounded />}
+								startIcon={<MailOutlineRounded color="action" />}
 								classes={{
 									label: styles.buttonLabel,
 									root: styles.buttonMargin
