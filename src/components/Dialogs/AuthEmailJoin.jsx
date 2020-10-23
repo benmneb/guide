@@ -272,7 +272,7 @@ export default function AuthEmailJoin() {
 					</LoadingButton>
 				</Box>
 			</Box>
-			<Button onClick={handleBackToSocial}>Sign up with social account instead</Button>
+			<Button onClick={handleBackToSocial}>Use social account instead</Button>
 		</Box>
 	);
 }

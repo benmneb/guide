@@ -241,7 +241,7 @@ export default function AuthEmailLogin() {
 					</Box>
 				</Box>
 				<Button onClick={toggleForgotPasswordModal}>Reset lost password</Button>
-				<Button onClick={handleBackToSocial}>Login with social account instead</Button>
+				<Button onClick={handleBackToSocial}>Use social account instead</Button>
 			</Box>
 			<AuthForgotPassword show={forgotPasswordModal} hide={toggleForgotPasswordModal} />
 		</>
