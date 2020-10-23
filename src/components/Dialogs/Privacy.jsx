@@ -1,18 +1,42 @@
-import React, { useCallback } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom';
 import DialogTitle from '../../utils/DialogTitle';
 import {
 	Dialog,
 	DialogContent,
 	DialogContentText,
+	Link,
 	Typography,
-	useMediaQuery
+	useMediaQuery,
+	Box
 } from '@material-ui/core';
+import {
+	usePrepareLink,
+	getParams,
+	getEnums,
+	useGetParameter
+} from '../../utils/routing';
+import Feedback from './Feedback';
 
 export default function Privacy({ isOpened }) {
 	const history = useHistory();
 	const location = useLocation();
 	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
+	const clickedContact = useGetParameter(getParams.action);
+	const [wantsToContact, setWantsToContact] = useState(false);
+
+	useEffect(() => {
+		if (clickedContact) {
+			setWantsToContact(clickedContact);
+		} else setWantsToContact(false);
+	}, [clickedContact]);
+
+	const feedbackLink = usePrepareLink({
+		query: {
+			[getParams.action]: getEnums.action.feedback
+		},
+		keepOldQuery: true
+	});
 
 	const goBack = useCallback(() => {
 		history.push(location.pathname);
@@ -35,10 +59,14 @@ export default function Privacy({ isOpened }) {
 			</DialogTitle>
 			<DialogContent>
 				<DialogContentText component="article" id="privacy-dialog-description">
-					<Typography paragraph>Your privacy is critically important to us.</Typography>
+					<Typography paragraph>
+						<Box component="span" fontWeight="fontWeightMedium">
+							Your privacy is critically important to us.
+						</Box>
+					</Typography>
 					<Typography paragraph>
 						This Privacy Policy is in relation to the website and mobile application (The
-						Vomad Guide or VOMADguide) which is operated by VOMAD (we, our or us).
+						Guide, Vomad Guide or VOMADguide) which is operated by VOMAD (we, our or us).
 						&nbsp;It is available at https://vomad.guide and https://vomadguide.com. This
 						policy lays out the types of information that we may collect from you when you
 						access or use our websites and mobile applications (collectively, our
@@ -78,19 +106,25 @@ export default function Privacy({ isOpened }) {
 						By using our website or mobile apps you accept the terms of this Privacy
 						Policy.
 					</Typography>
-					<Typography paragraph>Website Visitors:</Typography>
+					<Typography paragraph>
+						<Box component="span" fontWeight="fontWeightBold">
+							Website Visitors:
+						</Box>
+					</Typography>
 					<Typography paragraph>
 						We collect several types of information including non-personally-identifying
 						information and personally-identifying-information. This information can be
 						collected:
 					</Typography>
-					<Typography paragraph>
-						directly from you when you voluntarily provide it to us; and/or
-					</Typography>
-					<Typography paragraph>
-						automatically as you navigate through our Services (this may include usage
-						details, IP addresses and information collected through cookies).
-					</Typography>
+					<Box component="ul">
+						<Box component="li">
+							Directly from you when you voluntarily provide it to us; and/or
+						</Box>
+						<Box component="li">
+							Automatically as you navigate through our Services (this may include usage
+							details, IP addresses and information collected through cookies).
+						</Box>
+					</Box>
 					<Typography paragraph>
 						Like most website operators, VOMADguide collects non-personally-identifying
 						information of the sort that web browsers and servers typically make
@@ -109,10 +143,14 @@ export default function Privacy({ isOpened }) {
 						described below.
 					</Typography>
 					<Typography paragraph>
-						Types of Information Gathered by our Services:
+						<Box component="span" fontWeight="fontWeightBold">
+							Types of Information Gathered by our Services:
+						</Box>
 					</Typography>
 					<Typography paragraph>
-						- Gathering of Personally-Identifying Information:
+						<Box component="span" fontWeight="fontWeightMedium">
+							Gathering of Personally-Identifying Information:
+						</Box>
 					</Typography>
 					<Typography paragraph>
 						Certain visitors to VOMADguide&#39;s services choose to interact with
@@ -138,24 +176,30 @@ export default function Privacy({ isOpened }) {
 						Your email address and password are not displayed or shared with any other
 						person or third party services.
 					</Typography>
-					<Typography paragraph>- Public Content:</Typography>
+					<Typography paragraph>
+						<Box component="span" fontWeight="fontWeightMedium">
+							Public Content:
+						</Box>
+					</Typography>
 					<Typography paragraph>
 						Some of the information you may choose to share in our Services are published
 						or displayed (hereinafter, &quot;posted&quot;) on publicly accessible areas of
 						our site and applications (collectively, &ldquo;User Contributions&rdquo;),
 						these are:
 					</Typography>
-					<Typography paragraph>
-						Profile information (including username, hometown and profile picture);
-					</Typography>
-					<Typography paragraph>Reviews;</Typography>
-					<Typography paragraph>Ratings;</Typography>
-					<Typography paragraph>Last active status;</Typography>
-					<Typography paragraph>Stores tagged by you;</Typography>
-					<Typography paragraph>
-						Achievements (such as first comment, top review, ect); and
-					</Typography>
-					<Typography paragraph>Points awarded.&nbsp;</Typography>
+					<Box component="ul">
+						<Box component="li">
+							Profile information (including username, hometown and profile picture).
+						</Box>
+						<Box component="li">Reviews.</Box>
+						<Box component="li">Ratings.</Box>
+						<Box component="li">Last active status.</Box>
+						<Box component="li">Stores tagged by you.</Box>
+						<Box component="li">
+							Achievements (such as first comment, top review, ect).
+						</Box>
+						<Box component="li">Points awarded.</Box>
+					</Box>
 					<Typography paragraph>
 						Your User Contributions are posted and displayed to others at your own risk.
 						We cannot control the actions of other users using our services with whom you
@@ -172,7 +216,9 @@ export default function Privacy({ isOpened }) {
 						postings.
 					</Typography>
 					<Typography paragraph>
-						- Location Data Collection and How to Opt Out:
+						<Box component="span" fontWeight="fontWeightMedium">
+							Location Data Collection and How to Opt Out:
+						</Box>
 					</Typography>
 					<Typography paragraph>
 						When you use one of our location-enabled services such as our website and
@@ -182,13 +228,15 @@ export default function Privacy({ isOpened }) {
 						Services with location-based information and features. The location data
 						collected is used to:
 					</Typography>
-					<Typography paragraph>
-						Display stores that sell products available near you or in your area;
-					</Typography>
-					<Typography paragraph>
-						Display advertisements and applicable promotions relevant to you; and
-					</Typography>
-					<Typography paragraph>Show products and stores relevant to you.</Typography>
+					<Box component="ul">
+						<Box component="li">
+							Display stores that sell products available near you or in your area.
+						</Box>
+						<Box component="li">
+							Display advertisements and applicable promotions relevant to you.
+						</Box>
+						<Box component="li">Show products and stores relevant to you.</Box>
+					</Box>
 					<Typography paragraph>
 						Location data is only collected when the app and website is being used.&nbsp;
 					</Typography>
@@ -206,36 +254,46 @@ export default function Privacy({ isOpened }) {
 						provided your device allows you to do this. See your device manufacturer&#39;s
 						instructions for further details.
 					</Typography>
-					<Typography paragraph>The use of collected information:</Typography>
+					<Typography paragraph>
+						<Box component="span" fontWeight="fontWeightBold">
+							The use of collected information:
+						</Box>
+					</Typography>
 					<Typography paragraph>
 						The information collected, held, used and disclosed by our Services from the
 						sources mentioned above are also used for the following:
 					</Typography>
+					<Box component="ul">
+						<Box component="li">
+							To enable you to access and use our Site, associated applications and
+							associated social media platforms.
+						</Box>
+						<Box component="li">
+							For internal record keeping and administrative purposes.
+						</Box>
+						<Box component="li">
+							For analytics, market research and business development, including to
+							operate and improve our Services, associated applications and associated
+							social media platforms.
+						</Box>
+						<Box component="li">
+							To run competitions and/or offer additional benefits to you.
+						</Box>
+						<Box component="li">
+							For advertising and marketing, including to send you promotional information
+							about our products and services and information about third parties that we
+							consider may be of interest to you.
+						</Box>
+						<Box component="li">
+							To comply with our legal obligations and resolve any disputes that we may
+							have.
+						</Box>
+					</Box>
 					<Typography paragraph>
-						to enable you to access and use our Site, associated applications and
-						associated social media platforms;
+						<Box component="span" fontWeight="fontWeightBold">
+							Storage and Security:
+						</Box>
 					</Typography>
-					<Typography paragraph>
-						&nbsp;for internal record keeping and administrative purposes;
-					</Typography>
-					<Typography paragraph>
-						&nbsp;for analytics, market research and business development, including to
-						operate and improve our Services, associated applications and associated
-						social media platforms;
-					</Typography>
-					<Typography paragraph>
-						to run competitions and/or offer additional benefits to you;
-					</Typography>
-					<Typography paragraph>
-						&nbsp;for advertising and marketing, including to send you promotional
-						information about our products and services and information about third
-						parties that we consider may be of interest to you; and
-					</Typography>
-					<Typography paragraph>
-						to comply with our legal obligations and resolve any disputes that we may
-						have;&nbsp;
-					</Typography>
-					<Typography paragraph>Storage and Security:</Typography>
 					<Typography paragraph>
 						The security of your Personal Information is important to us. Vomad is
 						extremely protective of any personal information such as email, passwords and
@@ -250,47 +308,55 @@ export default function Privacy({ isOpened }) {
 						means to protect your Personal Information, we cannot guarantee its absolute
 						security.
 					</Typography>
-					<Typography paragraph>Disclosure of information to Third Parties:</Typography>
 					<Typography paragraph>
-						We may disclose shared and collected information on our Services to:&nbsp;
+						<Box component="span" fontWeight="fontWeightBold">
+							Disclosure of Information to Third Parties:
+						</Box>
 					</Typography>
 					<Typography paragraph>
-						third party service providers for the purpose of enabling them to provide
-						their services, including (without limitation) IT service providers, data
-						storage, web-hosting and server providers, maintenance or problem-solving
-						providers, marketing or advertising providers, professional advisors and
-						payment systems operators;
+						We may disclose shared and collected information on our Services to:
 					</Typography>
+					<Box component="ul">
+						<Box component="li">
+							Third party service providers for the purpose of enabling them to provide
+							their services, including (without limitation) IT service providers, data
+							storage, web-hosting and server providers, maintenance or problem-solving
+							providers, marketing or advertising providers, professional advisors and
+							payment systems operators.
+						</Box>
+						<Box component="li">Our employees, contractors and/or related entities.</Box>
+						<Box component="li">
+							Our existing or potential agents or business partners.
+						</Box>
+						<Box component="li">
+							Anyone to whom our business or assets (or any part of them) are, or may (in
+							good faith) be, transferred.
+						</Box>
+						<Box component="li">
+							Courts, tribunals and regulatory authorities, in the event you fail to pay
+							for goods or services we have provided to you.
+						</Box>
+						<Box component="li">
+							Courts, tribunals, regulatory authorities and law enforcement officers, as
+							required by law, in connection with any actual or prospective legal
+							proceedings, or in order to establish, exercise or defend our legal rights.
+						</Box>
+						<Box component="li">
+							Third parties, including agents or sub-contractors, who assist us in
+							providing information, products, services or direct marketing to you. This
+							may include parties located, or that store data, outside of Australia.
+						</Box>
+						<Box component="li">
+							Third parties to collect and process data, such as Google Analytics or other
+							relevant businesses. This may include parties that store data outside of
+							Australia.
+						</Box>
+					</Box>
 					<Typography paragraph>
-						our employees, contractors and/or related entities;
+						<Box component="span" fontWeight="fontWeightBold">
+							Advertisements:
+						</Box>
 					</Typography>
-					<Typography paragraph>
-						our existing or potential agents or business partners;
-					</Typography>
-					<Typography paragraph>
-						anyone to whom our business or assets (or any part of them) are, or may (in
-						good faith) be, transferred;
-					</Typography>
-					<Typography paragraph>
-						courts, tribunals and regulatory authorities, in the event you fail to pay for
-						goods or services we have provided to you;
-					</Typography>
-					<Typography paragraph>
-						courts, tribunals, regulatory authorities and law enforcement officers, as
-						required by law, in connection with any actual or prospective legal
-						proceedings, or in order to establish, exercise or defend our legal rights;
-					</Typography>
-					<Typography paragraph>
-						third parties, including agents or sub-contractors, who assist us in providing
-						information, products, services or direct marketing to you. This may include
-						parties located, or that store data, outside of Australia; and
-					</Typography>
-					<Typography paragraph>
-						third parties to collect and process data, such as Google Analytics or other
-						relevant businesses. This may include parties that store data outside of
-						Australia.
-					</Typography>
-					<Typography paragraph>Advertisements:</Typography>
 					<Typography paragraph>
 						Ads appearing on our website may be delivered to users by advertising
 						partners, who may set cookies. These cookies allow the ad server to recognize
@@ -300,7 +366,11 @@ export default function Privacy({ isOpened }) {
 						believe will be of most interest to you. This Privacy Policy covers the use of
 						cookies by Vomad and does not cover the use of cookies by any advertisers.
 					</Typography>
-					<Typography paragraph>Links To External Sites:</Typography>
+					<Typography paragraph>
+						<Box component="span" fontWeight="fontWeightBold">
+							Links To External Sites:
+						</Box>
+					</Typography>
 					<Typography paragraph>
 						Our Service may contain links to external sites that are not operated by us.
 						If you click on a third party link, you will be directed to that third
@@ -311,7 +381,11 @@ export default function Privacy({ isOpened }) {
 						We have no control over, and assume no responsibility for the content, privacy
 						policies or practices of any third party sites, products or services.
 					</Typography>
-					<Typography paragraph>Newsletter Sign-ups:</Typography>
+					<Typography paragraph>
+						<Box component="span" fontWeight="fontWeightBold">
+							Newsletter Sign-ups:
+						</Box>
+					</Typography>
 					<Typography paragraph>
 						Once you create an account in one of our Services, you are automatically
 						subscribed to our email newsletters from the VOMADguide Web site (during
@@ -325,11 +399,16 @@ export default function Privacy({ isOpened }) {
 						communication from VOMADguide at any time.
 					</Typography>
 					<Typography paragraph>
-						If you have any questions about VOMADguide newsletters, please contact us at:
-						info@vomadguide.com
+						If you have any questions about VOMADguide newsletters, please{' '}
+						<Link component={RouterLink} to={feedbackLink}>
+							contact us
+						</Link>
+						.
 					</Typography>
 					<Typography paragraph>
-						VOMADguide Uses Third Party Websites and Services for Remarketing:
+						<Box component="span" fontWeight="fontWeightBold">
+							VOMADguide Uses Third Party Websites and Services for Remarketing:
+						</Box>
 					</Typography>
 					<Typography paragraph>
 						Vomad uses the remarketing services to advertise on third party websites
@@ -348,19 +427,31 @@ export default function Privacy({ isOpened }) {
 						to you can opt out of interest-based advertising entirely by cookie settings
 						or permanently using a browser plugin.
 					</Typography>
-					<Typography paragraph>Aggregated Statistics:</Typography>
+					<Typography paragraph>
+						<Box component="span" fontWeight="fontWeightBold">
+							Aggregated Statistics:
+						</Box>
+					</Typography>
 					<Typography paragraph>
 						VOMADguide may collect statistics about the behavior of visitors to its
 						Services. VOMADguide may display this information publicly or provide it to
 						others. However, VOMADguide does not disclose your personally-identifying
 						information.
 					</Typography>
-					<Typography paragraph>Affiliate Disclosure:</Typography>
+					<Typography paragraph>
+						<Box component="span" fontWeight="fontWeightBold">
+							Affiliate Disclosure:
+						</Box>
+					</Typography>
 					<Typography paragraph>
 						VOMADguide uses affiliate links and does earn a commission from certain links.
 						This does not affect your purchases or the price you may pay.
 					</Typography>
-					<Typography paragraph>Cookies and Web Beacons:</Typography>
+					<Typography paragraph>
+						<Box component="span" fontWeight="fontWeightBold">
+							Cookies and Web Beacons:
+						</Box>
+					</Typography>
 					<Typography paragraph>
 						To enrich and perfect your online experience, VOMADguide uses
 						&quot;Cookies&quot;, similar technologies and services provided by others to
@@ -389,7 +480,11 @@ export default function Privacy({ isOpened }) {
 						count the users who visit a web page or to deliver a cookie to the browser of
 						a visitor viewing that page.
 					</Typography>
-					<Typography paragraph>Business Transfers:</Typography>
+					<Typography paragraph>
+						<Box component="span" fontWeight="fontWeightBold">
+							Business Transfers:
+						</Box>
+					</Typography>
 					<Typography paragraph>
 						If VOMADguide, or substantially all of its assets, were acquired, or in the
 						unlikely event that VOMADguide goes out of business or enters bankruptcy, user
@@ -398,7 +493,11 @@ export default function Privacy({ isOpened }) {
 						acquirer of VOMADguide may continue to use your personal information as set
 						forth in this policy.
 					</Typography>
-					<Typography paragraph>Privacy Policy Changes:</Typography>
+					<Typography paragraph>
+						<Box component="span" fontWeight="fontWeightBold">
+							Privacy Policy Changes:
+						</Box>
+					</Typography>
 					<Typography paragraph>
 						Although most changes are likely to be minor, VOMADguide may change its
 						Privacy Policy from time to time, and in VOMADguide sole discretion.
@@ -407,62 +506,88 @@ export default function Privacy({ isOpened }) {
 						this Privacy Policy will constitute your acceptance of such change.
 					</Typography>
 					<Typography paragraph>
-						Your Rights and Controlling Your Personal Information:&nbsp;
+						<Box component="span" fontWeight="fontWeightBold">
+							Your Rights and Controlling Your Personal Information:
+						</Box>
 					</Typography>
 					<Typography paragraph>
-						Choice and consent: Please read this Privacy Policy carefully. By providing
-						personal information to us, you consent to us collecting, holding, using and
-						disclosing your personal information in accordance with this Privacy Policy.
-						You do not have to provide personal information to us, however, if you do not,
-						it may affect your use of this Site or the products and/or services offered on
-						or through it.
+						<Box component="span" fontWeight="fontWeightMedium">
+							Choice and consent:
+						</Box>{' '}
+						Please read this Privacy Policy carefully. By providing personal information
+						to us, you consent to us collecting, holding, using and disclosing your
+						personal information in accordance with this Privacy Policy. You do not have
+						to provide personal information to us, however, if you do not, it may affect
+						your use of this Site or the products and/or services offered on or through
+						it.
 					</Typography>
 					<Typography paragraph>
-						Information from third parties: If we receive personal information about you
-						from a third party, we will protect it as set out in this Privacy Policy. If
-						you are a third party providing personal information about somebody else, you
-						represent and warrant that you have such person&rsquo;s consent to provide the
-						personal information to us.
+						<Box component="span" fontWeight="fontWeightMedium">
+							Information from third parties:
+						</Box>{' '}
+						If we receive personal information about you from a third party, we will
+						protect it as set out in this Privacy Policy. If you are a third party
+						providing personal information about somebody else, you represent and warrant
+						that you have such person&rsquo;s consent to provide the personal information
+						to us.
 					</Typography>
 					<Typography paragraph>
-						Restrict: You may choose to restrict the collection or use of your personal
-						information. &nbsp;If you have previously agreed to us using your personal
-						information for direct marketing purposes, you may change your mind at any
-						time by contacting us using the details below.
+						<Box component="span" fontWeight="fontWeightMedium">
+							Restrict:
+						</Box>{' '}
+						You may choose to restrict the collection or use of your personal information.
+						&nbsp;If you have previously agreed to us using your personal information for
+						direct marketing purposes, you may change your mind at any time by contacting
+						us using the details below.
 					</Typography>
 					<Typography paragraph>
-						Access: You may request details of personal information that we hold about
-						you. &nbsp;An administrative fee may be payable for the provision of such
+						<Box component="span" fontWeight="fontWeightMedium">
+							Access:
+						</Box>{' '}
+						You may request details of personal information that we hold about you.
+						&nbsp;An administrative fee may be payable for the provision of such
 						information. &nbsp;In certain circumstances, as set out in the Privacy Act
 						1988 (Cth), we may refuse to provide you with personal information that we
 						hold about you.
 					</Typography>
 					<Typography paragraph>
-						Correction: If you believe that any information we hold about you is
-						inaccurate, out of date, incomplete, irrelevant or misleading, please contact
-						us using the details below. We will take reasonable steps to correct any
-						information found to be inaccurate, incomplete, misleading or out of date.
+						<Box component="span" fontWeight="fontWeightMedium">
+							Correction:
+						</Box>{' '}
+						If you believe that any information we hold about you is inaccurate, out of
+						date, incomplete, irrelevant or misleading, please contact us using the link
+						below. We will take reasonable steps to correct any information found to be
+						inaccurate, incomplete, misleading or out of date.
 					</Typography>
 					<Typography paragraph>
-						Complaints: If you believe that we have breached the Australian Privacy
-						Principles and wish to make a complaint, please contact us using the details
-						below and provide us with full details of the alleged breach. We will promptly
-						investigate your complaint and respond to you, in writing, setting out the
-						outcome of our investigation and the steps we will take to deal with your
-						complaint.
+						<Box component="span" fontWeight="fontWeightMedium">
+							Complaints:
+						</Box>{' '}
+						If you believe that we have breached the Australian Privacy Principles and
+						wish to make a complaint, please contact us using the link below and provide
+						us with full details of the alleged breach. We will promptly investigate your
+						complaint and respond to you, in writing, setting out the outcome of our
+						investigation and the steps we will take to deal with your complaint.
 					</Typography>
 					<Typography paragraph>
-						Unsubscribe: To unsubscribe from our email database or opt-out of
-						communications (including marketing communications), please contact us using
-						the details below or opt-out using the opt-out facilities provided in the
-						communication.
+						<Box component="span" fontWeight="fontWeightMedium">
+							Unsubscribe:
+						</Box>{' '}
+						To unsubscribe from our email database or opt-out of communications (including
+						marketing communications), please contact us using the link below or opt-out
+						using the opt-out facilities provided in the communication.
 					</Typography>
 					<Typography paragraph>
-						For any questions or notices, please contact us at: hello@vomad.guide
+						For any questions or notices, please{' '}
+						<Link component={RouterLink} to={feedbackLink}>
+							contact us
+						</Link>
+						.
 					</Typography>
 					<Typography paragraph>Last Update: 22 October 2020</Typography>
 				</DialogContentText>
 			</DialogContent>
+			{wantsToContact && <Feedback isOpened />}
 		</Dialog>
 	);
 }
