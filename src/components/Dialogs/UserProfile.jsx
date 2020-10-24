@@ -335,7 +335,7 @@ export default function UserProfile({ isOpened }) {
 										<Tooltip
 											title={`Karma is an expression of ${
 												isOwnProfile ? 'your' : 'this users'
-											} total activity on the Guide. You accrue more positive karma by leaving ratings and reviews, liking useful reviews and tagging and voting on stores.`}
+											} total activity on the Guide. You accrue more positive karma by leaving ratings and reviews, and tagging and voting on stores.`}
 										>
 											<Typography
 												className={styles.karma}
