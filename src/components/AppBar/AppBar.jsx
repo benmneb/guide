@@ -5,7 +5,7 @@ import { useConfirm } from 'material-ui-confirm';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppBar, Toolbar, IconButton, Button, Tooltip, Box } from '@material-ui/core';
-import { MenuRounded, AccountCircleRounded } from '@material-ui/icons';
+import { MenuRounded, AccountCircleRounded, LockOpenRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import SideDrawer from './SideDrawer';
 import {
@@ -183,13 +183,8 @@ export default function TopBar({ children }) {
 		dispatch(showSideDrawer());
 	};
 
-	function handleLoginClick() {
-		dispatch(setIsUsingEmailAuthRoute('login'));
-		history.push(authLink);
-	}
-
-	function handleSignUpClick() {
-		dispatch(setIsUsingEmailAuthRoute('join'));
+	function handleAuthClick(route) {
+		dispatch(setIsUsingEmailAuthRoute(route));
 		history.push(authLink);
 	}
 
@@ -253,25 +248,38 @@ export default function TopBar({ children }) {
 							</Box>
 						</Box>
 					) : (
-						<Box display={{ xs: 'none', sm: 'inline-flex' }}>
-							<Box marginLeft={1}>
-								<Button
-									variant="outlined"
-									onClick={handleLoginClick}
-									classes={{ label: styles.authButtonLabel }}
-								>
-									Login
-								</Button>
+						<Box display="inline-flex">
+							<Box display={{ xs: 'inline-flex', sm: 'none' }}>
+								<Box marginLeft={1}>
+									<IconButton
+										edge="end"
+										aria-label="login or sign up"
+										onClick={() => handleAuthClick('join')}
+									>
+										<LockOpenRounded />
+									</IconButton>
+								</Box>
 							</Box>
-							<Box marginLeft={1}>
-								<Button
-									variant="contained"
-									color="primary"
-									onClick={handleSignUpClick}
-									classes={{ label: styles.authButtonLabel }}
-								>
-									Sign up
-								</Button>
+							<Box display={{ xs: 'none', sm: 'inline-flex' }}>
+								<Box marginLeft={1}>
+									<Button
+										variant="outlined"
+										onClick={() => handleAuthClick('login')}
+										classes={{ label: styles.authButtonLabel }}
+									>
+										Login
+									</Button>
+								</Box>
+								<Box marginLeft={1}>
+									<Button
+										variant="contained"
+										color="primary"
+										onClick={() => handleAuthClick('join')}
+										classes={{ label: styles.authButtonLabel }}
+									>
+										Sign up
+									</Button>
+								</Box>
 							</Box>
 						</Box>
 					)}
