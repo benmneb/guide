@@ -58,7 +58,9 @@ export default function ReviewCard({ review }) {
 								>
 									{review.user_name}
 								</Link>
-								<Typography variant="body2">+ {review.authorPoints}</Typography>
+								<Typography variant="subtitle2" color="textSecondary">
+									{review.points ? `+${review.points}` : '0'}
+								</Typography>
 							</Box>
 							<ReviewMoreMenu review={review} />
 						</Box>
