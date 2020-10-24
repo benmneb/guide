@@ -5,7 +5,7 @@ import randomMC from 'random-material-color';
 import { Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
 	userProfile: {
 		width: 200,
 		height: 200,
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		width: 31,
 		height: 31
 	}
-}));
+});
 
 function getAppropriateSize(component, src) {
 	if (component === 'userProfile') return `${src}?width=400&height=400`;
@@ -41,7 +41,7 @@ export default function UserAvatar({ userData, component }) {
 				[styles.review]: component === 'review',
 				[styles.topbar]: component === 'topbar'
 			})}
-			style={{ backgroundColor: color }}
+			style={component !== 'topbar' ? { backgroundColor: color } : null}
 		>
 			{username.charAt(0).toUpperCase()}
 		</Avatar>
