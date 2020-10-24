@@ -18,6 +18,7 @@ import {
 } from '../../store/actions';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 import SearchBar from './SearchBar';
+import UserAvatar from '../../utils/UserAvatar';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -242,7 +243,11 @@ export default function TopBar({ children }) {
 										to={userProfileLink}
 										classes={{ root: styles.profileButton }}
 									>
-										<AccountCircleRounded fontSize="large" />
+										{currentUserData.avatar ? (
+											<UserAvatar component="topbar" userData={currentUserData} />
+										) : (
+											<AccountCircleRounded fontSize="large" />
+										)}
 									</IconButton>
 								</Tooltip>
 							</Box>

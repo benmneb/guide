@@ -29,6 +29,13 @@ export const updateUsername = (username) => {
 	};
 };
 
+export const updateAvatar = (avatar) => {
+	return {
+		type: actionTypes.UPDATE_AVATAR,
+		avatar
+	};
+};
+
 export const updateAuthState = (state) => {
 	return {
 		type: actionTypes.UPDATE_AUTH_STATE,

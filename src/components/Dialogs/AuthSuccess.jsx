@@ -30,6 +30,7 @@ export default function AuthSuccess() {
 							{
 								id: data.user.user_id,
 								username: data.user.user_name,
+								avatar: data.avatar,
 								authState: data.authState
 							},
 							true

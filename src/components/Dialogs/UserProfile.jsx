@@ -32,7 +32,12 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { red } from '@material-ui/core/colors';
 import UserProfileSettings from './UserProfileSettings';
 import { getTimeAgo } from '../../utils/timeAgo';
-import { setCurrentUserData, showSnackbar, updateUsername } from '../../store/actions';
+import {
+	setCurrentUserData,
+	showSnackbar,
+	updateUsername,
+	updateAvatar
+} from '../../store/actions';
 import UserAvatar from '../../utils/UserAvatar';
 
 const useStyles = makeStyles((theme) => ({
@@ -168,7 +173,7 @@ export default function UserProfile({ isOpened }) {
 		e.persist();
 		confirm({
 			description:
-				'Please confirm you want to change your avatar to the image you just selected.',
+				'Please confirm you want to change your avatar to the image you just selected. If you chose a large file, this might take a while.',
 			confirmationText: 'Change avatar'
 		})
 			.then(() => {
@@ -228,6 +233,7 @@ export default function UserProfile({ isOpened }) {
 			);
 			const avatar = await response.data[0].avatar;
 			setSelectedUser((prev) => ({ ...prev, avatar }));
+			dispatch(updateAvatar(avatar));
 		} catch (err) {
 			console.error(err);
 			dispatch(
@@ -266,6 +272,7 @@ export default function UserProfile({ isOpened }) {
 					.then(() => {
 						setPending(false);
 						setSelectedUser((prev) => ({ ...prev, avatar: null }));
+						dispatch(updateAvatar(null));
 						dispatch(
 							showSnackbar({
 								type: 'info',
@@ -280,8 +287,7 @@ export default function UserProfile({ isOpened }) {
 							dispatch(
 								showSnackbar({
 									type: 'error',
-									title: "You can't delete the default avatar",
-									message: 'If you want to change it, upload a new one.'
+									message: "You can't delete the default avatar."
 								})
 							);
 						} else {
@@ -325,15 +331,23 @@ export default function UserProfile({ isOpened }) {
 						<Grid item container xs={12} direction="column" alignItems="center">
 							{selectedUser ? (
 								<>
-									<Typography
-										className={styles.karma}
-										variant="overline"
-										component="span"
-										display="block"
-										align="center"
-									>
-										+ TODO: karma
-									</Typography>
+									<Box display="block">
+										<Tooltip
+											title={`Karma is an expression of ${
+												isOwnProfile ? 'your' : 'this users'
+											} total activity on the Guide. You accrue more positive karma by leaving ratings and reviews, liking useful reviews and tagging and voting on stores.`}
+										>
+											<Typography
+												className={styles.karma}
+												variant="overline"
+												component="span"
+												align="center"
+											>
+												{selectedUser.points !== null ? `+${selectedUser.points}` : '0'}{' '}
+												karma
+											</Typography>
+										</Tooltip>
+									</Box>
 									<Typography component="h1" variant="h4" align="center">
 										{selectedUser.user_name}
 									</Typography>
@@ -411,7 +425,9 @@ export default function UserProfile({ isOpened }) {
 									<Typography>
 										Stores tagged:{' '}
 										<Box component="span" fontWeight="fontWeightBold">
-											TODO:
+											{selectedUser.stores_tagged !== null
+												? selectedUser.stores_tagged
+												: '0'}
 										</Box>
 									</Typography>
 									<Typography>

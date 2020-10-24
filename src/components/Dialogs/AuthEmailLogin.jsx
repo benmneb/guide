@@ -80,7 +80,10 @@ export default function AuthEmailLogin() {
 			})
 			.then((user) => {
 				dispatch(
-					setCurrentUserData({ id: user.user_id, username: user.user_name }, true)
+					setCurrentUserData(
+						{ id: user.user_id, username: user.user_name, avatar: user.avatar },
+						true
+					)
 				);
 				setPending(false);
 			})

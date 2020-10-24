@@ -33,6 +33,14 @@ export default function AuthReducer(state = initialState, action) {
 					username: action.username
 				}
 			};
+		case actionTypes.UPDATE_AVATAR:
+			return {
+				...state,
+				currentUserData: {
+					...state.currentUserData,
+					avatar: action.avatar
+				}
+			};
 		case actionTypes.UPDATE_AUTH_STATE:
 			return {
 				...state,

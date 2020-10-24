@@ -83,7 +83,8 @@ export default function AuthEmailJoin() {
 						{
 							id: data.user.user_id,
 							username: data.user.user_name,
-							authState: data.authState
+							authState: data.authState,
+							avatar: data.avatar
 						},
 						true
 					)
