@@ -59,7 +59,7 @@ export default function ReviewCard({ review }) {
 									{review.user_name}
 								</Link>
 								<Typography variant="subtitle2" color="textSecondary">
-									{review.points ? `+${review.points}` : '0'}
+									{review.points ? `+${review.points}` : ''}
 								</Typography>
 							</Box>
 							<ReviewMoreMenu review={review} />
