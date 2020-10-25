@@ -58,7 +58,9 @@ export const updateReviews = (selectedProductId) => (dispatch) =>
 				reviews: response.data.reviews
 			})
 		)
-		.catch((err) => console.error('TODO: PUT A SNACKBAR HERE BRO', err));
+		.catch((err) => {
+			console.error('Error updating reviews:', err.message);
+		});
 
 export const setStores = (stores) => {
 	return {
