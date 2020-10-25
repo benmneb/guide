@@ -5,7 +5,9 @@ import {
 	showSnackbar,
 	updateReviews,
 	hideAddReview,
-	setPrevReviewData
+	setPrevReviewData,
+	setSelectedProduct,
+	setTempRating
 } from '../../../store/actions';
 import clsx from 'clsx';
 import { Typography, TextField, Grid, Collapse, Box } from '@material-ui/core';
@@ -64,6 +66,17 @@ export default function AddReviewForm() {
 							emoji: '💪'
 						})
 					);
+					dispatch(hideAddReview());
+					dispatch(updateReviews(selectedProductId));
+					if (!prevReviewData || prevReviewData.rating !== rating) {
+						axios
+							.get(`https://api.vomad.guide/product/${selectedProductId}`)
+							.then((res) => dispatch(setSelectedProduct(res.data[0])))
+							.catch((err) => console.error(err));
+					}
+					if (tempRating) dispatch(setTempRating(rating));
+				})
+				.then(() => {
 					dispatch(
 						setPrevReviewData({
 							review: data.review,
@@ -71,9 +84,7 @@ export default function AddReviewForm() {
 							review_id: prevReviewData && prevReviewData.review_id
 						})
 					);
-					dispatch(hideAddReview());
 				})
-				.then(() => dispatch(updateReviews(selectedProductId)))
 				.catch((err) => {
 					console.error(err.message);
 					setPending(false);
