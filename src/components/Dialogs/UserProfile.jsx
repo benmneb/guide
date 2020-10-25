@@ -172,7 +172,6 @@ export default function UserProfile({ isOpened }) {
 	};
 
 	function handleAvatarUpload(e) {
-		e.persist();
 		confirm({
 			description:
 				'Please confirm you want to change your avatar to the image you just selected. If you chose a large file, this might take a while.',

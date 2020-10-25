@@ -1,4 +1,3 @@
-/* global clearTimeout */
 import { useState, useEffect, useMemo } from 'react';
 
 import { GET_PARAMS } from '../router';
@@ -6,7 +5,7 @@ import useGetParameter from '../useGetParamater';
 
 let timeout;
 
-export default () => {
+export default function useGetPopupState() {
 	const popupName = useGetParameter(GET_PARAMS.popup);
 	const [mountedPopup, setMountedPopup] = useState(popupName);
 
@@ -33,4 +32,4 @@ export default () => {
 		mountedPopup,
 		isOpened
 	};
-};
+}
