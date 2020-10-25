@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 		}
 	},
 	profileButtonBox: {
+		display: 'inline-flex',
 		marginLeft: theme.spacing(1),
 		[theme.breakpoints.up('md')]: {
 			marginLeft: theme.spacing(0)
