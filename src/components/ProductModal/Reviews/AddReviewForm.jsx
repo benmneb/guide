@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { showSnackbar, updateReviews, hideAddReview } from '../../../store/actions';
+import {
+	showSnackbar,
+	updateReviews,
+	hideAddReview,
+	setPrevReviewData
+} from '../../../store/actions';
 import clsx from 'clsx';
 import { Typography, TextField, Grid, Collapse, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
@@ -57,6 +62,13 @@ export default function AddReviewForm() {
 							type: 'success',
 							message: 'Thank you for helping people find vegan products easier',
 							emoji: '💪'
+						})
+					);
+					dispatch(
+						setPrevReviewData({
+							review: data.review,
+							rating: rating,
+							review_id: prevReviewData && prevReviewData.review_id
 						})
 					);
 					dispatch(hideAddReview());
