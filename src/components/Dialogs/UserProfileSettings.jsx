@@ -300,13 +300,13 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 		<Dialog
 			onClose={handleClose}
 			onExited={handleExited}
-			aria-labelledby="simple-dialog-title"
+			aria-labelledby="user-profile-settings-title"
 			open={show}
 			maxWidth="sm"
 			classes={{ paperWidthSm: styles.modal }}
 		>
 			<DialogTitle
-				id="user-profile-setting-title"
+				id="user-profile-settings-title"
 				className={styles.dialogTitle}
 				onClose={handleClose}
 			>

@@ -280,7 +280,7 @@ export default function ProductModal({ show }) {
 				fullWidth
 				classes={{ paperScrollPaper: styles.modalMaxHeight }}
 			>
-				<DialogTitle noTitle onClose={onClose} />
+				<DialogTitle noTitle id="product-dialog-title" onClose={onClose} />
 				<DialogContent className={styles.dialogContentRoot}>
 					<Grid
 						component="header"

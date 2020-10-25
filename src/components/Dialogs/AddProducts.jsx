@@ -154,13 +154,13 @@ export default function AddProducts({ isOpened }) {
 			open={Boolean(isOpened)}
 			onClose={onClose}
 			onExited={onExited}
-			aria-labelledby="form-dialog-title"
+			aria-labelledby="add-products-title"
 			fullScreen={fullScreen}
 			maxWidth="sm"
 			fullWidth
 			classes={{ paperFullWidth: styles.modalMaxHeight }}
 		>
-			<DialogTitle id="form-dialog-title" onClose={onClose}>
+			<DialogTitle id="add-products-title" onClose={onClose}>
 				Add a Product to the Guide
 			</DialogTitle>
 			<DialogContent>
