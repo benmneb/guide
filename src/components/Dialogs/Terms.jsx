@@ -43,7 +43,9 @@ export default function Terms({ isOpened }) {
 	}, [history, location.pathname]);
 
 	const onClose = () => {
-		goBack();
+		if (isOpened) {
+			goBack();
+		}
 	};
 
 	return (

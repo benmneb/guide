@@ -63,7 +63,9 @@ export default function GetTheApp({ isOpened }) {
 	}, [history, location.pathname]);
 
 	function onClose() {
-		goBack();
+		if (isOpened) {
+			goBack();
+		}
 	}
 
 	useEffect(() => {

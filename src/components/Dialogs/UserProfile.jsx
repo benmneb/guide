@@ -138,7 +138,9 @@ export default function UserProfile({ isOpened }) {
 	}, [history, location.pathname, location.search]);
 
 	const onClose = () => {
-		goBack();
+		if (isOpened) {
+			goBack();
+		}
 	};
 
 	function handleShowSettingsModal() {

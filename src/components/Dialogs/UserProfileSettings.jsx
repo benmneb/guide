@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showSnackbar, setCurrentUserData } from '../../store/actions';
 import { useForm } from 'react-hook-form';
 import { useConfirm } from 'material-ui-confirm';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '../../utils/DialogTitle';
 import {
 	Collapse,
@@ -71,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AboutEdit({ hide, show, updateUsername }) {
 	const styles = useStyles();
 	const confirm = useConfirm();
-	const theme = useTheme();
 	const dispatch = useDispatch();
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
 	const { register, handleSubmit, errors, watch } = useForm();
@@ -83,13 +82,16 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 	const [pending, setPending] = useState(false);
 
 	const handleClose = () => {
-		setTimeout(() => {
-			setEditUsername(false);
-			setDeleteAccount(false);
-			setChangeEmail(false);
-			setUpdatePassword(false);
-		}, theme.transitions.duration.leavingScreen);
-		hide();
+		if (show) {
+			hide();
+		}
+	};
+
+	const handleExited = () => {
+		setEditUsername(false);
+		setDeleteAccount(false);
+		setChangeEmail(false);
+		setUpdatePassword(false);
 	};
 
 	function handleSettingClick(setting) {
@@ -297,6 +299,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 	return (
 		<Dialog
 			onClose={handleClose}
+			onExited={handleExited}
 			aria-labelledby="simple-dialog-title"
 			open={show}
 			maxWidth="sm"

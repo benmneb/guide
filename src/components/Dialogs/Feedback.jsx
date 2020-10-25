@@ -71,15 +71,17 @@ export default function Feedback({ isOpened }) {
 	}, [history, location.pathname, location.search]);
 
 	const onClose = () => {
-		if (getValues('feedback')) {
-			confirm({
-				description:
-					'You have started entering feedback, if you close this modal you will lose what you have entered.',
-				confirmationText: 'Close'
-			})
-				.then(() => goBack())
-				.catch(() => null);
-		} else goBack();
+		if (isOpened) {
+			if (getValues('feedback')) {
+				confirm({
+					description:
+						'You have started entering feedback, if you close this modal you will lose what you have entered.',
+					confirmationText: 'Close'
+				})
+					.then(() => goBack())
+					.catch(() => null);
+			} else goBack();
+		}
 	};
 
 	return (

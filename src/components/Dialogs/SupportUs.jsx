@@ -59,7 +59,9 @@ export default function SupportUs({ isOpened }) {
 	}, [actionType]);
 
 	const onClose = () => {
-		goBack();
+		if (isOpened) {
+			goBack();
+		}
 	};
 
 	const goBack = useCallback(() => {

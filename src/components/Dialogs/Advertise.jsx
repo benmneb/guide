@@ -70,15 +70,17 @@ export default function Advertise({ isOpened }) {
 	}, [history, location.pathname, location.search]);
 
 	const onClose = () => {
-		if (getValues('name') || getValues('email') || getValues('message')) {
-			confirm({
-				description:
-					'If you close before submitting you will lose everything you have entered in the advertising form.',
-				confirmationText: 'Close'
-			})
-				.then(() => goBack())
-				.catch(() => null);
-		} else goBack();
+		if (isOpened) {
+			if (getValues('name') || getValues('email') || getValues('message')) {
+				confirm({
+					description:
+						'If you close before submitting you will lose everything you have entered in the advertising form.',
+					confirmationText: 'Close'
+				})
+					.then(() => goBack())
+					.catch(() => null);
+			} else goBack();
+		}
 	};
 
 	return (

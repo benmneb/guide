@@ -50,15 +50,17 @@ export default function Auth({ isOpened }) {
 	}, [history, location.pathname, location.search]);
 
 	function onClose() {
-		goBack();
+		if (isOpened) {
+			goBack();
+		}
 	}
 
 	useEffect(() => {
 		if (isAuthenticated && isOpened) goBack();
 	}, [isAuthenticated, goBack, isOpened]);
 
-	const handleSocialLogin = (website) => {
-		const url = `https://api.vomad.guide/auth/${website}`;
+	const handleSocialLogin = (platform) => {
+		const url = `https://api.vomad.guide/auth/${platform}`;
 		const name = '_blank';
 		window.open(url, name);
 	};
