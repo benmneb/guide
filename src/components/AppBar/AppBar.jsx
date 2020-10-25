@@ -252,6 +252,7 @@ export default function TopBar({ children }) {
 							<Box display={{ xs: 'inline-flex', sm: 'none' }}>
 								<Box marginLeft={1}>
 									<IconButton
+										color="inherit"
 										edge="end"
 										aria-label="login or sign up"
 										onClick={() => handleAuthClick('join')}
