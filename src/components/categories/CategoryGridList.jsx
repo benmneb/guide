@@ -13,6 +13,21 @@ const useStyles = makeStyles((theme) => ({
 		scrollbarWidth: 'none',
 		'&::-webkit-scrollbar': {
 			display: 'none'
+		},
+		'@media (hover: hover) and (pointer: fine)': {
+			scrollbarWidth: 'auto',
+			scrollbarColor: `${theme.palette.grey[300]} ${theme.palette.background.paper}`,
+			'&::-webkit-scrollbar': {
+				display: 'block'
+			},
+			'&::-webkit-scrollbar-track': {
+				background: theme.palette.background.paper
+			},
+			'&::-webkit-scrollbar-thumb': {
+				backgroundColor: theme.palette.grey[300],
+				borderRadius: theme.spacing(2),
+				border: `${theme.spacing(0.5)}px solid ${theme.palette.background.paper}`
+			}
 		}
 	},
 	gridListTile: {
