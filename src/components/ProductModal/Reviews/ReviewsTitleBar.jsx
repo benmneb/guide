@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { Typography, Grid } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';

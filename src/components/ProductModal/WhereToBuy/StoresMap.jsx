@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { memo, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@material-ui/core/styles';
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
@@ -80,4 +80,4 @@ function StoresMap(props) {
 	);
 }
 
-export default React.memo(StoresMap);
+export default memo(StoresMap);

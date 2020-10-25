@@ -1,4 +1,3 @@
-import React from 'react';
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 import { Box, CircularProgress } from '@material-ui/core';

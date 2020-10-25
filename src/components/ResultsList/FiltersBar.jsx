@@ -1,4 +1,4 @@
-import React from 'react';
+import { cloneElement } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	AppBar,
@@ -69,7 +69,7 @@ function ElevationScroll({ children }) {
 		threshold: showFiltersPanel ? -1 : 350
 	});
 
-	return React.cloneElement(children, {
+	return cloneElement(children, {
 		elevation: trigger ? 4 : 0
 	});
 }

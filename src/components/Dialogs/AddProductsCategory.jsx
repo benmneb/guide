@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedCategory, setCategoryInputValue } from '../../store/actions';
 import { TextField, Grid } from '@material-ui/core';

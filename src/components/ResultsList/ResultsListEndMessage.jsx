@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Button, Typography } from '@material-ui/core';
 import { AddCircleOutlineRounded } from '@material-ui/icons';

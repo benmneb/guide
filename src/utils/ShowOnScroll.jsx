@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Grow from '@material-ui/core/Grow';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';

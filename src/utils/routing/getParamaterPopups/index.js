@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { GET_ENUMS } from '../router';
 import useGetPopupState from './useGetPopupState';
 

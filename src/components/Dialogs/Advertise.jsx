@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';

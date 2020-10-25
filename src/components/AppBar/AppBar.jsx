@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import axios from 'axios';
 import clsx from 'clsx';
 import { useConfirm } from 'material-ui-confirm';

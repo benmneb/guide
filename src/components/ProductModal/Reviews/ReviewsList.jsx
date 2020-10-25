@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { Typography, Box } from '@material-ui/core';
 import ReviewCard from './ReviewCard';

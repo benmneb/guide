@@ -1,4 +1,3 @@
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography, Toolbar, Button } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';

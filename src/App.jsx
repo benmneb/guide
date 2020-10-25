@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { ConfirmProvider } from 'material-ui-confirm';
 import { ThemeProvider } from '@material-ui/core/styles';

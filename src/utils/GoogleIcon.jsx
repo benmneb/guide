@@ -1,4 +1,3 @@
-import React from 'react';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { ReactComponent as GoogleLogo } from '../assets/google-logo.svg';
 

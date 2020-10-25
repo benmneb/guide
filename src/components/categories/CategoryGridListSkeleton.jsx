@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { GridListTile, GridList } from '@material-ui/core';
 import useWidth from '../../utils/useWidth';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsUsingEmailAuthRoute } from '../../store/actions';
 import { Box } from '@material-ui/core';
