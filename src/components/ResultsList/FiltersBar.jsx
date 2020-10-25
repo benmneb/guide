@@ -20,11 +20,18 @@ const useStyles = makeStyles((theme) => ({
 	zIndex: {
 		zIndex: theme.zIndex.appBar - 1
 	},
+	toolbarRoot: {
+		[theme.breakpoints.only('xs')]: {
+			width: '100vw'
+		}
+	},
 	breadcrumbsBox: {
 		overflow: 'auto',
-		display: 'none',
-		[theme.breakpoints.up('sm')]: {
-			display: 'block'
+		display: 'block',
+		msOverflowStyle: 'none',
+		scrollbarWidth: 'none',
+		'&::-webkit-scrollbar': {
+			display: 'none'
 		}
 	},
 	chipsBox: {
@@ -41,14 +48,15 @@ const useStyles = makeStyles((theme) => ({
 			flexShrink: 100000,
 			overflow: 'scroll',
 			whiteSpace: 'nowrap',
-			maxWidth: 670,
+			maxWidth: '75vw', // this amount seems to stop whole body horizonal scrolling
 			width: '100%'
 		},
 		[theme.breakpoints.up('md')]: {
-			margin: theme.spacing(0, 2)
+			margin: theme.spacing(0, 2),
+			maxWidth: `calc(75vw - ${theme.mixins.sideMenu.width}px)`
 		}
 	},
-	removeAllChip: {
+	chip: {
 		margin: theme.spacing(0, 0.5)
 	}
 }));
@@ -72,13 +80,7 @@ export default function FiltersBar(props) {
 	const appliedFilters = useSelector((state) => state.results.appliedFilters);
 
 	return (
-		<Box
-			display={{ xs: 'none', sm: 'flex' }}
-			flexGrow="1"
-			top="0"
-			position="sticky"
-			className={styles.zIndex}
-		>
+		<Box display="flex" flexGrow="1" top="0" position="sticky" className={styles.zIndex}>
 			<ElevationScroll {...props}>
 				<AppBar
 					position="sticky"
@@ -86,7 +88,7 @@ export default function FiltersBar(props) {
 					elevation={3}
 					classes={{ root: styles.zIndex }}
 				>
-					<Toolbar display="flex">
+					<Toolbar display="flex" classes={{ root: styles.toolbarRoot }}>
 						<Box className={styles.breadcrumbsBox}>
 							{props.loading ? (
 								<Breadcrumbs>
@@ -96,24 +98,9 @@ export default function FiltersBar(props) {
 								<BreadcrumbTrail breadcrumbs={props.breadcrumbs} />
 							)}
 						</Box>
-						<Box flexGrow="1" justifyContent="flex-start"></Box>
+						<Box flexGrow="1" justifyContent="flex-start" />
 						{appliedFilters.length > 0 && (
 							<Box className={styles.chipsBox}>
-								{appliedFilters.map((filter) => (
-									<Tooltip
-										key={filter.id}
-										title={filter.tooltip}
-										placement="bottom"
-										arrow
-									>
-										<Chip
-											className={styles.removeAllChip}
-											label={filter.value}
-											onClick={() => dispatch(removeFilter(filter))}
-											onDelete={() => dispatch(removeFilter(filter))}
-										/>
-									</Tooltip>
-								))}
 								{appliedFilters.length > 4 && (
 									<Box className={styles.chip}>
 										<Chip
@@ -125,6 +112,21 @@ export default function FiltersBar(props) {
 										/>
 									</Box>
 								)}
+								{appliedFilters.map((filter) => (
+									<Tooltip
+										key={filter.id}
+										title={filter.tooltip}
+										placement="bottom"
+										arrow
+									>
+										<Chip
+											className={styles.chip}
+											label={filter.value}
+											onClick={() => dispatch(removeFilter(filter))}
+											onDelete={() => dispatch(removeFilter(filter))}
+										/>
+									</Tooltip>
+								))}
 							</Box>
 						)}
 						<Box display={{ xs: 'none', md: 'flex' }}>
