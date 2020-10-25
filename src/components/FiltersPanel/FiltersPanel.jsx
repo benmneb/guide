@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 			display: 'flex',
 			alignItems: 'center',
 			height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`, // bottomNav height
-			borderBottom: `1px solid rgba(0, 0, 0, 0.12);`
+			borderBottom: `1px solid rgba(0, 0, 0, 0.12);`,
+			overscrollBehavior: 'contain'
 		},
 		[theme.breakpoints.only('sm')]: {
 			top: theme.mixins.toolbar['@media (min-width:600px)'].minHeight,
