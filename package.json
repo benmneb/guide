@@ -35,6 +35,7 @@
 	"scripts": {
 		"start": "PORT=3001 react-scripts start",
 		"build": "react-scripts build",
+		"postbuild": "react-snap",
 		"analyse": "node analyse.js",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
@@ -55,6 +56,7 @@
 		]
 	},
 	"devDependencies": {
+		"react-snap": "^1.23.0",
 		"webpack-bundle-analyzer": "^3.9.0"
 	}
 }
