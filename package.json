@@ -58,5 +58,12 @@
 	"devDependencies": {
 		"react-snap": "^1.23.0",
 		"webpack-bundle-analyzer": "^3.9.0"
+	},
+	"reactSnap": {
+		"puppeteerArgs": [
+			"--no-sandbox",
+			"--disable-setuid-sandbox"
+		],
+		"puppeteerExecutablePath": "/opt/google/chrome/google-chrome"
 	}
 }
