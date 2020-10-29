@@ -9,7 +9,7 @@ export const tags = [
 		id: 5,
 		name: '🇦🇺 Local Brands',
 		value: 'Local Brands',
-		tooltip: 'Only show brands owned in Australia'
+		tooltip: 'Only show products from Australian owned brands'
 	},
 	{
 		id: 7,
