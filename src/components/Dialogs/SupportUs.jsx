@@ -100,46 +100,25 @@ export default function SupportUs({ isOpened }) {
 							value back.
 						</Typography>
 						<Box component="ul" className={styles.list}>
-							<Box component="li" data-icon="✏️">
+							<Box component="li" data-icon="❤️">
 								<Typography component="div">
 									<Box component="span" fontWeight="fontWeightBold">
-										Rate, review, tag and add.
+										Become a patron.
 									</Box>{' '}
-									Leave reviews and ratings for products you've bought, tag the stores
-									you've bought them in, and add any missing products so others can find
-									them. The easiest way to support The Guide is just to use it.
-									{!isAuthenticated && (
-										<Box marginTop={1.5}>
-											<Button
-												variant="contained"
-												color="primary"
-												component={Link}
-												to={authLink}
-											>
-												Get Started
-											</Button>
-										</Box>
-									)}
-								</Typography>
-							</Box>
-							<Box component="li" data-icon="🗣">
-								<Typography>
-									<Box component="span" fontWeight="fontWeightBold">
-										Mention us.
-									</Box>{' '}
-									Recommend the Guide to your friends and family. Show them how easy it is
-									to find vegan products. A quick browse of the Guide can open their eyes
-									to how convenient being vegan is in {new Date().getFullYear()}.
-								</Typography>
-							</Box>
-							<Box component="li" data-icon="🎁">
-								<Typography>
-									<Box component="span" fontWeight="fontWeightBold">
-										Share links.
-									</Box>{' '}
-									If you see someone on social media asking about vegan products, or
-									enquiring if a specific vegan product is any good, then post a link to
-									the Guide.
+									Pledge an amount you are comfortable with to help cover the expenses
+									associated with creating and maintaining a large-scale web-app like
+									this. Every little bit helps.
+									<Box marginTop={1.5}>
+										<Button
+											variant="contained"
+											color="primary"
+											href="https://patreon.com/vomad?fan_landing=true"
+											target="_blank"
+											rel="noopener noreferrer"
+										>
+											Support us via Patreon
+										</Button>
+									</Box>
 								</Typography>
 							</Box>
 							<Box component="li" data-icon="📈">
@@ -161,25 +140,46 @@ export default function SupportUs({ isOpened }) {
 									</Box>
 								</Typography>
 							</Box>
-							<Box component="li" data-icon="❤️">
+							<Box component="li" data-icon="🎁">
+								<Typography>
+									<Box component="span" fontWeight="fontWeightBold">
+										Share links.
+									</Box>{' '}
+									If you see someone on social media asking about vegan products, or
+									enquiring if a specific vegan product is any good, then post a link to
+									the Guide.
+								</Typography>
+							</Box>
+							<Box component="li" data-icon="🗣">
+								<Typography>
+									<Box component="span" fontWeight="fontWeightBold">
+										Mention us.
+									</Box>{' '}
+									Recommend the Guide to your friends and family. Show them how easy it is
+									to find vegan products. A quick browse of the Guide can open their eyes
+									to how convenient being vegan is in {new Date().getFullYear()}.
+								</Typography>
+							</Box>
+							<Box component="li" data-icon="✏️">
 								<Typography component="div">
 									<Box component="span" fontWeight="fontWeightBold">
-										Become a patron.
+										Rate, review, tag and add.
 									</Box>{' '}
-									Pledge an amount you are comfortable with to help cover the expenses
-									associated with creating and maintaining a large-scale web-app like
-									this. Every little bit helps.
-									<Box marginTop={1.5}>
-										<Button
-											variant="contained"
-											color="primary"
-											href="https://patreon.com/vomad"
-											target="_blank"
-											rel="noopener noreferrer"
-										>
-											Support us via Patreon
-										</Button>
-									</Box>
+									Leave reviews and ratings for products you've bought, tag the stores
+									you've bought them in, and add any missing products so others can find
+									them. The easiest way to support the Guide is just to use it.
+									{!isAuthenticated && (
+										<Box marginTop={1.5}>
+											<Button
+												variant="contained"
+												color="primary"
+												component={Link}
+												to={authLink}
+											>
+												Get Started
+											</Button>
+										</Box>
+									)}
 								</Typography>
 							</Box>
 						</Box>
