@@ -34,7 +34,9 @@ const useStyles = makeStyles((theme) => ({
 		}
 	},
 	cardMedia: {
+		position: 'relative',
 		paddingTop: theme.spacing(),
+		objectFit: 'contain',
 		[theme.breakpoints.up('xs')]: {
 			maxHeight: 160,
 			maxWidth: 150
@@ -42,8 +44,7 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {
 			maxHeight: 220,
 			maxWidth: 200
-		},
-		position: 'relative'
+		}
 	},
 	cardMediaPlaceholder: {
 		paddingTop: theme.spacing(),
@@ -82,11 +83,16 @@ export default function ResultCard({ result }) {
 	const styles = useStyles();
 	const upMd = useMediaQuery((theme) => theme.breakpoints.up('md'));
 	const ratingSize = upMd ? 'medium' : 'small';
+	const constrainSize = upMd ? 200 : 150;
 
 	return (
 		<Card component="article" className={styles.productTile}>
 			<Box className={styles.cardMediaPlaceholder}>
-				<CardMedia className={styles.cardMedia} component="img" image={result.imageSrc} />
+				<CardMedia
+					className={styles.cardMedia}
+					component="img"
+					image={`${result.imageSrc}?width=${constrainSize}`}
+				/>
 			</Box>
 			<CardContent className={styles.cardContent}>
 				<Typography className={styles.productName} component="h2" variant="body1">

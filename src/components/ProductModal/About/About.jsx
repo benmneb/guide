@@ -102,7 +102,7 @@ export default function About() {
 											<CardMedia
 												component="img"
 												alt={product.productName}
-												image={product.imageSrc}
+												image={`${product.imageSrc}?width=300`}
 												title={product.productName}
 											/>
 										</Box>
