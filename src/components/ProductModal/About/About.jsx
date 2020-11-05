@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
 	Button,
-	Chip,
 	Paper,
 	Grid,
 	CardMedia,
@@ -18,10 +17,11 @@ import {
 	Box
 } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { EcoRounded, OpenInNewRounded, LocalOfferRounded } from '@material-ui/icons';
+import { EcoRounded, OpenInNewRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import AboutEdit from './AboutEdit';
 import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
+import ProductTags from './ProductTags';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -44,12 +44,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	infoSkeleton: {
 		margin: theme.spacing(2, 0)
-	},
-	chipBox: {
-		marginBottom: theme.spacing(2),
-		'& > *': {
-			margin: theme.spacing(0.5)
-		}
 	}
 }));
 
@@ -102,24 +96,7 @@ export default function About() {
 						<Grid item xs={12}>
 							{product ? (
 								<Box margin={0} marginBottom={2} display="flex" flexDirection="column">
-									<Box
-										display="flex"
-										flexWrap="wrap"
-										justifyContent="center"
-										className={styles.chipBox}
-									>
-										<Chip icon={<EcoRounded fontSize="small" />} label="Vegan" />
-										{product.tags !== null &&
-											product.tags
-												.filter((tag) => tag !== 'Men' && tag !== 'Women')
-												.map((tag) => (
-													<Chip
-														key={tag}
-														icon={<LocalOfferRounded fontSize="small" />}
-														label={tag}
-													/>
-												))}
-									</Box>
+									<ProductTags product={product} />
 									<Box display="flex" flexDirection="column" alignItems="center">
 										<Box maxWidth={300}>
 											<CardMedia
