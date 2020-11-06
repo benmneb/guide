@@ -1,42 +1,19 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {
-	Button,
-	Paper,
-	Grid,
-	CardMedia,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Typography,
-	Tooltip,
-	Box
-} from '@material-ui/core';
+import { Button, Grid, CardMedia, Typography, Tooltip, Box } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { EcoRounded, OpenInNewRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import AboutEdit from './AboutEdit';
 import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 import ProductTags from './ProductTags';
+import ProductInfo from './ProductInfo';
 
 const useStyles = makeStyles((theme) => ({
-	paper: {
-		padding: theme.spacing(2),
-		color: theme.palette.text.secondary
-	},
 	heading: {
 		color: theme.palette.text.primary,
 		fontWeight: theme.typography.fontWeightBold
-	},
-	table: {
-		minWidth: 280
-	},
-	buttonLabel: {
-		color: theme.palette.text.secondary
 	},
 	imageSkeleton: {
 		borderRadius: theme.shape.borderRadius,
@@ -72,21 +49,6 @@ export default function About() {
 	function handleCloseEditModal() {
 		setShowEditModal(false);
 	}
-
-	function createData(nutrition, perServe, per100g) {
-		return { nutrition, perServe, per100g };
-	}
-
-	const rows = product && [
-		createData('Energy', product.energy1, product.energy2),
-		createData('Protein', product.protein1, product.protein2),
-		createData('Fat, total', product.totalfat1, product.totalfat2),
-		createData('- saturated', product.satfat1, product.satfat2),
-		createData('Carbohydrate', product.carb1, product.carb2),
-		createData('- sugars', product.sugar1, product.sugar2),
-		createData('Dietary fibre', product.fibre1, product.fibre2),
-		createData('Sodium', product.sodium1, product.sodium2)
-	];
 
 	return (
 		<>
@@ -149,51 +111,7 @@ export default function About() {
 				<Grid item xs={12} sm={6}>
 					{product ? (
 						<>
-							<Paper component="section" className={styles.paper} variant="outlined">
-								<Typography gutterBottom className={styles.heading}>
-									Ingredients
-								</Typography>
-								<Typography paragraph>{product.ingredients}</Typography>
-								<Typography gutterBottom className={styles.heading}>
-									Nutritional Info
-								</Typography>
-								<Typography>Servings per package: {product.serve1}</Typography>
-								<Typography gutterBottom>Serving size: {product.serve2}</Typography>
-								<TableContainer>
-									<Table
-										className={styles.table}
-										size="small"
-										aria-label="nutrition information"
-									>
-										<TableHead>
-											<TableRow>
-												<TableCell>Nutrition</TableCell>
-												<TableCell align="right">Per Serve</TableCell>
-												<TableCell align="right">Per 100g</TableCell>
-											</TableRow>
-										</TableHead>
-										<TableBody>
-											{rows.map((row) => (
-												<TableRow key={row.nutrition}>
-													<TableCell component="th" scope="row">
-														{row.nutrition}
-													</TableCell>
-													<TableCell align="right">{row.perServe}</TableCell>
-													<TableCell align="right">{row.per100g}</TableCell>
-												</TableRow>
-											))}
-										</TableBody>
-										<caption>
-											Amounts are averages. Blanks indicate no data provided. Further
-											information may be displayed on back of pack.
-										</caption>
-									</Table>
-								</TableContainer>
-								<Typography gutterBottom className={styles.heading}>
-									Allergens
-								</Typography>
-								<Typography>{product.allergens}</Typography>
-							</Paper>
+							<ProductInfo product={product} />
 							<Box display="flex" justifyContent="center" marginTop={1}>
 								<Tooltip title="Correct any mistakes on this page">
 									<Button
