@@ -1,7 +1,6 @@
 export const defaultOptions = {
 	confirmationText: 'Confirm',
-	confirmationButtonProps: { variant: 'contained' },
-	cancellationButtonProps: { autoFocus: true },
+	confirmationButtonProps: { variant: 'contained', autoFocus: true },
 	dialogProps: {
 		disableBackdropClick: true
 	}
