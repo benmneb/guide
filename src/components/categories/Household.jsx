@@ -39,8 +39,7 @@ export default function Household() {
 			<Hero>
 				<Heading>Vegan Household Products</Heading>
 				<SubHeading>
-					There are 6,143 vegan household products in 128 categories within Australia from
-					312 brands.
+					There are 6,143 vegan household products in 128 categories in Australia.
 				</SubHeading>
 				<Footer forPage="prodType" />
 			</Hero>

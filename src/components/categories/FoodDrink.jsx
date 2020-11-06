@@ -39,8 +39,7 @@ export default function FoodDrink() {
 			<Hero>
 				<Heading>Vegan Food & Drink Products</Heading>
 				<SubHeading>
-					There are 5,147 vegan food & drink products in 103 categories within Australia
-					from 285 brands.
+					There are 5,147 vegan food & drink products in 103 categories in Australia.
 				</SubHeading>
 				<Footer forPage="prodType" />
 			</Hero>

@@ -351,7 +351,7 @@ export default function ResultsList() {
 					<Heading>Vegan {categoryData.name}</Heading>
 					<SubHeading>
 						There are {Number(categoryData.totalProducts).toLocaleString()} vegan{' '}
-						{categoryData.name.toLowerCase()} products within Australia.
+						{categoryData.name.toLowerCase()} products in Australia.
 					</SubHeading>
 					<Footer />
 				</Hero>

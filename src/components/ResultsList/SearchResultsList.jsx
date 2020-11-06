@@ -345,7 +345,7 @@ export default function SearchResultsList() {
 					<Heading>Vegan {searchResultsData.query}</Heading>
 					<SubHeading>
 						There are {searchResultsData.totalProducts} vegan{' '}
-						{searchResultsData.query.toLowerCase()} products within Australia.
+						{searchResultsData.query.toLowerCase()} products in Australia.
 					</SubHeading>
 					<Footer />
 				</Hero>

@@ -43,7 +43,7 @@ export default function Home() {
 				</SubHeading>
 				<Footer forPage="home">
 					There are 12,815 vegan products in 212 categories from 663 brands in 576 stores
-					and 54 online stores within Australia.
+					and 63 online stores in Australia.
 				</Footer>
 			</Hero>
 			<Box className={styles.container}>
