@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const reasons = [
-	'Inaccurate product info',
+	'Inaccurate/incomplete info',
 	'Wrong category',
 	'Broken "buy now" link(s)',
 	'Wrong/bad image',
