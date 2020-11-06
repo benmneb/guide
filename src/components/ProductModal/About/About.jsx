@@ -97,7 +97,7 @@ export default function About() {
 										color="primary"
 										size="large"
 										onClick={() =>
-											window.open(store.link + '?ref=vomadguide', '_blank', 'noopener')
+											window.open(`${store.link}?ref=vomadguide`, '_blank', 'noopener')
 										}
 										startIcon={store.isVegan ? <EcoRounded /> : null}
 										endIcon={<OpenInNewRounded />}
@@ -114,12 +114,7 @@ export default function About() {
 							<ProductInfo product={product} />
 							<Box display="flex" justifyContent="center" marginTop={1}>
 								<Tooltip title="Correct any mistakes on this page">
-									<Button
-										onClick={handleShowEditModal}
-										classes={{ label: styles.buttonLabel }}
-									>
-										Suggest an Edit
-									</Button>
+									<Button onClick={handleShowEditModal}>Suggest an Edit</Button>
 								</Tooltip>
 							</Box>
 						</>
