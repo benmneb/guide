@@ -30,20 +30,20 @@ export const ingredients = [
 		id: 8,
 		name: '🛢 No Oil',
 		value: 'No Oil',
-		tooltip: "Ingredients list does not contain 'oil'"
+		tooltip: "Only show products that do not contain 'oil'"
 	},
 	{
 		id: 9,
 		name: '🦷 No Added Sugar',
 		value: 'No Added Sugar',
 		tooltip:
-			"Ingredients list does not contain 'sugar', 'sucrose', 'glucose', 'fructose' or 28 other synonyms and ingredients known to contain sugar"
+			"Only show products that do not contain 'sugar', 'sucrose', 'glucose', 'fructose' or 28 other synonyms and ingredients known to contain sugar"
 	},
 	{
 		id: 21,
 		name: '🧂 No Salt',
 		value: 'No Salt',
-		tooltip: "Ingredients list does not contain 'salt', 'sodium' or 'fleur de sel'"
+		tooltip: "Only show products that do not contain 'salt', 'sodium' or 'fleur de sel'"
 	},
 	{
 		id: 4,
@@ -59,80 +59,80 @@ export const allergens = [
 		name: '🍞 Gluten Free',
 		value: 'Gluten Free',
 		tooltip:
-			"Ingredients list does not contain 'gluten' or 22 other ingredients known to contain gluten"
+			"Only show products that do not contain 'gluten' or 22 other ingredients known to contain gluten"
 	},
 	{
 		id: 10,
 		name: '🌾 Wheat Free',
 		value: 'Wheat Free',
 		tooltip:
-			"Ingredients list does not contain 'wheat' or 39 other synonyms and ingredients known to contain wheat"
+			"Only show products that do not contain 'wheat' or 39 other synonyms and ingredients known to contain wheat"
 	},
 	{
 		id: 11,
 		name: '🥜 Peanut Free',
 		value: 'Peanut Free',
 		tooltip:
-			"Ingredients list does not contain 'peanut' or 11 other synonyms and ingredients known to contain peanuts"
+			"Only show products that do not contain 'peanut' or 11 other synonyms and ingredients known to contain peanuts"
 	},
 	{
 		id: 12,
 		name: '🌰 Tree-Nut Free',
 		value: 'Tree-Nut Free',
 		tooltip:
-			"Ingredients list does not contain 'almond', 'brazil nut', 'cashew', 'hazelnut', 'macadamia', 'pecan', 'pistachio', 'walnut' or 18 other tree-nuts and ingredients known to contain tree-nuts"
+			"Only show products that do not contain 'almond', 'brazil nut', 'cashew', 'hazelnut', 'macadamia', 'pecan', 'pistachio', 'walnut' or 18 other tree-nuts and ingredients known to contain tree-nuts"
 	},
 	{
 		id: 13,
 		name: '🤮 Soy Free',
 		value: 'Soy Free',
 		tooltip:
-			"Ingredients list does not contain 'soy', 'soja' or 13 other synonyms and ingredients known to contain soy"
+			"Only show products that do not contain 'soy', 'soja' or 13 other synonyms and ingredients known to contain soy"
 	},
 	{
 		id: 14,
 		name: '🤢 Lupin Free',
 		value: 'Lupin Free',
-		tooltip: "Ingredients list does not contain 'lupin' or 2 other synonyms"
+		tooltip: "Only show products that do not contain 'lupin' or 2 other synonyms"
 	},
 	{
 		id: 15,
 		name: '🤒 Sesame Free',
 		value: 'Sesame Free',
 		tooltip:
-			"Ingredients list does not contain 'sesame' or 11 other synonyms and ingredients known to contain sesame"
+			"Only show products that do not contain 'sesame' or 11 other synonyms and ingredients known to contain sesame"
 	},
 	{
 		id: 16,
 		name: '🥴 Mustard Free',
 		value: 'Mustard Free',
 		tooltip:
-			"Ingredients list does not contain 'mustard' or 2 other ingredients known to contain mustard"
+			"Only show products that do not contain 'mustard' or 2 other ingredients known to contain mustard"
 	},
 	{
 		id: 17,
 		name: '😵 Alcohol Free',
 		value: 'Alcohol Free',
 		tooltip:
-			"Ingredients list does not contain 'alcohol', 'decanol', 'ethanol', 'methanol', or 16 other synonyms"
+			"Only show products that do not contain 'alcohol', 'decanol', 'ethanol', 'methanol', or 16 other synonyms"
 	},
 	{
 		id: 18,
 		name: '😟 Phthalate Free',
 		value: 'Phthalate Free',
-		tooltip: "Ingredients list does not contain 'phthalate' or 8 other synonyms"
+		tooltip: "Only show products that do not contain 'phthalate' or 8 other synonyms"
 	},
 	{
 		id: 19,
 		name: '😳 Paraben Free',
 		value: 'Paraben Free',
-		tooltip: "Ingredients list does not contain 'paraben' or 10 other synonyms"
+		tooltip: "Only show products that do not contain 'paraben' or 10 other synonyms"
 	},
 	{
 		id: 20,
 		name: '🤕 SLS/SLES Free',
 		value: 'SLS/SLES Free',
 		tooltip:
-			"Ingredients list does not contain 'sodium lauryl sulphate', 'sodium lauryl ether sulfate' or 15 other synonyms and ingredients known to contain SLS"
+			"Only show products that do not contain 'sodium lauryl sulphate', 'sodium lauryl ether sulfate' or 15 other synonyms and ingredients known to contain SLS"
 	}
 ];
