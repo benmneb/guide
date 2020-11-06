@@ -350,8 +350,8 @@ export default function ResultsList() {
 				<Hero hide={showFiltersPanel}>
 					<Heading>Vegan {categoryData.name}</Heading>
 					<SubHeading>
-						There are {categoryData.totalProducts} vegan {categoryData.name.toLowerCase()}{' '}
-						products within Australia.
+						There are {Number(categoryData.totalProducts).toLocaleString()} vegan{' '}
+						{categoryData.name.toLowerCase()} products within Australia.
 					</SubHeading>
 					<Footer />
 				</Hero>
