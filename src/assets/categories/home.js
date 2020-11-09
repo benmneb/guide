@@ -403,7 +403,7 @@ export const showerBath = {
 
 export const deodorantsPerfume = {
 	name: 'Deodorants & Perfume',
-	url: 'deodorant-perfume',
+	url: 'deodorants-perfumes',
 	prodType: 'household',
 	subCats: [
 		{
@@ -548,7 +548,7 @@ export const lipCosmetics = {
 			name: 'Lip Liners & Pencils',
 			image:
 				'https://ik.imagekit.io/vomadguide/subCat2s/household/linersPencils_uF5zHUSNB.png',
-			url: 'lip-liners-pencils'
+			url: 'lip-liner-pencils'
 		}
 	]
 };

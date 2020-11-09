@@ -11,7 +11,7 @@ export const fridgeFreezer = {
 		{
 			name: 'Ice Cream & Frozen Desserts',
 			image: 'https://ik.imagekit.io/vomadguide/subcat1s/frozendesserts_NFHtKCokUk.png',
-			url: 'ice-cream-frozen-dedserts'
+			url: 'ice-cream-frozen-desserts'
 		},
 		{
 			name: 'Plant Cheese',
@@ -111,7 +111,7 @@ export const pantry = {
 		{
 			name: 'Sweets & Dessert',
 			image: 'https://ik.imagekit.io/vomadguide/subcat1s/sweetsdesserts_OJkxVAUCA.png',
-			url: 'sweets-dessert'
+			url: 'sweets-desserts'
 		},
 		{
 			name: 'Condiments',
@@ -137,7 +137,7 @@ export const pantry = {
 		{
 			name: 'Cooking Sauces & Oils',
 			image: 'https://ik.imagekit.io/vomadguide/subcat1s/sauceoilvinegar_ffby-Lljj.png',
-			url: 'cooking-sauce-oils'
+			url: 'cooking-sauces-oils'
 		},
 		{
 			name: 'Canned & Long Life Food',
@@ -297,11 +297,6 @@ export const petFood = {
 			name: 'Dog & Puppy',
 			image: 'https://ik.imagekit.io/vomadguide/subcat1s/dogpuppy_eyIDe4aLTl.png',
 			url: 'dog-puppy'
-		},
-		{
-			name: 'Other Pets',
-			image: 'https://ik.imagekit.io/vomadguide/subcat1s/otherpets_HHJsazBjCS.png',
-			url: 'other-pets'
 		}
 	]
 };
