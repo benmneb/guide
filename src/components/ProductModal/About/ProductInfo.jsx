@@ -13,28 +13,46 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
+function Ingredients({ product }) {
+	const styles = useStyles();
+
+	if (product.ingredients)
+		return (
+			<>
+				<Typography gutterBottom className={styles.heading}>
+					Ingredients
+				</Typography>
+				<Typography paragraph>{product.ingredients}</Typography>
+			</>
+		);
+
+	return null;
+}
+
+function MayContain({ product }) {
+	const styles = useStyles();
+
+	if (product.mayContain)
+		return (
+			<>
+				<Typography gutterBottom className={styles.heading}>
+					May Contain
+				</Typography>
+				<Typography>{product.mayContain}</Typography>
+			</>
+		);
+
+	return null;
+}
+
 export default function ProductInfo({ product }) {
 	const styles = useStyles();
 
 	return (
 		<Paper component="section" className={styles.paper} variant="outlined">
-			{product.ingredients && (
-				<>
-					<Typography gutterBottom className={styles.heading}>
-						Ingredients
-					</Typography>
-					<Typography paragraph>{product.ingredients}</Typography>
-				</>
-			)}
+			<Ingredients product={product} />
 			<NutritionInfo product={product} />
-			{product.allergens && (
-				<>
-					<Typography gutterBottom className={styles.heading}>
-						Allergens
-					</Typography>
-					<Typography>{product.allergens}</Typography>
-				</>
-			)}
+			<MayContain product={product} />
 		</Paper>
 	);
 }
