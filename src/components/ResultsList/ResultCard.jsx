@@ -33,9 +33,23 @@ const useStyles = makeStyles((theme) => ({
 			}
 		}
 	},
+	cardMediaPlaceholder: {
+		paddingTop: theme.spacing(1),
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+		[theme.breakpoints.up('xs')]: {
+			height: 160,
+			width: 150
+		},
+		[theme.breakpoints.up('md')]: {
+			height: 220,
+			width: 200
+		}
+	},
 	cardMedia: {
 		position: 'relative',
-		paddingTop: theme.spacing(),
+		paddingTop: theme.spacing(1),
 		objectFit: 'contain',
 		[theme.breakpoints.up('xs')]: {
 			maxHeight: 160,
@@ -45,18 +59,6 @@ const useStyles = makeStyles((theme) => ({
 			maxHeight: 220,
 			maxWidth: 200
 		}
-	},
-	cardMediaPlaceholder: {
-		paddingTop: theme.spacing(),
-		[theme.breakpoints.up('xs')]: {
-			height: 160,
-			width: 150
-		},
-		[theme.breakpoints.up('md')]: {
-			height: 220,
-			width: 200
-		},
-		position: 'relative'
 	},
 	cardContent: {
 		textAlign: 'center',
