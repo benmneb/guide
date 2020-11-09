@@ -52,7 +52,9 @@ const useStyles = makeStyles((theme) => ({
 			width: '100%'
 		},
 		[theme.breakpoints.up('md')]: {
-			margin: theme.spacing(0, 2),
+			margin: theme.spacing(0, 2)
+		},
+		[theme.breakpoints.up('lg')]: {
 			maxWidth: `calc(75vw - ${theme.mixins.sideMenu.width}px)`
 		}
 	},
