@@ -1,11 +1,9 @@
 import { Suspense, lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { ConfirmProvider } from 'material-ui-confirm';
-import {
-	ThemeProvider,
-	StylesProvider,
-	createGenerateClassName
-} from '@material-ui/core/styles';
+import { create } from 'jss';
+import preset from 'jss-preset-default';
+import { ThemeProvider, StylesProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { defaultOptions } from './assets/confirmProviderOptions';
 import { theme } from './assets/theme';
@@ -22,16 +20,23 @@ const SearchResultsList = lazy(() =>
 	import('./components/ResultsList/SearchResultsList')
 );
 
-const generateClassName = createGenerateClassName({
-	productionPrefix: 'vomad',
-	seed: 'benmneb'
-});
+const createGenerateClassName = () => {
+	let counter = 0;
+	return (rule, sheet) =>
+		`c${
+			Math.random().toString(36).substring(2, 4) +
+			Math.random().toString(36).substring(2, 4)
+		}-${rule.key}-${counter++}`;
+};
+
+const jss = create(preset());
+jss.options.createGenerateClassName = createGenerateClassName;
 
 export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<ConfirmProvider defaultOptions={defaultOptions}>
-				<StylesProvider generateClassName={generateClassName}>
+				<StylesProvider jss={jss}>
 					<CssBaseline />
 					<LoadingBar />
 					<AppBar>
