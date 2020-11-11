@@ -23,14 +23,15 @@ const SearchResultsList = lazy(() =>
 );
 
 const generateClassName = createGenerateClassName({
-	productionPrefix: 'vomad'
+	productionPrefix: 'vomad',
+	seed: 'benmneb'
 });
 
 export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
-			<StylesProvider generateClassName={generateClassName}>
-				<ConfirmProvider defaultOptions={defaultOptions}>
+			<ConfirmProvider defaultOptions={defaultOptions}>
+				<StylesProvider generateClassName={generateClassName}>
 					<CssBaseline />
 					<LoadingBar />
 					<AppBar>
@@ -63,8 +64,8 @@ export default function App() {
 						<GetParameterPopups />
 					</Suspense>
 					<Snackbars />
-				</ConfirmProvider>
-			</StylesProvider>
+				</StylesProvider>
+			</ConfirmProvider>
 		</ThemeProvider>
 	);
 }
