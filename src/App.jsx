@@ -23,6 +23,7 @@ const SearchResultsList = lazy(() =>
 );
 
 const generateClassName = createGenerateClassName({
+	disableGlobal: true,
 	productionPrefix: 'vmdgd',
 	seed: 'app1'
 });
