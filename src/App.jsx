@@ -28,8 +28,8 @@ const generateClassName = createGenerateClassName({
 
 export default function App() {
 	return (
-		<StylesProvider generateClassName={generateClassName}>
-			<ThemeProvider theme={theme}>
+		<ThemeProvider theme={theme}>
+			<StylesProvider generateClassName={generateClassName}>
 				<ConfirmProvider defaultOptions={defaultOptions}>
 					<CssBaseline />
 					<LoadingBar />
@@ -64,7 +64,7 @@ export default function App() {
 					</Suspense>
 					<Snackbars />
 				</ConfirmProvider>
-			</ThemeProvider>
-		</StylesProvider>
+			</StylesProvider>
+		</ThemeProvider>
 	);
 }
