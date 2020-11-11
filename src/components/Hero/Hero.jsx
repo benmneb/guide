@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function Hero({ children, bgImage, hide }) {
+export default function Hero({ children, hide }) {
 	const styles = useStyles();
 
 	return (
@@ -39,8 +39,7 @@ export default function Hero({ children, bgImage, hide }) {
 			alignItems="center"
 			justifyContent="flex-start"
 			className={clsx(styles.container, {
-				[styles.displayNone]: hide,
-				[styles.hasBgImage]: bgImage
+				[styles.displayNone]: hide
 			})}
 		>
 			<Box
@@ -98,7 +97,7 @@ export function Footer({ forPage, children }) {
 
 	if (forPage === 'home' && children) {
 		return (
-			<Box display={{ xs: 'none', md: 'block' }}>
+			<Box display={{ xs: 'none', sm: 'block' }}>
 				<Typography paragraph color="textSecondary" component="h3">
 					{children}
 				</Typography>
