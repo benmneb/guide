@@ -23,15 +23,13 @@ const SearchResultsList = lazy(() =>
 );
 
 const generateClassName = createGenerateClassName({
-	disableGlobal: true,
-	productionPrefix: 'vmd.gd',
-	seed: 'VMD.GD1'
+	productionPrefix: 'vmd.gd'
 });
 
 export default function App() {
 	return (
-		<ThemeProvider theme={theme}>
-			<StylesProvider generateClassName={generateClassName}>
+		<StylesProvider generateClassName={generateClassName}>
+			<ThemeProvider theme={theme}>
 				<ConfirmProvider defaultOptions={defaultOptions}>
 					<CssBaseline />
 					<LoadingBar />
@@ -66,7 +64,7 @@ export default function App() {
 					</Suspense>
 					<Snackbars />
 				</ConfirmProvider>
-			</StylesProvider>
-		</ThemeProvider>
+			</ThemeProvider>
+		</StylesProvider>
 	);
 }
