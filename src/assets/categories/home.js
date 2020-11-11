@@ -545,7 +545,7 @@ export const lipCosmetics = {
 			url: 'lip-gloss-glaze'
 		},
 		{
-			name: 'Lip Liners & Pencils',
+			name: 'Lip Liner & Pencils',
 			image:
 				'https://ik.imagekit.io/vomadguide/subCat2s/household/linersPencils_uF5zHUSNB.png',
 			url: 'lip-liner-pencils'

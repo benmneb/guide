@@ -791,7 +791,7 @@ export const categories = [
 		parent_id: 12
 	},
 	{
-		name: 'Lip Liner & Pencils (Makeup)',
+		name: 'Lip Liner & Pencils',
 		id: 213,
 		prodType: 'household',
 		url: 'lip-liner-pencils',
@@ -805,7 +805,7 @@ export const categories = [
 		parent_id: 68
 	},
 	{
-		name: 'Lip Cosmetics',
+		name: 'Lip Cosmetics (All)',
 		id: 76,
 		prodType: 'household',
 		url: 'lip-cosmetics',
