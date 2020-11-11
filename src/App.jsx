@@ -23,7 +23,9 @@ const SearchResultsList = lazy(() =>
 );
 
 const generateClassName = createGenerateClassName({
-	productionPrefix: 'vmd.gd'
+	disableGlobal: true,
+	productionPrefix: 'vmd.gd',
+	seed: 'VMD.GD1'
 });
 
 export default function App() {
