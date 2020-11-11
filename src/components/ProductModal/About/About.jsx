@@ -99,7 +99,13 @@ export default function About() {
 										onClick={() =>
 											window.open(`${store.link}?ref=vomadguide`, '_blank', 'noopener')
 										}
-										startIcon={store.isVegan ? <EcoRounded /> : null}
+										startIcon={
+											store.isVeganAffiliate ? (
+												<Tooltip title="Vegan store">
+													<EcoRounded />
+												</Tooltip>
+											) : null
+										}
 										endIcon={<OpenInNewRounded />}
 									>
 										{store.website}
