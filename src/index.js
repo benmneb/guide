@@ -1,4 +1,4 @@
-import { hydrate, render } from 'react-dom';
+import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store, persistor } from './store';
@@ -18,11 +18,7 @@ const app = (
 
 const rootElement = document.getElementById('root');
 
-if (rootElement.hasChildNodes()) {
-	hydrate(app, rootElement);
-} else {
-	render(app, rootElement);
-}
+render(app, rootElement);
 
 serviceWorker.register();
 // Learn more about service workers: https://bit.ly/CRA-PWA

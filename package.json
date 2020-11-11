@@ -13,7 +13,6 @@
 		"autosuggest-highlight": "^3.1.1",
 		"axios": "^0.20.0",
 		"clsx": "^1.1.1",
-		"jss-preset-default": "^10.4.0",
 		"lodash.debounce": "^4.0.8",
 		"match-sorter": "^5.0.0",
 		"material-ui": "^0.20.2",
@@ -36,7 +35,6 @@
 	"scripts": {
 		"start": "PORT=3001 react-scripts start",
 		"build": "react-scripts build",
-		"postbuild": "react-snap",
 		"analyse": "node analyse.js",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
@@ -57,14 +55,6 @@
 		]
 	},
 	"devDependencies": {
-		"react-snap": "^1.23.0",
 		"webpack-bundle-analyzer": "^3.9.0"
-	},
-	"reactSnap": {
-		"puppeteerArgs": [
-			"--no-sandbox",
-			"--disable-setuid-sandbox"
-		],
-		"puppeteerExecutablePath": "/opt/google/chrome/google-chrome"
 	}
 }
