@@ -5,70 +5,67 @@ export const snacksConfectionery = {
 	subCats: [
 		{
 			name: 'Chocolates',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/chocolate_Vv-Heijf_.png',
+			image: 'https://images.vomad.guide/categories/chocolate.png',
 			url: 'chocolates'
 		},
 		{
 			name: 'Biscuits, Cookies & Wafers',
-			image: 'https://ik.imagekit.io/vomadguide/subcat1s/cookies_biscuits_SGTT5cgo1r.png',
+			image: 'https://images.vomad.guide/categories/cookies&biscuits.png',
 			url: 'biscuits-cookies-wafers'
 		},
 		{
 			name: 'Bars, Balls & Bites',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/bars_ball_bites_WQ-i4Dhgv.png',
+			image: 'https://images.vomad.guide/categories/bars%20ball%20bites.png',
 			url: 'bars-balls-bites'
 		},
 		{
 			name: 'Sweets, Lollies, Candy',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/sweets_lollies_candy_lzCyVpRWe.png',
+			image: 'https://images.vomad.guide/categories/sweets%20lollies%20candy.png',
 			url: 'sweets-lollies-candy'
 		},
 		{
 			name: 'Chips & Pretzels',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/chipsPretzels_nQV9YK5mlR.png',
+			image: 'https://images.vomad.guide/categories/chipsPretzels.png',
 			url: 'chips-pretzels'
 		},
 		{
 			name: 'Popcorn',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/popcorn_oHxNkycXNl.png',
+			image: 'https://images.vomad.guide/categories/popcorn.png',
 			url: 'popcorn'
 		},
 		{
 			name: 'Corn Chips',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/cornChips_h5RGkxSay.png',
+			image: 'https://images.vomad.guide/categories/cornChips.png',
 			url: 'corn-chips'
 		},
 		{
 			name: 'Crackers',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/crackers_rhNkcHmP7v.png',
+			image: 'https://images.vomad.guide/categories/crackers.png',
 			url: 'crackers'
 		},
 		{
 			name: 'Jerky & Dried Meats',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/jerkyDriedMeats_pbx9OUy62v.png',
+			image: 'https://images.vomad.guide/categories/jerkyDriedMeats.png',
 			url: 'jerky-dried-meats'
 		},
 		{
 			name: 'Rice Cakes & Crispbread',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/riceCakesCrispbread_O20-3YmEr.png',
+			image: 'https://images.vomad.guide/categories/riceCakesCrispbread.png',
 			url: 'rice-cakes-crispbread'
 		},
 		{
 			name: 'Chewing Gum & Mints',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/chewing_gum_mints_xYsGiZIXO.png',
+			image: 'https://images.vomad.guide/categories/chewing%20gum%20mints.png',
 			url: 'chewing-gum-mints'
 		},
 		{
 			name: 'Nuts, Seeds & Legumes',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/nuts_seed_legumes_hFdOPcfs5.png',
+			image: 'https://images.vomad.guide/categories/nuts%20seed%20legumes.png',
 			url: 'nuts-seeds-legumes'
 		},
 		{
 			name: 'Dried Fruits & Berries',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/dried_fruit_berries_FwpJEw3Kr.png',
+			image: 'https://images.vomad.guide/categories/dried%20fruit%20berries.png',
 			url: 'dried-fruit-berries'
 		}
 	]
@@ -81,32 +78,32 @@ export const mockMeats = {
 	subCats: [
 		{
 			name: 'Beef & Steak',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/beefSteak_MW14iiS0c.png',
+			image: 'https://images.vomad.guide/categories/beefSteak.png',
 			url: 'beef-steak'
 		},
 		{
 			name: 'Burgers & Patties',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/burgersPattys_9T9raGdZh.png',
+			image: 'https://images.vomad.guide/categories/burgersPattys.png',
 			url: 'burgers-patties'
 		},
 		{
 			name: 'Chicken',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/chicken_YgNrENi3X.png',
+			image: 'https://images.vomad.guide/categories/chicken.png',
 			url: 'chicken'
 		},
 		{
 			name: 'Sausages',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/sausages_7-gfBfA7vX.png',
+			image: 'https://images.vomad.guide/categories/sausages.png',
 			url: 'sausages'
 		},
 		{
 			name: 'Mince & Meatballs',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/minceMeatballs_C7S-tOYJg.png',
+			image: 'https://images.vomad.guide/categories/minceMeatballs.png',
 			url: 'mince-meatballs'
 		},
 		{
 			name: 'Fish & Seafood',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/fish_0SeDskLCPh.png',
+			image: 'https://images.vomad.guide/categories/fish.png',
 			url: 'fish-seafood'
 		}
 	]
@@ -119,33 +116,32 @@ export const breakfastSpreads = {
 	subCats: [
 		{
 			name: 'Breakfast Cereals',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/cereal_eAm3J3BS0P.png',
+			image: 'https://images.vomad.guide/categories/cereal.png',
 			url: 'breakfast-cereals'
 		},
 		{
 			name: 'Nut Butters & Spreads',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/nutButtersSpreads_x8PYKui-Ne.png',
+			image: 'https://images.vomad.guide/categories/nutButtersSpreads.png',
 			url: 'nut-butters-spreads'
 		},
 		{
 			name: 'Muelsi, Oats & Granola',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/muesliOatsGranola_jH4GTsxVK.png',
+			image: 'https://images.vomad.guide/categories/muesliOatsGranola.png',
 			url: 'muesli-oats-granola'
 		},
 		{
 			name: 'Jam & Sweet Spreads',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/jamSweetSpreads_tmlz0UpQEx.png',
+			image: 'https://images.vomad.guide/categories/jamSweetSpreads.png',
 			url: 'jam-sweet-spreads'
 		},
 		{
 			name: 'Pancake & Waffle Mixes',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/pancakeWaffleMix_spSe7yc2oy.png',
+			image: 'https://images.vomad.guide/categories/pancakeWaffleMix.png',
 			url: 'pancake-waffle-mix'
 		},
 		{
 			name: 'Savoury Spreads',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/savourySpreads_90qb6T2Sc.png',
+			image: 'https://images.vomad.guide/categories/savourySpreads.png',
 			url: 'savoury-spreads'
 		}
 	]
@@ -157,32 +153,32 @@ export const plantMilks = {
 	subCats: [
 		{
 			name: 'Almond Milk',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/almondMilk_PtiaKFLY0j.png',
+			image: 'https://images.vomad.guide/categories/almondMilk.png',
 			url: 'almond-milk'
 		},
 		{
 			name: 'Soy Milk',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/soyMilk_o_YEMKmmJJ.png',
+			image: 'https://images.vomad.guide/categories/soyMilk.png',
 			url: 'soy-milk'
 		},
 		{
 			name: 'Oat Milk',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/oatMilk_SuB5vFzqAr.png',
+			image: 'https://images.vomad.guide/categories/oatMilk.png',
 			url: 'oat-milk'
 		},
 		{
 			name: 'Rice Milk',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/riceMilk_BjUQqN7YF.png',
+			image: 'https://images.vomad.guide/categories/riceMilk.png',
 			url: 'rice-milk'
 		},
 		{
 			name: 'Coconut Milk',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/coconutMilk_SVcUlV6JD.png',
+			image: 'https://images.vomad.guide/categories/coconutMilk.png',
 			url: 'coconut-milk'
 		},
 		{
 			name: 'Other Milks',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/otherMilks_W89h7xKcsI.png',
+			image: 'https://images.vomad.guide/categories/otherMilks.png',
 			url: 'other-milks'
 		}
 	]
@@ -195,42 +191,42 @@ export const condiments = {
 	subCats: [
 		{
 			name: 'Salad Dressings',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/saladDressing_N8yuC5RLEs.png',
+			image: 'https://images.vomad.guide/categories/saladDressing.png',
 			url: 'salad-dressings'
 		},
 		{
 			name: 'Mayonnaise',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/mayonnaise_2hBnLIIIr.png',
+			image: 'https://images.vomad.guide/categories/mayonnaise.png',
 			url: 'mayonnaise'
 		},
 		{
 			name: 'Sweet Chilli & Hot Sauce',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/chilliHotSauce_HwYuY-yCI.png',
+			image: 'https://images.vomad.guide/categories/chilliHotSauce.png',
 			url: 'sweet-chilli-hot-sauce'
 		},
 		{
 			name: 'Mustard',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/mustard_sL1Q5Y5Fct.png',
+			image: 'https://images.vomad.guide/categories/mustard.png',
 			url: 'mustard'
 		},
 		{
 			name: 'Tomato & BBQ Sauce',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/tomatoBbqSauce_rGIzRHD9o.png',
+			image: 'https://images.vomad.guide/categories/tomatoBbqSauce.png',
 			url: 'tomato-bbq-sauce'
 		},
 		{
 			name: 'Fruit Sauces',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/fruitSauce_Ss63nm5I1g.png',
+			image: 'https://images.vomad.guide/categories/fruitSauce.png',
 			url: 'fruit-sauces'
 		},
 		{
 			name: 'Chutney & Relish',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/chutneyRelish_VhzF0cGI5u.png',
+			image: 'https://images.vomad.guide/categories/chutneyRelish.png',
 			url: 'chutney-relish'
 		},
 		{
 			name: 'Pickled Vegetables',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/pickledVeg_DBAnapxGBf.png',
+			image: 'https://images.vomad.guide/categories/pickledVeg.png',
 			url: 'pickled-vegetables'
 		}
 	]
@@ -243,17 +239,17 @@ export const sweetsDesserts = {
 	subCats: [
 		{
 			name: 'Syrups & Toppings',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/syrupsToppings_WH3JC25Iu.png',
+			image: 'https://images.vomad.guide/categories/syrupsToppings.png',
 			url: 'syrups-toppings'
 		},
 		{
 			name: 'Jelly & Pudding',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/jellyPudding_7sDsHicoaB.png',
+			image: 'https://images.vomad.guide/categories/jellyPudding.png',
 			url: 'jelly-pudding'
 		},
 		{
 			name: 'Ice Cream Cones',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/iceCreamCones_CEVAj8lStR.png',
+			image: 'https://images.vomad.guide/categories/iceCreamCones.png',
 			url: 'ice-cream-cones'
 		}
 	]
@@ -266,61 +262,52 @@ export const skinCare = {
 	subCats: [
 		{
 			name: 'Body Care',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/bodyCare_UVb2-lXqUS.png',
+			image: 'https://images.vomad.guide/categories/bodyCare.png',
 			url: 'body-care'
 		},
 		{
 			name: 'Face, Neck & Eye Care',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/faceNeckEye_lxShf-XhNW.png',
+			image: 'https://images.vomad.guide/categories/faceNeckEye.png',
 			url: 'face-neck-eye-care'
 		},
 		{
 			name: 'Hand, Nail & Feet Care',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/handNailFeet2__0dpNiHBR.png',
+			image: 'https://images.vomad.guide/categories/handNailFeet2.png',
 			url: 'hand-nail-feet-care'
 		},
 		{
 			name: 'Lip Care',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/lipCare_upy86fotp7.png',
+			image: 'https://images.vomad.guide/categories/lipCare.png',
 			url: 'lip-care'
 		},
 		{
 			name: 'Cleaners, Toners & Scrubs',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/cleansersTonersScrubs_2X_ocLi0M7.png',
+			image: 'https://images.vomad.guide/categories/cleansersTonersScrubs.png',
 			url: 'cleansers-toners-scrubs'
 		},
 		{
 			name: 'Masks & Treatments',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/masksTreatments_-Gp9aJAeK.png',
+			image: 'https://images.vomad.guide/categories/masksTreatments.png',
 			url: 'masks-treatments'
 		},
 		{
 			name: 'Shave Gels, Creams etc',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/shaveGelsCreams_pw-vZzlKU.png',
+			image: 'https://images.vomad.guide/categories/shaveGelsCreams.png',
 			url: 'shave-gels-creams'
 		},
 		{
 			name: 'Sun Protection',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/sunProtection_YrNNosJci.png',
+			image: 'https://images.vomad.guide/categories/sunProtection.png',
 			url: 'sun-protection'
 		},
 		{
 			name: 'Aftershave',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/aftershave_83SY5Qp93o.png',
+			image: 'https://images.vomad.guide/categories/aftershave.png',
 			url: 'aftershave'
 		},
 		{
 			name: 'Self-Tanning',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/household/selfTan_wkHn4uuRa.png',
+			image: 'https://images.vomad.guide/categories/selfTan.png',
 			url: 'self-tanning'
 		}
 	]
@@ -333,37 +320,32 @@ export const hairCare = {
 	subCats: [
 		{
 			name: 'Shampoo',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/shampoo_ODSRXsIXUE.png',
+			image: 'https://images.vomad.guide/categories/shampoo.png',
 			url: 'shampoo'
 		},
 		{
 			name: 'Conditioner',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/conditioner_BDzQjL9KqG.png',
+			image: 'https://images.vomad.guide/categories/conditioner.png',
 			url: 'conditioner'
 		},
 		{
 			name: 'Hair Colouring',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/coloring_aUM1J6NPY.png',
+			image: 'https://images.vomad.guide/categories/coloring.png',
 			url: 'hair-colouring'
 		},
 		{
 			name: 'Hair Treatments',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/treatments_hh-5i9ujqh.png',
+			image: 'https://images.vomad.guide/categories/treatments.png',
 			url: 'hair-treatments'
 		},
 		{
 			name: 'Hair Styling',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/household/styling_T5xbJOWXi.png',
+			image: 'https://images.vomad.guide/categories/styling.png',
 			url: 'hair-styling'
 		},
 		{
 			name: 'Hair Removal',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/hairRemoval_VrqU5oou4.png',
+			image: 'https://images.vomad.guide/categories/hairRemoval.png',
 			url: 'hair-removal'
 		}
 	]
@@ -376,26 +358,22 @@ export const showerBath = {
 	subCats: [
 		{
 			name: 'Body Wash',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/bodyWash_w78dhrcK6.png',
+			image: 'https://images.vomad.guide/categories/bodyWash.png',
 			url: 'body-wash'
 		},
 		{
 			name: 'Face Wash',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/faceWash__1sG5WQ-L.png',
+			image: 'https://images.vomad.guide/categories/faceWash.png',
 			url: 'face-wash'
 		},
 		{
 			name: 'Soap & Handwash',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/handWash_bpyVcuLTLN.png',
+			image: 'https://images.vomad.guide/categories/handWash.png',
 			url: 'soap-handwash'
 		},
 		{
 			name: 'Bubble Bath & Salts',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/bubblebathSalts_c-nmpTrIRX.png',
+			image: 'https://images.vomad.guide/categories/bubblebathSalts.png',
 			url: 'bubble-bath-salts'
 		}
 	]
@@ -408,34 +386,32 @@ export const deodorantsPerfume = {
 	subCats: [
 		{
 			name: 'Roll-On Deodorant',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/household/rollon_mGwu6zwaG.png',
+			image: 'https://images.vomad.guide/categories/rollon.png',
 			url: 'roll-on-deodorant'
 		},
 		{
 			name: 'Perfume',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/household/perfume_iLMOlTdTj.png',
+			image: 'https://images.vomad.guide/categories/perfume.png',
 			url: 'perfume'
 		},
 		{
 			name: 'Spray-On Deodorant',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/household/spray_NS03yJ2oy.png',
+			image: 'https://images.vomad.guide/categories/spray.png',
 			url: 'spray-on-deodorant'
 		},
 		{
 			name: 'Cologne',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/cologne_9HObHR7YW7.png',
+			image: 'https://images.vomad.guide/categories/cologne.png',
 			url: 'cologne'
 		},
 		{
 			name: 'Sticks & Solid Deodorant',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/household/sticks_C_1UW9PIBp.png',
+			image: 'https://images.vomad.guide/categories/sticks.png',
 			url: 'sticks-solid-deodorant'
 		},
 		{
 			name: 'Paste & Cream',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/pastesAndCream_wYxduBLPbE.png',
+			image: 'https://images.vomad.guide/categories/pastesAndCream.png',
 			url: 'paste-cream-deodorant'
 		}
 	]
@@ -448,48 +424,42 @@ export const faceMakeup = {
 	subCats: [
 		{
 			name: 'Foundation & Powder',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/foundationPrimer_MRckzHUmqv.png',
+			image: 'https://images.vomad.guide/categories/foundationPrimer.png',
 			url: 'foundation-powder'
 		},
 		{
 			name: 'Highlighters & Illuminators',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/highlighter_vPmlcA7Ji.png',
+			image: 'https://images.vomad.guide/categories/highlighter.png',
 			url: 'highlighters-illuminators'
 		},
 		{
 			name: 'Blush',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/household/blush_dGbTheh4lp.png',
+			image: 'https://images.vomad.guide/categories/blush.png',
 			url: 'blush'
 		},
 		{
 			name: 'Bronzing',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/bronzing_7htDlGCUI7.png',
+			image: 'https://images.vomad.guide/categories/bronzing.png',
 			url: 'bronzing'
 		},
 		{
 			name: 'BB & CC Cream',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/bbCcCream_F6NFUwtbX.png',
+			image: 'https://images.vomad.guide/categories/bbCcCream.png',
 			url: 'bb-cc-cream'
 		},
 		{
 			name: 'Concealer & Corrector',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/concealerCorrector_QJg7xyDoBA.png',
+			image: 'https://images.vomad.guide/categories/concealerCorrector.png',
 			url: 'concealer-corrector'
 		},
 		{
 			name: 'Finishing Powder',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/finishingPowder_Wib2TNi24.png',
+			image: 'https://images.vomad.guide/categories/finishingPowder.png',
 			url: 'finishing-powder'
 		},
 		{
 			name: 'Primer',
-			image: 'https://ik.imagekit.io/vomadguide/subCat2s/household/primer_q9fM6XV9yl.png',
+			image: 'https://images.vomad.guide/categories/primer.png',
 			url: 'primer'
 		}
 	]
@@ -502,26 +472,22 @@ export const eyesBrowsMakeup = {
 	subCats: [
 		{
 			name: 'Eyeshadow',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/eyeShadow_O421WO275.png',
+			image: 'https://images.vomad.guide/categories/eyeShadow.png',
 			url: 'eyeshadow'
 		},
 		{
 			name: 'Eyeliner',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/eyeliner_heAuRhLIZy.png',
+			image: 'https://images.vomad.guide/categories/eyeliner.png',
 			url: 'eyeliner'
 		},
 		{
 			name: 'Mascara & Primer',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/mascara_bM0Yrb23fS.png',
+			image: 'https://images.vomad.guide/categories/mascara.png',
 			url: 'mascara-primer'
 		},
 		{
 			name: 'Brows & Pencils',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/browsAndPencils_kGUFfGA04.png',
+			image: 'https://images.vomad.guide/categories/browsAndPencils.png',
 			url: 'brows-pencils'
 		}
 	]
@@ -534,20 +500,17 @@ export const lipCosmetics = {
 	subCats: [
 		{
 			name: 'Lipstick & Crayons',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/lipStick_FPtvLBmaH.png',
+			image: 'https://images.vomad.guide/categories/lipStick.png',
 			url: 'lipstick-crayons'
 		},
 		{
 			name: 'Lip Gloss & Glaze',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/lipGloss_LeZ4leeHlH.png',
+			image: 'https://images.vomad.guide/categories/lipGloss.png',
 			url: 'lip-gloss-glaze'
 		},
 		{
 			name: 'Lip Liner & Pencils',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/linersPencils_uF5zHUSNB.png',
+			image: 'https://images.vomad.guide/categories/linersPencils.png',
 			url: 'lip-liner-pencils'
 		}
 	]
@@ -560,20 +523,17 @@ export const dentalCare = {
 	subCats: [
 		{
 			name: 'Toothpaste & Powder',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/toothpaste_xlHnFXhrf.png',
+			image: 'https://images.vomad.guide/categories/toothpaste.png',
 			url: 'toothpaste-powder'
 		},
 		{
 			name: 'Teeth Whitening',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/whitening_ihNF4L3C9A.png',
+			image: 'https://images.vomad.guide/categories/whitening.png',
 			url: 'teeth-whitening'
 		},
 		{
 			name: 'Floss, Mouthwash & Rinse',
-			image:
-				'https://ik.imagekit.io/vomadguide/subCat2s/household/flossMouthwashRinse_spNzJ1MTMY.png',
+			image: 'https://images.vomad.guide/categories/flossMouthwashRinse.png',
 			url: 'floss-mouthwash-rinse'
 		}
 	]

@@ -154,7 +154,7 @@ export default function SideDrawerContents() {
 				<img
 					className={styles.logo}
 					onClick={() => openMenuItem('home')}
-					src="https://ik.imagekit.io/vomadguide/logo/logo_a_nCYxlAP.png"
+					src="https://images.vomad.guide/logos/vomadGUIDE.png"
 					alt="Vomad Guide: Find Vegan Products Near You"
 				/>
 			</Box>
