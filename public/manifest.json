@@ -1,7 +1,7 @@
 {
 	"short_name": "Vomad Guide",
 	"name": "Vomad Guide: Find Vegan Products",
-	"scope": "/",
+	"scope": ".",
 	"start_url": "/?utm_source=pwa",
 	"display": "standalone",
 	"orientation": "portrait",
