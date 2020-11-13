@@ -100,7 +100,7 @@ function CategoryGridList({ category }) {
 		<GridList className={styles.gridList} cols={cols} cellHeight={cellHeight} spacing={0}>
 			{category.subCats.map((subCats) => (
 				<GridListTile key={subCats.name} cols={1} className={styles.gridListTile}>
-					<Link to={`/${category.prodType}/${subCats.url}`}>
+					<Link to={`${category.prodType}/${subCats.url}`}>
 						<img src={subCats.image} alt={''} className={styles.image} />
 						<GridListTileBar
 							titlePosition="top"
