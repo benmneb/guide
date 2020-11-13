@@ -130,7 +130,7 @@ export default function GetTheApp({ isOpened }) {
 						{pwaStatus === 'installable' && (
 							<>
 								<Typography paragraph>
-									Hit the button below to install the Guide on your device.
+									Hit the button below to add the Guide to your device.
 									<Box
 										marginY={2}
 										component="span"
