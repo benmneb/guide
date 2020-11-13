@@ -142,7 +142,7 @@ export default function GetTheApp({ isOpened }) {
 											color="primary"
 											size="large"
 											startIcon={<GetAppRounded />}
-											disabled={!Boolean(deferredInstallPrompt)}
+											disabled={deferredInstallPrompt === null}
 											onClick={handleInstallClick}
 											pending={pending}
 										>
