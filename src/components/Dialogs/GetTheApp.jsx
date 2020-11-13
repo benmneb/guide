@@ -23,6 +23,7 @@ import {
 import Feedback from './Feedback';
 import { setDeferredInstallPrompt } from '../../store/actions';
 import LoadingButton from '../../utils/LoadingButton';
+import IosShareIcon from '../../utils/IosShareIcon';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -154,7 +155,7 @@ export default function GetTheApp({ isOpened }) {
 									<Link
 										href="https://web.dev/what-are-pwas/"
 										target="_blank"
-										rel="noopener"
+										rel="noopener noreferrer"
 									>
 										Progressive Web-App
 									</Link>
@@ -179,7 +180,7 @@ export default function GetTheApp({ isOpened }) {
 									<Link
 										href="https://web.dev/what-are-pwas/"
 										target="_blank"
-										rel="noopener"
+										rel="noopener noreferrer"
 									>
 										Progressive Web-App
 									</Link>
@@ -199,19 +200,22 @@ export default function GetTheApp({ isOpened }) {
 
 						{pwaStatus === 'iOS' && (
 							<>
-								<Typography paragraph>
+								<Alert severity="info">
 									The Guide is a{' '}
 									<Link
 										href="https://web.dev/what-are-pwas/"
 										target="_blank"
-										rel="noopener"
+										rel="noopener noreferrer"
+										color="inherit"
+										underline="always"
 									>
 										Progressive Web-App
 									</Link>{' '}
 									(PWA), which is an emerging technology that is closing the gap between
 									native applications and traditional websites by implementing a
 									comparable user experience.
-								</Typography>
+								</Alert>
+								<Typography paragraph />
 								<Typography paragraph>
 									Add the Guide to your iOS device home screen in 3 simple steps:
 								</Typography>
@@ -227,9 +231,10 @@ export default function GetTheApp({ isOpened }) {
 									<Box component="li" data-icon="⒉">
 										<Typography>
 											<Box component="span" fontWeight="fontWeightBold">
-												Tap the "share" button
+												Tap the "share" button:
 											</Box>{' '}
-											found at the bottom of the page.
+											<IosShareIcon /> It is usually found at the bottom of the browser in
+											iPhones and to the right of the address bar on iPads.
 										</Typography>
 									</Box>
 									<Box component="li" data-icon="⒊">
@@ -261,7 +266,7 @@ export default function GetTheApp({ isOpened }) {
 									<Link
 										href="https://web.dev/what-are-pwas/"
 										target="_blank"
-										rel="noopener"
+										rel="noopener noreferrer"
 										color="inherit"
 										underline="always"
 									>
