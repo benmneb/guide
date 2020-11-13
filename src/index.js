@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const app = (
 	<Provider store={store}>
@@ -20,5 +20,5 @@ const rootElement = document.getElementById('root');
 
 render(app, rootElement);
 
-serviceWorker.register();
+serviceWorkerRegistration.register();
 // Learn more about service workers: https://bit.ly/CRA-PWA
