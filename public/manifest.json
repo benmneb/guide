@@ -2,7 +2,7 @@
 	"short_name": "Vomad Guide",
 	"name": "Vomad Guide: Find Vegan Products",
 	"scope": ".",
-	"start_url": "/?ref=pwa",
+	"start_url": "/?utm_source=pwa",
 	"display": "standalone",
 	"orientation": "portrait",
 	"theme_color": "#ffffff",
@@ -12,25 +12,25 @@
 			"name": "Popular Categories",
 			"short_name": "Popular",
 			"description": "View popular categories for all vegan products",
-			"url": "/?ref=pwa_homescreen"
+			"url": "/?utm_source=pwa_homescreen"
 		},
 		{
 			"name": "Food & Drink Categories",
 			"short_name": "Food & Drink",
 			"description": "View categories for vegan food & drink products",
-			"url": "/food-drink?ref=pwa_homescreen"
+			"url": "/food-drink?utm_source=pwa_homescreen"
 		},
 		{
 			"name": "Household Categories",
 			"short_name": "Household",
 			"description": "View categories for vegan household products",
-			"url": "/household?ref=pwa_homescreen"
+			"url": "/household?utm_source=pwa_homescreen"
 		},
 		{
 			"name": "Add Vegan Products",
 			"short_name": "Add Products",
 			"description": "Add missing or new vegan products so others can find them",
-			"url": "/?view=add-products&ref=pwa_homescreen"
+			"url": "/?view=add-products&utm_source=pwa_homescreen"
 		}
 	],
 	"related_applications": [
