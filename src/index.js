@@ -21,4 +21,3 @@ const rootElement = document.getElementById('root');
 render(app, rootElement);
 
 serviceWorkerRegistration.register();
-// Learn more about service workers: https://bit.ly/CRA-PWA
