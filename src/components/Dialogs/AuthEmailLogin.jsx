@@ -56,7 +56,7 @@ export default function AuthEmailLogin() {
 		setPending(true);
 		axios
 			.post(
-				'https://api.vomad.guide/auth/signin',
+				'/auth/signin',
 				{
 					email: data.email,
 					password: data.password
@@ -68,7 +68,7 @@ export default function AuthEmailLogin() {
 			)
 			.then((auth) => {
 				if (auth.data) {
-					return axios.get('https://api.vomad.guide/auth/login/success', {
+					return axios.get('/auth/login/success', {
 						withCredentials: true,
 						crossorigin: true
 					});

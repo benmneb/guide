@@ -97,7 +97,7 @@ export default function UserProfile({ isOpened }) {
 
 		if (isOpened) {
 			axios
-				.get(`https://api.vomad.guide/user/${urlSearchParamsId.current}`, {
+				.get(`/user/${urlSearchParamsId.current}`, {
 					cancelToken: source.token
 				})
 				.then((res) => mounted && setSelectedUser(res.data[0]))
@@ -158,7 +158,7 @@ export default function UserProfile({ isOpened }) {
 		})
 			.then(() => {
 				dispatch(setCurrentUserData(null, false));
-				return (window.location.href = 'https://api.vomad.guide/auth/logout');
+				return (window.location.href = '/auth/logout');
 			})
 			.catch(() => null);
 	}
@@ -182,11 +182,11 @@ export default function UserProfile({ isOpened }) {
 				const data = new FormData();
 				data.append('image', e.target.files[0]);
 				axios
-					.post(`https://api.vomad.guide/avatar/image-upload/${currentUserData.id}`, data)
+					.post(`/avatar/image-upload/${currentUserData.id}`, data)
 					.then((res) => {
 						const releventUrl = `https://${res.data.imageUrl.split('amazonaws.com/')[1]}`;
 						axios
-							.post('https://api.vomad.guide/avatar/image-update', {
+							.post('/avatar/image-update', {
 								user_id: currentUserData.id,
 								avatar: releventUrl
 							})
@@ -229,9 +229,7 @@ export default function UserProfile({ isOpened }) {
 
 	async function getNewAvatarAfterUpload() {
 		try {
-			const response = await axios.get(
-				`https://api.vomad.guide/user/${currentUserData.id}`
-			);
+			const response = await axios.get(`/user/${currentUserData.id}`);
 			const avatar = await response.data[0].avatar;
 			setSelectedUser((prev) => ({ ...prev, avatar }));
 			dispatch(updateAvatar(avatar));
@@ -269,7 +267,7 @@ export default function UserProfile({ isOpened }) {
 			.then(() => {
 				setPending('Deleting');
 				axios
-					.delete(`https://api.vomad.guide/avatar/image-delete/${currentUserData.id}`)
+					.delete(`/avatar/image-delete/${currentUserData.id}`)
 					.then(() => {
 						setPending(false);
 						setSelectedUser((prev) => ({ ...prev, avatar: null }));

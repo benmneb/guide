@@ -34,7 +34,7 @@ export default function Advertise({ isOpened }) {
 	const onSubmit = (data) => {
 		setPending(true);
 		axios
-			.post('https://api.vomad.guide/email/advertise', {
+			.post('/email/advertise', {
 				body: `<p><strong>New Advertising Request Received ${new Date()}</strong></p><p>${
 					data.name
 				}</p><p>${data.email}</p><p>${data.message && `${data.message}`}`

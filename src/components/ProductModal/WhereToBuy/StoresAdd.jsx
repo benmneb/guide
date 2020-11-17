@@ -49,18 +49,15 @@ export default function StoresAdd(props) {
 						(results, status) => {
 							if (status === 'OK' && results[0]) {
 								axios
-									.post(
-										`https://api.vomad.guide/add-store/${selectedProduct.productId}`,
-										{
-											address: results[0].formatted_address,
-											google_place_id: placeDetails.id,
-											google_place_type: results[0].types.join(', '),
-											lat: results[0].geometry.location.lat(),
-											lng: results[0].geometry.location.lng(),
-											store_name: placeDetails.name,
-											user_id: currentUserData.id
-										}
-									)
+									.post(`/add-store/${selectedProduct.productId}`, {
+										address: results[0].formatted_address,
+										google_place_id: placeDetails.id,
+										google_place_type: results[0].types.join(', '),
+										lat: results[0].geometry.location.lat(),
+										lng: results[0].geometry.location.lng(),
+										store_name: placeDetails.name,
+										user_id: currentUserData.id
+									})
 									.then(() => {
 										dispatch(
 											updateStores(

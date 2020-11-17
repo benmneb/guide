@@ -132,7 +132,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 			.then(() => {
 				setPending('username');
 				axios
-					.put(`https://api.vomad.guide/auth/update-username/${currentUserData.id}`, {
+					.put(`/auth/update-username/${currentUserData.id}`, {
 						user_name: data.username
 					})
 					.then(() => {
@@ -166,7 +166,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 			.then(() => {
 				setPending('email');
 				axios
-					.put(`https://api.vomad.guide/auth/update-email/${currentUserData.id}`, {
+					.put(`/auth/update-email/${currentUserData.id}`, {
 						email: data.email
 					})
 					.then(() => {
@@ -221,7 +221,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 			.then(() => {
 				setPending('password');
 				axios
-					.post(`https://api.vomad.guide/auth/update-password/${currentUserData.id}`, {
+					.post(`/auth/update-password/${currentUserData.id}`, {
 						password: data.password
 					})
 					.then(() => {
@@ -256,11 +256,11 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 		})
 			.then(() => {
 				setPending('deleteAccount');
-				return (window.location.href = 'https://api.vomad.guide/auth/logout-on-delete');
+				return (window.location.href = '/auth/logout-on-delete');
 			})
 			.then(() => {
 				axios
-					.delete(`https://api.vomad.guide/auth/delete-user/${currentUserData.id}`)
+					.delete(`/auth/delete-user/${currentUserData.id}`)
 					.then(() => {
 						setPending(false);
 						dispatch(setCurrentUserData(null, false));

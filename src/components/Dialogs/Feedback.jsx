@@ -34,7 +34,7 @@ export default function Feedback({ isOpened }) {
 	const onSubmit = (data) => {
 		setPending(true);
 		axios
-			.post('https://api.vomad.guide/email/feedback', {
+			.post('/email/feedback', {
 				body: `<p><strong>New Feedback Received ${new Date()}</strong></p><p>${
 					data.feedback
 				}</p><p>${data.name && `- ${data.name}`}</p><p>${data.email && data.email}</p>`

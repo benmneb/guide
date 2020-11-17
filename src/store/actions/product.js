@@ -51,7 +51,7 @@ export const setPrevReviewData = (data) => {
 
 export const updateReviews = (selectedProductId) => (dispatch) =>
 	axios
-		.get(`https://api.vomad.guide/reviews/${selectedProductId}`)
+		.get(`/reviews/${selectedProductId}`)
 		.then((response) =>
 			dispatch({
 				type: actionTypes.SET_REVIEWS,
@@ -71,7 +71,7 @@ export const setStores = (stores) => {
 
 export const updateStores = (selectedProductId, lat, lng) => (dispatch) =>
 	axios
-		.get(`https://api.vomad.guide/stores/${selectedProductId}?lat=${lat}&lng=${lng}`)
+		.get(`/stores/${selectedProductId}?lat=${lat}&lng=${lng}`)
 		.then((response) =>
 			dispatch({
 				type: actionTypes.SET_STORES,

@@ -23,7 +23,7 @@ export default function AuthForgotPassword({ show, hide }) {
 	function onSubmit(data) {
 		setPending(true);
 		axios
-			.post('https://api.vomad.guide/auth/forgot-password', {
+			.post('/auth/forgot-password', {
 				email: data.email
 			})
 			.then((response) => {

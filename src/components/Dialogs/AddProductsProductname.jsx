@@ -33,7 +33,7 @@ export default function AddProductsProductname() {
 		if (brandName.brand_id) {
 			(async () => {
 				const response = await axios.get(
-					`https://api.vomad.guide/search-product/${brandName && brandName.brand_id}`
+					`/search-product/${brandName && brandName.brand_id}`
 				);
 				const products = await response.data;
 

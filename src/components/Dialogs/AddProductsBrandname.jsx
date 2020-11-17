@@ -31,7 +31,7 @@ export default function AddProductsBrandname() {
 		}
 
 		(async () => {
-			const response = await axios.get('https://api.vomad.guide/search-brand');
+			const response = await axios.get('/search-brand');
 			const brands = await response.data;
 
 			if (active) {

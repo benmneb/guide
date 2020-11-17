@@ -47,7 +47,7 @@ export default function LikeButton({ review, ...props }) {
 			} else {
 				setHasBeenLiked(!hasBeenLiked);
 				axios
-					.put('https://api.vomad.guide/like-review/', {
+					.put('/like-review/', {
 						review_id: review.review_id,
 						user_id: currentUserData.id
 					})

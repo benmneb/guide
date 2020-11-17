@@ -68,7 +68,7 @@ export default function AuthResetPassword({ isOpened }) {
 		if (mounted) {
 			axios
 				.get(
-					'https://api.vomad.guide/auth/reset-password',
+					'/auth/reset-password',
 					{
 						params: {
 							reset_token: token
@@ -122,7 +122,7 @@ export default function AuthResetPassword({ isOpened }) {
 		setPending(true);
 
 		axios
-			.put('https://api.vomad.guide/auth/update-reset-password', {
+			.put('/auth/update-reset-password', {
 				password: data.password,
 				reset_token: token
 			})

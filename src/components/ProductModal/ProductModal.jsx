@@ -95,7 +95,7 @@ export default function ProductModal({ show }) {
 
 		if (show) {
 			axios
-				.get(`https://api.vomad.guide/product/${id}`, {
+				.get(`/product/${id}`, {
 					cancelToken: source.token
 				})
 				.then((response) => {
@@ -115,7 +115,7 @@ export default function ProductModal({ show }) {
 	const handleStarRating = (newValue) => {
 		if (!prevReviewData || Number(newValue) !== (tempRating || prevReviewData.rating)) {
 			axios
-				.put('https://api.vomad.guide/add-rating/', {
+				.put('/add-rating/', {
 					rating: newValue,
 					product_id: selectedProduct && selectedProduct.productId,
 					user_id: currentUserData.id

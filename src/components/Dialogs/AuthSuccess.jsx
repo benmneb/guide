@@ -12,7 +12,7 @@ export default function AuthSuccess() {
 		const source = axios.CancelToken.source();
 
 		axios
-			.get('https://api.vomad.guide/auth/login/success', {
+			.get('/auth/login/success', {
 				withCredentials: true,
 				crossorigin: true,
 				cancelToken: source.token

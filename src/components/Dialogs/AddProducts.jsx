@@ -82,7 +82,7 @@ export default function AddProducts({ isOpened }) {
 		if (activeStep === steps.length - 1) {
 			setPending(true);
 			axios
-				.post('https://api.vomad.guide/email/add-product', {
+				.post('/email/add-product', {
 					body: `<p><strong>New Product Addition Request Received ${new Date()}</strong></p>
 				<p>User <strong>${
 					currentUserData ? currentUserData.id : 'was not logged in'

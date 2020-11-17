@@ -161,7 +161,7 @@ export default function WhereToBuy() {
 		if (currentLocation && selectedProduct && !alreadyFetchedStores.current) {
 			axios
 				.get(
-					`https://api.vomad.guide/stores/${selectedProduct.productId}?lat=${currentLocation.lat}&lng=${currentLocation.lng}`,
+					`/stores/${selectedProduct.productId}?lat=${currentLocation.lat}&lng=${currentLocation.lng}`,
 					{ cancelToken: source.token }
 				)
 				.then((res) => {

@@ -43,7 +43,7 @@ export default function ReviewReport({ onClose, reviewId, show }) {
 	const handleListItemClick = (reason) => {
 		setPending(true);
 		axios
-			.post('https://api.vomad.guide/email/report-review', {
+			.post('/email/report-review', {
 				body: `<p><strong>New Review Report Received ${new Date()}</strong></p>
 			<p>User <strong>${
 				currentUserData.id

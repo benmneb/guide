@@ -95,7 +95,7 @@ export default function AboutEdit(props) {
 	const onSubmit = (data) => {
 		setPending(true);
 		axios
-			.post('https://api.vomad.guide/email/edit-product', {
+			.post('/email/edit-product', {
 				body: `<p><strong>New Edit Product Request Received ${new Date()}</strong></p><p>User <strong>${
 					currentUserData.id
 				}</strong><br>suggested to edit product <strong>${

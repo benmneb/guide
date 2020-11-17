@@ -105,12 +105,9 @@ export default function SearchResultsList() {
 			async function initialFetch() {
 				if (mounted) dispatch(setLoading(true));
 				try {
-					const response = await axios.get(
-						`https://api.vomad.guide/search/${searchTerm.current}/0`,
-						{
-							cancelToken: source.token
-						}
-					);
+					const response = await axios.get(`/search/${searchTerm.current}/0`, {
+						cancelToken: source.token
+					});
 					const results = await response.data[0];
 					if (mounted) {
 						currentPathname.current = searchTerm.current;
@@ -169,7 +166,7 @@ export default function SearchResultsList() {
 
 		try {
 			const response = await axios.get(
-				`https://api.vomad.guide/search/${searchTerm.current}/${offset}/${filtersQueryString}`
+				`/search/${searchTerm.current}/${offset}/${filtersQueryString}`
 			);
 			const results = await response.data[0];
 			if (results) {
@@ -201,7 +198,7 @@ export default function SearchResultsList() {
 			async function fetchIfFilters() {
 				try {
 					const response = await axios.get(
-						`https://api.vomad.guide/search/${searchTerm.current}/0/${filtersQueryString}`,
+						`/search/${searchTerm.current}/0/${filtersQueryString}`,
 						{
 							cancelToken: source.token
 						}
@@ -249,12 +246,9 @@ export default function SearchResultsList() {
 
 			async function fetchIfJustRemovedFilters() {
 				try {
-					const response = await axios.get(
-						`https://api.vomad.guide/search/${searchTerm.current}/0`,
-						{
-							cancelToken: source.token
-						}
-					);
+					const response = await axios.get(`/search/${searchTerm.current}/0`, {
+						cancelToken: source.token
+					});
 					const results = await response.data[0];
 					if (mounted) {
 						setFetchedResults(results.productList);

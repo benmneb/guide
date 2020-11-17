@@ -60,7 +60,7 @@ export default function Auth({ isOpened }) {
 	}, [isAuthenticated, goBack, isOpened]);
 
 	const handleSocialLogin = (platform) => {
-		const url = `https://api.vomad.guide/auth/${platform}`;
+		const url = `/auth/${platform}`;
 		const name = '_blank';
 		window.open(url, name);
 	};

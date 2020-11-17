@@ -50,7 +50,7 @@ export default function AddReviewForm() {
 		if (rating > 0) {
 			setPending(true);
 			axios
-				.post('https://api.vomad.guide/add-review/', {
+				.post('/add-review/', {
 					review: data.review,
 					product_id: selectedProductId,
 					user_id: currentUserData.id,
@@ -70,7 +70,7 @@ export default function AddReviewForm() {
 					dispatch(updateReviews(selectedProductId));
 					if (!prevReviewData || prevReviewData.rating !== rating) {
 						axios
-							.get(`https://api.vomad.guide/product/${selectedProductId}`)
+							.get(`/product/${selectedProductId}`)
 							.then((res) => dispatch(setSelectedProduct(res.data[0])))
 							.catch((err) => console.error(err));
 					}

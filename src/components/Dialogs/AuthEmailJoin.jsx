@@ -54,7 +54,7 @@ export default function AuthEmailJoin() {
 		setPending(true);
 		axios
 			.post(
-				'https://api.vomad.guide/auth/register',
+				'/auth/register',
 				{
 					user_name: data.name,
 					email: data.email,
@@ -67,7 +67,7 @@ export default function AuthEmailJoin() {
 			)
 			.then((auth) => {
 				if (auth.data) {
-					return axios.get('https://api.vomad.guide/auth/login/success', {
+					return axios.get('/auth/login/success', {
 						withCredentials: true,
 						crossorigin: true
 					});

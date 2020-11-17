@@ -133,7 +133,7 @@ export default function TopBar({ children }) {
 			// if they just registered, check for a temp account and ask to link it
 			if (currentUserData.authState === 'new user created') {
 				axios
-					.get('https://api.vomad.guide/auth/check-temp-user')
+					.get('/auth/check-temp-user')
 					.then((res) => {
 						confirm({
 							title: 'Previous activity detected',
@@ -143,7 +143,7 @@ export default function TopBar({ children }) {
 							.then(() => {
 								dispatch(updateAuthState('claimed'));
 								axios
-									.put(`https://api.vomad.guide/auth/link-user/${currentUserData.id}`, {
+									.put(`/auth/link-user/${currentUserData.id}`, {
 										temp_user_id: res.data[0].temp_user_id
 									})
 									.then(() => {
