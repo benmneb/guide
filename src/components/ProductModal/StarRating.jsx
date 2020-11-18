@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Typography, Box } from '@material-ui/core';
+import { Typography, Box, useMediaQuery } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useConfirm } from 'material-ui-confirm';
@@ -11,6 +11,7 @@ export default function StarRating(props) {
 	const { product } = props;
 	const width = useWidth();
 	const confirm = useConfirm();
+	const canHover = useMediaQuery('((hover: hover) and (pointer: fine))');
 	const showAddReviewForm = useSelector((state) => state.product.showAddReview);
 	const [hover, setHover] = useState(-1);
 
@@ -38,6 +39,7 @@ export default function StarRating(props) {
 		precision = 1;
 		text = `rate as "${labels[hover]}"`;
 	}
+	if (!canHover) precision = 1;
 
 	function handleRatingClick(event, newValue) {
 		setHover(-1); // putting this in a .finally was not working in brave/chrome, so its here
@@ -66,7 +68,7 @@ export default function StarRating(props) {
 							precision={precision}
 							size={ratingSize}
 							onChange={handleRatingClick}
-							onChangeActive={handleRatingHover}
+							onChangeActive={canHover ? handleRatingHover : null}
 							readOnly={showAddReviewForm}
 						/>
 					</Box>
