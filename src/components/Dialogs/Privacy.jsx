@@ -56,7 +56,7 @@ export default function Privacy({ isOpened }) {
 			aria-describedby="privacy-dialog-description"
 			fullScreen={fullScreen}
 		>
-			<DialogTitle id="alert-dialog-title" onClose={onClose}>
+			<DialogTitle id="privacy-dialog-title" onClose={onClose}>
 				{'Privacy Policy'}
 			</DialogTitle>
 			<DialogContent>
