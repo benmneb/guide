@@ -168,7 +168,12 @@ export default function SearchBar() {
 						root: styles.inputRoot,
 						input: styles.inputInput
 					}}
-					inputProps={{ 'aria-label': 'search' }}
+					inputProps={{
+						'aria-label': 'search',
+						autoCorrect: 'off',
+						autoCapitalize: 'off',
+						spellCheck: 'false'
+					}}
 				/>
 			</Box>
 		);
