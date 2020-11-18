@@ -18,12 +18,12 @@ export default function ProductTags({ product }) {
 	const [productTags, setProductTags] = useState(null);
 
 	useEffect(() => {
-		if (product.tags.length > maxInitialTags) {
+		if (product?.tags?.length > maxInitialTags) {
 			setProductTags(product.tags.slice(0, maxInitialTags));
 		} else {
 			setProductTags(product.tags);
 		}
-	}, [product.tags]);
+	}, [product?.tags]);
 
 	function DisplayTags() {
 		return (
@@ -41,7 +41,7 @@ export default function ProductTags({ product }) {
 	}
 
 	function ShowMoreButton() {
-		const remainingTags = product.tags.length - maxInitialTags;
+		const remainingTags = product?.tags?.length - maxInitialTags;
 
 		if (productTags?.length === maxInitialTags) {
 			return <Button onClick={handleShowMoreTags}>+ {remainingTags} more</Button>;
