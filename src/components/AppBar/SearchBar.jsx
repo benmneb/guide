@@ -81,12 +81,17 @@ export default function SearchBar() {
 	}
 
 	function handleChange(event, newValue) {
+		function prepared(str) {
+			return str
+				.trim()
+				.replace(/[']{1,}/g, '')
+				.replace(/[ ]{1,}/g, '+');
+		}
+
 		if (typeof newValue === 'string') {
-			const transformedQuery = newValue.trim().replace(/[ ]{1,}/g, '+');
-			history.push(searchLink.pathname.replace(':term', transformedQuery));
+			history.push(searchLink.pathname.replace(':term', prepared(newValue)));
 		} else if (newValue && newValue.inputValue) {
-			const transformedQuery = newValue.inputValue.trim().replace(/[ ]{1,}/g, '+');
-			history.push(searchLink.pathname.replace(':term', transformedQuery));
+			history.push(searchLink.pathname.replace(':term', prepared(newValue.inputValue)));
 		} else if (newValue) {
 			setValue(null);
 			event.target.blur();
