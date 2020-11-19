@@ -12,7 +12,6 @@ import {
 	IconButton,
 	Tooltip,
 	Typography,
-	useMediaQuery,
 	Grid,
 	Menu,
 	MenuItem,
@@ -82,7 +81,6 @@ export default function UserProfile({ isOpened }) {
 	const dispatch = useDispatch();
 	const confirm = useConfirm();
 	const currentUserData = useSelector((state) => state.auth.currentUserData);
-	const fullScreen = useMediaQuery((theme) => theme.breakpoints.down('xs'));
 	const urlSearchParamsId = useRef(new URLSearchParams(location.search).get('id'));
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
 	const [selectedUser, setSelectedUser] = useState(null);
@@ -312,7 +310,6 @@ export default function UserProfile({ isOpened }) {
 		<>
 			<Dialog
 				onClose={onClose}
-				fullScreen={fullScreen}
 				aria-label="user-profile"
 				open={Boolean(isOpened)}
 				maxWidth="xs"
