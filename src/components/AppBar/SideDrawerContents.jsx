@@ -8,7 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import { AccountCircleRounded, HomeRounded } from '@material-ui/icons';
+import { AccountCircleRounded, HomeRounded, InfoRounded } from '@material-ui/icons';
 import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircle';
 import FastfoodRoundedIcon from '@material-ui/icons/Fastfood';
@@ -88,6 +88,8 @@ export default function SideDrawerContents() {
 				return history.push(feedbackLink);
 			case 'getTheApp':
 				return history.push(getTheAppLink);
+			case 'faq':
+				return history.push(faqLink);
 			case 'terms':
 				return history.push(termsLink);
 			case 'privacy':
@@ -135,6 +137,11 @@ export default function SideDrawerContents() {
 	const privacyLink = usePrepareLink({
 		query: {
 			[getParams.popup]: getEnums.popup.privacy
+		}
+	});
+	const faqLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.faq
 		}
 	});
 	const userProfileLink = usePrepareLink(
@@ -252,6 +259,12 @@ export default function SideDrawerContents() {
 						<GetAppRoundedIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Get the App'} />
+				</ListItem>
+				<ListItem button onClick={() => openMenuItem('faq')}>
+					<ListItemIcon>
+						<InfoRounded />
+					</ListItemIcon>
+					<ListItemText primary="About / FAQ" />
 				</ListItem>
 			</List>
 			<Divider />

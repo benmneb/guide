@@ -15,13 +15,15 @@ export const GET_ENUMS = {
 		getTheApp: 'get-the-app',
 		terms: 'terms-of-use',
 		privacy: 'privacy-policy',
+		faq: 'frequently-asked-questions',
 		userProfile: 'user',
 		resetPassword: 'reset-password'
 	},
 	action: {
 		advertise: 'advertise',
 		login: 'login',
-		feedback: 'feedback'
+		feedback: 'feedback',
+		addProducts: 'add-products'
 	},
 	productTab: {
 		about: 'about',

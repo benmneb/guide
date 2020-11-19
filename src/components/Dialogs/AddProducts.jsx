@@ -132,7 +132,9 @@ export default function AddProducts({ isOpened }) {
 
 	const onClose = () => {
 		if (isOpened) {
-			history.push(location.pathname);
+			if (location.search.includes('&')) {
+				history.push(location.pathname + location.search.split('&')[0]);
+			} else history.push(location.pathname);
 		}
 	};
 
