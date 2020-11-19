@@ -80,8 +80,6 @@ export default function SideDrawerContents() {
 				return history.push('/household');
 			case 'addProducts':
 				return history.push(addProductsLink);
-			case 'supportUs':
-				return history.push(supportUsLink);
 			case 'advertise':
 				return history.push(advertiseLink);
 			case 'feedback':
@@ -112,11 +110,6 @@ export default function SideDrawerContents() {
 	const advertiseLink = usePrepareLink({
 		query: {
 			[getParams.popup]: getEnums.popup.advertise
-		}
-	});
-	const supportUsLink = usePrepareLink({
-		query: {
-			[getParams.popup]: getEnums.popup.supportUs
 		}
 	});
 	const feedbackLink = usePrepareLink({
@@ -232,7 +225,13 @@ export default function SideDrawerContents() {
 					</ListItemIcon>
 					<ListItemText primary={'Add Products'} />
 				</ListItem>
-				<ListItem button onClick={() => openMenuItem('supportUs')}>
+				<ListItem
+					button
+					component="a"
+					href="https://www.patreon.com/vomad"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
 					<ListItemIcon>
 						<FavoriteRoundedIcon />
 					</ListItemIcon>

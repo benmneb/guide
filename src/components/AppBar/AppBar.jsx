@@ -83,11 +83,6 @@ export default function TopBar({ children }) {
 			[getParams.popup]: getEnums.popup.advertise
 		}
 	});
-	const supportUsLink = usePrepareLink({
-		query: {
-			[getParams.popup]: getEnums.popup.supportUs
-		}
-	});
 	const authLink = usePrepareLink({
 		query: {
 			[getParams.popup]: getEnums.popup.signIn
@@ -222,12 +217,21 @@ export default function TopBar({ children }) {
 					<Box flexGrow="1" justifyContent="flex-start"></Box>
 					<SearchBar />
 					<Box display={{ xs: 'none', md: 'inline-flex' }} marginLeft={1}>
-						<Button component={Link} to={advertiseLink}>
-							Advertise
-						</Button>
-						<Button component={Link} to={supportUsLink}>
-							Support Us
-						</Button>
+						<Tooltip title="Promote your brand on the Guide">
+							<Button component={Link} to={advertiseLink}>
+								Advertise
+							</Button>
+						</Tooltip>
+						<Tooltip title="Support the Guide on Patreon">
+							<Button
+								component="a"
+								href="https://www.patreon.com/vomad"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Support Us
+							</Button>
+						</Tooltip>
 					</Box>
 					{isAuthenticated ? (
 						<Box display="inline-flex">
