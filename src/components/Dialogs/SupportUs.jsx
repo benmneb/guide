@@ -82,112 +82,110 @@ export default function SupportUs({ isOpened }) {
 	});
 
 	return (
-		<>
-			<Dialog
-				open={Boolean(isOpened)}
-				onClose={onClose}
-				aria-labelledby="support-dialog-title"
-				aria-describedby="support-dialog-description"
-				fullScreen={fullScreen}
-			>
-				<DialogTitle id="support-dialog-title" onClose={onClose}>
-					{'Support the Guide'}
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText component="article" id="support-dialog-description">
-						<Typography paragraph>
-							If you get any value from the Guide there are a number of ways you can give
-							value back.
-						</Typography>
-						<Box component="ul" className={styles.list}>
-							<Box component="li" data-icon="❤️">
-								<Typography component="div">
-									<Box component="span" fontWeight="fontWeightBold">
-										Become a patron.
-									</Box>{' '}
-									Pledge an amount you are comfortable with to help cover the expenses
-									associated with creating and maintaining a large-scale web-app like
-									this. Every little bit helps.
-									<Box marginTop={1.5}>
-										<Button
-											variant="contained"
-											color="primary"
-											href="https://patreon.com/vomad?fan_landing=true"
-											target="_blank"
-											rel="noopener noreferrer"
-										>
-											Support us via Patreon
-										</Button>
-									</Box>
-								</Typography>
-							</Box>
-							<Box component="li" data-icon="📈">
-								<Typography component="div">
-									<Box component="span" fontWeight="fontWeightBold">
-										Advertise.
-									</Box>{' '}
-									If you have a brand that would benefit from being exposed to visitors of
-									the Guide then get in touch and let's start an advertising relationship.
+		<Dialog
+			open={Boolean(isOpened)}
+			onClose={onClose}
+			aria-labelledby="support-dialog-title"
+			aria-describedby="support-dialog-description"
+			fullScreen={fullScreen}
+		>
+			<DialogTitle id="support-dialog-title" onClose={onClose}>
+				{'Support the Guide'}
+			</DialogTitle>
+			<DialogContent>
+				<DialogContentText component="article" id="support-dialog-description">
+					<Typography paragraph>
+						If you get any value from the Guide there are a number of ways you can give
+						value back.
+					</Typography>
+					<Box component="ul" className={styles.list}>
+						<Box component="li" data-icon="❤️">
+							<Typography component="div">
+								<Box component="span" fontWeight="fontWeightBold">
+									Become a patron.
+								</Box>{' '}
+								Pledge an amount you are comfortable with to help cover the expenses
+								associated with creating and maintaining a large-scale web-app like this.
+								Every little bit helps.
+								<Box marginTop={1.5}>
+									<Button
+										variant="contained"
+										color="primary"
+										href="https://patreon.com/vomad?fan_landing=true"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										Support us via Patreon
+									</Button>
+								</Box>
+							</Typography>
+						</Box>
+						<Box component="li" data-icon="📈">
+							<Typography component="div">
+								<Box component="span" fontWeight="fontWeightBold">
+									Advertise.
+								</Box>{' '}
+								If you have a brand that would benefit from being exposed to visitors of
+								the Guide then get in touch and let's start an advertising relationship.
+								<Box marginTop={1.5}>
+									<Button
+										variant="contained"
+										color="primary"
+										component={Link}
+										to={advertiseLink}
+									>
+										Advertise
+									</Button>
+								</Box>
+							</Typography>
+						</Box>
+						<Box component="li" data-icon="🎁">
+							<Typography>
+								<Box component="span" fontWeight="fontWeightBold">
+									Share links.
+								</Box>{' '}
+								If you see someone on social media asking about vegan products, or
+								enquiring if a specific vegan product is any good, then post a link to the
+								Guide.
+							</Typography>
+						</Box>
+						<Box component="li" data-icon="🗣">
+							<Typography>
+								<Box component="span" fontWeight="fontWeightBold">
+									Mention us.
+								</Box>{' '}
+								Recommend the Guide to your friends and family. Show them how easy it is
+								to find vegan products. A quick browse of the Guide can open their eyes to
+								how convenient being vegan is in {new Date().getFullYear()}.
+							</Typography>
+						</Box>
+						<Box component="li" data-icon="✏️">
+							<Typography component="div">
+								<Box component="span" fontWeight="fontWeightBold">
+									Rate, review, tag and add.
+								</Box>{' '}
+								Leave reviews and ratings for products you've bought, tag the stores
+								you've bought them in, and add any missing products so others can find
+								them. The easiest way to support the Guide is just to use it.
+								{!isAuthenticated && (
 									<Box marginTop={1.5}>
 										<Button
 											variant="contained"
 											color="primary"
 											component={Link}
-											to={advertiseLink}
+											to={authLink}
 										>
-											Advertise
+											Get Started
 										</Button>
 									</Box>
-								</Typography>
-							</Box>
-							<Box component="li" data-icon="🎁">
-								<Typography>
-									<Box component="span" fontWeight="fontWeightBold">
-										Share links.
-									</Box>{' '}
-									If you see someone on social media asking about vegan products, or
-									enquiring if a specific vegan product is any good, then post a link to
-									the Guide.
-								</Typography>
-							</Box>
-							<Box component="li" data-icon="🗣">
-								<Typography>
-									<Box component="span" fontWeight="fontWeightBold">
-										Mention us.
-									</Box>{' '}
-									Recommend the Guide to your friends and family. Show them how easy it is
-									to find vegan products. A quick browse of the Guide can open their eyes
-									to how convenient being vegan is in {new Date().getFullYear()}.
-								</Typography>
-							</Box>
-							<Box component="li" data-icon="✏️">
-								<Typography component="div">
-									<Box component="span" fontWeight="fontWeightBold">
-										Rate, review, tag and add.
-									</Box>{' '}
-									Leave reviews and ratings for products you've bought, tag the stores
-									you've bought them in, and add any missing products so others can find
-									them. The easiest way to support the Guide is just to use it.
-									{!isAuthenticated && (
-										<Box marginTop={1.5}>
-											<Button
-												variant="contained"
-												color="primary"
-												component={Link}
-												to={authLink}
-											>
-												Get Started
-											</Button>
-										</Box>
-									)}
-								</Typography>
-							</Box>
+								)}
+							</Typography>
 						</Box>
-					</DialogContentText>
-				</DialogContent>
-			</Dialog>
-			{action === 'advertise' && <Advertise isOpened />}
-			{action === 'login' && <Auth isOpened />}
-		</>
+					</Box>
+				</DialogContentText>
+			</DialogContent>
+			<Advertise isOpened={action === 'advertise'} />
+			<Auth isOpened={action === 'login'} />
+		</Dialog>
 	);
 }

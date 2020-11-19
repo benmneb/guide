@@ -331,8 +331,8 @@ export default function GetTheApp({ isOpened }) {
 						)}
 					</DialogContentText>
 				</DialogContent>
+				<Feedback isOpened={showFeedback} />
 			</Dialog>
-			{showFeedback && <Feedback isOpened />}
 		</>
 	);
 }

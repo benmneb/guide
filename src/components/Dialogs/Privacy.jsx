@@ -27,7 +27,7 @@ export default function Privacy({ isOpened }) {
 
 	useEffect(() => {
 		if (clickedContact) {
-			setWantsToContact(clickedContact);
+			setWantsToContact(true);
 		} else setWantsToContact(false);
 	}, [clickedContact]);
 
@@ -589,7 +589,7 @@ export default function Privacy({ isOpened }) {
 					<Typography paragraph>Last Update: 22 October 2020</Typography>
 				</DialogContentText>
 			</DialogContent>
-			{wantsToContact && <Feedback isOpened />}
+			<Feedback isOpened={wantsToContact} />
 		</Dialog>
 	);
 }
