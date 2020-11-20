@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Box, Button, Typography } from '@material-ui/core';
-import { AddCircleOutlineRounded } from '@material-ui/icons';
+import { AddRounded } from '@material-ui/icons';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
 
 export default function ResultsListEndMessage() {
@@ -23,9 +23,8 @@ export default function ResultsListEndMessage() {
 			</Box>
 			<Box margin={2}>
 				<Button
-					variant="contained"
-					color="primary"
-					startIcon={<AddCircleOutlineRounded />}
+					variant="outlined"
+					startIcon={<AddRounded />}
 					component={Link}
 					to={addProductLink}
 				>
