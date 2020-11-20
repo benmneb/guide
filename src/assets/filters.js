@@ -49,7 +49,7 @@ export const ingredients = [
 		id: 4,
 		name: '🍃 Organic',
 		value: 'Organic',
-		tooltip: "At least one ingredient is labelled as 'organic'"
+		tooltip: "Only show products where at least one ingredient is labelled as 'organic'"
 	}
 ];
 
