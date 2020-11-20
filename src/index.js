@@ -1,16 +1,11 @@
 import { render } from 'react-dom';
-import axios from 'axios';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store, persistor } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-
-axios.defaults.baseURL =
-	process.env.NODE_ENV === 'production'
-		? 'https://api.vomad.guide'
-		: 'http://localhost:3000';
+import './assets/axiosDefaults';
 
 const app = (
 	<Provider store={store}>
