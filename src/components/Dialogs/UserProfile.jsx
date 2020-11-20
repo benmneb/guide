@@ -156,7 +156,7 @@ export default function UserProfile({ isOpened }) {
 		})
 			.then(() => {
 				dispatch(setCurrentUserData(null, false));
-				return (window.location.href = '/auth/logout');
+				return (window.location.href = 'https://api.vomad.guide/auth/logout');
 			})
 			.catch(() => null);
 	}

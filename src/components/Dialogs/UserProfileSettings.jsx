@@ -256,7 +256,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 		})
 			.then(() => {
 				setPending('deleteAccount');
-				return (window.location.href = '/auth/logout-on-delete');
+				return (window.location.href = 'https://api.vomad.guide/auth/logout-on-delete');
 			})
 			.then(() => {
 				axios
