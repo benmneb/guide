@@ -43,7 +43,8 @@ export default function BottomNav() {
 
 	const handleCategoriesClick = useCallback(() => {
 		const releventPath = location.pathname.match(/^([^/]*\/){2}/)[0].slice(0, -1); // cuts off everything after the category
-		history.push(releventPath);
+		if (releventPath === '/search') history.push('/');
+		else history.push(releventPath);
 	}, [history, location.pathname]);
 
 	function handleResultsClick() {
