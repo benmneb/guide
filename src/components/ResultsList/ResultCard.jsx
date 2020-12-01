@@ -66,7 +66,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	brandName: {
 		color: theme.palette.grey[500],
-		fontWeight: theme.typography.fontWeightBold
+		fontWeight: theme.typography.fontWeightBold,
+		lineHeight: 1.3
 	},
 	productName: {
 		fontWeight: theme.typography.fontWeightRegular,
@@ -103,6 +104,7 @@ export default function ResultCard({ result }) {
 						component="span"
 						variant="overline"
 						display="block"
+						paragraph
 					>
 						{result.brandName}
 					</Typography>
