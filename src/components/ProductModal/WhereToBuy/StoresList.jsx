@@ -47,12 +47,12 @@ export default function StoresList(props) {
 
 	return stores.length ? (
 		stores.map((store) => (
-			<Box key={store.prod_store_id}>
+			<Box key={store.store_id}>
 				<ListItem
 					dense
 					button
 					onClick={() => props.listItemClick(store)}
-					selected={selectedStore && selectedStore.prod_store_id === store.prod_store_id}
+					selected={selectedStore && selectedStore.store_id === store.store_id}
 				>
 					<ListItemIcon>
 						{store.vegan_store ? (
@@ -82,7 +82,7 @@ export default function StoresList(props) {
 					</Tooltip>
 				</ListItem>
 				<Collapse
-					in={selectedStore && selectedStore.prod_store_id === store.prod_store_id}
+					in={selectedStore && selectedStore.store_id === store.store_id}
 					timeout="auto"
 					unmountOnExit
 				>
@@ -96,6 +96,7 @@ export default function StoresList(props) {
 							/>
 							<ListItemSecondaryAction>
 								<StoresVoteButtons
+									storeId={store.store_id}
 									prodStoreId={store.prod_store_id}
 									votedBy={store.voted_by}
 									votedDownBy={store.voted_down_by}

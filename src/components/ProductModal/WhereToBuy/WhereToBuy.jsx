@@ -188,7 +188,7 @@ export default function WhereToBuy() {
 	}, [currentLocation, selectedProduct, dispatch]);
 
 	function handleListItemClick(store) {
-		if (selectedStore && selectedStore.prod_store_id === store.prod_store_id) {
+		if (selectedStore && selectedStore.store_id === store.store_id) {
 			handleDeselectStore();
 		} else {
 			if (infoWindowOpen) setInfoWindowOpen(false);
@@ -268,7 +268,7 @@ export default function WhereToBuy() {
 	const onMarkerLoad = (marker, store) => {
 		// this is needed for infoWindows to appear on marker click
 		return setMarkerMap((prevState) => {
-			return { ...prevState, [store.prod_store_id]: marker };
+			return { ...prevState, [store.store_id]: marker };
 		});
 	};
 

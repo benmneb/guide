@@ -33,7 +33,7 @@ function StoresMap(props) {
 				const bounds = new window.google.maps.LatLngBounds();
 				stores.map((store) => {
 					bounds.extend({ lat: store.lat, lng: store.lng });
-					return store.prod_store_id;
+					return store.store_id;
 				});
 				map.fitBounds(bounds);
 				setMap(map);
@@ -50,7 +50,7 @@ function StoresMap(props) {
 
 	return (
 		<GoogleMap
-			map={map} // i added this here to remove the error, the docs sux
+			map={map} // i added this here to remove the 'map is not used' error, as far as i know this line does absolutely nothing else
 			onLoad={onLoad}
 			onUnmount={onUnmount}
 			mapContainerStyle={containerStyle}
@@ -62,7 +62,7 @@ function StoresMap(props) {
 		>
 			{stores.map((store) => (
 				<Marker
-					key={store.prod_store_id}
+					key={store.store_id}
 					onLoad={(marker) => props.onMarkerLoad(marker, store)}
 					position={{ lat: store.lat, lng: store.lng }}
 					onClick={() => props.onMarkerClick(store)}
@@ -70,7 +70,7 @@ function StoresMap(props) {
 			))}
 			{props.infoWindowOpen && selectedStore && (
 				<InfoWindow
-					anchor={props.markerMap[selectedStore.prod_store_id]}
+					anchor={props.markerMap[selectedStore.store_id]}
 					onCloseClick={props.deselectStore}
 				>
 					<InfoWindowContent {...props} />

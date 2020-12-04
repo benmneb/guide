@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function StoresVoteButtons(props) {
+export default function StoresVoteButtons({ storeId, prodStoreId, ...props }) {
 	const styles = useStyles();
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -55,9 +55,11 @@ export default function StoresVoteButtons(props) {
 
 			try {
 				const response = await axios.put('/vote-store', {
-					prod_store_id: props.prodStoreId,
+					prod_store_id: prodStoreId,
 					user_id: currentUserData.id,
-					voteType: vote
+					voteType: vote,
+					store_id: storeId,
+					product_id: selectedProduct.productId
 				});
 				response.data &&
 					dispatch(
