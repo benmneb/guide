@@ -74,7 +74,7 @@ export default function StoresVoteButtons(props) {
 					showSnackbar({
 						type: 'error',
 						title: 'Could not cast vote',
-						message: `${err.message}. Please try again.`
+						message: `Something went wrong. Please try again.`
 					})
 				);
 			}
@@ -97,7 +97,7 @@ export default function StoresVoteButtons(props) {
 					/>
 				</IconButton>
 			</Tooltip>
-			<Tooltip title="This product is not currently stocked here">
+			<Tooltip title="I know this product is not stocked here">
 				<IconButton
 					aria-label="vote down"
 					className={styles.iconButton}
