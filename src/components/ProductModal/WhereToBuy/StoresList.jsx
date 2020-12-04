@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
 		color: green[500]
 	},
 	storeActionsList: {
-		paddingTop: 0
+		paddingTop: 0,
+		backgroundColor: theme.palette.grey[100]
 	}
 }));
 
@@ -68,7 +69,7 @@ export default function StoresList(props) {
 							</Typography>
 						}
 					/>
-					<Tooltip title="The products reputation for this store">
+					<Tooltip title="This products reputation in this store">
 						{store.votes >= 1 ? (
 							<Typography component="span" variant="subtitle2" color="textSecondary">
 								+{store.votes}
