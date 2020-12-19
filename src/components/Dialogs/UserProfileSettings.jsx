@@ -250,7 +250,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 	const handleDeleteAccountClick = () => {
 		confirm({
 			description:
-				'This action will also log out you out immediately. There is no going back from this.',
+				'This action will also log you out immediately. There is no going back from this.',
 			confirmationText: 'Delete Account',
 			confirmationButtonProps: { className: styles.deleteAccount }
 		})
