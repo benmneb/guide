@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react';
+import ReactGA from 'react-ga';
 import { Route, Switch } from 'react-router-dom';
 import { ConfirmProvider } from 'material-ui-confirm';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -19,6 +20,9 @@ const SearchResultsList = lazy(() =>
 );
 
 export default function App() {
+
+	ReactGA.initialize('G-5RJTF608X0');
+	ReactGA.pageview('/');
 	return (
 		<ThemeProvider theme={theme}>
 			<ConfirmProvider defaultOptions={defaultOptions}>
