@@ -1,6 +1,7 @@
+import { useEffect } from 'react';
 import { Suspense, lazy } from 'react';
 import ReactGA from 'react-ga';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import { ConfirmProvider } from 'material-ui-confirm';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -19,10 +20,17 @@ const SearchResultsList = lazy(() =>
 	import('./components/ResultsList/SearchResultsList')
 );
 
-export default function App() {
+const usePageTracking = () => {
+	let location = useLocation();
+	useEffect(() => {
+			ReactGA.initialize('UA-197330337-2');
+			ReactGA.pageview(location.pathname + location.search);
+		}, [location]);
+}
 
-	ReactGA.initialize('G-5RJTF608X0');
-	ReactGA.pageview('/');
+export default function App() {
+	usePageTracking();
+	
 	return (
 		<ThemeProvider theme={theme}>
 			<ConfirmProvider defaultOptions={defaultOptions}>
