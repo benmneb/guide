@@ -15,7 +15,6 @@
 		"clsx": "^1.1.1",
 		"lodash.debounce": "^4.0.8",
 		"match-sorter": "^5.0.0",
-		"material-ui": "^0.15.0",
 		"material-ui-confirm": "^2.1.1",
 		"random-material-color": "^1.0.5",
 		"react": "^17.0.1",
