@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { setBrandname } from '../../store/actions';
+import { setBrandname, showSnackbar } from '../../store/actions';
 import { TextField, CircularProgress, Grid } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,18 +31,29 @@ export default function AddProductsBrandname() {
 		}
 
 		(async () => {
-			const response = await axios.get('/search-brand');
-			const brands = await response.data;
+			try {
+				const response = await axios.get('/search-brand');
+				const brands = await response.data;
 
-			if (active) {
-				setOptions(brands);
+				if (active) {
+					setOptions(brands);
+				}
+			} catch (error) {
+				console.error('Error getting brands:', error);
+				dispatch(
+					showSnackbar({
+						type: 'error',
+						title: 'Could not get brands',
+						message: `${error.message}. Please try again soon.`
+					})
+				);
 			}
 		})();
 
 		return () => {
 			active = false;
 		};
-	}, [loading]);
+	}, [loading, dispatch]);
 
 	useEffect(() => {
 		if (!open) {
@@ -70,7 +81,9 @@ export default function AddProductsBrandname() {
 	}
 
 	function filterOptions(options, params) {
-		const sorted = matchSorter(options, params.inputValue, { keys: ['brand_name'] });
+		const sorted = matchSorter(options, params.inputValue, {
+			keys: ['brand_name']
+		});
 
 		// Suggest the creation of a new value
 		if (params.inputValue !== '') {
