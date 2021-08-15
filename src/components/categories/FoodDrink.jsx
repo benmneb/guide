@@ -30,10 +30,6 @@ export default function FoodDrink() {
 					name="description"
 					content="Find vegan food and drink products in over 100 categories at the Vomad Guide: The Best Online Vegan Product Guide."
 				/>
-				<meta
-					name="keywords"
-					content="pantry,fridge,freezer,bakery,drinks,baby,pet food,plant based,plant-based,vegetarian,flexitarian,list,product list,shopping,grocery,shopping list,grocery list"
-				/>
 			</Helmet>
 			<ScrollToTopOnMount />
 			<Hero>

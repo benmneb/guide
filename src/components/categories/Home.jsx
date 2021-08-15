@@ -30,10 +30,6 @@ export default function Home() {
 					name="description"
 					content="The original Vegan Product Guide to Australia and the best plant-based shopping list. Browse, search and find vegan products. Filter, review and find where to buy vegan groceries."
 				/>
-				<meta
-					name="keywords"
-					content="plant based,plant-based,vegetarian,flexitarian,list,product list,shopping,grocery,shopping list,grocery list"
-				/>
 			</Helmet>
 			<ScrollToTopOnMount />
 			<Hero>
