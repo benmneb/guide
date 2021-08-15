@@ -2,7 +2,14 @@ import { useState } from 'react';
 import { useHistory } from 'react-router';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { InputBase, Grid, Typography, Box, Popper } from '@material-ui/core';
+import {
+	InputBase,
+	Grid,
+	Typography,
+	Box,
+	Popper,
+	useMediaQuery
+} from '@material-ui/core';
 import { BathtubRounded, FastfoodRounded, SearchRounded } from '@material-ui/icons';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
@@ -36,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center'
 	},
 	inputRoot: {
-		color: 'inherit'
+		color: 'inherit',
+		width: '100%'
 	},
 	inputInput: {
 		padding: theme.spacing(1, 1, 1, 0),
@@ -56,14 +64,15 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const popperStyle = { width: 350 };
-
 export default function SearchBar() {
 	const styles = useStyles();
 	const history = useHistory();
+	const onlyXs = useMediaQuery((theme) => theme.breakpoints.only('xs'));
 	const [value, setValue] = useState(null);
 	const [inputValue, setInputValue] = useState('');
 	const [open, setOpen] = useState(false);
+
+	const popperStyle = { width: onlyXs ? 'calc(100% - 32px' : 350 };
 
 	const searchLink = usePrepareLink({
 		to: '/search/:term',
@@ -185,7 +194,13 @@ export default function SearchBar() {
 	}
 
 	function CustomPopper(props) {
-		return <Popper {...props} style={popperStyle} placement="bottom-start" />;
+		return (
+			<Popper
+				{...props}
+				style={popperStyle}
+				placement={onlyXs ? 'bottom' : 'bottom-start'}
+			/>
+		);
 	}
 
 	return (
