@@ -1,7 +1,6 @@
 import {
 	Box,
 	Card,
-	CardMedia,
 	CardContent,
 	CardActions,
 	Typography,
@@ -9,6 +8,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
+import Image from 'react-graceful-image';
 
 const useStyles = makeStyles((theme) => ({
 	productTile: {
@@ -60,6 +60,10 @@ const useStyles = makeStyles((theme) => ({
 			maxWidth: 200
 		}
 	},
+	cardMediaLoading: {
+		filter: 'blur(30px)',
+		transform: 'scale(1.4)'
+	},
 	cardContent: {
 		textAlign: 'center',
 		padding: theme.spacing(2)
@@ -91,10 +95,11 @@ export default function ResultCard({ result }) {
 	return (
 		<Card component="article" className={styles.productTile}>
 			<Box className={styles.cardMediaPlaceholder}>
-				<CardMedia
+				<Image
+					src={`${result.imageSrc}?width=${constrainSize}`}
 					className={styles.cardMedia}
-					component="img"
-					image={`${result.imageSrc}?width=${constrainSize}`}
+					alt=""
+					placeholderColor="transparent"
 				/>
 			</Box>
 			<CardContent className={styles.cardContent}>

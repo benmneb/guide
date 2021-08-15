@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Button, Grid, CardMedia, Typography, Tooltip, Box } from '@material-ui/core';
+import { Button, Grid, Typography, Tooltip, Box } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { EcoRounded, OpenInNewRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import Image from 'react-graceful-image';
 import AboutEdit from './AboutEdit';
 import { usePrepareLink, getParams, getEnums } from '../../../utils/routing';
 import ProductTags from './ProductTags';
@@ -14,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
 	heading: {
 		color: theme.palette.text.primary,
 		fontWeight: theme.typography.fontWeightBold
+	},
+	image: {
+		maxHeight: '100%'
 	},
 	imageSkeleton: {
 		borderRadius: theme.shape.borderRadius,
@@ -60,12 +64,12 @@ export default function About() {
 								<Box margin={0} marginBottom={2} display="flex" flexDirection="column">
 									<ProductTags product={product} />
 									<Box display="flex" flexDirection="column" alignItems="center">
-										<Box maxWidth={300}>
-											<CardMedia
-												component="img"
-												alt={product.productName}
-												image={`${product.imageSrc}?width=300`}
-												title={product.productName}
+										<Box maxWidth={300} height={300}>
+											<Image
+												src={`${product.imageSrc}?width=300`}
+												className={styles.image}
+												alt=""
+												placeholderColor="transparent"
 											/>
 										</Box>
 									</Box>

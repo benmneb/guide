@@ -1,8 +1,10 @@
 import { useState, useEffect, memo } from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { GridListTile, GridListTileBar, GridList } from '@material-ui/core';
+import Image from 'react-graceful-image';
 import useWidth from '../../utils/useWidth';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,23 +32,33 @@ const useStyles = makeStyles((theme) => ({
 			}
 		}
 	},
-	gridListTile: {
-		'@media (hover: hover) and (pointer: fine)': {
-			'&:hover img': {
-				filter: 'brightness(100%)'
-			}
-		}
-	},
 	image: {
 		cursor: 'pointer',
 		width: '100%',
 		height: '100%',
 		objectFit: 'cover',
-		objectPosition: 'center',
+		objectPosition: 'center'
+	},
+	imageLoading: {
+		filter: 'blur(30px)',
+		transform: 'scale(1.4)',
+		'@media (hover: hover) and (pointer: fine)': {
+			filter: 'blur(30px) brightness(85%)',
+			transitionProperty: 'filter',
+			transitionDuration: `${theme.transitions.duration.complex}ms`,
+			'&:hover': {
+				filter: 'blur(30px) brightness(100%)'
+			}
+		}
+	},
+	imageLoaded: {
 		'@media (hover: hover) and (pointer: fine)': {
 			filter: 'brightness(85%)',
 			transitionProperty: 'filter',
-			transitionDuration: `${theme.transitions.duration.complex}ms`
+			transitionDuration: `${theme.transitions.duration.complex}ms`,
+			'&:hover': {
+				filter: 'brightness(100%)'
+			}
 		}
 	},
 	titleBar: {
@@ -80,9 +92,6 @@ function CategoryGridList({ category }) {
 				setCellHeight(275);
 				break;
 			case 'md':
-				setCols(5.3);
-				setCellHeight(300);
-				break;
 			case 'lg':
 				setCols(5.3);
 				setCellHeight(300);
@@ -99,9 +108,21 @@ function CategoryGridList({ category }) {
 	return (
 		<GridList className={styles.gridList} cols={cols} cellHeight={cellHeight} spacing={0}>
 			{category.subCats.map((subCats) => (
-				<GridListTile key={subCats.name} cols={1} className={styles.gridListTile}>
+				<GridListTile key={subCats.name} cols={1}>
 					<Link to={`/${category.prodType}/${subCats.url}`}>
-						<img src={`${subCats.image}?width=250`} alt={''} className={styles.image} />
+						<Image
+							src={`${subCats.image}?width=250`}
+							className={clsx(styles.image, styles.imageLoaded)}
+							alt=""
+							customPlaceholder={(ref) => (
+								<img
+									src={`${subCats.image}?width=25`}
+									className={clsx(styles.image, styles.imageLoading)}
+									alt=""
+									ref={ref}
+								/>
+							)}
+						/>
 						<GridListTileBar
 							titlePosition="top"
 							title={subCats.name}
