@@ -84,12 +84,7 @@ export default function FiltersBar(props) {
 	return (
 		<Box display="flex" flexGrow="1" top="0" position="sticky" className={styles.zIndex}>
 			<ElevationScroll {...props}>
-				<AppBar
-					position="sticky"
-					color="inherit"
-					elevation={3}
-					classes={{ root: styles.zIndex }}
-				>
+				<AppBar position="sticky" color="inherit" classes={{ root: styles.zIndex }}>
 					<Toolbar display="flex" classes={{ root: styles.toolbarRoot }}>
 						<Box className={styles.breadcrumbsBox}>
 							{props.loading ? (
