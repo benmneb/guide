@@ -33,7 +33,7 @@ export const theme = responsiveFontSizes(
 		shape: {
 			borderRadius: 16
 		},
-		reverseShadows: [...reverseShadows],
+		reverseShadows: reverseShadows,
 		overrides: {
 			MuiButton: {
 				containedPrimary: {
