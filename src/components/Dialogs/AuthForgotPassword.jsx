@@ -31,7 +31,8 @@ export default function AuthForgotPassword({ show, hide }) {
 					dispatch(
 						showSnackbar({
 							type: 'success',
-							message: 'Email sent, please check your inbox.'
+							title: 'Email sent',
+							message: 'Please check your inbox.'
 						})
 					);
 					setPending(false);
