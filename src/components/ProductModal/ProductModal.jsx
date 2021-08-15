@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {
 			height: `calc(100% - ${theme.spacing(8)}px)` // always max height so there is no jump with less modal content
 		}
+	},
+	navBox: {
+		borderRadius: `${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0 0`
 	}
 }));
 
@@ -322,7 +325,7 @@ export default function ProductModal({ show }) {
 						</Grid>
 						<Box display={{ xs: 'none', md: 'inherit' }}>
 							<Grid item xs={12}>
-								<Paper variant="outlined">
+								<Paper variant="outlined" className={styles.navBox}>
 									<Tabs
 										component="nav"
 										value={currentTab}

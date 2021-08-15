@@ -38,9 +38,6 @@ const useStyles = makeStyles((theme) => ({
 			cursor: 'pointer'
 		}
 	},
-	nested: {
-		paddingLeft: theme.spacing(4)
-	},
 	getTheApp: {
 		'@media (display-mode: standalone)': {
 			display: 'none'
@@ -193,7 +190,6 @@ export default function SideDrawerContents() {
 								dense
 								button
 								key={category.id}
-								className={styles.nested}
 								onClick={handleCloseSideDrawer}
 							>
 								<ListItemText primary={category.name} />

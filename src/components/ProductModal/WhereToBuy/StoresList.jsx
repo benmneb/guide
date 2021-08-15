@@ -37,6 +37,14 @@ const useStyles = makeStyles((theme) => ({
 	storeActionsList: {
 		paddingTop: 0,
 		backgroundColor: theme.palette.grey[100]
+	},
+	storeActionsListInner: {
+		paddingTop: 0,
+		backgroundColor: theme.palette.grey[100],
+		borderRadius: `0 0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px`
+	},
+	storeActionListSelected: {
+		borderRadius: `${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0 0`
 	}
 }));
 
@@ -53,6 +61,7 @@ export default function StoresList(props) {
 					button
 					onClick={() => props.listItemClick(store)}
 					selected={selectedStore && selectedStore.store_id === store.store_id}
+					classes={{ selected: styles.storeActionListSelected }}
 				>
 					<ListItemIcon>
 						{store.vegan_store ? (
@@ -86,7 +95,7 @@ export default function StoresList(props) {
 					timeout="auto"
 					unmountOnExit
 				>
-					<List component="div" dense className={styles.storeActionsList}>
+					<List component="div" dense className={styles.storeActionsListInner}>
 						<ListItem className={styles.nested}>
 							<ListItemText
 								primary="Can you confirm this product is here?"

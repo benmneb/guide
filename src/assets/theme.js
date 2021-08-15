@@ -28,10 +28,23 @@ export const theme = responsiveFontSizes(
 				textTransform: 'none'
 			}
 		},
+		shape: {
+			borderRadius: 16
+		},
 		overrides: {
 			MuiButton: {
 				containedPrimary: {
 					color: 'white'
+				}
+			},
+			MuiList: {
+				root: {
+					padding: 8
+				}
+			},
+			MuiListItem: {
+				root: {
+					borderRadius: 16
 				}
 			},
 			MuiCssBaseline: {
