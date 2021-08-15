@@ -34,12 +34,11 @@ export default function Home() {
 			<ScrollToTopOnMount />
 			<Hero>
 				<Heading>Find Vegan Products</Heading>
-				<SubHeading>
-					The Vomad Guide is a free crowd-sourced collection of 100% plant-based products.
-				</SubHeading>
+				<SubHeading>13,200+ products in 210+ categories from 1,370+ brands.</SubHeading>
 				<Footer forPage="home">
-					There are over 12,800 vegan products in 212 categories from more than 1,320
-					brands in Australia.
+					Apply up to 20 different filters to find products by allergens, ingredients and
+					other helpful tags, then find stores near you or online to buy them in. All 100%
+					plant-based, cruelty-free and found in Australia.
 				</Footer>
 			</Hero>
 			<Box className={styles.container}>
