@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 		width: '100vw',
 		position: 'fixed',
 		bottom: 0,
-		boxShadow: theme.shadows[24],
+		boxShadow: theme.reverseShadows[4],
 		zIndex: theme.zIndex.appBar - 1
 	},
 	bottomNav: {

@@ -1,6 +1,8 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import { orange } from '@material-ui/core/colors';
 
+import { reverseShadows } from './reverseShadows';
+
 export const theme = responsiveFontSizes(
 	createMuiTheme({
 		palette: {
@@ -31,6 +33,7 @@ export const theme = responsiveFontSizes(
 		shape: {
 			borderRadius: 16
 		},
+		reverseShadows: [...reverseShadows],
 		overrides: {
 			MuiButton: {
 				containedPrimary: {
