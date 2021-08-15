@@ -76,7 +76,7 @@ export default function About() {
 								</Box>
 							) : (
 								<Box display="flex" flexDirection="column" alignItems="center">
-									<Skeleton width={80} height={40} />
+									<ProductTags loading />
 									<Skeleton
 										variant="rect"
 										height={300}
