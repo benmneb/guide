@@ -8,7 +8,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { defaultOptions } from './assets/confirmProviderOptions';
 import { theme } from './assets/theme';
 
-import { usePageTracking } from './utils/usePageTracking';
 import Snackbars from './utils/Snackbars';
 import LoadingBar from './utils/LoadingBar';
 
@@ -24,8 +23,6 @@ const SearchResultsList = lazy(() =>
 );
 
 export default function App() {
-	usePageTracking();
-
 	return (
 		<ThemeProvider theme={theme}>
 			<ConfirmProvider defaultOptions={defaultOptions}>

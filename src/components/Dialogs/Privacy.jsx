@@ -349,9 +349,8 @@ export default function Privacy({ isOpened }) {
 							may include parties located, or that store data, outside of Australia.
 						</Box>
 						<Box component="li">
-							Third parties to collect and process data, such as Google Analytics or other
-							relevant businesses. This may include parties that store data outside of
-							Australia.
+							Third parties to collect and process data, which may include parties that
+							store data outside of Australia.
 						</Box>
 					</Box>
 					<Typography paragraph>
