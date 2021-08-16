@@ -61,6 +61,9 @@ export const theme = responsiveFontSizes(
 		props: {
 			MuiButton: {
 				disableElevation: true
+			},
+			MuiSkeleton: {
+				animation: 'wave'
 			}
 		}
 	})
