@@ -26,6 +26,7 @@ export const theme = responsiveFontSizes(
 			}
 		},
 		typography: {
+			fontFamily: ['Inter', 'sans-serif'].join(','),
 			button: {
 				textTransform: 'none'
 			}

@@ -243,7 +243,7 @@ export default function SideDrawerContents() {
 					<ListItemIcon>
 						<FeedbackRoundedIcon />
 					</ListItemIcon>
-					<ListItemText primary="Provide Feedback" />
+					<ListItemText primary="Leave Feedback" />
 				</ListItem>
 				<ListItem
 					button

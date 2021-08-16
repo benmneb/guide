@@ -92,7 +92,7 @@ export default function Feedback({ isOpened }) {
 			fullScreen={fullScreen}
 		>
 			<DialogTitle id="feedback-form" onClose={onClose}>
-				Provide Feedback
+				Leave Feedback
 			</DialogTitle>
 			<DialogContent>
 				<DialogContentText component="hgroup">

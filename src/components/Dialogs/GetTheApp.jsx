@@ -193,7 +193,7 @@ export default function GetTheApp({ isOpened }) {
 									<Link component={RouterLink} to={feedbackLink}>
 										let us know now
 									</Link>{' '}
-									, or later, through the "Provide Feedback" option in the side bar.
+									, or later, through the "Leave Feedback" option in the side bar.
 								</Typography>
 							</>
 						)}
