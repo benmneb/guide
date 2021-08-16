@@ -1,11 +1,10 @@
 import { useState, useEffect, memo } from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { GridListTile, GridListTileBar, GridList } from '@material-ui/core';
-import Image from 'react-graceful-image';
 import useWidth from '../../utils/useWidth';
+import GridListImage from './CategoryGridListImage';
 
 const useStyles = makeStyles((theme) => ({
 	gridList: {
@@ -29,35 +28,6 @@ const useStyles = makeStyles((theme) => ({
 				backgroundColor: theme.palette.grey[300],
 				borderRadius: theme.spacing(2),
 				border: `${theme.spacing(0.5)}px solid ${theme.palette.background.paper}`
-			}
-		}
-	},
-	image: {
-		cursor: 'pointer',
-		width: '100%',
-		height: '100%',
-		objectFit: 'cover',
-		objectPosition: 'center'
-	},
-	imageLoading: {
-		filter: 'blur(30px)',
-		transform: 'scale(1.4)',
-		'@media (hover: hover) and (pointer: fine)': {
-			filter: 'blur(30px) brightness(85%)',
-			transitionProperty: 'filter',
-			transitionDuration: `${theme.transitions.duration.complex}ms`,
-			'&:hover': {
-				filter: 'blur(30px) brightness(100%)'
-			}
-		}
-	},
-	imageLoaded: {
-		'@media (hover: hover) and (pointer: fine)': {
-			filter: 'brightness(85%)',
-			transitionProperty: 'filter',
-			transitionDuration: `${theme.transitions.duration.complex}ms`,
-			'&:hover': {
-				filter: 'brightness(100%)'
 			}
 		}
 	},
@@ -110,19 +80,7 @@ function CategoryGridList({ category }) {
 			{category.subCats.map((subCats) => (
 				<GridListTile key={subCats.name} cols={1}>
 					<Link to={`/${category.prodType}/${subCats.url}`}>
-						<Image
-							src={`${subCats.image}?width=250`}
-							className={clsx(styles.image, styles.imageLoaded)}
-							alt=""
-							customPlaceholder={(ref) => (
-								<img
-									src={`${subCats.image}?width=5`}
-									className={clsx(styles.image, styles.imageLoading)}
-									alt=""
-									ref={ref}
-								/>
-							)}
-						/>
+						<GridListImage source={subCats.image} />
 						<GridListTileBar
 							titlePosition="top"
 							title={subCats.name}
