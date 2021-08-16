@@ -53,9 +53,9 @@ const useStyles = makeStyles((theme) => ({
 		lineHeight: '2',
 		width: '100%'
 	},
-	modalMaxHeight: {
+	modalMinHeight: {
 		[theme.breakpoints.up('md')]: {
-			height: `calc(100% - ${theme.spacing(8)}px)` // always max height so there is no jump with less modal content
+			minHeight: `calc(100% - ${theme.spacing(8)}px)` // always max height so there is no jump with less modal content
 		}
 	},
 	navBox: {
@@ -277,7 +277,8 @@ export default function ProductModal({ show }) {
 				open={show}
 				maxWidth="md"
 				fullWidth
-				classes={{ paperScrollPaper: styles.modalMaxHeight }}
+				scroll="body"
+				classes={{ paperScrollBody: styles.modalMinHeight }}
 			>
 				<DialogTitle noTitle id="product-dialog-title" onClose={onClose} />
 				<DialogContent className={styles.dialogContentRoot}>
