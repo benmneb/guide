@@ -116,7 +116,7 @@ function CategoryGridList({ category }) {
 							alt=""
 							customPlaceholder={(ref) => (
 								<img
-									src={`${subCats.image}?width=25`}
+									src={`${subCats.image}?width=5`}
 									className={clsx(styles.image, styles.imageLoading)}
 									alt=""
 									ref={ref}
