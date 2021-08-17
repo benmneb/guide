@@ -127,7 +127,11 @@ export default function FiltersBar(props) {
 							</Box>
 						)}
 						<Box display={{ xs: 'none', md: 'flex' }}>
-							{props.showFilterButton && <ShowFiltersButton />}
+							{props.loading ? (
+								<Skeleton width={150} height={70} />
+							) : (
+								<ShowFiltersButton />
+							)}
 						</Box>
 					</Toolbar>
 				</AppBar>

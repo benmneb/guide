@@ -377,11 +377,7 @@ export default function ResultsList() {
 			) : (
 				<HeroSkeleton hide={showFiltersPanel} />
 			)}
-			<FiltersBar
-				loading={loadingInitially}
-				breadcrumbs={categoryData.breadcrumbs}
-				showFilterButton={!loadingInitially}
-			/>
+			<FiltersBar loading={loadingInitially} breadcrumbs={categoryData.breadcrumbs} />
 			<InfiniteScroll
 				className={clsx(styles.container, {
 					[styles.containerShift]: showFiltersPanel
