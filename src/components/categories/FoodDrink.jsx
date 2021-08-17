@@ -45,7 +45,7 @@ export default function FoodDrink() {
 			<Hero>
 				<Heading>Vegan Food & Drink Products</Heading>
 				<SubHeading>
-					There are 5,200+ vegan food & drink products in 103 categories in Australia.
+					5,200+ products in 103 food & drink categories in Australia.
 				</SubHeading>
 				<Footer forPage="prodType" />
 			</Hero>

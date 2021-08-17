@@ -369,7 +369,7 @@ export default function ResultsList() {
 				<Hero hide={showFiltersPanel}>
 					<Heading>Vegan {categoryData.name}</Heading>
 					<SubHeading>
-						There are {Number(categoryData.totalProducts).toLocaleString()} vegan{' '}
+						{Number(categoryData.totalProducts).toLocaleString()} vegan{' '}
 						{categoryData.name.toLowerCase()} products in Australia.
 					</SubHeading>
 					<Footer />

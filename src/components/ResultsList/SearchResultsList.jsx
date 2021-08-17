@@ -368,7 +368,7 @@ export default function SearchResultsList() {
 				<Hero hide={showFiltersPanel}>
 					<Heading>Vegan {searchResultsData.query}</Heading>
 					<SubHeading>
-						There are {searchResultsData.totalProducts} vegan{' '}
+						{searchResultsData.totalProducts} vegan{' '}
 						{searchResultsData.query.toLowerCase()} products in Australia.
 					</SubHeading>
 					<Footer />

@@ -44,9 +44,7 @@ export default function Household() {
 			<ScrollToTopOnMount />
 			<Hero>
 				<Heading>Vegan Household Products</Heading>
-				<SubHeading>
-					There are 6,100+ vegan household products in 128 categories in Australia.
-				</SubHeading>
+				<SubHeading>6,100+ products in 128 household categories in Australia.</SubHeading>
 				<Footer forPage="prodType" />
 			</Hero>
 			<Box className={styles.container}>
