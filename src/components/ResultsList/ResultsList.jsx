@@ -328,12 +328,41 @@ export default function ResultsList() {
 				<title>
 					{!loadingInitially
 						? `Vomad Guide: Vegan ${categoryData.name} Products`
-						: 'Vomad Guide: Find Vegan Products Near You'}
+						: 'Vomad Guide: Vegan Products Near You'}
 				</title>
 				<meta
 					name="description"
-					content="Apply up to 20 different filters to thousands of results to find the plant-based product you're looking for."
+					content={
+						!loadingInitially
+							? `There are ${Number(categoryData.totalProducts).toLocaleString()} vegan ${
+									categoryData.name
+							  } products in Australia. Browse all or apply up to 20 different filters to find the one you're looking for.`
+							: `There are thousands of vegan products in Australia. Browse all or apply up to 20 different filters to thousands of products to find the one you're looking for.`
+					}
 				/>
+				<meta
+					property="og:title"
+					content={
+						!loadingInitially
+							? `Find Vegan ${categoryData.name} Products in Australia`
+							: 'Find Vegan Products in Australia'
+					}
+				/>
+				<meta
+					property="og:description"
+					content={
+						!loadingInitially
+							? `There are ${Number(categoryData.totalProducts).toLocaleString()} vegan ${
+									categoryData.name
+							  } products in Australia. Browse all or apply up to 20 different filters to find the one you're looking for.`
+							: `There are thousands of vegan products in Australia. Browse all or apply up to 20 different filters to thousands of products to find the one you're looking for.`
+					}
+				/>
+				<meta property="og:image" content="https://images.vomad.guide/logos/social.png" />
+				<meta property="og:url" content={window.location.href} />
+				<meta property="og:site_name" content="Vomad Guide" />
+				<meta property="twitter:card" content="summary_large_image" />
+				<meta name="twitter:image:alt" content="Find Vegan Products Near You" />
 			</Helmet>
 			<ScrollToTopOnMount />
 			{!loadingInitially ? (

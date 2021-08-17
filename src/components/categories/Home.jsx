@@ -28,8 +28,18 @@ export default function Home() {
 				<title>Vomad Guide: Find Vegan Products Near You</title>
 				<meta
 					name="description"
-					content="The original Vegan Product Guide to Australia and the best plant-based shopping list. Browse, search and find vegan products. Filter, review and find where to buy vegan groceries."
+					content="The vegan product guide to Australia. 13,000+ products, 200+ categories, 100% plant-based."
 				/>
+				<meta property="og:title" content="The Vegan Product Guide to Australia" />
+				<meta
+					property="og:description"
+					content="13,200+ products, 200+ categories, 100% plant-based."
+				/>
+				<meta property="og:image" content="https://images.vomad.guide/logos/social.png" />
+				<meta property="og:url" content="https://vomad.guide" />
+				<meta property="og:site_name" content="Vomad Guide" />
+				<meta property="twitter:card" content="summary_large_image" />
+				<meta name="twitter:image:alt" content="Find Vegan Products Near You" />
 			</Helmet>
 			<ScrollToTopOnMount />
 			<Hero>

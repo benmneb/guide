@@ -28,14 +28,24 @@ export default function Household() {
 				<title>Vomad Guide: Find Vegan Household Products Near You</title>
 				<meta
 					name="description"
-					content="Find vegan household products in over 100 categories at the Vomad Guide: The Best Online Vegan Product Guide."
+					content="6,100+ household products, 128 categories, 100% plant-based. Vomad Guide: The vegan product guide to Australia."
 				/>
+				<meta property="og:title" content="Vegan Household Products in Australia" />
+				<meta
+					property="og:description"
+					content="6,100+ household products, 128 categories, 100% plant-based."
+				/>
+				<meta property="og:image" content="https://images.vomad.guide/logos/social.png" />
+				<meta property="og:url" content="https://vomad.guide/household" />
+				<meta property="og:site_name" content="Vomad Guide" />
+				<meta property="twitter:card" content="summary_large_image" />
+				<meta name="twitter:image:alt" content="Find Vegan Products Near You" />
 			</Helmet>
 			<ScrollToTopOnMount />
 			<Hero>
 				<Heading>Vegan Household Products</Heading>
 				<SubHeading>
-					There are 6,143 vegan household products in 128 categories in Australia.
+					There are 6,100+ vegan household products in 128 categories in Australia.
 				</SubHeading>
 				<Footer forPage="prodType" />
 			</Hero>

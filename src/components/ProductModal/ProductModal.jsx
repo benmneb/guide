@@ -265,8 +265,28 @@ export default function ProductModal({ show }) {
 					</title>
 					<meta
 						name="description"
-						content="View ingredients, allergens, nutritional information, reviews, stores to buy in, and more, only on Vomad Guide: The Free Vegan Product Guide."
+						content="See product and nutrition information including ingredients, allergens, ratings, reviews, and stores online and near you to buy now, at Vomad Guide: The vegan product guide."
 					/>
+					<meta
+						property="og:title"
+						content={
+							selectedProduct
+								? `${selectedProduct.brandName} ${selectedProduct.productName} at Vomad Guide`
+								: 'The Vegan Product Guide to Australia'
+						}
+					/>
+					<meta
+						property="og:description"
+						content="See product and nutrition information including ingredients, allergens, ratings, reviews, and stores online and near you to buy now."
+					/>
+					<meta
+						property="og:image"
+						content="https://images.vomad.guide/logos/social.png"
+					/>
+					<meta property="og:url" content={window.location.href} />
+					<meta property="og:site_name" content="Vomad Guide" />
+					<meta property="twitter:card" content="summary_large_image" />
+					<meta name="twitter:image:alt" content="Find Vegan Products Near You" />
 				</Helmet>
 			)}
 			<Dialog

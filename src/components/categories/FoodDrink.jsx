@@ -28,14 +28,24 @@ export default function FoodDrink() {
 				<title>Vomad Guide: Find Vegan Food & Drink Products Near You</title>
 				<meta
 					name="description"
-					content="Find vegan food and drink products in over 100 categories at the Vomad Guide: The Best Online Vegan Product Guide."
+					content="5,200+ food & drink products, 103 categories, 100% plant-based. Vomad Guide: The vegan product guide to Australia."
 				/>
+				<meta property="og:title" content="Vegan Food & Drink Products in Australia" />
+				<meta
+					property="og:description"
+					content="5,200+ food & drink products, 103 categories, 100% plant-based."
+				/>
+				<meta property="og:image" content="https://images.vomad.guide/logos/social.png" />
+				<meta property="og:url" content="https://vomad.guide/food-drink" />
+				<meta property="og:site_name" content="Vomad Guide" />
+				<meta property="twitter:card" content="summary_large_image" />
+				<meta name="twitter:image:alt" content="Find Vegan Products Near You" />
 			</Helmet>
 			<ScrollToTopOnMount />
 			<Hero>
 				<Heading>Vegan Food & Drink Products</Heading>
 				<SubHeading>
-					There are 5,147 vegan food & drink products in 103 categories in Australia.
+					There are 5,200+ vegan food & drink products in 103 categories in Australia.
 				</SubHeading>
 				<Footer forPage="prodType" />
 			</Hero>
