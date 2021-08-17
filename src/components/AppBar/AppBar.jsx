@@ -211,7 +211,7 @@ export default function TopBar({ children }) {
 						<img
 							className={styles.logo}
 							src="https://images.vomad.guide/logos/vomadGUIDE.png"
-							alt="Vomad Guide: The Vegan Product Guide"
+							alt="🌱 Vomad Guide"
 						/>
 					</Box>
 					<Box flexGrow="1" justifyContent="flex-start"></Box>
