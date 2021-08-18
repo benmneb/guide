@@ -1,4 +1,4 @@
-import { hydrate, render } from "react-dom";
+import { render } from 'react-snapshot';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store, persistor } from './store';
@@ -19,10 +19,7 @@ const app = (
 );
 
 const rootElement = document.getElementById("root");
-if (rootElement.hasChildNodes()) {
-	hydrate(app, rootElement);
-} else {
-	render(app, rootElement);
-};
+
+render(app, rootElement);
 
 serviceWorkerRegistration.register();
