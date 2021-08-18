@@ -1,4 +1,4 @@
-import { render } from 'react-dom';
+import { hydrate, render } from "react-dom";
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store, persistor } from './store';
@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import './assets/axiosDefaults';
+
 
 const app = (
 	<Provider store={store}>
@@ -17,8 +18,11 @@ const app = (
 	</Provider>
 );
 
-const rootElement = document.getElementById('root');
-
-render(app, rootElement);
+const rootElement = document.getElementById("root");
+if (rootElement.hasChildNodes()) {
+	hydrate(<App />, rootElement);
+} else {
+	render(<App />, rootElement);
+};
 
 serviceWorkerRegistration.register();
