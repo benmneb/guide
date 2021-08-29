@@ -1,17 +1,26 @@
 import { Helmet } from 'react-helmet';
+
+import useScrollbarSize from 'react-scrollbar-size';
+
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
+
 import ScrollToTopOnMount from '../../utils/ScrollToTop';
 import { foodDrinkCats } from '../../assets/categories';
 import Hero, { Heading, SubHeading, Footer } from '../Hero/Hero';
 import CategoryTitleBar from './CategoryTitleBar';
-import CategoryGridList from './CategoryGridList';
+import CategoryScrollMenu from './CategoryScrollMenu';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
 		marginTop: theme.spacing(-4),
 		[theme.breakpoints.down('sm')]: {
 			marginBottom: theme.spacing(7)
+		},
+		width: (scrollbarWidth) => `calc(100vw - ${scrollbarWidth}px)`,
+		[theme.breakpoints.up('lg')]: {
+			width: (scrollbarWidth) =>
+				`calc(100vw - (${theme.mixins.sideMenu.width}px + ${scrollbarWidth}px))`
 		}
 	},
 	content: {
@@ -20,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FoodDrink() {
-	const styles = useStyles();
+	const { width: scrollbarWidth } = useScrollbarSize();
+
+	const styles = useStyles(scrollbarWidth);
 
 	return (
 		<>
@@ -56,7 +67,7 @@ export default function FoodDrink() {
 							name={category.name}
 							url={`/${category.prodType}/${category.url}`}
 						/>
-						<CategoryGridList category={category} />
+						<CategoryScrollMenu category={category} />
 					</Box>
 				))}
 			</Box>

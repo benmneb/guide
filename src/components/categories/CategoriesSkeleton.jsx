@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import HeroSkeleton from '../Hero/HeroSkeleton';
 import ScrollToTopOnMount from '../../utils/ScrollToTop';
 import CategoryTitleBarSkeleton from './CategoryTitleBarSkeleton';
-import CategoryGridListSkeleton from './CategoryGridListSkeleton';
+import CategoryScrollMenuSkeleton from './CategoryScrollMenuSkeleton';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -28,7 +28,7 @@ export default function CategoriesSkeleton() {
 				{[...Array(3)].map((_, i) => (
 					<Box key={i} component="section" className={styles.content}>
 						<CategoryTitleBarSkeleton />
-						<CategoryGridListSkeleton />
+						<CategoryScrollMenuSkeleton />
 					</Box>
 				))}
 			</Box>
