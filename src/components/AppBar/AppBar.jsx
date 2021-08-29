@@ -189,7 +189,7 @@ export default function TopBar({ children }) {
 			<AppBar
 				position="absolute"
 				color="transparent"
-				className={clsx(styles.appBar, {
+				className={clsx('mui-fixed', styles.appBar, {
 					[styles.displayNone]: showFiltersPanel
 				})}
 				elevation={0}
