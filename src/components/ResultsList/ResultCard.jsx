@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 		position: 'relative',
 		display: 'flex',
 		alignItems: 'center',
+		justifyContent: 'center',
 		[theme.breakpoints.up('xs')]: {
 			height: 160,
 			width: 150
