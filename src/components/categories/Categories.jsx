@@ -1,5 +1,9 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
+
+import { elementScrollIntoViewPolyfill } from 'seamless-scroll-polyfill';
+
 import { useLocation } from 'react-router-dom';
+
 import Home from './Home';
 import BottomNav from './BottomNav';
 import ScrollToTopOnMount from '../../utils/ScrollToTop';
@@ -11,6 +15,8 @@ export default function Categories() {
 	const location = useLocation();
 	const [currentTab, setCurrentTab] = useState(0);
 	const [category, setCategory] = useState(<Home />);
+
+	elementScrollIntoViewPolyfill();
 
 	const handleChangeCurrentTab = (event, newValue) => {
 		setCurrentTab(newValue);
