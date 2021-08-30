@@ -108,9 +108,9 @@ export const personalCare = {
 	prodType: 'household',
 	subCats: [
 		{
-			name: 'Deoderants & Perfumes',
+			name: 'Deodorants & Perfumes',
 			image: 'https://images.vomad.guide/categories/deoderantsperfume.png',
-			url: 'deoderants-perfumes'
+			url: 'deodorants-perfumes'
 		},
 		{
 			name: 'Feminine Care',
