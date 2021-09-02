@@ -46,7 +46,10 @@ export default function FoodDrink() {
 					property="og:description"
 					content="5,200+ food & drink products, 103 categories, 100% plant-based."
 				/>
-				<meta property="og:image" content="https://images.vomad.guide/logos/social.png" />
+				<meta
+					property="og:image"
+					content="https://images.vomad.guide/logos/social-img.png"
+				/>
 				<meta property="og:url" content="https://vomad.guide/food-drink" />
 				<meta property="og:site_name" content="Vomad Guide" />
 				<meta property="twitter:card" content="summary_large_image" />

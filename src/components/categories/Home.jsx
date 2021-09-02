@@ -46,7 +46,10 @@ export default function Home() {
 					property="og:description"
 					content="13,200+ products, 200+ categories, 100% plant-based."
 				/>
-				<meta property="og:image" content="https://images.vomad.guide/logos/social.png" />
+				<meta
+					property="og:image"
+					content="https://images.vomad.guide/logos/social-img.png"
+				/>
 				<meta property="og:url" content="https://vomad.guide" />
 				<meta property="og:site_name" content="Vomad Guide" />
 				<meta property="twitter:card" content="summary_large_image" />

@@ -281,7 +281,7 @@ export default function ProductModal({ show }) {
 					/>
 					<meta
 						property="og:image"
-						content="https://images.vomad.guide/logos/social.png"
+						content="https://images.vomad.guide/logos/social-img.png"
 					/>
 					<meta property="og:url" content={window.location.href} />
 					<meta property="og:site_name" content="Vomad Guide" />

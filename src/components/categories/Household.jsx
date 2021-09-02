@@ -46,7 +46,10 @@ export default function Household() {
 					property="og:description"
 					content="6,100+ household products, 128 categories, 100% plant-based."
 				/>
-				<meta property="og:image" content="https://images.vomad.guide/logos/social.png" />
+				<meta
+					property="og:image"
+					content="https://images.vomad.guide/logos/social-img.png"
+				/>
 				<meta property="og:url" content="https://vomad.guide/household" />
 				<meta property="og:site_name" content="Vomad Guide" />
 				<meta property="twitter:card" content="summary_large_image" />

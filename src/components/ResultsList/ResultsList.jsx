@@ -358,7 +358,10 @@ export default function ResultsList() {
 							: `There are thousands of vegan products in Australia. Browse all or apply up to 20 different filters to thousands of products to find the one you're looking for.`
 					}
 				/>
-				<meta property="og:image" content="https://images.vomad.guide/logos/social.png" />
+				<meta
+					property="og:image"
+					content="https://images.vomad.guide/logos/social-img.png"
+				/>
 				<meta property="og:url" content={window.location.href} />
 				<meta property="og:site_name" content="Vomad Guide" />
 				<meta property="twitter:card" content="summary_large_image" />
