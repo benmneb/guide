@@ -49,12 +49,12 @@ export const makeup = {
 		{
 			name: 'Eyes & Brow Makeup',
 			image: 'https://images.vomad.guide/categories/eyesandbrows2.png',
-			url: 'eyes-brow'
+			url: 'eyes-brows-makeup'
 		},
 		{
 			name: 'Lip Makeup',
 			image: 'https://images.vomad.guide/categories/lips.png',
-			url: 'lips'
+			url: 'lip-cosmetics'
 		},
 		{
 			name: 'Nail Cosmetics',
