@@ -1,6 +1,8 @@
 ## Todos
 
-- [ ] pimp out an `all categories` page.
+- change the url `household/nails` to `household/nail-cosmetics` (backend needed)
+
+- pimp out an `all categories` page.
 
 - should say somewhere how many products with filters applied
 
