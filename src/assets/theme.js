@@ -23,6 +23,12 @@ export const theme = responsiveFontSizes(
 				'@media (min-width: 600px)': {
 					height: 350
 				}
+			},
+			heroWithAds: {
+				height: 500,
+				'@media (min-width: 600px)': {
+					height: 500
+				}
 			}
 		},
 		typography: {

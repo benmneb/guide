@@ -4,12 +4,14 @@ import clsx from 'clsx';
 import { Typography, Link, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
+import Promotion from './Promotion';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
 		backgroundColor: theme.palette.background.paper,
 		zIndex: theme.zIndex.appBar + 1,
-		...theme.mixins.hero // for responsive height
+		// ...theme.mixins.hero // for responsive height
+		...theme.mixins.heroWithAds // if theres ads
 	},
 	content: {
 		top: theme.mixins.toolbar.minHeight / 2,
@@ -49,6 +51,7 @@ export default function Hero({ children, hide }) {
 				className={styles.content}
 			>
 				{children}
+				<Promotion />
 			</Box>
 		</Box>
 	);
