@@ -1,32 +1,33 @@
-import { useState, useCallback } from 'react';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import {
-	setIsUsingEmailAuth,
-	setCurrentUserData,
-	showSnackbar
-} from '../../store/actions';
-import { makeStyles } from '@material-ui/core/styles';
-import { useForm } from 'react-hook-form';
-import { useHistory, useLocation } from 'react-router';
-import {
+	Box,
 	Button,
-	IconButton,
-	InputAdornment,
 	FormControl,
 	FormHelperText,
+	IconButton,
+	InputAdornment,
 	InputLabel,
 	OutlinedInput,
 	TextField,
-	Tooltip,
-	Box
+	Tooltip
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import {
 	MailOutlineRounded,
-	VisibilityRounded,
-	VisibilityOffRounded
+	VisibilityOffRounded,
+	VisibilityRounded
 } from '@material-ui/icons';
+import axios from 'axios';
+import { useCallback, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router';
+import {
+	setCurrentUserData,
+	setIsUsingEmailAuth,
+	showSnackbar
+} from '../../store/actions';
 import LoadingButton from '../../utils/LoadingButton';
+import { getEnums, getParams, usePrepareLink } from '../../utils/routing';
 import AuthForgotPassword from './AuthForgotPassword';
 
 const useStyles = makeStyles((theme) => ({
@@ -51,6 +52,12 @@ export default function AuthEmailLogin() {
 	const goBack = useCallback(() => {
 		history.push(location.pathname);
 	}, [history, location.pathname]);
+
+	const feedbackLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.feedback
+		}
+	});
 
 	const onSubmit = (data) => {
 		setPending(true);
@@ -93,24 +100,27 @@ export default function AuthEmailLogin() {
 			.catch((error) => {
 				dispatch(setCurrentUserData(null, false));
 				setPending(false);
-				if (error.response.data === 'no user found') {
+				if (
+					error?.response?.data === 'no user found' ||
+					error?.response?.data === 'incorrect password'
+				) {
 					dispatch(
 						showSnackbar({
 							type: 'error',
-							title: 'Email not found',
-							message:
-								'Please check spelling or use the sign up form to create an account.'
+							title: 'Email or password incorrect',
+							message: 'Please try again or use the sign up form to create an account.'
 						})
 					);
-				} else if (error.response.data === 'incorrect password') {
-					dispatch(
-						showSnackbar({
-							type: 'error',
-							title: 'Incorrect password',
-							message: 'Please check spelling and try again.'
-						})
-					);
-				} else if (error.response.data === 'Login with social media account') {
+					// Dont use this, for security
+					// } else if (error?.response?.data === 'incorrect password') {
+					// 	dispatch(
+					// 		showSnackbar({
+					// 			type: 'error',
+					// 			title: 'Incorrect password',
+					// 			message: 'Please check spelling and try again.'
+					// 		})
+					// 	);
+				} else if (error?.response?.data === 'Login with social media account') {
 					dispatch(
 						showSnackbar({
 							type: 'error',
@@ -130,8 +140,12 @@ export default function AuthEmailLogin() {
 						showSnackbar({
 							type: 'error',
 							title: "Couldn't login",
-							message:
-								'Something went wrong on our end. Sorry about that, please try again soon.'
+							message: 'Please try again soon. If the issue persists, let us know!',
+							duration: 12000,
+							action: {
+								text: 'Contact us',
+								clicked: () => history.push(feedbackLink)
+							}
 						})
 					);
 					return console.error(error);
