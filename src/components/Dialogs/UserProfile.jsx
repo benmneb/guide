@@ -1,43 +1,44 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
-import axios from 'axios';
-import { useConfirm } from 'material-ui-confirm';
-import { makeStyles } from '@material-ui/core/styles';
-import DialogTitle from '../../utils/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
 import {
+	Backdrop,
+	Box,
 	Button,
+	CircularProgress,
 	Dialog,
-	IconButton,
-	Tooltip,
-	Typography,
 	Grid,
+	IconButton,
+	ListItemIcon,
 	Menu,
 	MenuItem,
-	ListItemIcon,
-	Backdrop,
-	CircularProgress,
-	Box
+	Tooltip,
+	Typography
 } from '@material-ui/core';
+import { red } from '@material-ui/core/colors';
+import DialogContent from '@material-ui/core/DialogContent';
+import { makeStyles } from '@material-ui/core/styles';
 import {
-	PhotoCameraRounded,
-	SettingsRounded,
-	ExitToAppRounded,
 	CloudUploadRounded,
-	DeleteForeverRounded
+	DeleteForeverRounded,
+	ExitToAppRounded,
+	PhotoCameraRounded,
+	SettingsRounded
 } from '@material-ui/icons';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { red } from '@material-ui/core/colors';
-import UserProfileSettings from './UserProfileSettings';
-import { getTimeAgo } from '../../utils/timeAgo';
+import axios from 'axios';
+import { useConfirm } from 'material-ui-confirm';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router';
+import { rootServerUrl } from '../../assets/constants';
 import {
 	setCurrentUserData,
 	showSnackbar,
-	updateUsername,
-	updateAvatar
+	updateAvatar,
+	updateUsername
 } from '../../store/actions';
+import DialogTitle from '../../utils/DialogTitle';
+import { getTimeAgo } from '../../utils/timeAgo';
 import UserAvatar from '../../utils/UserAvatar';
+import UserProfileSettings from './UserProfileSettings';
 
 const useStyles = makeStyles((theme) => ({
 	dialogContentRoot: {
@@ -156,7 +157,7 @@ export default function UserProfile({ isOpened }) {
 		})
 			.then(() => {
 				dispatch(setCurrentUserData(null, false));
-				return (window.location.href = 'https://api.vomad.guide/auth/logout');
+				return (window.location.href = `${rootServerUrl}/auth/logout`);
 			})
 			.catch(() => null);
 	}

@@ -1,31 +1,31 @@
-import { useState, useCallback } from 'react';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import {
-	setIsUsingEmailAuth,
-	setCurrentUserData,
-	showSnackbar
-} from '../../store/actions';
-import { makeStyles } from '@material-ui/core/styles';
-import { useForm } from 'react-hook-form';
-import { useHistory, useLocation } from 'react-router';
-import {
+	Box,
 	Button,
-	InputAdornment,
 	FormControl,
 	FormHelperText,
 	IconButton,
+	InputAdornment,
 	InputLabel,
 	OutlinedInput,
 	TextField,
-	Tooltip,
-	Box
+	Tooltip
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import {
 	MailOutlineRounded,
-	VisibilityRounded,
-	VisibilityOffRounded
+	VisibilityOffRounded,
+	VisibilityRounded
 } from '@material-ui/icons';
+import axios from 'axios';
+import { useCallback, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router';
+import {
+	setCurrentUserData,
+	setIsUsingEmailAuth,
+	showSnackbar
+} from '../../store/actions';
 import LoadingButton from '../../utils/LoadingButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -98,23 +98,24 @@ export default function AuthEmailJoin() {
 				console.error(error);
 				setPending(false);
 				dispatch(setCurrentUserData(null, false));
-				if (error.response.data === 'email already taken') {
-					dispatch(
-						showSnackbar({
-							type: 'error',
-							title: 'Email already exists',
-							message: 'Please login instead, or reset your password if you forgot it.'
-						})
-					);
-				} else {
-					dispatch(
-						showSnackbar({
-							type: 'error',
-							title: 'Could not sign up',
-							message: `${error.message}. Please try again.`
-						})
-					);
-				}
+				// Best not to be too specific, for security...
+				// if (error.response.data === 'email already taken') {
+				// 	dispatch(
+				// 		showSnackbar({
+				// 			type: 'error',
+				// 			title: 'Email already exists',
+				// 			message: 'Please login instead, or reset your password if you forgot it.'
+				// 		})
+				// 	);
+				// } else {
+				dispatch(
+					showSnackbar({
+						type: 'error',
+						title: 'Could not sign up',
+						message: `${error.message}. Please try again.`
+					})
+				);
+				// }
 			});
 	};
 

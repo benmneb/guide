@@ -1,38 +1,39 @@
-import { useState } from 'react';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { showSnackbar, setCurrentUserData } from '../../store/actions';
-import { useForm } from 'react-hook-form';
-import { useConfirm } from 'material-ui-confirm';
-import { makeStyles } from '@material-ui/core/styles';
-import DialogTitle from '../../utils/DialogTitle';
 import {
+	Box,
 	Collapse,
 	Dialog,
 	FormControl,
 	FormHelperText,
+	IconButton,
 	Input,
 	InputAdornment,
 	InputLabel,
-	IconButton,
 	List,
 	ListItem,
 	ListItemIcon,
 	ListItemText,
 	TextField,
 	Tooltip,
-	Typography,
-	Box
+	Typography
 } from '@material-ui/core';
+import { red } from '@material-ui/core/colors';
+import { makeStyles } from '@material-ui/core/styles';
 import {
 	CreateRounded,
-	MailOutlineRounded,
 	DeleteForeverRounded,
 	LockRounded,
-	VisibilityRounded,
-	VisibilityOffRounded
+	MailOutlineRounded,
+	VisibilityOffRounded,
+	VisibilityRounded
 } from '@material-ui/icons';
-import { red } from '@material-ui/core/colors';
+import axios from 'axios';
+import { useConfirm } from 'material-ui-confirm';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { rootServerUrl } from '../../assets/constants';
+import { setCurrentUserData, showSnackbar } from '../../store/actions';
+import DialogTitle from '../../utils/DialogTitle';
 import LoadingButton from '../../utils/LoadingButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -256,7 +257,7 @@ export default function AboutEdit({ hide, show, updateUsername }) {
 		})
 			.then(() => {
 				setPending('deleteAccount');
-				return (window.location.href = 'https://api.vomad.guide/auth/logout-on-delete');
+				return (window.location.href = `${rootServerUrl}/auth/logout-on-delete`);
 			})
 			.then(() => {
 				axios
