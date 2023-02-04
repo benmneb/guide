@@ -1,15 +1,16 @@
-import { useEffect, useCallback } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { setIsUsingEmailAuth } from '../../store/actions';
-import { makeStyles } from '@material-ui/core/styles';
-import DialogTitle from '../../utils/DialogTitle';
+import { Box, Button, Dialog } from '@material-ui/core';
+import { blue, indigo } from '@material-ui/core/colors';
 import DialogContent from '@material-ui/core/DialogContent';
-import { Dialog, Button, Box } from '@material-ui/core';
-import { Facebook, Twitter, AlternateEmailRounded } from '@material-ui/icons';
-import { indigo, blue } from '@material-ui/core/colors';
-import AuthEmail from './AuthEmail';
+import { makeStyles } from '@material-ui/core/styles';
+import { AlternateEmailRounded, Facebook, Twitter } from '@material-ui/icons';
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { rootServerUrl } from '../../assets/constants';
+import { setIsUsingEmailAuth } from '../../store/actions';
+import DialogTitle from '../../utils/DialogTitle';
 import GoogleIcon from '../../utils/GoogleIcon';
+import AuthEmail from './AuthEmail';
 
 const useStyles = makeStyles((theme) => ({
 	dialogContentRoot: {
@@ -60,7 +61,7 @@ export default function Auth({ isOpened }) {
 	}, [isAuthenticated, goBack, isOpened]);
 
 	function handleSocialLogin(platform) {
-		const url = `https://api.vomad.guide/auth/${platform}`;
+		const url = `${rootServerUrl}/auth/${platform}`;
 		const name = '_blank';
 		window.open(url, name);
 	}
