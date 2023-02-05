@@ -1,23 +1,25 @@
 import { GET_ENUMS } from '../router';
 import useGetPopupState from './useGetPopupState';
 
-import Auth from '../../../components/Dialogs/Auth';
-import Advertise from '../../../components/Dialogs/Advertise';
-import Feedback from '../../../components/Dialogs/Feedback';
-import SupportUs from '../../../components/Dialogs/SupportUs';
 import AddProducts from '../../../components/Dialogs/AddProducts';
-import Terms from '../../../components/Dialogs/Terms';
-import Privacy from '../../../components/Dialogs/Privacy';
-import UserProfile from '../../../components/Dialogs/UserProfile';
+import Advertise from '../../../components/Dialogs/Advertise';
+import Auth from '../../../components/Dialogs/Auth';
 import AuthResetPassword from '../../../components/Dialogs/AuthResetPassword';
-import GetTheApp from '../../../components/Dialogs/GetTheApp';
 import Faq from '../../../components/Dialogs/FAQ';
+import Feedback from '../../../components/Dialogs/Feedback';
+import GetTheApp from '../../../components/Dialogs/GetTheApp';
+import Invest from '../../../components/Dialogs/Invest';
+import Privacy from '../../../components/Dialogs/Privacy';
+import SupportUs from '../../../components/Dialogs/SupportUs';
+import Terms from '../../../components/Dialogs/Terms';
+import UserProfile from '../../../components/Dialogs/UserProfile';
 
 const popups = {
 	[GET_ENUMS.popup.signIn]: Auth,
 	[GET_ENUMS.popup.advertise]: Advertise,
 	[GET_ENUMS.popup.feedback]: Feedback,
 	[GET_ENUMS.popup.supportUs]: SupportUs,
+	[GET_ENUMS.popup.invest]: Invest,
 	[GET_ENUMS.popup.addProducts]: AddProducts,
 	[GET_ENUMS.popup.terms]: Terms,
 	[GET_ENUMS.popup.privacy]: Privacy,
@@ -28,7 +30,8 @@ const popups = {
 	[GET_ENUMS.action.advertise]: Advertise,
 	[GET_ENUMS.action.login]: Auth,
 	[GET_ENUMS.action.feedback]: Feedback,
-	[GET_ENUMS.action.addProducts]: AddProducts
+	[GET_ENUMS.action.addProducts]: AddProducts,
+	[GET_ENUMS.action.invest]: Invest
 };
 
 export default function GetParameterPopups() {

@@ -23,8 +23,6 @@ This is a human-readable summary of (and not a substitute for) the [license](htt
 <details>
   <summary>Click to show/hide</summary>
 
-- update 'support us' to just be an email
-
 - change the url `household/nails` to `household/nail-cosmetics` (backend needed)
 
 - pimp out an `all categories` page.
