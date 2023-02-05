@@ -1,27 +1,27 @@
-import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import Box from '@material-ui/core/Box';
+import Collapse from '@material-ui/core/Collapse';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
+import { makeStyles } from '@material-ui/core/styles';
 import { AccountCircleRounded, HomeRounded, InfoRounded } from '@material-ui/icons';
-import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircle';
-import FastfoodRoundedIcon from '@material-ui/icons/Fastfood';
-import BathtubRoundedIcon from '@material-ui/icons/Bathtub';
 import AllInclusiveRoundedIcon from '@material-ui/icons/AllInclusive';
+import BathtubRoundedIcon from '@material-ui/icons/Bathtub';
+import FastfoodRoundedIcon from '@material-ui/icons/Fastfood';
 import FavoriteRoundedIcon from '@material-ui/icons/Favorite';
-import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import FeedbackRoundedIcon from '@material-ui/icons/Feedback';
 import GetAppRoundedIcon from '@material-ui/icons/GetApp';
+import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
+import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import { categories } from '../../assets/categories';
-import { makeStyles } from '@material-ui/core/styles';
 import { hideSideDrawer } from '../../store/actions';
-import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
+import { getEnums, getParams, usePrepareLink } from '../../utils/routing';
 
 const useStyles = makeStyles((theme) => ({
 	imageBox: {
@@ -77,6 +77,8 @@ export default function SideDrawerContents() {
 				return history.push('/household');
 			case 'addProducts':
 				return history.push(addProductsLink);
+			case 'support-us':
+				return history.push(supportUsLink);
 			case 'advertise':
 				return history.push(advertiseLink);
 			case 'feedback':
@@ -107,6 +109,11 @@ export default function SideDrawerContents() {
 	const advertiseLink = usePrepareLink({
 		query: {
 			[getParams.popup]: getEnums.popup.advertise
+		}
+	});
+	const supportUsLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.supportUs
 		}
 	});
 	const feedbackLink = usePrepareLink({
@@ -221,13 +228,7 @@ export default function SideDrawerContents() {
 					</ListItemIcon>
 					<ListItemText primary={'Add Products'} />
 				</ListItem>
-				<ListItem
-					button
-					component="a"
-					href="https://www.patreon.com/vomad"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
+				<ListItem button onClick={() => openMenuItem('support-us')}>
 					<ListItemIcon>
 						<FavoriteRoundedIcon />
 					</ListItemIcon>

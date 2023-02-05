@@ -1,25 +1,26 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import DialogTitle from '../../utils/DialogTitle';
 import {
+	Box,
 	Button,
 	Dialog,
 	DialogContent,
 	DialogContentText,
 	Typography,
-	useMediaQuery,
-	Box
+	useMediaQuery
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import DialogTitle from '../../utils/DialogTitle';
 import {
-	usePrepareLink,
-	useGetParameter,
+	getEnums,
 	getParams,
-	getEnums
+	useGetParameter,
+	usePrepareLink
 } from '../../utils/routing';
 import Advertise from './Advertise';
 import Auth from './Auth';
+import Invest from './Invest';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -74,6 +75,12 @@ export default function SupportUs({ isOpened }) {
 		},
 		keepOldQuery: true
 	});
+	const investorsLink = usePrepareLink({
+		query: {
+			[getParams.action]: getEnums.action.invest
+		},
+		keepOldQuery: true
+	});
 	const authLink = usePrepareLink({
 		query: {
 			[getParams.action]: getEnums.action.login
@@ -99,6 +106,26 @@ export default function SupportUs({ isOpened }) {
 						value back.
 					</Typography>
 					<Box component="ul" className={styles.list}>
+						<Box component="li" data-icon="💰">
+							<Typography component="div">
+								<Box component="span" fontWeight="fontWeightBold">
+									Invest.
+								</Box>{' '}
+								Like what you see? It's just the beginning. With generous funding we can
+								scale globally and implement the numerous game-changing features we have
+								planned.
+								<Box marginTop={1.5}>
+									<Button
+										variant="contained"
+										color="primary"
+										component={Link}
+										to={investorsLink}
+									>
+										Get in touch
+									</Button>
+								</Box>
+							</Typography>
+						</Box>
 						<Box component="li" data-icon="❤️">
 							<Typography component="div">
 								<Box component="span" fontWeight="fontWeightBold">
@@ -185,6 +212,7 @@ export default function SupportUs({ isOpened }) {
 				</DialogContentText>
 			</DialogContent>
 			<Advertise isOpened={action === 'advertise'} />
+			<Invest isOpened={action === 'invest'} />
 			<Auth isOpened={action === 'login'} />
 		</Dialog>
 	);

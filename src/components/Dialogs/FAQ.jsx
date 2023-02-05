@@ -1,11 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
 import {
 	Accordion,
-	AccordionSummary,
 	AccordionDetails,
+	AccordionSummary,
 	Box,
 	Button,
 	Dialog,
@@ -15,20 +11,30 @@ import {
 	Typography,
 	useMediaQuery
 } from '@material-ui/core';
-import { ExpandMore, LockOpenRounded, TrendingUpRounded } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/core/styles';
 import {
-	usePrepareLink,
-	useGetParameter,
+	CheckRounded,
+	ExpandMore,
+	LockOpenRounded,
+	TrendingUpRounded
+} from '@material-ui/icons';
+import { Alert } from '@material-ui/lab';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom';
+import { toKebabCase } from '../../utils/changeCase';
+import DialogTitle from '../../utils/DialogTitle';
+import PatreonIcon from '../../utils/PatreonIcon';
+import {
+	getEnums,
 	getParams,
-	getEnums
+	useGetParameter,
+	usePrepareLink
 } from '../../utils/routing';
+import AddProducts from './AddProducts';
 import Advertise from './Advertise';
 import Auth from './Auth';
-import DialogTitle from '../../utils/DialogTitle';
-import { toKebabCase } from '../../utils/changeCase';
-import { Alert } from '@material-ui/lab';
-import PatreonIcon from '../../utils/PatreonIcon';
-import AddProducts from './AddProducts';
+import Invest from './Invest';
 
 const useStyles = makeStyles((theme) => ({
 	question: {
@@ -111,6 +117,12 @@ export default function FAQ({ isOpened }) {
 		}
 	}
 
+	const investorsLink = usePrepareLink({
+		query: {
+			[getParams.action]: getEnums.action.invest
+		},
+		keepOldQuery: true
+	});
 	const advertiseLink = usePrepareLink({
 		query: {
 			[getParams.action]: getEnums.action.advertise
@@ -268,6 +280,26 @@ export default function FAQ({ isOpened }) {
 								give value back.
 							</Typography>
 							<Box component="ul" className={styles.list}>
+								<Box component="li" data-icon="💰">
+									<Typography component="div">
+										<Box component="span" fontWeight="fontWeightBold">
+											Invest.
+										</Box>{' '}
+										Like what you see? It's just the beginning. With generous funding we
+										can scale globally and implement the numerous game-changing features
+										we have planned.
+										<Box marginTop={1.5}>
+											<Button
+												variant="outlined"
+												component={RouterLink}
+												to={investorsLink}
+												startIcon={<CheckRounded />}
+											>
+												Invest in us
+											</Button>
+										</Box>
+									</Typography>
+								</Box>
 								<Box component="li" data-icon="❤️">
 									<Typography component="div">
 										<Box component="span" fontWeight="fontWeightBold">
@@ -414,6 +446,7 @@ export default function FAQ({ isOpened }) {
 				</DialogContentText>
 			</DialogContent>
 			<Advertise isOpened={action === 'advertise'} />
+			<Invest isOpened={action === 'invest'} />
 			<Auth isOpened={action === 'login'} />
 			<AddProducts isOpened={action === 'add-products'} />
 		</Dialog>

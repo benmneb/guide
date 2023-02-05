@@ -1,24 +1,24 @@
-import { useEffect, useRef } from 'react';
+import { AppBar, Box, Button, IconButton, Toolbar, Tooltip } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { AccountCircleRounded, LockOpenRounded, MenuRounded } from '@material-ui/icons';
 import axios from 'axios';
 import clsx from 'clsx';
 import { useConfirm } from 'material-ui-confirm';
-import { Link, useHistory } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppBar, Toolbar, IconButton, Button, Tooltip, Box } from '@material-ui/core';
-import { MenuRounded, AccountCircleRounded, LockOpenRounded } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/core/styles';
-import SideDrawer from './SideDrawer';
+import { Link, useHistory } from 'react-router-dom';
 import {
-	setIsUsingEmailAuthRoute,
-	updateAuthState,
-	showSnackbar,
-	showSideDrawer,
 	setDeferredInstallPrompt,
-	setHasInstalledPWA
+	setHasInstalledPWA,
+	setIsUsingEmailAuthRoute,
+	showSideDrawer,
+	showSnackbar,
+	updateAuthState
 } from '../../store/actions';
-import { usePrepareLink, getParams, getEnums } from '../../utils/routing';
-import SearchBar from './SearchBar';
+import { getEnums, getParams, usePrepareLink } from '../../utils/routing';
 import UserAvatar from '../../utils/UserAvatar';
+import SearchBar from './SearchBar';
+import SideDrawer from './SideDrawer';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -81,6 +81,11 @@ export default function TopBar({ children }) {
 	const advertiseLink = usePrepareLink({
 		query: {
 			[getParams.popup]: getEnums.popup.advertise
+		}
+	});
+	const investorsLink = usePrepareLink({
+		query: {
+			[getParams.popup]: getEnums.popup.invest
 		}
 	});
 	const authLink = usePrepareLink({
@@ -222,14 +227,9 @@ export default function TopBar({ children }) {
 								Advertise
 							</Button>
 						</Tooltip>
-						<Tooltip title="Support the Guide on Patreon">
-							<Button
-								component="a"
-								href="https://www.patreon.com/vomad"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								Support Us
+						<Tooltip title="Support the Guide!">
+							<Button component={Link} to={investorsLink}>
+								Invest
 							</Button>
 						</Tooltip>
 					</Box>
