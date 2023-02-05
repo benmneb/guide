@@ -1,22 +1,22 @@
-import { Suspense, lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import { ConfirmProvider } from 'material-ui-confirm';
-import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { ConfirmProvider } from 'material-ui-confirm';
 
 import { defaultOptions } from './assets/confirmProviderOptions';
 import { theme } from './assets/theme';
 
-import { usePageTracking } from './utils/usePageTracking';
-import Snackbars from './utils/Snackbars';
 import LoadingBar from './utils/LoadingBar';
+import Snackbars from './utils/Snackbars';
 
 import AppBar from './components/AppBar/AppBar';
 import Categories from './components/categories/Categories';
 import PageNotFound from './components/categories/PageNotFound';
 import AuthSuccess from './components/Dialogs/AuthSuccess';
 import ResultsListSkeleton from './components/ResultsList/ResultsListSkeleton';
+import { useAcklytics } from './utils/useAcklytics';
 const ResultsList = lazy(() => import('./components/ResultsList/ResultsList'));
 const GetParameterPopups = lazy(() => import('./utils/routing/getParamaterPopups'));
 const SearchResultsList = lazy(() =>
@@ -24,7 +24,7 @@ const SearchResultsList = lazy(() =>
 );
 
 export default function App() {
-	usePageTracking();
+	useAcklytics();
 
 	return (
 		<ThemeProvider theme={theme}>

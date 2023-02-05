@@ -25,8 +25,6 @@ This is a human-readable summary of (and not a substitute for) the [license](htt
 
 - update 'support us' to just be an email
 
-- minify analytics
-
 - change the url `household/nails` to `household/nail-cosmetics` (backend needed)
 
 - pimp out an `all categories` page.
