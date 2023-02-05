@@ -1,6 +1,6 @@
 ## License
 
-[![Lisence](https://img.shields.io/badge/license-CC%20BY--NC%204.0-informational?style=flat-square)](http://creativecommons.org/licenses/by-nc/4.0/)
+[![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-informational?style=flat-square)](http://creativecommons.org/licenses/by-nc/4.0/)
 
 You are free to:
 
@@ -22,6 +22,10 @@ This is a human-readable summary of (and not a substitute for) the [license](htt
 
 <details>
   <summary>Click to show/hide</summary>
+
+- update 'support us' to just be an email
+
+- minify analytics
 
 - change the url `household/nails` to `household/nail-cosmetics` (backend needed)
 

@@ -140,7 +140,7 @@ export default function AuthEmailLogin() {
 						showSnackbar({
 							type: 'error',
 							title: "Couldn't login",
-							message: 'Please try again soon. If the issue persists, let us know!',
+							message: 'Please try again soon',
 							duration: 12000,
 							action: {
 								text: 'Contact us',
