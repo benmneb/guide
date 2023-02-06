@@ -1,1 +1,1 @@
-export const rootServerUrl = 'https://guide-api.fly.dev';
+export const rootServerUrl = 'https://api.vomad.guide';
