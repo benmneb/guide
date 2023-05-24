@@ -1,6 +1,5 @@
 import {
 	Box,
-	Button,
 	FormControl,
 	FormHelperText,
 	IconButton,
@@ -21,11 +20,7 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
-import {
-	setCurrentUserData,
-	setIsUsingEmailAuth,
-	showSnackbar
-} from '../../store/actions';
+import { setCurrentUserData, showSnackbar } from '../../store/actions';
 import LoadingButton from '../../utils/LoadingButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -127,9 +122,9 @@ export default function AuthEmailJoin() {
 		event.preventDefault();
 	};
 
-	const handleBackToSocial = () => {
-		dispatch(setIsUsingEmailAuth(false));
-	};
+	// const handleBackToSocial = () => {
+	// 	dispatch(setIsUsingEmailAuth(false));
+	// };
 
 	return (
 		<Box
@@ -270,11 +265,11 @@ export default function AuthEmailJoin() {
 						className={styles.email}
 						classes={{ label: styles.buttonLabel }}
 					>
-						Sign up with Email
+						Sign up
 					</LoadingButton>
 				</Box>
 			</Box>
-			<Button onClick={handleBackToSocial}>Use social account instead</Button>
+			{/* <Button onClick={handleBackToSocial}>Use social account instead</Button> */}
 		</Box>
 	);
 }

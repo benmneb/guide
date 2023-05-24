@@ -1,6 +1,6 @@
 import { Box, Button, Dialog } from '@material-ui/core';
-import { blue, indigo } from '@material-ui/core/colors';
 import DialogContent from '@material-ui/core/DialogContent';
+import { blue, indigo } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import { AlternateEmailRounded, Facebook, Twitter } from '@material-ui/icons';
 import { useCallback, useEffect } from 'react';
@@ -38,7 +38,8 @@ export default function Auth({ isOpened }) {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-	const isUsingEmailAuth = useSelector((state) => state.auth.isUsingEmailAuth);
+	// const isUsingEmailAuth = useSelector((state) => state.auth.isUsingEmailAuth);
+	const isUsingEmailAuth = true;
 
 	function handleContinueWithEmail() {
 		dispatch(setIsUsingEmailAuth(true));

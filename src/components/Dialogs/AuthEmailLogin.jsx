@@ -165,9 +165,9 @@ export default function AuthEmailLogin() {
 		setForgotPasswordModal(!forgotPasswordModal);
 	};
 
-	const handleBackToSocial = () => {
-		dispatch(setIsUsingEmailAuth(false));
-	};
+	// const handleBackToSocial = () => {
+	// 	dispatch(setIsUsingEmailAuth(false));
+	// };
 
 	return (
 		<>
@@ -253,12 +253,12 @@ export default function AuthEmailLogin() {
 							className={styles.email}
 							classes={{ label: styles.buttonLabel }}
 						>
-							Login with Email
+							Login
 						</LoadingButton>
 					</Box>
 				</Box>
 				<Button onClick={toggleForgotPasswordModal}>Reset lost password</Button>
-				<Button onClick={handleBackToSocial}>Use social account instead</Button>
+				{/* <Button onClick={handleBackToSocial}>Use social account instead</Button> */}
 			</Box>
 			<AuthForgotPassword show={forgotPasswordModal} hide={toggleForgotPasswordModal} />
 		</>
