@@ -11,6 +11,6 @@ jobs:
       - name: 🏓 Ping It
         uses: fjogeleit/http-request-action@v1.14.0
         with:
-          url: '${{ secrets.db_url }}'
+          url: '${{ secrets.DB_URL }}'
           method: 'GET'
-          customHeaders: '{"apikey": ${{ secrets.db_apiKey }}}'
+          customHeaders: '{"apikey": ${{ secrets.DB_APIKEY }}}'
