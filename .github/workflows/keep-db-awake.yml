@@ -13,4 +13,4 @@ jobs:
         with:
           url: '${{ secrets.DB_URL }}'
           method: 'GET'
-          customHeaders: '{"apikey": ${{ secrets.DB_APIKEY }}}'
+          customHeaders: '{"apikey": "${{ secrets.DB_APIKEY }}"}'
